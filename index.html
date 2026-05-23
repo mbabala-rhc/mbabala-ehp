@@ -8519,10 +8519,10 @@ async function saveMycinReg(){
   // Save to memory and Supabase
   _store['mycin_reg'] = data;
   idbPut('mycin_reg', data);
-  await sbSet('mycin_reg', data);
-  broadcastUpdate();
   closeModal('m-mycin-reg');
   renderMycin();
+  sbSet('mycin_reg', data);
+  broadcastUpdate();
   updateVillageFilter();
   toast('✅ Caregiver registered','success');
 }
@@ -8543,13 +8543,13 @@ async function saveMycinSession(){
   // Save to memory and Supabase
   _store['mycin_sess'] = data;
   idbPut('mycin_sess', data);
-  await sbSet('mycin_sess', data);
+  closeModal('m-mycin-sess');
+  renderMycin();
+  sbSet('mycin_sess', data);
   saveAttachments('mycin_sess',rec.id,'m-mycin-sess');
   // Uncheck all topics
   MYCIN_TOPICS.forEach(t=>{ const el=document.getElementById(t.id); if(el) el.checked=false; });
   broadcastUpdate();
-  closeModal('m-mycin-sess');
-  renderMycin();
   toast('✅ Counselling session saved','success');
 }
 
@@ -11029,10 +11029,10 @@ async function saveUnder5Report(){
   if(idx >= 0) data[idx] = rec; else data.unshift(rec);
   _store['under5'] = data;
   idbPut('under5', data);
-  await sbSet('under5', data);
-  broadcastUpdate();
   closeModal('m-under5');
   renderUnder5();
+  sbSet('under5', data);
+  broadcastUpdate();
   toast('✅ Under Five report saved','success');
 }
 
