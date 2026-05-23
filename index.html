@@ -2032,7 +2032,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 <div id="m-insp-followup" class="modal-overlay"><div class="modal">
   <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">&#128269;</div><h3 id="hdr-m-insp-followup" data-orig="Add Inspection Follow-up">Add Inspection Follow-up</h3><button class="btn icon" onclick="closeModal('m-insp-followup')">&#10005;</button></div>
   <div class="modal-body">
-    <input type="hidden" id="f-if-id">
+    <input type="hidden" id="f-if-id"><input type="hidden" id="f-if-source-id">
     <div class="form-row">
       <div class="form-group"><label class="required">Premises Name</label><input type="text" id="f-if-premises" placeholder="e.g. Kapili Market Stall"></div>
       <div class="form-group"><label class="required">Date Failed</label><input type="date" id="f-if-failed-date"></div>
@@ -8251,6 +8251,12 @@ window.onload = function(){
         checkBackupReminder();
         const initials=(currentUser.name||'EH').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
         document.getElementById('user-avatar').textContent=initials;
+        var sbn=document.getElementById('sb-user-name');
+        var sbr=document.getElementById('sb-user-role');
+        var sba=document.getElementById('sb-avatar');
+        if(sbn) sbn.textContent=currentUser.name||'';
+        if(sbr) sbr.textContent=currentUser.role||'';
+        if(sba) sba.textContent=initials;
         nav('dashboard');
         return;
       }
@@ -12177,7 +12183,7 @@ function renderVillageVisits(){
 }
 
 // ══ INSPECTION FOLLOW-UP ══
-const ifFields=[{id:'f-if-id',key:'id',hidden:true},{id:'f-if-premises',key:'premises',label:'Premises',required:true},{id:'f-if-failed-date',key:'failedDate',label:'Date Failed'},{id:'f-if-reason',key:'reason',label:'Reason'},{id:'f-if-reinsp-date',key:'reinspDate',label:'Re-inspection Date'},{id:'f-if-outcome',key:'outcome',label:'Outcome'},{id:'f-if-zone',key:'zone',label:'Zone'},{id:'f-if-officer',key:'officer',label:'Officer'},{id:'f-if-notes',key:'notes',label:'Notes'}];
+const ifFields=[{id:'f-if-id',key:'id',hidden:true},{id:'f-if-source-id',key:'sourceId',hidden:true},{id:'f-if-premises',key:'premises',label:'Premises',required:true},{id:'f-if-failed-date',key:'failedDate',label:'Date Failed'},{id:'f-if-reason',key:'reason',label:'Reason'},{id:'f-if-reinsp-date',key:'reinspDate',label:'Re-inspection Date'},{id:'f-if-outcome',key:'outcome',label:'Outcome'},{id:'f-if-zone',key:'zone',label:'Zone'},{id:'f-if-officer',key:'officer',label:'Officer'},{id:'f-if-notes',key:'notes',label:'Notes'}];
 async function saveInspFollowup(){var rec=readFields(ifFields);if(!rec.premises){toast('Please enter premises name','error');return;}if(!rec.failedDate)rec.failedDate=today();
   // If editing an auto-detected item, give it a proper ID
   if(!rec.id||rec.id.startsWith('AUTO-')) rec.id=genId('IF');
