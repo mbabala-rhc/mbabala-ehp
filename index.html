@@ -8215,9 +8215,9 @@ window.onload = function(){
     if(currentUser){ renderPage(currentPage); }
 
     // Step 3: Check session and show UI
-    // Check localStorage first, then cookie
-    let savedId = localStorage.getItem('ehp_session');
-    let savedUserStr = localStorage.getItem('ehp_session_user');
+    // Check sessionStorage first (survives refresh), then localStorage, then cookie
+    let savedId = sessionStorage.getItem('ehp_session') || localStorage.getItem('ehp_session');
+    let savedUserStr = sessionStorage.getItem('ehp_session_user') || localStorage.getItem('ehp_session_user');
 
     // Fallback to cookie
     if(!savedId){
@@ -8240,6 +8240,8 @@ window.onload = function(){
         if(freshDbUser) currentUser = freshDbUser;
         // Refresh both storage mechanisms
         const sessData = JSON.stringify({id:currentUser.id,name:currentUser.name,username:currentUser.username,role:currentUser.role,status:currentUser.status});
+        sessionStorage.setItem('ehp_session', currentUser.id);
+        sessionStorage.setItem('ehp_session_user', sessData);
         localStorage.setItem('ehp_session', currentUser.id);
         localStorage.setItem('ehp_session_user', sessData);
         const expires = new Date(Date.now()+30*24*60*60*1000).toUTCString();
@@ -8270,6 +8272,8 @@ window.onload = function(){
 window.addEventListener('beforeunload',()=>{
   if(currentUser){
     const sessData = JSON.stringify({id:currentUser.id,name:currentUser.name,username:currentUser.username,role:currentUser.role,status:currentUser.status});
+    sessionStorage.setItem('ehp_session',currentUser.id);
+    sessionStorage.setItem('ehp_session_user',sessData);
     localStorage.setItem('ehp_session',currentUser.id);
     localStorage.setItem('ehp_session_user',sessData);
     const expires = new Date(Date.now()+30*24*60*60*1000).toUTCString();
@@ -8304,6 +8308,8 @@ function doLogout(){
 function confirmLogout(){
   if(_myLock)releaseNavLock(_myLock);
   currentUser = null;
+  sessionStorage.removeItem('ehp_session');
+  sessionStorage.removeItem('ehp_session_user');
   localStorage.removeItem('ehp_session');
   localStorage.removeItem('ehp_session_user');
   document.cookie = 'ehp_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
