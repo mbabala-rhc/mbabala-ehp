@@ -12318,11 +12318,45 @@ function renderDiseaseRegister(){
       +cell(r.kapili)+cell(r.kauni)+cell(r.kasenga)+cell(r.central)+cell(r.isenga)
       +'<td style="text-align:center;font-weight:800;color:var(--teal-d)">'+r.total+'</td>'
       +'<td>'+rowBtns('disease_register',r.id,
-        "viewRecord('disease_register','"+r.id+"',[])",
+        "viewDiseaseEntry('"+r.id+"')",
         "editDiseaseEntry('"+r.id+"')",
         "deleteRecord('disease_register','"+r.id+"',renderDiseaseRegister)")+'</td>'
       +'</tr>';
   }).join('');
+}
+
+function viewDiseaseEntry(id){
+  var data=DB.get('disease_register');
+  var r=data.find(function(x){return x.id===id;});
+  if(!r) return;
+  var html='<div style="padding:4px">'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">'
+    +'<div><div style="font-size:10px;color:var(--txt2);text-transform:uppercase;font-weight:600">Disease</div><div style="font-size:14px;font-weight:700;color:var(--txt);margin-top:2px">'+r.disease+'</div></div>'
+    +'<div><div style="font-size:10px;color:var(--txt2);text-transform:uppercase;font-weight:600">Epi Week</div><div style="font-size:14px;font-weight:700;color:var(--txt);margin-top:2px">'+r.week+'</div></div>'
+    +'</div>'
+    +'<div style="font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;margin-bottom:8px">Cases by Zone</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">'
+    +['Kapili','Kauni','Kasenga','Central','Isenga'].map(function(z){
+      var v=r[z.toLowerCase()]||0;
+      var max=Math.max(r.kapili,r.kauni,r.kasenga,r.central,r.isenga);
+      return '<div style="text-align:center;padding:10px;border-radius:8px;background:'+(v===max&&v>0?'rgba(220,38,38,0.1)':'var(--bg2)')+';border:1px solid var(--bd)">'
+        +'<div style="font-size:10px;color:var(--txt2);font-weight:600">'+z+'</div>'
+        +'<div style="font-size:20px;font-weight:800;color:'+(v===max&&v>0?'#dc2626':'var(--teal-d)')+'">'+v+'</div>'
+      +'</div>';
+    }).join('')
+    +'</div>'
+    +'<div style="text-align:center;padding:10px;background:var(--teal-l);border-radius:8px">'
+    +'<div style="font-size:11px;color:var(--teal-d);font-weight:700">TOTAL CASES</div>'
+    +'<div style="font-size:28px;font-weight:800;color:var(--teal-d)">'+r.total+'</div>'
+    +'</div>'
+    +(r.recorder?'<div style="margin-top:10px;font-size:12px;color:var(--txt2)">Recorded by: <b>'+r.recorder+'</b></div>':'')
+    +(r.notes?'<div style="margin-top:8px;font-size:12px;color:var(--txt2)">Notes: '+r.notes+'</div>':'')
+    +'</div>';
+  var modal=document.getElementById('view-modal-body');
+  var title=document.getElementById('view-modal-title');
+  if(modal) modal.innerHTML=html;
+  if(title) title.textContent=r.disease+' — '+r.week;
+  openModal('m-view');
 }
 
 function editDiseaseEntry(id){
@@ -12362,8 +12396,18 @@ function generateDiseaseReport(){
   var data=DB.get('disease_register').filter(function(r){
     if(disease&&r.disease!==disease) return false;
     var yw=r.week||'';
-    var ym=yw.substring(0,7);
-    return ym>=from&&ym<=to;
+    if(!yw) return false;
+    // Convert epi week to approximate month for comparison
+    // Week format: 2026-W21 -> get year and week number
+    var parts=yw.split('-W');
+    if(parts.length!==2) return false;
+    var yr=parseInt(parts[0]);
+    var wk=parseInt(parts[1]);
+    // Approximate month from week number
+    var approxMonth=Math.ceil(wk/4.33);
+    if(approxMonth>12) approxMonth=12;
+    var ymStr=yr+'-'+(approxMonth<10?'0'+approxMonth:String(approxMonth));
+    return ymStr>=from&&ymStr<=to;
   });
 
   if(!data.length){toast('No records found for selected criteria','warning');closeModal('m-disease-report');return;}
