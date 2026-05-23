@@ -1073,6 +1073,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
         <div class="nav-item" onclick="nav('vector')"><span class="nav-icon">🦟</span><span class="nav-label">Vector Control</span></div>
         <div class="nav-item" onclick="nav('sanitation')"><span class="nav-icon">🚽</span><span class="nav-label">Sanitation (ODF)</span></div>
         <div class="nav-item" onclick="nav('surveillance')"><span class="nav-icon">🔬</span><span class="nav-label">Surveillance</span></div>
+        <div class="nav-item" onclick="nav('disease-register')"><span class="nav-icon">📈</span><span class="nav-label">Disease Register</span></div>
         <div class="nav-item" onclick="nav('health_promo')"><span class="nav-icon">📢</span><span class="nav-label">Health Promotion</span></div>
 
         </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Nutrition &amp; Child Health</div><div class="nav-group collapsed">
@@ -1094,6 +1095,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
         <div class="nav-item" onclick="nav('villages')"><span class="nav-icon">🏘️</span><span class="nav-label">Village Register</span></div>
         <div class="nav-item" onclick="nav('households')"><span class="nav-icon">🏠</span><span class="nav-label">Households</span></div>
         <div class="nav-item" onclick="nav('meetings')"><span class="nav-icon">📝</span><span class="nav-label">Meetings &amp; Training</span></div>
+        <div class="nav-item" onclick="nav('village-visits')"><span class="nav-icon">🏘️</span><span class="nav-label">Village Visit Tracker</span></div>
 
         </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Facilities &amp; Infrastructure</div><div class="nav-group collapsed">
         <div class="nav-item" onclick="nav('facilities')"><span class="nav-icon">🏥</span><span class="nav-label">Facilities</span></div>
@@ -1776,6 +1778,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <select id="targets-year" onchange="renderTargets()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;font-weight:600;background:var(--bg);color:var(--txt);cursor:pointer"></select>
       <button class="btn" onclick="openModal('m-target')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Set Target</button>
       <button class="btn" onclick="printCurrentPage('Targets','tbl-targets')" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">Print</button>
+      <button class="btn" onclick="printAnnualSummary()" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">&#128196; Annual Summary</button>
     </div>
   </div>
   <div id="targets-summary" style="margin-bottom:16px"></div>
@@ -1932,6 +1935,212 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <button class="btn" onclick="closeModal('m-catchment')">Cancel</button>
     <button class="btn primary" onclick="saveCatchment()">💾 Save Profile</button>
   </div>
+</div></div>
+
+<!-- ===== VILLAGE VISIT TRACKER ===== -->
+<div id="page-village-visits" class="page">
+  <div style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">&#127960;&#65039; Village Visit Tracker</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Track door-to-door education visits by village and zone</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <select id="vv-month" onchange="renderVillageVisits()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;font-weight:600;background:var(--bg);color:var(--txt)">
+        <option value="01">January</option><option value="02">February</option><option value="03">March</option>
+        <option value="04">April</option><option value="05" selected>May</option><option value="06">June</option>
+        <option value="07">July</option><option value="08">August</option><option value="09">September</option>
+        <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+      </select>
+      <select id="vv-year" onchange="renderVillageVisits()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;font-weight:600;background:var(--bg);color:var(--txt)"></select>
+      <button class="btn" onclick="openModal('m-village-visit')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Record Visit</button>
+      <button class="btn" onclick="printCurrentPage('Village Visit Tracker','vv-table')" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">&#128424; Print</button>
+    </div>
+  </div>
+  <div id="vv-stats" style="margin-bottom:14px"></div>
+  <div class="card"><div class="tbl-wrap">
+    <table class="dt" id="vv-table" style="min-width:700px">
+      <thead><tr>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Date</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Village</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Zone</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Officer</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">HHs</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Male</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Female</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Topics</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Actions</th>
+      </tr></thead>
+      <tbody id="vv-tbody"></tbody>
+    </table>
+  </div></div>
+</div>
+<div id="m-village-visit" class="modal-overlay"><div class="modal">
+  <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">&#127960;&#65039;</div><h3 id="hdr-m-village-visit" data-orig="Record Village Visit">Record Village Visit</h3><button class="btn icon" onclick="closeModal('m-village-visit')">&#10005;</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="f-vv-id">
+    <div class="form-row">
+      <div class="form-group"><label class="required">Village</label><input type="text" id="f-vv-village" placeholder="e.g. Kapili Central"></div>
+      <div class="form-group"><label class="required">Date of Visit</label><input type="date" id="f-vv-date"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Zone</label><select id="f-vv-zone"><option value="">Select zone...</option><option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option></select></div>
+      <div class="form-group"><label>Officer</label><select id="f-vv-officer"><option value="">Select...</option><option>Erick Mulenga</option><option>Mary Banda</option><option>Peter Mwale</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Households Visited</label><input type="number" id="f-vv-hh" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Males Reached</label><input type="number" id="f-vv-male" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Females Reached</label><input type="number" id="f-vv-female" min="0" placeholder="0"></div>
+    </div>
+    <div class="form-row"><div class="form-group full"><label>Topics Covered</label><input type="text" id="f-vv-topics" placeholder="e.g. Sanitation, Hand washing, Nutrition"></div></div>
+    <div class="form-row"><div class="form-group full"><label>Notes</label><textarea id="f-vv-notes" rows="2"></textarea></div></div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-village-visit')">Cancel</button><button class="btn primary" onclick="saveVillageVisit()">&#128190; Save</button></div>
+</div></div>
+
+<!-- ===== INSPECTION FOLLOW-UP ===== -->
+<div id="page-insp-followup" class="page">
+  <div style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">&#128269; Inspection Follow-up Tracker</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Track failed inspections and re-inspection outcomes</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" onclick="renderInspFollowup()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">&#128260; Refresh</button>
+      <button class="btn" onclick="openModal('m-insp-followup')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Follow-up</button>
+      <button class="btn" onclick="printCurrentPage('Inspection Follow-up','if-table')" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">&#128424; Print</button>
+    </div>
+  </div>
+  <div id="if-stats" style="margin-bottom:14px"></div>
+  <div class="card"><div class="tbl-wrap">
+    <table class="dt" id="if-table" style="min-width:750px">
+      <thead><tr>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Premises</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Failed Date</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Reason</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Re-inspection Date</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Outcome</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Days Overdue</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Actions</th>
+      </tr></thead>
+      <tbody id="if-tbody"></tbody>
+    </table>
+  </div></div>
+</div>
+<div id="m-insp-followup" class="modal-overlay"><div class="modal">
+  <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">&#128269;</div><h3 id="hdr-m-insp-followup" data-orig="Add Inspection Follow-up">Add Inspection Follow-up</h3><button class="btn icon" onclick="closeModal('m-insp-followup')">&#10005;</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="f-if-id">
+    <div class="form-row">
+      <div class="form-group"><label class="required">Premises Name</label><input type="text" id="f-if-premises" placeholder="e.g. Kapili Market Stall"></div>
+      <div class="form-group"><label class="required">Date Failed</label><input type="date" id="f-if-failed-date"></div>
+    </div>
+    <div class="form-row"><div class="form-group full"><label class="required">Reason for Failure</label><input type="text" id="f-if-reason" placeholder="e.g. Poor sanitation"></div></div>
+    <div class="form-row">
+      <div class="form-group"><label>Re-inspection Date</label><input type="date" id="f-if-reinsp-date"></div>
+      <div class="form-group"><label>Outcome</label><select id="f-if-outcome"><option value="">Pending</option><option>Passed</option><option>Failed Again</option><option>Closed</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Zone</label><select id="f-if-zone"><option value="">Select zone...</option><option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option></select></div>
+      <div class="form-group"><label>Officer</label><select id="f-if-officer"><option value="">Select...</option><option>Erick Mulenga</option><option>Mary Banda</option><option>Peter Mwale</option></select></div>
+    </div>
+    <div class="form-row"><div class="form-group full"><label>Notes</label><textarea id="f-if-notes" rows="2"></textarea></div></div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-insp-followup')">Cancel</button><button class="btn primary" onclick="saveInspFollowup()">&#128190; Save</button></div>
+</div></div>
+
+<!-- ===== DISEASE REGISTER ===== -->
+<div id="page-disease-register" class="page">
+  <div style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">&#128200; Disease Register</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Weekly disease occurrence by zone</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" onclick="openModal('m-disease-entry')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Record Cases</button>
+      <button class="btn" onclick="openModal('m-disease-report')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">&#128202; Generate Report</button>
+    </div>
+  </div>
+  <div class="card" style="padding:12px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <select id="dr-filter-disease" onchange="renderDiseaseRegister()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="">All Diseases</option>
+      <option>Malaria</option><option>Diarrhoea</option><option>Cholera</option><option>Typhoid</option>
+      <option>Dysentery</option><option>Pneumonia</option><option>Malnutrition</option><option>COVID-19</option>
+      <option>Measles</option><option>Meningitis</option><option>Rabies</option>
+    </select>
+    <select id="dr-filter-zone" onchange="renderDiseaseRegister()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="">All Zones</option><option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option>
+    </select>
+    <select id="dr-filter-year" onchange="renderDiseaseRegister()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
+  </div>
+  <div id="dr-stats" style="margin-bottom:14px"></div>
+  <div class="card"><div class="tbl-wrap">
+    <table class="dt" id="dr-table" style="min-width:750px">
+      <thead><tr>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Epi Week</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Disease</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Kapili</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Kauni</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Kasenga</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Central</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Isenga</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Total</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Actions</th>
+      </tr></thead>
+      <tbody id="dr-tbody"></tbody>
+    </table>
+  </div></div>
+</div>
+<div id="m-disease-entry" class="modal-overlay"><div class="modal wide">
+  <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">&#128200;</div><h3 id="hdr-m-disease-entry" data-orig="Record Disease Cases">Record Disease Cases</h3><button class="btn icon" onclick="closeModal('m-disease-entry')">&#10005;</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="f-dr-id">
+    <div class="form-row">
+      <div class="form-group"><label class="required">Disease / Condition</label>
+        <select id="f-dr-disease" onchange="toggleDrOther()">
+          <option value="">Select disease...</option>
+          <option>Malaria</option><option>Diarrhoea</option><option>Cholera</option><option>Typhoid</option>
+          <option>Dysentery</option><option>Pneumonia</option><option>Malnutrition</option><option>COVID-19</option>
+          <option>Measles</option><option>Meningitis</option><option>Rabies</option><option>Other (specify)</option>
+        </select>
+      </div>
+      <div class="form-group" id="dr-other-group" style="display:none"><label>Specify Disease</label><input type="text" id="f-dr-other" placeholder="Enter disease name"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="required">Epi Week</label><input type="week" id="f-dr-week"></div>
+      <div class="form-group"><label>Recorded By</label><input type="text" id="f-dr-recorder" placeholder="Officer name"></div>
+    </div>
+    <div class="form-section">Cases per Zone</div>
+    <div class="form-row">
+      <div class="form-group"><label>Kapili</label><input type="number" id="f-dr-kapili" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Kauni</label><input type="number" id="f-dr-kauni" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Kasenga</label><input type="number" id="f-dr-kasenga" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Central</label><input type="number" id="f-dr-central" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Isenga</label><input type="number" id="f-dr-isenga" min="0" placeholder="0"></div>
+    </div>
+    <div class="form-row"><div class="form-group full"><label>Notes</label><textarea id="f-dr-notes" rows="2"></textarea></div></div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-disease-entry')">Cancel</button><button class="btn primary" onclick="saveDiseaseEntry()">&#128190; Save</button></div>
+</div></div>
+<div id="m-disease-report" class="modal-overlay"><div class="modal">
+  <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">&#128202;</div><h3>Generate Disease Report</h3><button class="btn icon" onclick="closeModal('m-disease-report')">&#10005;</button></div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group"><label>Disease</label>
+        <select id="rpt-dr-disease"><option value="">All Diseases</option>
+          <option>Malaria</option><option>Diarrhoea</option><option>Cholera</option><option>Typhoid</option>
+          <option>Dysentery</option><option>Pneumonia</option><option>Malnutrition</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="required">From Month</label><input type="month" id="rpt-dr-from"></div>
+      <div class="form-group"><label class="required">To Month</label><input type="month" id="rpt-dr-to"></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-disease-report')">Cancel</button><button class="btn primary" onclick="generateDiseaseReport()">&#128202; Generate</button></div>
 </div></div>
 
 <!-- ===== LEGAL / ENFORCEMENT ===== -->
@@ -4093,7 +4302,7 @@ function subscribeToChanges(){
       }
       _lastPollTime = Date.now();
     } catch(e){ console.warn('Poll error:', e); }
-  }, 60000); // every 10 seconds
+  }, 120000); // every 2 minutes
 }
 
 // Reconnect when browser tab becomes visible again
@@ -4531,8 +4740,31 @@ const PAGE_TITLES={dashboard:'Dashboard',inspections:'Inspection Reports',incide
 const PAGE_MODALS={inspections:'m-inspection',incidents:'m-incident',water:'m-water',hia:'m-hia1',ebs:'m-ebs',ipc:'m-ipc',ecd:'m-ecd',nutrition:'m-nutrition',waste:'m-waste',vector:'m-vector',sanitation:'m-sanitation',immunization:'m-immunization',surveillance:'m-surveillance',health_promo:'m-hp',facilities:'m-facility',households:'m-household',premises:'m-premises',admin:'m-user'};
 let currentPage='dashboard';
 
+var _myLock=null;
+async function acquireNavLock(page){
+  if(!currentUser) return;
+  try{
+    var lockKey='nav_lock_'+page;
+    var res=await _supabase.from('eh_data').select('value').eq('store_key',lockKey).maybeSingle();
+    if(res.data&&res.data.value){
+      var lock=JSON.parse(res.data.value);
+      if(lock.userId!==currentUser.id&&(Date.now()-lock.ts)<3*60*1000){
+        if(!confirm(lock.userName+' is currently working in this module. Force open anyway?')) return;
+        await _supabase.from('eh_data').delete().eq('store_key',lockKey);
+      }
+    }
+    var myLock={userId:currentUser.id,userName:currentUser.name,page:page,ts:Date.now()};
+    await _supabase.from('eh_data').upsert({store_key:lockKey,value:JSON.stringify(myLock),updated_at:new Date().toISOString()});
+    if(_myLock&&_myLock!==page) releaseNavLock(_myLock);
+    _myLock=page;
+  }catch(e){}
+}
+async function releaseNavLock(page){
+  if(!currentUser||!page) return;
+  try{ await _supabase.from('eh_data').delete().eq('store_key','nav_lock_'+page); if(_myLock===page)_myLock=null; }catch(e){}
+}
+window.addEventListener('beforeunload',function(){if(_myLock)releaseNavLock(_myLock);});
 function nav(page){
-  // Auto-close sidebar on mobile when navigating
   if(window.innerWidth <= 1024){
     const sb=document.getElementById('sidebar');
     const overlay=document.getElementById('sidebar-overlay');
@@ -4540,6 +4772,8 @@ function nav(page){
     if(overlay){ overlay.classList.remove('active'); overlay.style.pointerEvents='none'; }
   }
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  if(_myLock&&_myLock!==page) releaseNavLock(_myLock);
+  acquireNavLock(page);
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const pg=document.getElementById('page-'+page); if(pg) pg.classList.add('active');
   const titleEl=document.getElementById('page-title');
@@ -4616,7 +4850,7 @@ function rowBtns(store,id,viewFn,editFn,delfn,attStore){
 // ============================================================
 // RENDER FUNCTIONS
 // ============================================================
-function renderPage(p){ const fn={dashboard:renderDashboard,inspections:renderInspections,incidents:renderIncidents,immunization:renderEPI,hia:renderHIA,water:renderWater,ebs:renderEBS,ipc:renderIPC,ecd:renderECD,nutrition:renderNutrition,waste:renderWaste,vector:renderVector,sanitation:renderSanitation,surveillance:renderSurveillance,health_promo:renderHP,facilities:renderFacilities,households:renderHouseholds,premises:renderPremises,documents:renderDocuments,analytics:renderAnalytics,admin:renderAdmin,mycin:renderMycin,legal:renderLegal,routine:renderRoutine,outbreak:renderOutbreak,'monthly-report':renderMonthlyReport,catchment:renderCatchment,planner:renderPlanner,targets:renderTargets,followup:renderFollowup,stock:renderStock,villages:renderVillages,defaulters:renderDefaulters,foodhandlers:renderFoodHandlers,waterpoints:renderWaterPoints,schools:renderSchools,chw:renderCHW,meetings:renderMeetings,cbv:renderCBV_page,under5:renderUnder5}[p]; if(fn) fn(); }
+function renderPage(p){ const fn={dashboard:renderDashboard,inspections:renderInspections,incidents:renderIncidents,immunization:renderEPI,hia:renderHIA,water:renderWater,ebs:renderEBS,ipc:renderIPC,ecd:renderECD,nutrition:renderNutrition,waste:renderWaste,vector:renderVector,sanitation:renderSanitation,surveillance:renderSurveillance,health_promo:renderHP,facilities:renderFacilities,households:renderHouseholds,premises:renderPremises,documents:renderDocuments,analytics:renderAnalytics,admin:renderAdmin,mycin:renderMycin,legal:renderLegal,routine:renderRoutine,outbreak:renderOutbreak,'monthly-report':renderMonthlyReport,catchment:renderCatchment,planner:renderPlanner,targets:renderTargets,followup:renderFollowup,stock:renderStock,'village-visits':renderVillageVisits,'insp-followup':renderInspFollowup,'disease-register':renderDiseaseRegister,villages:renderVillages,defaulters:renderDefaulters,foodhandlers:renderFoodHandlers,waterpoints:renderWaterPoints,schools:renderSchools,chw:renderCHW,meetings:renderMeetings,cbv:renderCBV_page,under5:renderUnder5}[p]; if(fn) fn(); }
 
 function renderDashboard(){
   const now = new Date();
@@ -7032,9 +7266,10 @@ function initDarkMode(){
 }
 
 function checkBackupReminder(){
-  const last = parseInt(localStorage.getItem('ehp_last_backup')||'0');
-  const daysSince = last === 0 ? 999 : Math.floor((Date.now()-last)/86400000);
-  if(daysSince >= 7){
+  var last=parseInt(localStorage.getItem('ehp_last_backup')||'0');
+  if(!last){localStorage.setItem('ehp_last_backup',Date.now());return;}
+  var daysSince=Math.floor((Date.now()-last)/86400000);
+  if(daysSince >= 30){
     setTimeout(()=>{
       const el = document.getElementById('backup-reminder');
       if(el){
@@ -7475,6 +7710,8 @@ function checklistPDF(){
 // BADGES / NOTIFICATIONS
 // ============================================================
 function updateBadges(){
+  const nb1=document.getElementById('nb1');
+  const nb2=document.getElementById('nb2');
   // Inspections badge = total number of inspections
   const totalInsp=DB.get('inspections').length;
   // Incidents badge = open/unresolved incidents only
@@ -7498,11 +7735,12 @@ function updateStorageInfo(){
 // EXPORT / IMPORT / CLEAR
 // ============================================================
 function exportAllData(){
-  const d=DB.all();
+  const d={};
+  Object.keys(_store).forEach(function(k){if(k&&!k.startsWith('nav_lock_'))d[k]=_store[k];});
   const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download='EHP_backup_'+today()+'.json'; a.click();
-  toast('✅ Data exported as backup','success');
+  toast('Data exported — '+Object.keys(d).length+' collections','success');
 }
 function importData(input){
   const file=input.files[0]; if(!file) return;
@@ -7511,15 +7749,23 @@ function importData(input){
     try{
       const d=JSON.parse(e.target.result);
       const keys=Object.keys(d);
-      // Load into memory and IDB
-      keys.forEach(function(k){ _store[k]=d[k]; idbPut(k,d[k]); });
-      toast('Importing '+keys.length+' collections to cloud...','info');
-      // Push all to Supabase
+      var added=0;
+      keys.forEach(function(k){
+        var imported=d[k];
+        if(!Array.isArray(imported)){_store[k]=imported;idbPut(k,imported);return;}
+        var existing=DB.get(k);
+        if(!existing||!existing.length){_store[k]=imported;idbPut(k,imported);added+=imported.length;return;}
+        var existingIds=new Set(existing.map(function(r){return r.id;}));
+        var toAdd=imported.filter(function(r){return r.id&&!existingIds.has(r.id);});
+        var merged=existing.concat(toAdd);
+        _store[k]=merged;idbPut(k,merged);added+=toAdd.length;
+      });
+      toast('Merging data...','info');
       var pushed=0;
       for(var i=0;i<keys.length;i++){
-        try{ await sbSet(keys[i],d[keys[i]]); pushed++; } catch(e2){}
+        try{await sbSet(keys[i],_store[keys[i]]);pushed++;}catch(e2){}
       }
-      toast('Data imported successfully — '+pushed+' collections restored','success');
+      toast('Merged — '+added+' new records added, '+pushed+' collections synced','success');
       renderPage(currentPage); updateBadges(); loadSettings();
     } catch(err){ toast('Import failed: '+err.message,'error'); }
   };
@@ -7940,6 +8186,7 @@ window.onload = function(){
     seedData();
     loadSettings();
     updateBadges();
+    if(currentUser){ renderPage(currentPage); }
 
     // Step 2: Load from Supabase in background and refresh
     await loadFromSupabase();
@@ -7951,8 +8198,8 @@ window.onload = function(){
 
     // Step 3: Check session and show UI
     // Check localStorage first, then cookie
-    let savedId = localStorage.getItem('ehp_session');
-    let savedUserStr = localStorage.getItem('ehp_session_user');
+    let savedId = sessionStorage.getItem('ehp_session') || localStorage.getItem('ehp_session');
+    let savedUserStr = sessionStorage.getItem('ehp_session_user') || localStorage.getItem('ehp_session_user');
 
     // Fallback to cookie
     if(!savedId){
@@ -8030,6 +8277,7 @@ function doLogout(){
 }
 
 function confirmLogout(){
+  if(_myLock)releaseNavLock(_myLock);
   currentUser = null;
   localStorage.removeItem('ehp_session');
   localStorage.removeItem('ehp_session_user');
@@ -10229,7 +10477,7 @@ function renderMeetings(){
     <td><b>${r.title||'—'}</b></td>
     <td>${r.venue||'—'}</td><td>${r.facilitator||'—'}</td>
     <td>${r.attendees||0}</td><td>${stTag(r.status||'Completed')}</td>
-    <td>${rowBtns('meetings',r.id,`viewRecord('meetings','${r.id}',meetingFields)`,`editRecord('meetings','${r.id}',meetingFields,'m-meeting','t-meeting','Edit Meeting')`,`deleteRecord('meetings','${r.id}',renderMeetings)`)}</td>
+    <td><button onclick="generateMeetingMinutes('${r.id}')" style="padding:3px 10px;border-radius:6px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer;margin-right:4px">&#128196; Minutes</button>${rowBtns('meetings',r.id,`viewRecord('meetings','${r.id}',meetingFields)`,`editRecord('meetings','${r.id}',meetingFields,'m-meeting','t-meeting','Edit Meeting')`,`deleteRecord('meetings','${r.id}',renderMeetings)`)}</td>
   </tr>`);
 
   // Attendance table
@@ -11460,7 +11708,7 @@ const plannerFields=[{id:'f-pl-id',key:'id',hidden:true},{id:'f-pl-activity',key
 async function savePlanner(){var rec=readFields(plannerFields);if(!rec.activity){toast('Please enter an activity','error');return;}if(!rec.id)rec.id=genId('PL');if(!rec.date)rec.date=today();var data=DB.get('work_planner');var idx=data.findIndex(function(r){return r.id===rec.id;});if(idx>=0)data[idx]=rec;else data.unshift(rec);_recentlySaved['work_planner']=Date.now()+60000;_store['work_planner']=data;idbPut('work_planner',data);await sbSet('work_planner',data);closeModal('m-planner');renderPlanner();toast('Activity saved','success');}
 function filterPlannerStatus(status,btn){document.querySelectorAll('.planner-filter-btn').forEach(function(b){b.style.background='transparent';b.style.color=b.getAttribute('data-color');});if(btn){btn.style.background=btn.getAttribute('data-color');btn.style.color='#fff';}var rows=document.querySelectorAll('#tb-planner tr');rows.forEach(function(r){r.style.display=status==='all'||!r.getAttribute('data-status')?'':(r.getAttribute('data-status')===status?'':'none');});}
 function filterPlannerUrgent(btn){document.querySelectorAll('.planner-filter-btn').forEach(function(b){b.style.background='transparent';b.style.color=b.getAttribute('data-color');});if(btn){btn.style.background=btn.getAttribute('data-color');btn.style.color='#fff';}var rows=document.querySelectorAll('#tb-planner tr');rows.forEach(function(r){r.style.display=r.getAttribute('data-priority')==='Urgent'?'':'none';});}
-function renderPlanner(){var data=DB.get('work_planner');var st=document.getElementById('planner-stats');if(st){var pl=data.filter(function(r){return !r.status||r.status==='Planned';}).length;var dn=data.filter(function(r){return r.status==='Done';}).length;var ip=data.filter(function(r){return r.status==='In Progress';}).length;var ur=data.filter(function(r){return r.priority==='Urgent'&&r.status!=='Done';}).length;st.innerHTML='<div class="g4">'+[['Planned',pl,'var(--blue)'],['In Progress',ip,'var(--amber)'],['Done',dn,'var(--green)'],['Urgent',ur,'var(--red)']].map(function(x){return '<div class="card-sm"><div class="stat-label">'+x[0]+'</div><div class="stat-val" style="color:'+x[2]+'">'+x[1]+'</div></div>';}).join('')+'</div>';}var tb=document.getElementById('tb-planner');if(!tb)return;if(!data.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--txt2)"><div style="font-weight:600;font-size:15px;margin-bottom:6px">No activities planned yet</div><div style="font-size:13px">Click + Add Activity to schedule your first EH activity.</div></td></tr>';return;}tb.innerHTML=data.map(function(r){var s=r.status||'Planned';var sBg=s==='Done'?'#dcfce7':s==='In Progress'?'#fef3c7':s==='Cancelled'?'#f3f4f6':'#eff6ff';var sC=s==='Done'?'#166534':s==='In Progress'?'#92400e':s==='Cancelled'?'#6b7280':'#1e40af';var p=r.priority||'Normal';var pC=p==='Urgent'?'var(--red)':p==='High'?'var(--amber)':'var(--txt2)';var isOverdue=r.date&&s!=='Done'&&s!=='Cancelled'&&new Date(r.date)<new Date();return '<tr data-status="'+s+'" data-priority="'+p+'" style="'+(isOverdue?'background:rgba(220,38,38,0.04)':'')+'"><td style="white-space:nowrap;font-weight:500">'+(isOverdue?'<span style="color:var(--red);font-size:10px;font-weight:700;margin-right:4px">OVERDUE</span>':'')+fmtDate(r.date)+'</td><td><div style="font-weight:600;color:var(--txt)">'+(r.activity||'-')+'</div></td><td><span style="background:var(--teal-l);color:var(--teal-d);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">'+(r.zone||'---')+'</span></td><td style="font-size:12px;font-weight:500;color:var(--txt)">'+(r.officer||'---')+'</td><td style="text-align:center"><span style="color:'+pC+';font-weight:700">'+p+'</span></td><td style="text-align:center"><span style="background:'+sBg+';color:'+sC+';padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700">'+s+'</span></td><td style="font-size:11px;color:var(--txt2)">'+((r.notes||'').substring(0,40))+'</td><td>'+rowBtns('work_planner',r.id,"viewRecord('work_planner','"+r.id+"',plannerFields)","editRecord('work_planner','"+r.id+"',plannerFields,'m-planner','hdr-m-planner','Edit Activity')","deleteRecord('work_planner','"+r.id+"',renderPlanner)")+'</td></tr>';}).join('');}
+function renderPlanner(){var data=DB.get('work_planner');var st=document.getElementById('planner-stats');if(st){var pl=data.filter(function(r){return !r.status||r.status==='Planned';}).length;var dn=data.filter(function(r){return r.status==='Done';}).length;var ip=data.filter(function(r){return r.status==='In Progress';}).length;var ur=data.filter(function(r){return r.priority==='Urgent'&&r.status!=='Done';}).length;st.innerHTML='<div class="g4">'+[['Planned',pl,'var(--blue)'],['In Progress',ip,'var(--amber)'],['Done',dn,'var(--green)'],['Urgent',ur,'var(--red)']].map(function(x){return '<div class="card-sm"><div class="stat-label">'+x[0]+'</div><div class="stat-val" style="color:'+x[2]+'">'+x[1]+'</div></div>';}).join('')+'</div>';}var tb=document.getElementById('tb-planner');if(!tb)return;if(!data.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--txt2)"><div style="font-weight:600;font-size:15px;margin-bottom:6px">No activities planned yet</div><div style="font-size:13px">Click + Add Activity to schedule your first EH activity.</div></td></tr>';return;}tb.innerHTML=data.map(function(r){var s=r.status||'Planned';var sBg=s==='Done'?'#dcfce7':s==='In Progress'?'#fef3c7':s==='Cancelled'?'#f3f4f6':'#eff6ff';var sC=s==='Done'?'#166534':s==='In Progress'?'#92400e':s==='Cancelled'?'#6b7280':'#1e40af';var p=r.priority||'Normal';var pC=p==='Urgent'?'var(--red)':p==='High'?'var(--amber)':'var(--txt2)';var isOverdue=r.date&&s!=='Done'&&s!=='Cancelled'&&new Date(r.date)<new Date();return '<tr data-status="'+s+'" data-priority="'+p+'" style="'+(isOverdue?'background:rgba(220,38,38,0.04)':'')+'"><td style="white-space:nowrap;font-weight:500">'+(isOverdue?'<span style="color:var(--red);font-size:10px;font-weight:700;margin-right:4px">OVERDUE</span>':'')+fmtDate(r.date)+'</td><td><div style="font-weight:600;color:var(--txt)">'+(r.activity||'-')+'</div></td><td><span style="background:var(--teal-l);color:var(--teal-d);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">'+(r.zone||'---')+'</span></td><td style="font-size:12px;font-weight:500;color:var(--txt)">'+(r.officer||'---')+'</td><td style="text-align:center"><span style="color:'+pC+';font-weight:700">'+p+'</span></td><td style="text-align:center"><span style="background:'+sBg+';color:'+sC+';padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700">'+s+'</span></td><td style="font-size:11px;color:var(--txt2)">'+((r.notes||'').substring(0,40))+'</td><td>'+(s!=='Done'?'<button onclick="window._mpd(this)" data-id="'+r.id+'" style="padding:3px 10px;border-radius:6px;border:none;background:#16a34a;color:#fff;font-size:11px;font-weight:600;cursor:pointer;margin-right:4px">&#10003; Done</button>':'<button onclick="window._undo(this)" data-id="'+r.id+'" style="padding:3px 10px;border-radius:6px;border:1.5px solid var(--bd);background:var(--bg2);color:var(--txt2);font-size:11px;font-weight:600;cursor:pointer;margin-right:4px">&#8635; Undo</button>')+rowBtns('work_planner',r.id,"viewRecord('work_planner','"+r.id+"',plannerFields)","editRecord('work_planner','"+r.id+"',plannerFields,'m-planner','hdr-m-planner','Edit Activity')","deleteRecord('work_planner','"+r.id+"',renderPlanner)")+'</td></tr>';}).join('');}
 
 // ══════════════════ TARGETS & ACHIEVEMENT ══════════════════
 const targetFields=[{id:'f-tg-id',key:'id',hidden:true},{id:'f-tg-indicator',key:'indicator',label:'Indicator',required:true},{id:'f-tg-other',key:'other',label:'Other indicator'},{id:'f-tg-target',key:'target',label:'Annual target',type:'num'},{id:'f-tg-year',key:'year',label:'Year'},{id:'f-tg-m01',key:'m01',label:'Jan',type:'num'},{id:'f-tg-m02',key:'m02',label:'Feb',type:'num'},{id:'f-tg-m03',key:'m03',label:'Mar',type:'num'},{id:'f-tg-m04',key:'m04',label:'Apr',type:'num'},{id:'f-tg-m05',key:'m05',label:'May',type:'num'},{id:'f-tg-m06',key:'m06',label:'Jun',type:'num'},{id:'f-tg-m07',key:'m07',label:'Jul',type:'num'},{id:'f-tg-m08',key:'m08',label:'Aug',type:'num'},{id:'f-tg-m09',key:'m09',label:'Sep',type:'num'},{id:'f-tg-m10',key:'m10',label:'Oct',type:'num'},{id:'f-tg-m11',key:'m11',label:'Nov',type:'num'},{id:'f-tg-m12',key:'m12',label:'Dec',type:'num'}];
@@ -11817,4 +12065,219 @@ function filterCBVByZone(zone){
     else{row.style.display='none';}
   });
 }
+
+
+// ══ WINDOW HELPERS ══
+window._mpd=function(btn){
+  var id=btn.getAttribute('data-id');
+  var data=DB.get('work_planner');
+  var idx=data.findIndex(function(r){return r.id===id;});
+  if(idx<0) return;
+  data[idx].status='Done';data[idx].completedAt=new Date().toISOString();
+  _store['work_planner']=data;renderPlanner();
+  idbPut('work_planner',data);sbSet('work_planner',data);
+  toast('Activity marked as Done','success');
+};
+window._undo=function(btn){
+  var id=btn.getAttribute('data-id');
+  var data=DB.get('work_planner');
+  var idx=data.findIndex(function(r){return r.id===id;});
+  if(idx<0) return;
+  data[idx].status='Planned';delete data[idx].completedAt;
+  _store['work_planner']=data;renderPlanner();
+  idbPut('work_planner',data);sbSet('work_planner',data);
+  toast('Marked back as Planned','info');
+};
+window._saf=function(btn){saveAutoFollowup(btn.getAttribute('data-sid'));};
+
+// ══ ANNUAL SUMMARY ══
+function printAnnualSummary(){
+  var year=(document.getElementById('targets-year')||{value:'2026'}).value||'2026';
+  var data=DB.get('targets').filter(function(r){return r.year===year;});
+  if(!data.length){toast('No targets set for '+year,'warning');return;}
+  var curMon=new Date().getMonth()+1;var monRem=12-curMon;
+  var rows=data.map(function(r){
+    var a=getActualForIndicator(r.indicator,year);
+    var total=Object.values(a).reduce(function(x,y){return x+y;},0);
+    var pct=r.target?Math.round(total/r.target*100):0;
+    var exp=r.target?(r.target*(curMon-1)/12):0;
+    var onTrk=total>=exp||r.target?((r.target-total)<=monRem):true;
+    var status=pct>=100?'Achieved':onTrk?'On Track':'Behind';
+    var color=pct>=100?'#15803d':onTrk?'#0d9488':'#dc2626';
+    var bg=pct>=100?'#dcfce7':onTrk?'#ccfbf1':'#fee2e2';
+    return '<tr style="border-bottom:1px solid #e5e7eb"><td style="padding:10px 12px;font-weight:600">'+r.indicator+'</td><td style="padding:10px 12px;text-align:center;font-weight:700">'+r.target+'</td><td style="padding:10px 12px;text-align:center;font-weight:800;font-size:16px;color:'+color+'">'+total+'</td><td style="padding:10px 12px;text-align:center;font-weight:800;color:'+color+'">'+pct+'%</td><td style="padding:10px 12px;text-align:center"><span style="background:'+bg+';color:'+color+';padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700">'+status+'</span></td></tr>';
+  }).join('');
+  var achieved=data.filter(function(r){var a=getActualForIndicator(r.indicator,year);return Object.values(a).reduce(function(x,y){return x+y;},0)>=(r.target||0);}).length;
+  var html='<!DOCTYPE html><html><head><title>Annual Summary '+year+'</title><style>body{font-family:Arial,sans-serif;padding:30px;color:#111}table{width:100%;border-collapse:collapse}th{background:#0a5448;color:#fff;padding:10px 12px;text-align:left;font-size:12px}tr:nth-child(even){background:#f9fafb}.stats{display:flex;gap:16px;justify-content:center;margin-bottom:24px}.stat{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 20px;text-align:center}.sv{font-size:24px;font-weight:800;color:#0a5448}.sl{font-size:11px;color:#6b7280;text-transform:uppercase}@media print{button{display:none}}</style></head><body>'
+    +'<div style="text-align:center;border-bottom:2px solid #0a5448;padding-bottom:14px;margin-bottom:20px"><div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia</div><div style="font-size:22px;font-weight:800;margin:6px 0">Annual Targets &amp; Achievement Summary</div><div style="font-size:13px;color:#374151">Mbabala RHC · Chifunabuli · Luapula | Year: '+year+'</div></div>'
+    +'<div class="stats"><div class="stat"><div class="sv">'+data.length+'</div><div class="sl">Targets</div></div><div class="stat"><div class="sv" style="color:#15803d">'+achieved+'</div><div class="sl">Achieved</div></div><div class="stat"><div class="sv" style="color:#dc2626">'+(data.length-achieved)+'</div><div class="sl">Not Yet</div></div></div>'
+    +'<table><thead><tr><th>Indicator</th><th style="text-align:center">Target</th><th style="text-align:center">Actual</th><th style="text-align:center">%</th><th style="text-align:center">Status</th></tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 24px;background:#0a5448;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">Print</button></div></body></html>';
+  var w=window.open('','_blank');w.document.write(html);w.document.close();
+}
+
+// ══ MEETING MINUTES ══
+function generateMeetingMinutes(id){
+  var m=DB.get('meetings').find(function(r){return r.id===id;});
+  if(!m){toast('Meeting not found','error');return;}
+  var html='<!DOCTYPE html><html><head><title>Meeting Minutes</title><style>body{font-family:Arial,sans-serif;padding:40px;color:#111;max-width:800px;margin:0 auto}.hdr{text-align:center;border-bottom:2px solid #0a5448;padding-bottom:16px;margin-bottom:24px}.sec{margin-bottom:20px}.sec-t{font-size:12px;font-weight:700;color:#0a5448;text-transform:uppercase;border-bottom:1px solid #e5e7eb;padding-bottom:4px;margin-bottom:10px}.row{display:flex;gap:32px;margin-bottom:12px}.fld{flex:1}.lbl{font-size:11px;color:#666;margin-bottom:2px}.val{font-size:14px;font-weight:600}.sg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:12px}.sb{border-top:1px solid #111;padding-top:5px;font-size:11px;color:#666;text-align:center}@media print{button{display:none}}</style></head><body>'
+    +'<div class="hdr"><div style="font-size:12px;color:#0a5448;font-weight:700;text-transform:uppercase">Ministry of Health · Zambia</div><div style="font-size:22px;font-weight:800;margin:8px 0">Meeting Minutes</div><div style="font-size:13px;color:#666">Mbabala RHC · Chifunabuli · Luapula</div></div>'
+    +'<div class="sec"><div class="sec-t">Meeting Details</div><div class="row"><div class="fld"><div class="lbl">Type</div><div class="val">'+(m.type||'—')+'</div></div><div class="fld"><div class="lbl">Date</div><div class="val">'+(m.date?new Date(m.date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}):'—')+'</div></div><div class="fld"><div class="lbl">Venue</div><div class="val">'+(m.venue||'—')+'</div></div></div><div class="row"><div class="fld"><div class="lbl">Chairperson</div><div class="val">'+(m.chairperson||m.facilitator||'—')+'</div></div><div class="fld"><div class="lbl">Attendance</div><div class="val">'+(m.attendance||'—')+'</div></div></div></div>'
+    +(m.agenda||m.topics?'<div class="sec"><div class="sec-t">Agenda</div>'+(m.agenda||m.topics||'').split(/[\n\r]+/).map(function(t,i){return t.trim()?'<div style="padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:13px"><b>'+(i+1)+'.</b> '+t+'</div>':'';}).join('')+'</div>':'')
+    +(m.decisions||m.notes?'<div class="sec"><div class="sec-t">Key Decisions</div><div style="font-size:13px;line-height:1.7">'+(m.decisions||m.notes)+'</div></div>':'')
+    +'<div class="sec"><div class="sec-t">Any Other Business</div><div style="height:55px;border-bottom:1px solid #e5e7eb"></div></div>'
+    +'<div class="sec"><div class="sec-t">Next Meeting</div><div class="row"><div class="fld"><div class="lbl">Date</div><div style="border-bottom:1px solid #111;height:26px"></div></div><div class="fld"><div class="lbl">Venue</div><div style="border-bottom:1px solid #111;height:26px"></div></div></div></div>'
+    +'<div class="sec"><div class="sec-t">Signatures</div><div class="sg"><div class="sb">Chairperson<br><br><br>Name: _______________<br>Date: _______________</div><div class="sb">Secretary<br><br><br>Name: _______________<br>Date: _______________</div><div class="sb">EH Officer<br><br><br>Name: _______________<br>Date: _______________</div></div></div>'
+    +'<div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 24px;background:#0a5448;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">Print / Save PDF</button></div></body></html>';
+  var w=window.open('','_blank');w.document.write(html);w.document.close();
+}
+
+// ══ VILLAGE VISIT TRACKER ══
+const vvFields=[{id:'f-vv-id',key:'id',hidden:true},{id:'f-vv-village',key:'village',label:'Village',required:true},{id:'f-vv-date',key:'date',label:'Date'},{id:'f-vv-zone',key:'zone',label:'Zone'},{id:'f-vv-officer',key:'officer',label:'Officer'},{id:'f-vv-hh',key:'hh',label:'HHs',type:'num'},{id:'f-vv-male',key:'male',label:'Male',type:'num'},{id:'f-vv-female',key:'female',label:'Female',type:'num'},{id:'f-vv-topics',key:'topics',label:'Topics'},{id:'f-vv-notes',key:'notes',label:'Notes'}];
+async function saveVillageVisit(){var rec=readFields(vvFields);if(!rec.village){toast('Please enter village name','error');return;}if(!rec.date)rec.date=today();if(!rec.id)rec.id=genId('VV');var data=DB.get('village_visits');var idx=data.findIndex(function(r){return r.id===rec.id;});if(idx>=0)data[idx]=rec;else data.unshift(rec);_store['village_visits']=data;idbPut('village_visits',data);closeModal('m-village-visit');renderVillageVisits();toast('Village visit saved','success');sbSet('village_visits',data);}
+function renderVillageVisits(){
+  var sel=document.getElementById('vv-year');
+  if(sel&&!sel.options.length){var cy=new Date().getFullYear();for(var y=cy-2;y<=cy+3;y++)sel.add(new Option(y,y,y===cy,y===cy));}
+  var month=(document.getElementById('vv-month')||{value:String(new Date().getMonth()+1).padStart(2,'0')}).value;
+  var year=(document.getElementById('vv-year')||{value:'2026'}).value;
+  var ym=year+'-'+month;
+  var data=DB.get('village_visits').filter(function(r){return(r.date||'').substring(0,7)===ym;});
+  var allData=DB.get('village_visits');
+  var totalV=new Set(data.map(function(r){return r.village;})).size;
+  var totalHH=data.reduce(function(a,r){return a+(parseInt(r.hh)||0);},0);
+  var totalP=data.reduce(function(a,r){return a+(parseInt(r.male)||0)+(parseInt(r.female)||0);},0);
+  var allV=new Set(allData.map(function(r){return r.village;})).size;
+  var st=document.getElementById('vv-stats');
+  if(st)st.innerHTML='<div class="g4">'+[['Villages Visited',totalV,'var(--teal-d)','This month'],['Households Reached',totalHH,'var(--blue)','This month'],['People Reached',totalP,'var(--green)','Male+Female'],['Total Villages',allV,'var(--amber)','All time']].map(function(x){return '<div class="card-sm"><div class="stat-label">'+x[0]+'</div><div class="stat-val" style="color:'+x[2]+'">'+x[1]+'</div><div style="font-size:10px;color:var(--txt2);margin-top:2px">'+x[3]+'</div></div>';}).join('')+'</div>';
+  var tb=document.getElementById('vv-tbody');if(!tb)return;
+  if(!data.length){tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)">No village visits recorded for this month</td></tr>';return;}
+  tb.innerHTML=data.map(function(r){return '<tr><td>'+fmtDate(r.date)+'</td><td><b>'+r.village+'</b></td><td>'+(r.zone||'—')+'</td><td>'+(r.officer||'—')+'</td><td style="text-align:center">'+(r.hh||0)+'</td><td style="text-align:center">'+(r.male||0)+'</td><td style="text-align:center">'+(r.female||0)+'</td><td style="font-size:11px;color:var(--txt2)">'+((r.topics||'').substring(0,40))+'</td><td>'+rowBtns('village_visits',r.id,"viewRecord('village_visits','"+r.id+"',vvFields)","editRecord('village_visits','"+r.id+"',vvFields,'m-village-visit','hdr-m-village-visit','Edit Village Visit')","deleteRecord('village_visits','"+r.id+"',renderVillageVisits)")+'</td></tr>';}).join('');
+}
+
+// ══ INSPECTION FOLLOW-UP ══
+const ifFields=[{id:'f-if-id',key:'id',hidden:true},{id:'f-if-premises',key:'premises',label:'Premises',required:true},{id:'f-if-failed-date',key:'failedDate',label:'Date Failed'},{id:'f-if-reason',key:'reason',label:'Reason'},{id:'f-if-reinsp-date',key:'reinspDate',label:'Re-inspection Date'},{id:'f-if-outcome',key:'outcome',label:'Outcome'},{id:'f-if-zone',key:'zone',label:'Zone'},{id:'f-if-officer',key:'officer',label:'Officer'},{id:'f-if-notes',key:'notes',label:'Notes'}];
+async function saveInspFollowup(){var rec=readFields(ifFields);if(!rec.premises){toast('Please enter premises name','error');return;}if(!rec.failedDate)rec.failedDate=today();if(!rec.id)rec.id=genId('IF');var data=DB.get('insp_followup');var idx=data.findIndex(function(r){return r.id===rec.id;});if(idx>=0)data[idx]=rec;else data.unshift(rec);_store['insp_followup']=data;idbPut('insp_followup',data);closeModal('m-insp-followup');renderInspFollowup();toast('Follow-up saved','success');sbSet('insp_followup',data);}
+async function saveAutoFollowup(sourceId){var insp=DB.get('inspections').find(function(r){return r.id===sourceId;});if(!insp)return;var rec={id:genId('IF'),premises:insp.premises||insp.name||'Unknown',failedDate:insp.date,reason:insp.findings||insp.notes||'Failed inspection',outcome:'',zone:insp.zone||'',officer:insp.officer||'',sourceId:sourceId};var data=DB.get('insp_followup');data.unshift(rec);_store['insp_followup']=data;idbPut('insp_followup',data);sbSet('insp_followup',data);renderInspFollowup();toast('Added to follow-up list','success');}
+function renderInspFollowup(){
+  var data=DB.get('insp_followup');
+  var failed=DB.get('inspections').filter(function(r){return r.status==='Fail'||r.status==='Failed';});
+  var existingSrcIds=new Set(data.filter(function(r){return r.sourceId;}).map(function(r){return r.sourceId;}));
+  var autoItems=failed.filter(function(r){return !existingSrcIds.has(r.id);}).map(function(r){return{id:'AUTO-'+r.id,premises:r.premises||r.name||'Unknown',failedDate:r.date,reason:r.findings||r.notes||'Failed inspection',outcome:'',zone:r.zone||'',officer:r.officer||'',sourceId:r.id,auto:true};});
+  var displayData=data.concat(autoItems);
+  var pending=displayData.filter(function(r){return !r.outcome||r.outcome==='';}).length;
+  var passed=displayData.filter(function(r){return r.outcome==='Passed';}).length;
+  var failedAgain=displayData.filter(function(r){return r.outcome==='Failed Again';}).length;
+  var tod=new Date();tod.setHours(0,0,0,0);
+  var st=document.getElementById('if-stats');
+  if(st)st.innerHTML='<div class="g4">'+[['Total',displayData.length,'var(--teal-d)',''],['Pending',pending,'var(--red)','Action needed'],['Passed',passed,'var(--green)',''],['Failed Again',failedAgain,'var(--amber)','']].map(function(x){return '<div class="card-sm"><div class="stat-label">'+x[0]+'</div><div class="stat-val" style="color:'+x[2]+'">'+x[1]+'</div></div>';}).join('')+'</div>';
+  var tb=document.getElementById('if-tbody');if(!tb)return;
+  if(!displayData.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--txt2)">No failed inspections to follow up</td></tr>';return;}
+  tb.innerHTML=displayData.map(function(r){
+    var days=0;if(r.failedDate&&(!r.outcome||r.outcome==='')){var d=new Date(r.failedDate);d.setHours(0,0,0,0);days=Math.floor((tod-d)/86400000);}
+    var oc=r.outcome==='Passed'?'var(--green)':r.outcome==='Failed Again'?'var(--red)':'var(--amber)';
+    var ob=r.outcome==='Passed'?'#dcfce7':r.outcome==='Failed Again'?'#fee2e2':'#fef3c7';
+    var actions=r.auto?'<button onclick="window._saf(this)" data-sid="'+r.sourceId+'" style="padding:3px 10px;border-radius:6px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer">+ Add to List</button>':rowBtns('insp_followup',r.id,"viewRecord('insp_followup','"+r.id+"',ifFields)","editRecord('insp_followup','"+r.id+"',ifFields,'m-insp-followup','hdr-m-insp-followup','Edit Follow-up')","deleteRecord('insp_followup','"+r.id+"',renderInspFollowup)");
+    return '<tr><td><b>'+r.premises+'</b>'+(r.auto?'<div style="font-size:10px;color:var(--teal-d);font-weight:600">Auto-detected</div>':'')+'</td><td>'+fmtDate(r.failedDate)+'</td><td style="font-size:12px;color:var(--txt2)">'+((r.reason||'').substring(0,50))+'</td><td>'+(r.reinspDate?fmtDate(r.reinspDate):'<span style="font-style:italic;color:var(--txt2)">Not yet</span>')+'</td><td style="text-align:center"><span style="background:'+ob+';color:'+oc+';padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700">'+(r.outcome||'Pending')+'</span></td><td style="text-align:center;font-weight:700;color:'+(days>30?'var(--red)':days>14?'var(--amber)':'var(--txt2)')+'">'+(!r.outcome&&days?days+' days':'—')+'</td><td>'+actions+'</td></tr>';
+  }).join('');
+}
+
+// ══ DISEASE REGISTER ══
+function toggleDrOther(){var sel=document.getElementById('f-dr-disease');var grp=document.getElementById('dr-other-group');if(grp)grp.style.display=sel.value==='Other (specify)'?'':'none';}
+async function saveDiseaseEntry(){
+  var disease=document.getElementById('f-dr-disease').value;
+  if(!disease){toast('Please select a disease','error');return;}
+  if(disease==='Other (specify)'){disease=document.getElementById('f-dr-other').value.trim();if(!disease){toast('Please specify the disease','error');return;}}
+  var week=document.getElementById('f-dr-week').value;
+  if(!week){toast('Please select the epi week','error');return;}
+  var id=document.getElementById('f-dr-id').value||genId('DR');
+  var rec={id:id,disease:disease,week:week,kapili:parseInt(document.getElementById('f-dr-kapili').value)||0,kauni:parseInt(document.getElementById('f-dr-kauni').value)||0,kasenga:parseInt(document.getElementById('f-dr-kasenga').value)||0,central:parseInt(document.getElementById('f-dr-central').value)||0,isenga:parseInt(document.getElementById('f-dr-isenga').value)||0,recorder:document.getElementById('f-dr-recorder').value||'',notes:document.getElementById('f-dr-notes').value||''};
+  rec.total=rec.kapili+rec.kauni+rec.kasenga+rec.central+rec.isenga;
+  var data=DB.get('disease_register');var idx=data.findIndex(function(r){return r.id===id;});if(idx>=0)data[idx]=rec;else data.unshift(rec);
+  _store['disease_register']=data;idbPut('disease_register',data);
+  closeModal('m-disease-entry');renderDiseaseRegister();toast('Cases recorded','success');sbSet('disease_register',data);
+}
+function editDiseaseEntry(id){
+  var r=DB.get('disease_register').find(function(x){return x.id===id;});if(!r)return;
+  document.getElementById('f-dr-id').value=r.id;document.getElementById('f-dr-week').value=r.week||'';
+  document.getElementById('f-dr-recorder').value=r.recorder||'';document.getElementById('f-dr-kapili').value=r.kapili||0;
+  document.getElementById('f-dr-kauni').value=r.kauni||0;document.getElementById('f-dr-kasenga').value=r.kasenga||0;
+  document.getElementById('f-dr-central').value=r.central||0;document.getElementById('f-dr-isenga').value=r.isenga||0;
+  document.getElementById('f-dr-notes').value=r.notes||'';
+  var sel=document.getElementById('f-dr-disease');var found=false;
+  for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===r.disease){sel.value=r.disease;found=true;break;}}
+  if(!found){sel.value='Other (specify)';document.getElementById('f-dr-other').value=r.disease;document.getElementById('dr-other-group').style.display='';}
+  document.getElementById('hdr-m-disease-entry').textContent='Edit Disease Entry';
+  openModal('m-disease-entry');
+}
+function viewDiseaseEntry(id){
+  var r=DB.get('disease_register').find(function(x){return x.id===id;});if(!r)return;
+  var max=Math.max(r.kapili,r.kauni,r.kasenga,r.central,r.isenga);
+  var html='<div style="padding:4px">'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px"><div><div style="font-size:10px;color:var(--txt2);text-transform:uppercase;font-weight:600">Disease</div><div style="font-size:14px;font-weight:700;color:var(--txt);margin-top:2px">'+r.disease+'</div></div><div><div style="font-size:10px;color:var(--txt2);text-transform:uppercase;font-weight:600">Epi Week</div><div style="font-size:14px;font-weight:700;color:var(--txt);margin-top:2px">'+r.week+'</div></div></div>'
+    +'<div style="font-size:11px;font-weight:700;color:var(--txt2);text-transform:uppercase;margin-bottom:8px">Cases by Zone</div>'
+    +'<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">'
+    +['Kapili','Kauni','Kasenga','Central','Isenga'].map(function(z){var v=r[z.toLowerCase()]||0;return '<div style="text-align:center;padding:10px;border-radius:8px;background:'+(v===max&&v>0?'rgba(220,38,38,0.1)':'var(--bg2)')+';border:1px solid var(--bd)"><div style="font-size:10px;color:var(--txt2);font-weight:600">'+z+'</div><div style="font-size:20px;font-weight:800;color:'+(v===max&&v>0?'#dc2626':'var(--txt)')+'">'+v+'</div></div>';}).join('')
+    +'</div><div style="text-align:center;padding:10px;background:var(--bg2);border:1px solid var(--bd);border-radius:8px"><div style="font-size:11px;color:var(--txt2);font-weight:700;text-transform:uppercase">Total Cases</div><div style="font-size:28px;font-weight:800;color:var(--txt)">'+r.total+'</div></div>'
+    +(r.notes?'<div style="margin-top:10px;font-size:12px;color:var(--txt2)">Notes: '+r.notes+'</div>':'')
+    +'</div>';
+  var modal=document.getElementById('view-body');var title=document.getElementById('view-title');
+  if(modal)modal.innerHTML=html;if(title)title.textContent=r.disease+' — '+r.week;
+  openModal('m-view');
+}
+function renderDiseaseRegister(){
+  var sel=document.getElementById('dr-filter-year');
+  if(sel&&!sel.options.length){var cy=new Date().getFullYear();for(var y=cy-2;y<=cy+3;y++)sel.add(new Option(y,y,y===cy,y===cy));}
+  var filterDisease=(document.getElementById('dr-filter-disease')||{value:''}).value;
+  var filterYear=(document.getElementById('dr-filter-year')||{value:String(new Date().getFullYear())}).value;
+  var data=DB.get('disease_register').filter(function(r){if(filterDisease&&r.disease!==filterDisease)return false;if(filterYear&&r.week&&!r.week.startsWith(filterYear))return false;return true;});
+  var totalCases=data.reduce(function(a,r){return a+r.total;},0);
+  var diseases=new Set(data.map(function(r){return r.disease;})).size;
+  var zoneMap={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0};
+  data.forEach(function(r){zoneMap.Kapili+=r.kapili||0;zoneMap.Kauni+=r.kauni||0;zoneMap.Kasenga+=r.kasenga||0;zoneMap.Central+=r.central||0;zoneMap.Isenga+=r.isenga||0;});
+  var topZone='—';var maxZone=0;Object.keys(zoneMap).forEach(function(z){if(zoneMap[z]>maxZone){maxZone=zoneMap[z];topZone=z;}});
+  var st=document.getElementById('dr-stats');
+  if(st)st.innerHTML='<div class="g4">'+[['Total Cases',totalCases,'var(--red)',''],['Diseases',diseases,'var(--teal-d)',''],['Highest Zone',topZone,'var(--amber)',maxZone+' cases'],['Records',data.length,'var(--blue)','']].map(function(x){return '<div class="card-sm"><div class="stat-label">'+x[0]+'</div><div class="stat-val" style="color:'+x[2]+'">'+x[1]+'</div><div style="font-size:10px;color:var(--txt2);margin-top:2px">'+x[3]+'</div></div>';}).join('')+'</div>';
+  var tb=document.getElementById('dr-tbody');if(!tb)return;
+  if(!data.length){tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)">No disease records yet. Click Record Cases to add weekly figures.</td></tr>';return;}
+  data.sort(function(a,b){return(b.week||'').localeCompare(a.week||'');});
+  tb.innerHTML=data.map(function(r){
+    var mx=Math.max(r.kapili,r.kauni,r.kasenga,r.central,r.isenga);
+    function cell(v){return '<td style="text-align:center;'+(v===mx&&v>0?'font-weight:800;color:#dc2626;background:rgba(220,38,38,0.06)':'')+'">'+v+'</td>';}
+    return '<tr><td style="font-weight:600">'+r.week+'</td><td><b>'+r.disease+'</b></td>'+cell(r.kapili)+cell(r.kauni)+cell(r.kasenga)+cell(r.central)+cell(r.isenga)+'<td style="text-align:center;font-weight:800;color:var(--teal-d)">'+r.total+'</td><td>'+rowBtns('disease_register',r.id,"viewDiseaseEntry('"+r.id+"')","editDiseaseEntry('"+r.id+"')","deleteRecord('disease_register','"+r.id+"',renderDiseaseRegister)")+'</td></tr>';
+  }).join('');
+}
+function generateDiseaseReport(){
+  var disease=document.getElementById('rpt-dr-disease').value;
+  var from=document.getElementById('rpt-dr-from').value;
+  var to=document.getElementById('rpt-dr-to').value;
+  if(!from||!to){toast('Please select date range','error');return;}
+  var data=DB.get('disease_register').filter(function(r){
+    if(disease&&r.disease!==disease)return false;
+    var yw=r.week||'';if(!yw)return false;
+    var parts=yw.split('-W');if(parts.length!==2)return false;
+    var yr=parseInt(parts[0]);var wk=parseInt(parts[1]);
+    var mo=Math.ceil(wk/4.33);if(mo>12)mo=12;
+    var ymStr=yr+'-'+(mo<10?'0'+mo:String(mo));
+    return ymStr>=from&&ymStr<=to;
+  });
+  if(!data.length){toast('No records found for selected criteria','warning');closeModal('m-disease-report');return;}
+  var summary={};
+  data.forEach(function(r){if(!summary[r.disease])summary[r.disease]={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0,total:0};summary[r.disease].Kapili+=r.kapili||0;summary[r.disease].Kauni+=r.kauni||0;summary[r.disease].Kasenga+=r.kasenga||0;summary[r.disease].Central+=r.central||0;summary[r.disease].Isenga+=r.isenga||0;summary[r.disease].total+=r.total||0;});
+  var zoneTotals={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0};
+  Object.values(summary).forEach(function(s){zoneTotals.Kapili+=s.Kapili;zoneTotals.Kauni+=s.Kauni;zoneTotals.Kasenga+=s.Kasenga;zoneTotals.Central+=s.Central;zoneTotals.Isenga+=s.Isenga;});
+  var sortedZones=Object.keys(zoneTotals).sort(function(a,b){return zoneTotals[b]-zoneTotals[a];});
+  var rows=Object.keys(summary).sort(function(a,b){return summary[b].total-summary[a].total;}).map(function(d,i){
+    var s=summary[d];var maxZ=Math.max(s.Kapili,s.Kauni,s.Kasenga,s.Central,s.Isenga);
+    return '<tr style="border-bottom:1px solid #e5e7eb"><td style="padding:10px 12px;font-weight:700">'+(i+1)+'. '+d+'</td>'+sortedZones.map(function(z){var v=s[z];var hi=v===maxZ&&v>0;return '<td style="padding:10px 12px;text-align:center;'+(hi?'font-weight:800;color:#dc2626;background:#fff5f5':'')+'">'+v+'</td>';}).join('')+'<td style="padding:10px 12px;text-align:center;font-weight:800">'+s.total+'</td></tr>';
+  }).join('');
+  var zoneRankRow='<tr style="background:#f5f5f5;border-top:2px solid #333"><td style="padding:10px 12px;font-weight:700">ZONE TOTAL</td>'+sortedZones.map(function(z,i){return '<td style="padding:10px 12px;text-align:center;font-weight:800;color:'+(i===0?'#dc2626':'#111')+'">'+zoneTotals[z]+(i===0?' &#128308;':'')+'</td>';}).join('')+'<td style="padding:10px 12px;text-align:center;font-weight:800">'+(Object.values(zoneTotals).reduce(function(a,b){return a+b;},0))+'</td></tr>';
+  var html='<!DOCTYPE html><html><head><title>Disease Report</title><style>body{font-family:Arial,sans-serif;padding:32px;color:#111;max-width:900px;margin:0 auto}.hdr{text-align:center;border-bottom:2px solid #0a5448;padding-bottom:14px;margin-bottom:20px}table{width:100%;border-collapse:collapse}th{background:#0a5448;color:#fff;padding:10px 12px;text-align:center;font-size:12px}th:first-child{text-align:left}tr:nth-child(even){background:#f9fafb}@media print{button{display:none}}</style></head><body>'
+    +'<div class="hdr"><div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia</div><div style="font-size:20px;font-weight:800;margin:6px 0">Disease Occurrence Report by Zone</div><div style="font-size:13px;color:#374151">Mbabala RHC · Chifunabuli · Luapula</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Period: <b>'+from+'</b> to <b>'+to+'</b>'+(disease?' | Disease: <b>'+disease+'</b>':'')+'</div></div>'
+    +'<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Zone Ranking — Highest to Lowest</div><div style="display:flex;gap:10px;flex-wrap:wrap">'+sortedZones.map(function(z,i){var colors=['#dc2626','#ea580c','#ca8a04','#16a34a','#2563eb'];return '<div style="flex:1;min-width:100px;background:'+colors[i]+'1a;border:1px solid '+colors[i]+'40;border-radius:8px;padding:10px;text-align:center"><div style="font-size:11px;font-weight:700;color:'+colors[i]+';text-transform:uppercase">#'+(i+1)+' '+z+'</div><div style="font-size:22px;font-weight:800;color:'+colors[i]+'">'+zoneTotals[z]+'</div><div style="font-size:10px;color:#6b7280">cases</div></div>';}).join('')+'</div></div>'
+    +'<table><thead><tr><th style="text-align:left">Disease</th>'+sortedZones.map(function(z,i){return '<th>'+z+(i===0?' &#128308;':'')+'</th>';}).join('')+'<th>Total</th></tr></thead><tbody>'+rows+zoneRankRow+'</tbody></table>'
+    +'<div style="text-align:center;margin-top:20px"><button onclick="window.print()" style="padding:10px 24px;background:#0a5448;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">Print / Save PDF</button></div></body></html>';
+  closeModal('m-disease-report');
+  var w=window.open('','_blank');w.document.write(html);w.document.close();
+}
+
 </script>
