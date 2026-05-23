@@ -4501,11 +4501,11 @@ async function saveIPCRecord(){
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
   _store['ipc']=data;
   idbPut('ipc',data);
-  await sbSet('ipc',data);
-  saveAttachments('ipc',rec.id,'m-ipc');
   closeModal('m-ipc');
   renderIPC();
   toast('✅ IPC audit saved','success');
+  sbSet('ipc',data);
+  saveAttachments('ipc',rec.id,'m-ipc');
 }
 
 function saveUser(){
@@ -6833,10 +6833,10 @@ async function saveRoutineMonthly(){
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
   _store['routine_monthly'] = data;
   idbPut('routine_monthly', data);
-  await sbSet('routine_monthly', data);
-  broadcastUpdate();
   closeModal('m-routine-monthly');
   renderRoutineMonthly();
+  sbSet('routine_monthly', data);
+  broadcastUpdate();
   toast('✅ Monthly EH Report saved','success');
 }
 
@@ -10138,9 +10138,9 @@ async function saveSchoolInspection(){
   const idx=data.findIndex(r=>r.id===rec.id);
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
   _recentlySaved['school_inspections'] = Date.now() + 60000;
-  _store['school_inspections']=data; idbPut('school_inspections',data); await sbSet('school_inspections',data);
-  saveAttachments('school_inspections', rec.id, 'm-school-insp');
   broadcastUpdate(); closeModal('m-school-insp'); renderSchools();
+  _store['school_inspections']=data; idbPut('school_inspections',data); sbSet('school_inspections',data);
+  saveAttachments('school_inspections', rec.id, 'm-school-insp');
   toast('✅ School inspection saved','success');
 }
 
@@ -10386,12 +10386,12 @@ async function saveCHWSupervision(){
   const data=DB.get('chw_supervision');
   const idx=data.findIndex(r=>r.id===rec.id);
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
-  _store['chw_supervision']=data; idbPut('chw_supervision',data); await sbSet('chw_supervision',data);
+  broadcastUpdate(); closeModal('m-chw-sup'); renderCHW();
+  _store['chw_supervision']=data; idbPut('chw_supervision',data); sbSet('chw_supervision',data);
   // Update last supervision date on CHW record
   const chws=DB.get('chw');
   const chwIdx=chws.findIndex(r=>r.name===rec.chw);
   if(chwIdx>=0){ chws[chwIdx].lastSup=rec.date; _store['chw']=chws; sbSet('chw',chws); }
-  broadcastUpdate(); closeModal('m-chw-sup'); renderCHW();
   toast('✅ Supervision visit saved','success');
 }
 
@@ -10799,10 +10799,10 @@ async function saveOutcomeRecord(){
   if(idx >= 0) data[idx] = rec; else data.unshift(rec);
   _store['mal_outcomes'] = data;
   idbPut('mal_outcomes', data);
-  await sbSet('mal_outcomes', data);
-  broadcastUpdate();
   closeModal('m-outcome');
   renderDefaulters();
+  sbSet('mal_outcomes', data);
+  broadcastUpdate();
   toast('✅ Outcome recorded','success');
 }
 
