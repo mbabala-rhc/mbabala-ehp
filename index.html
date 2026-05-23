@@ -4419,15 +4419,15 @@ async function saveRecord(store, modalId, fields, renderFn){
   // Write to memory and local cache immediately
   _store[store] = data;
   idbPut(store, data);
-  // Write to Supabase
-  await sbSet(store, data);
-  saveAttachments(store, rec.id, modalId);
-  // Delay broadcast to let attachment writes complete first
-  setTimeout(() => broadcastUpdate(), 2500);
+  // Close modal and render IMMEDIATELY - don't wait for Supabase
   closeModal(modalId);
   renderFn();
   updateBadges();
   toast('✅ Record saved','success');
+  // Write to Supabase in background
+  sbSet(store, data);
+  saveAttachments(store, rec.id, modalId);
+  setTimeout(() => broadcastUpdate(), 2500);
 }
 
 function editRecord(store, id, fields, modalId, titleId, titleText){
