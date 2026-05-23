@@ -860,7 +860,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <span style="font-size:24px">💾</span>
   <div style="flex:1">
     <div style="font-weight:700;font-size:14px">Time for a data backup!</div>
-    <div style="font-size:12px;opacity:.9;margin-top:2px">It has been 7+ days since your last backup. Export your data now to prevent loss.</div>
+    <div style="font-size:12px;opacity:.9;margin-top:2px">It has been 30+ days since your last backup. Export your data now to prevent loss.</div>
   </div>
   <div style="display:flex;gap:8px;flex-shrink:0">
     <button onclick="dismissBackupReminder(true)" style="background:#fff;color:var(--amber);border:none;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-size:12px">💾 Backup Now</button>
@@ -7163,7 +7163,7 @@ function initDarkMode(){
 function checkBackupReminder(){
   const last = parseInt(localStorage.getItem('ehp_last_backup')||'0');
   const daysSince = last === 0 ? 999 : Math.floor((Date.now()-last)/86400000);
-  if(daysSince >= 7){
+  if(daysSince >= 30){
     setTimeout(()=>{
       const el = document.getElementById('backup-reminder');
       if(el){
@@ -9242,7 +9242,7 @@ function updateOfflineBadge(){
 function checkAutoBackup(){
   const lastBackup = localStorage.getItem('_lastBackup');
   const now = Date.now();
-  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  const sevenDays = 30 * 24 * 60 * 60 * 1000;
 
   if(!lastBackup || (now - parseInt(lastBackup)) > sevenDays){
     // Show backup reminder after 3 seconds
