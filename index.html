@@ -4908,7 +4908,7 @@ function renderDashboard(){
   const normTotal = nutr.filter(r=>r.category==='Normal').reduce((s,r)=>s+(parseInt(r.normalCount)||0),0);
   const odfVill = san.filter(r=>r.clts==='ODF verified').length;
   const unreportedSurv = surv.filter(r=>r.reported!=='Yes').length;
-  const passWater = water.filter(r=>r.ecoli==='Absent').length;
+  const passWater = water.filter(r=>r.result==='Pass').length;
   const totalWater = water.length;
 
   // ── STAT CARDS ──
@@ -4932,7 +4932,7 @@ function renderDashboard(){
     // Critical alerts (red)
     if(highInc > 0) allAlerts.push({level:'critical', icon:'🚨', module:'Incidents', msg:`${highInc} HIGH PRIORITY incident${highInc>1?'s':''} unresolved`, action:"nav('incidents')"});
     if(activeOutb > 0) allAlerts.push({level:'critical', icon:'🦠', module:'Outbreak', msg:`${activeOutb} active outbreak investigation${activeOutb>1?'s':''}`, action:"nav('outbreak')"});
-    if(failedWater > 0) allAlerts.push({level:'critical', icon:'💧', module:'Water Quality', msg:`${failedWater} water source${failedWater>1?'s':''} with E. coli present`, action:"nav('water')"});
+    if(failedWater > 0) allAlerts.push({level:'critical', icon:'💧', module:'Water Quality', msg:`${failedWater} water source${failedWater>1?'s':''} failed water quality test`, action:"nav('water')"});
     if(samCases > 0) allAlerts.push({level:'critical', icon:'🔴', module:'Nutrition', msg:`${samCases} SAM child${samCases>1?'ren':''} identified`, action:"nav('nutrition')"});
 
     // Warning alerts (amber)
@@ -5081,7 +5081,7 @@ function renderDashboard(){
     waterEl.innerHTML = totalWater === 0
       ? '<div style="text-align:center;padding:16px;color:var(--txt2);font-size:12px">No water tests yet</div>'
       : `<div style="display:flex;flex-direction:column;gap:8px">
-          ${[['✅ Pass (E.coli Absent)',passWater,'var(--green)'],['❌ Fail (E.coli Present)',failedWater,'var(--red)']].map(([l,v,c])=>`
+          ${[['✅ Pass',passWater,'var(--green)'],['❌ Fail',failedWater,'var(--red)']].map(([l,v,c])=>`
           <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--bg2);border-radius:8px">
             <span style="font-size:12px">${l}</span>
             <span style="font-size:18px;font-weight:700;color:${c}">${v}</span>
