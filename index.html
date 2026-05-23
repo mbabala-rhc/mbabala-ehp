@@ -7168,14 +7168,14 @@ function initDarkMode(){
 }
 
 function checkBackupReminder(){
-  const last = parseInt(localStorage.getItem('ehp_last_backup')||'0');
-  const daysSince = last === 0 ? 999 : Math.floor((Date.now()-last)/86400000);
+  var last = parseInt(localStorage.getItem('ehp_last_backup')||'0');
+  // If never backed up, set today as the start date so reminder shows after 30 days
+  if(!last){ localStorage.setItem('ehp_last_backup', Date.now()); return; }
+  var daysSince = Math.floor((Date.now()-last)/86400000);
   if(daysSince >= 30){
-    setTimeout(()=>{
-      const el = document.getElementById('backup-reminder');
-      if(el){
-        el.classList.add('visible');
-      }
+    setTimeout(function(){
+      var el = document.getElementById('backup-reminder');
+      if(el) el.classList.add('visible');
     }, 2500);
   }
 }
