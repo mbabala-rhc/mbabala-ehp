@@ -4396,6 +4396,7 @@ async function saveRecord(store, modalId, fields, renderFn){
   // Stamp the store with save time so polling can't overwrite newer data
   const _saveTs = Date.now();
   if(!_storeTimestamps) window._storeTimestamps = {};
+  if(!window._storeTimestamps) window._storeTimestamps = {};
   window._storeTimestamps[store] = _saveTs;
   // Mark as recently saved FIRST - before any async ops so realtime can't overwrite
   _recentlySaved[store] = Date.now() + 10000;
