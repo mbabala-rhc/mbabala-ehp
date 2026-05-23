@@ -2532,7 +2532,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div id="u5-stats"></div>
   <div class="toolbar">
     <input type="text" id="u5-search" placeholder="🔍 Search by month, village..." oninput="filterU5ByText(this.value)" style="flex:1;max-width:220px">
-    <input type="month" id="u5-filter-month" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px" onchange="filterU5ByMonth(this.value)">
+    <input type="month" id="u5-filter-month" placeholder="YYYY-MM" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px" onchange="filterU5ByMonth(this.value)">
     <button class="btn primary" onclick="openModal('m-under5')">+ New Monthly Under Five Report</button>
     <button class="btn sm" onclick="u5PDF()">📄 PDF</button>
     <button class="btn sm" onclick="exportToExcel('under5','Under5_Coverage')">📊 Excel</button>
@@ -2568,7 +2568,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
         <span>🧠 Developmental Milestones — Assessment Summary</span>
         <div style="display:flex;align-items:center;gap:8px">
           <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printDMSummary()">🖨 Print</button>
-          <input type="month" id="dm-filter-month" style="font-size:12px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="renderDMSummary()" title="Filter by month (leave blank for all-time totals)">
+          <input type="month" id="dm-filter-month" placeholder="YYYY-MM" style="font-size:12px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="renderDMSummary()" title="Filter by month (leave blank for all-time totals)">
           <span style="font-size:11px;color:var(--txt2)">Filter by month (blank = all time)</span>
         </div>
       </div>
