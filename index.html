@@ -1074,6 +1074,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
         <div class="nav-item" onclick="nav('vector')"><span class="nav-icon">🦟</span><span class="nav-label">Vector Control</span></div>
         <div class="nav-item" onclick="nav('sanitation')"><span class="nav-icon">🚽</span><span class="nav-label">Sanitation (ODF)</span></div>
         <div class="nav-item" onclick="nav('surveillance')"><span class="nav-icon">🔬</span><span class="nav-label">Surveillance</span></div>
+        <div class="nav-item" onclick="nav('disease-register')"><span class="nav-icon">📈</span><span class="nav-label">Disease Register</span></div>
         <div class="nav-item" onclick="nav('health_promo')"><span class="nav-icon">📢</span><span class="nav-label">Health Promotion</span></div>
 
         </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Nutrition &amp; Child Health</div><div class="nav-group collapsed">
@@ -2047,6 +2048,118 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group full"><label>Notes</label><textarea id="f-if-notes" rows="2" placeholder="Corrective actions taken..."></textarea></div></div>
   </div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-insp-followup')">Cancel</button><button class="btn primary" onclick="saveInspFollowup()">&#128190; Save</button></div>
+</div></div>
+
+<!-- ===== DISEASE REGISTER ===== -->
+<div id="page-disease-register" class="page">
+  <div style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📈 Disease Register</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Weekly disease occurrence by zone — track trends and generate reports</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" onclick="openModal('m-disease-entry')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Record Cases</button>
+      <button class="btn" onclick="openModal('m-disease-report')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">📊 Generate Report</button>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="card" style="padding:12px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <select id="dr-filter-disease" onchange="renderDiseaseRegister()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="">All Diseases</option>
+      <option>Malaria</option><option>Diarrhoea</option><option>Cholera</option>
+      <option>Typhoid</option><option>Dysentery</option><option>Pneumonia</option>
+      <option>Malnutrition</option><option>COVID-19</option><option>Measles</option>
+      <option>Meningitis</option><option>Rabies</option><option>Other</option>
+    </select>
+    <select id="dr-filter-zone" onchange="renderDiseaseRegister()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="">All Zones</option>
+      <option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option>
+    </select>
+    <select id="dr-filter-year" onchange="renderDiseaseRegister()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
+    <button onclick="renderDiseaseRegister()" style="padding:7px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--bg2);color:var(--txt);font-size:12px;cursor:pointer">🔄 Refresh</button>
+  </div>
+
+  <!-- Stats -->
+  <div id="dr-stats" style="margin-bottom:14px"></div>
+
+  <!-- Table -->
+  <div class="card"><div class="tbl-wrap">
+    <table class="dt" id="dr-table" style="min-width:750px">
+      <thead><tr>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Epi Week</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Disease / Condition</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Kapili</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Kauni</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Kasenga</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Central</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Isenga</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px;text-align:center">Total</th>
+        <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Actions</th>
+      </tr></thead>
+      <tbody id="dr-tbody"></tbody>
+    </table>
+  </div></div>
+</div>
+
+<!-- RECORD CASES MODAL -->
+<div id="m-disease-entry" class="modal-overlay"><div class="modal wide">
+  <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">📈</div><h3 id="hdr-m-disease-entry" data-orig="Record Disease Cases">Record Disease Cases</h3><button class="btn icon" onclick="closeModal('m-disease-entry')">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="f-dr-id">
+    <div class="form-row">
+      <div class="form-group"><label class="required">Disease / Condition</label>
+        <select id="f-dr-disease" onchange="toggleDrOther()">
+          <option value="">Select disease...</option>
+          <option>Malaria</option><option>Diarrhoea</option><option>Cholera</option>
+          <option>Typhoid</option><option>Dysentery</option><option>Pneumonia</option>
+          <option>Malnutrition</option><option>COVID-19</option><option>Measles</option>
+          <option>Meningitis</option><option>Rabies</option><option>Other (specify)</option>
+        </select>
+      </div>
+      <div class="form-group" id="dr-other-group" style="display:none"><label>Specify Disease</label><input type="text" id="f-dr-other" placeholder="Enter disease name"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="required">Epi Week</label><input type="week" id="f-dr-week"></div>
+      <div class="form-group"><label>Recorded By</label><input type="text" id="f-dr-recorder" placeholder="Officer name"></div>
+    </div>
+    <div class="form-section">Cases per Zone</div>
+    <div class="form-row">
+      <div class="form-group"><label>Kapili</label><input type="number" id="f-dr-kapili" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Kauni</label><input type="number" id="f-dr-kauni" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Kasenga</label><input type="number" id="f-dr-kasenga" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Central</label><input type="number" id="f-dr-central" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Isenga</label><input type="number" id="f-dr-isenga" min="0" placeholder="0"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group full"><label>Notes</label><textarea id="f-dr-notes" rows="2" placeholder="Any additional notes..."></textarea></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-disease-entry')">Cancel</button><button class="btn primary" onclick="saveDiseaseEntry()">💾 Save</button></div>
+</div></div>
+
+<!-- GENERATE REPORT MODAL -->
+<div id="m-disease-report" class="modal-overlay"><div class="modal">
+  <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">📊</div><h3>Generate Disease Report</h3><button class="btn icon" onclick="closeModal('m-disease-report')">✕</button></div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group"><label class="required">Disease / Condition</label>
+        <select id="rpt-dr-disease">
+          <option value="">All Diseases</option>
+          <option>Malaria</option><option>Diarrhoea</option><option>Cholera</option>
+          <option>Typhoid</option><option>Dysentery</option><option>Pneumonia</option>
+          <option>Malnutrition</option><option>COVID-19</option><option>Measles</option>
+          <option>Meningitis</option><option>Rabies</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="required">From Month</label><input type="month" id="rpt-dr-from"></div>
+      <div class="form-group"><label class="required">To Month</label><input type="month" id="rpt-dr-to"></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-disease-report')">Cancel</button><button class="btn primary" onclick="generateDiseaseReport()">📊 Generate</button></div>
 </div></div>
 
 <!-- ===== LEGAL / ENFORCEMENT ===== -->
@@ -4752,7 +4865,7 @@ function rowBtns(store,id,viewFn,editFn,delfn,attStore){
 // ============================================================
 // RENDER FUNCTIONS
 // ============================================================
-function renderPage(p){ const fn={dashboard:renderDashboard,inspections:renderInspections,incidents:renderIncidents,immunization:renderEPI,hia:renderHIA,water:renderWater,ebs:renderEBS,ipc:renderIPC,ecd:renderECD,nutrition:renderNutrition,waste:renderWaste,vector:renderVector,sanitation:renderSanitation,surveillance:renderSurveillance,health_promo:renderHP,facilities:renderFacilities,households:renderHouseholds,premises:renderPremises,documents:renderDocuments,analytics:renderAnalytics,admin:renderAdmin,mycin:renderMycin,legal:renderLegal,routine:renderRoutine,outbreak:renderOutbreak,'monthly-report':renderMonthlyReport,catchment:renderCatchment,planner:renderPlanner,targets:renderTargets,followup:renderFollowup,stock:renderStock,'village-visits':renderVillageVisits,'insp-followup':renderInspFollowup,villages:renderVillages,defaulters:renderDefaulters,foodhandlers:renderFoodHandlers,waterpoints:renderWaterPoints,schools:renderSchools,chw:renderCHW,meetings:renderMeetings,cbv:renderCBV_page,under5:renderUnder5}[p]; if(fn) fn(); }
+function renderPage(p){ const fn={dashboard:renderDashboard,inspections:renderInspections,incidents:renderIncidents,immunization:renderEPI,hia:renderHIA,water:renderWater,ebs:renderEBS,ipc:renderIPC,ecd:renderECD,nutrition:renderNutrition,waste:renderWaste,vector:renderVector,sanitation:renderSanitation,surveillance:renderSurveillance,health_promo:renderHP,facilities:renderFacilities,households:renderHouseholds,premises:renderPremises,documents:renderDocuments,analytics:renderAnalytics,admin:renderAdmin,mycin:renderMycin,legal:renderLegal,routine:renderRoutine,outbreak:renderOutbreak,'monthly-report':renderMonthlyReport,catchment:renderCatchment,planner:renderPlanner,targets:renderTargets,followup:renderFollowup,stock:renderStock,'disease-register':renderDiseaseRegister,'village-visits':renderVillageVisits,'insp-followup':renderInspFollowup,villages:renderVillages,defaulters:renderDefaulters,foodhandlers:renderFoodHandlers,waterpoints:renderWaterPoints,schools:renderSchools,chw:renderCHW,meetings:renderMeetings,cbv:renderCBV_page,under5:renderUnder5}[p]; if(fn) fn(); }
 
 function renderDashboard(){
   const now = new Date();
@@ -12089,4 +12202,263 @@ window._undo=function(btn){
   sbSet('work_planner',data);
   toast('Marked back as Planned','info');
 };
+
+
+// ══════════════════════════════════════════════
+// DISEASE REGISTER
+// ══════════════════════════════════════════════
+var ZONES=['Kapili','Kauni','Kasenga','Central','Isenga'];
+var DISEASES=['Malaria','Diarrhoea','Cholera','Typhoid','Dysentery','Pneumonia','Malnutrition','COVID-19','Measles','Meningitis','Rabies'];
+
+function toggleDrOther(){
+  var sel=document.getElementById('f-dr-disease');
+  var grp=document.getElementById('dr-other-group');
+  if(grp) grp.style.display=sel.value==='Other (specify)'?'':'none';
+}
+
+async function saveDiseaseEntry(){
+  var disease=document.getElementById('f-dr-disease').value;
+  if(!disease){toast('Please select a disease','error');return;}
+  if(disease==='Other (specify)'){
+    disease=document.getElementById('f-dr-other').value.trim();
+    if(!disease){toast('Please specify the disease name','error');return;}
+  }
+  var week=document.getElementById('f-dr-week').value;
+  if(!week){toast('Please select the epi week','error');return;}
+  var id=document.getElementById('f-dr-id').value||genId('DR');
+  var rec={
+    id:id,
+    disease:disease,
+    week:week,
+    kapili:parseInt(document.getElementById('f-dr-kapili').value)||0,
+    kauni:parseInt(document.getElementById('f-dr-kauni').value)||0,
+    kasenga:parseInt(document.getElementById('f-dr-kasenga').value)||0,
+    central:parseInt(document.getElementById('f-dr-central').value)||0,
+    isenga:parseInt(document.getElementById('f-dr-isenga').value)||0,
+    recorder:document.getElementById('f-dr-recorder').value||'',
+    notes:document.getElementById('f-dr-notes').value||''
+  };
+  rec.total=rec.kapili+rec.kauni+rec.kasenga+rec.central+rec.isenga;
+  var data=DB.get('disease_register');
+  var idx=data.findIndex(function(r){return r.id===id;});
+  if(idx>=0)data[idx]=rec;else data.unshift(rec);
+  _store['disease_register']=data;
+  idbPut('disease_register',data);
+  _recentlySaved['disease_register']=Date.now()+10000;
+  sbSet('disease_register',data);
+  closeModal('m-disease-entry');
+  renderDiseaseRegister();
+  toast('Cases recorded successfully','success');
+}
+
+function renderDiseaseRegister(){
+  // Populate year dropdown
+  var yrSel=document.getElementById('dr-filter-year');
+  if(yrSel&&!yrSel.options.length){
+    var cy=new Date().getFullYear();
+    for(var y=cy-2;y<=cy+3;y++) yrSel.add(new Option(y,y,y===cy,y===cy));
+  }
+
+  var filterDisease=(document.getElementById('dr-filter-disease')||{value:''}).value;
+  var filterZone=(document.getElementById('dr-filter-zone')||{value:''}).value;
+  var filterYear=(document.getElementById('dr-filter-year')||{value:String(new Date().getFullYear())}).value;
+
+  var data=DB.get('disease_register').filter(function(r){
+    if(filterDisease&&r.disease!==filterDisease) return false;
+    if(filterYear&&r.week&&!r.week.startsWith(filterYear)) return false;
+    return true;
+  });
+
+  // Stats
+  var totalCases=data.reduce(function(a,r){return a+r.total;},0);
+  var diseases=new Set(data.map(function(r){return r.disease;})).size;
+  var topZone='—';
+  var zoneMap={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0};
+  data.forEach(function(r){
+    zoneMap.Kapili+=r.kapili||0;
+    zoneMap.Kauni+=r.kauni||0;
+    zoneMap.Kasenga+=r.kasenga||0;
+    zoneMap.Central+=r.central||0;
+    zoneMap.Isenga+=r.isenga||0;
+  });
+  var maxZone=0;
+  Object.keys(zoneMap).forEach(function(z){if(zoneMap[z]>maxZone){maxZone=zoneMap[z];topZone=z;}});
+
+  var st=document.getElementById('dr-stats');
+  if(st) st.innerHTML='<div class="g4">'+
+    [['Total Cases',totalCases,'var(--red)','This year'],
+     ['Diseases Tracked',diseases,'var(--teal-d)',''],
+     ['Highest Zone',topZone,'var(--amber)',maxZone+' cases'],
+     ['Records',data.length,'var(--blue)','Entries']].map(function(x){
+      return '<div class="card-sm"><div class="stat-label">'+x[0]+'</div><div class="stat-val" style="color:'+x[2]+'">'+x[1]+'</div><div style="font-size:10px;color:var(--txt2);margin-top:2px">'+x[3]+'</div></div>';
+    }).join('')+'</div>';
+
+  var tb=document.getElementById('dr-tbody');
+  if(!tb) return;
+  if(!data.length){
+    tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)"><div style="font-size:28px;margin-bottom:8px">📈</div><div style="font-weight:600">No disease records yet</div><div style="font-size:12px;margin-top:6px">Click Record Cases to add weekly figures</div></td></tr>';
+    return;
+  }
+
+  // Sort by week descending
+  data.sort(function(a,b){return (b.week||'').localeCompare(a.week||'');});
+
+  // Filter by zone if selected
+  tb.innerHTML=data.map(function(r){
+    if(filterZone&&!r[filterZone.toLowerCase()]) return '';
+    var maxVal=Math.max(r.kapili,r.kauni,r.kasenga,r.central,r.isenga);
+    function cell(v){
+      var pct=maxVal>0?Math.round(v/maxVal*100):0;
+      var bg=v===maxVal&&v>0?'background:rgba(220,38,38,0.1);font-weight:800;color:#dc2626':'';
+      return '<td style="text-align:center;'+bg+'">'+v+'</td>';
+    }
+    return '<tr>'
+      +'<td style="white-space:nowrap;font-weight:600">'+r.week+'</td>'
+      +'<td><b style="color:var(--txt)">'+r.disease+'</b></td>'
+      +cell(r.kapili)+cell(r.kauni)+cell(r.kasenga)+cell(r.central)+cell(r.isenga)
+      +'<td style="text-align:center;font-weight:800;color:var(--teal-d)">'+r.total+'</td>'
+      +'<td>'+rowBtns('disease_register',r.id,
+        "viewRecord('disease_register','"+r.id+"',[])",
+        "editDiseaseEntry('"+r.id+"')",
+        "deleteRecord('disease_register','"+r.id+"',renderDiseaseRegister)")+'</td>'
+      +'</tr>';
+  }).join('');
+}
+
+function editDiseaseEntry(id){
+  var data=DB.get('disease_register');
+  var r=data.find(function(x){return x.id===id;});
+  if(!r) return;
+  document.getElementById('f-dr-id').value=r.id;
+  document.getElementById('f-dr-week').value=r.week||'';
+  document.getElementById('f-dr-recorder').value=r.recorder||'';
+  document.getElementById('f-dr-kapili').value=r.kapili||0;
+  document.getElementById('f-dr-kauni').value=r.kauni||0;
+  document.getElementById('f-dr-kasenga').value=r.kasenga||0;
+  document.getElementById('f-dr-central').value=r.central||0;
+  document.getElementById('f-dr-isenga').value=r.isenga||0;
+  document.getElementById('f-dr-notes').value=r.notes||'';
+  // Set disease
+  var sel=document.getElementById('f-dr-disease');
+  var found=false;
+  for(var i=0;i<sel.options.length;i++){
+    if(sel.options[i].value===r.disease){sel.value=r.disease;found=true;break;}
+  }
+  if(!found){
+    sel.value='Other (specify)';
+    document.getElementById('f-dr-other').value=r.disease;
+    document.getElementById('dr-other-group').style.display='';
+  }
+  document.getElementById('hdr-m-disease-entry').textContent='Edit Disease Entry';
+  openModal('m-disease-entry');
+}
+
+function generateDiseaseReport(){
+  var disease=document.getElementById('rpt-dr-disease').value;
+  var from=document.getElementById('rpt-dr-from').value;
+  var to=document.getElementById('rpt-dr-to').value;
+  if(!from||!to){toast('Please select date range','error');return;}
+
+  var data=DB.get('disease_register').filter(function(r){
+    if(disease&&r.disease!==disease) return false;
+    var yw=r.week||'';
+    var ym=yw.substring(0,7);
+    return ym>=from&&ym<=to;
+  });
+
+  if(!data.length){toast('No records found for selected criteria','warning');closeModal('m-disease-report');return;}
+
+  // Aggregate by disease and zone
+  var summary={};
+  data.forEach(function(r){
+    if(!summary[r.disease]) summary[r.disease]={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0,total:0};
+    summary[r.disease].Kapili+=r.kapili||0;
+    summary[r.disease].Kauni+=r.kauni||0;
+    summary[r.disease].Kasenga+=r.kasenga||0;
+    summary[r.disease].Central+=r.central||0;
+    summary[r.disease].Isenga+=r.isenga||0;
+    summary[r.disease].total+=r.total||0;
+  });
+
+  // Zone totals across all diseases
+  var zoneTotals={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0};
+  Object.values(summary).forEach(function(s){
+    zoneTotals.Kapili+=s.Kapili;zoneTotals.Kauni+=s.Kauni;
+    zoneTotals.Kasenga+=s.Kasenga;zoneTotals.Central+=s.Central;zoneTotals.Isenga+=s.Isenga;
+  });
+
+  // Sort zones by total cases (highest to lowest)
+  var sortedZones=Object.keys(zoneTotals).sort(function(a,b){return zoneTotals[b]-zoneTotals[a];});
+
+  var rows=Object.keys(summary).sort(function(a,b){return summary[b].total-summary[a].total;}).map(function(d,i){
+    var s=summary[d];
+    var maxZ=Math.max(s.Kapili,s.Kauni,s.Kasenga,s.Central,s.Isenga);
+    return '<tr style="border-bottom:1px solid #e5e7eb">'
+      +'<td style="padding:10px 12px;font-weight:700">'+(i+1)+'. '+d+'</td>'
+      +sortedZones.map(function(z){
+        var v=s[z];
+        var hi=v===maxZ&&v>0;
+        return '<td style="padding:10px 12px;text-align:center;'+(hi?'font-weight:800;color:#dc2626;background:#fff5f5':'')+'">'+v+'</td>';
+      }).join('')
+      +'<td style="padding:10px 12px;text-align:center;font-weight:800;color:#0a5448">'+s.total+'</td>'
+      +'</tr>';
+  }).join('');
+
+  // Zone ranking row
+  var zoneRankRow='<tr style="background:#f0fdf4;border-top:2px solid #0a5448">'
+    +'<td style="padding:10px 12px;font-weight:700;color:#0a5448">ZONE TOTAL</td>'
+    +sortedZones.map(function(z,i){
+      return '<td style="padding:10px 12px;text-align:center;font-weight:800;color:'+(i===0?'#dc2626':'#0a5448')+'">'+zoneTotals[z]+(i===0?' 🔴':'')+'</td>';
+    }).join('')
+    +'<td style="padding:10px 12px;text-align:center;font-weight:800;color:#0a5448">'+(Object.values(zoneTotals).reduce(function(a,b){return a+b;},0))+'</td>'
+    +'</tr>';
+
+  var html='<!DOCTYPE html><html><head><title>Disease Report</title>'
+    +'<style>body{font-family:Arial,sans-serif;padding:32px;color:#111;max-width:900px;margin:0 auto}'
+    +'.hdr{text-align:center;border-bottom:2px solid #0a5448;padding-bottom:14px;margin-bottom:20px}'
+    +'table{width:100%;border-collapse:collapse}th{background:#0a5448;color:#fff;padding:10px 12px;text-align:center;font-size:12px}'
+    +'th:first-child{text-align:left}tr:nth-child(even){background:#f9fafb}'
+    +'.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}'
+    +'@media print{button{display:none}}</style>'
+    +'</head><body>'
+    +'<div class="hdr">'
+      +'<div style="font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:.1em">Ministry of Health · Zambia</div>'
+      +'<div style="font-size:20px;font-weight:800;margin:6px 0">Disease Occurrence Report by Zone</div>'
+      +'<div style="font-size:13px;color:#374151">Mbabala Rural Health Centre · Chifunabuli District · Luapula Province</div>'
+      +'<div style="font-size:12px;color:#6b7280;margin-top:4px">'
+        +'Period: <b>'+from+'</b> to <b>'+to+'</b>'
+        +(disease?' &nbsp;·&nbsp; Disease: <b>'+disease+'</b>':'')
+        +' &nbsp;·&nbsp; Generated: <b>'+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'</b>'
+      +'</div>'
+    +'</div>'
+    // Zone ranking summary
+    +'<div style="margin-bottom:20px">'
+      +'<div style="font-size:12px;font-weight:700;color:#0a5448;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Zone Ranking — Highest to Lowest</div>'
+      +'<div style="display:flex;gap:10px;flex-wrap:wrap">'
+        +sortedZones.map(function(z,i){
+          var colors=['#dc2626','#ea580c','#ca8a04','#16a34a','#2563eb'];
+          return '<div style="flex:1;min-width:100px;background:'+colors[i]+'1a;border:1px solid '+colors[i]+'40;border-radius:8px;padding:10px;text-align:center">'
+            +'<div style="font-size:11px;font-weight:700;color:'+colors[i]+';text-transform:uppercase">#'+(i+1)+' '+z+'</div>'
+            +'<div style="font-size:22px;font-weight:800;color:'+colors[i]+'">'+zoneTotals[z]+'</div>'
+            +'<div style="font-size:10px;color:#6b7280">cases</div>'
+          +'</div>';
+        }).join('')
+      +'</div>'
+    +'</div>'
+    // Detailed table
+    +'<table><thead><tr>'
+      +'<th style="text-align:left">Disease / Condition</th>'
+      +sortedZones.map(function(z,i){return '<th>'+z+(i===0?' 🔴':'')+'</th>';}).join('')
+      +'<th>Total</th>'
+    +'</tr></thead><tbody>'+rows+zoneRankRow+'</tbody></table>'
+    +'<div style="margin-top:20px;font-size:11px;color:#9ca3af;text-align:center">EH Management Platform · Mbabala RHC · '+new Date().toLocaleDateString()+'</div>'
+    +'<div style="text-align:center;margin-top:14px"><button onclick="window.print()" style="padding:10px 24px;background:#0a5448;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">🖨 Print / Save PDF</button></div>'
+    +'</body></html>';
+
+  closeModal('m-disease-report');
+  var w=window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+}
+
 </script>
