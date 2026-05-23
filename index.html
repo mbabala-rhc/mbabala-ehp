@@ -2539,11 +2539,9 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <button class="btn sm" onclick="exportToExcel('cbv','CBV_Register')">📊 Excel</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('CBV Register','tbl-cbv')">🖨 Print</button>
   </div>
-  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-cbv" style="min-width:1100px">
+  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-cbv" style="width:100%">
     <thead><tr>
-      <th>Full name</th><th>NRC number</th><th>Zone / Village</th>
-      <th>Age</th><th>Sex</th><th>NHC position</th>
-      <th>Training done</th><th>Phone</th><th>Status</th><th>Actions</th>
+      <th>Full Name</th><th>Zone</th><th>Phone</th><th>Status</th><th>Actions</th>
     </tr></thead>
     <tbody id="tb-cbv"></tbody>
   </table></div></div>
@@ -10660,12 +10658,8 @@ function renderCBV_page(){
     ).join('') + (r.trainings&&r.trainings.length>2 ? `<span style="font-size:10px;color:var(--txt2)">+${r.trainings.length-2} more</span>` : '');
 
     return `<tr>
-      <td><b>${r.name||'—'}</b></td>
-      <td>${r.nrc||'—'}</td>
+      <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.nhcPosition||''}</span></td>
       <td>${r.zone||'—'}</td>
-      <td>${r.age||'—'}</td>
-      <td>${r.sex||'—'}</td>
-      <td><span style="font-size:12px;font-weight:500;color:var(--txt)">${r.nhcPosition||'—'}</span><br><span style="font-size:11px;color:var(--txt2);opacity:0.85">${r.nhcName||''}</span></td>
       <td>${r.phone||'—'}</td>
       <td>${stTag(r.status||'Active')}</td>
       <td><div class="actions">
