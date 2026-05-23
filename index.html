@@ -6257,7 +6257,8 @@ function auditLog(action, store, recordId, details){
   if(log.length > 500) log.splice(500);
   _store['audit_log'] = log;
   idbPut('audit_log', log);
-  sbSet('audit_log', log);
+  // Save to Supabase in background - don't block the save operation
+  setTimeout(function(){ sbSet('audit_log', log); }, 1000);
 }
 
 
