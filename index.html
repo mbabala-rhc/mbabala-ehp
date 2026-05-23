@@ -1063,6 +1063,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
         </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">EH Reports</div><div class="nav-group collapsed">
         <div class="nav-item" onclick="nav('inspections')"><span class="nav-icon">✅</span><span class="nav-label">Inspections</span></div>
+        <div class="nav-item" onclick="nav('insp-followup')"><span class="nav-icon">🔍</span><span class="nav-label">Inspection Follow-up</span></div>
         <div class="nav-item" onclick="nav('incidents')"><span class="nav-icon">⚠️</span><span class="nav-label">Incidents / Hazards</span></div>
         <div class="nav-item" onclick="nav('immunization')"><span class="nav-icon">💉</span><span class="nav-label">Immunization (EPI)</span></div>
         <div class="nav-item" onclick="nav('hia')"><span class="nav-icon">📋</span><span class="nav-label">HIA 1 &amp; 2</span></div>
@@ -4402,15 +4403,15 @@ async function saveRecord(store, modalId, fields, renderFn){
   // Write to memory and local cache immediately
   _store[store] = data;
   idbPut(store, data);
-  // Write to Supabase
-  await sbSet(store, data);
-  saveAttachments(store, rec.id, modalId);
-  // Delay broadcast to let attachment writes complete first
-  setTimeout(() => broadcastUpdate(), 2500);
+  // Close modal and render IMMEDIATELY
   closeModal(modalId);
   renderFn();
   updateBadges();
   toast('✅ Record saved','success');
+  // Write to Supabase in background
+  sbSet(store, data);
+  saveAttachments(store, rec.id, modalId);
+  setTimeout(() => broadcastUpdate(), 2500);
 }
 
 function editRecord(store, id, fields, modalId, titleId, titleText){
@@ -4480,11 +4481,11 @@ async function saveWaterRecord(){
   const idx = data.findIndex(r=>r.id===rec.id);
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
   _store['water']=data;
-  await sbSet('water',data);
-  saveAttachments('water',rec.id,'m-water');
+  idbPut('water',data);
   closeModal('m-water');
   renderWater();
   toast('💧 Water test saved — '+rec.result, rec.result==='Pass'?'success':'error');
+  sbSet('water',data);
 }
 
 async function saveIPCRecord(){
@@ -4897,7 +4898,8 @@ function renderDashboard(){
   const openInc = inc.filter(r=>r.status!=='Resolved').length;
   const highInc = inc.filter(r=>r.priority==='High'&&r.status!=='Resolved').length;
   const ipcAvg = ipc.length ? Math.round(ipc.reduce((s,r)=>s+(r.overall||0),0)/ipc.length) : 0;
-  const failedWater = water.filter(r=>r.ecoli==='Present').length;
+  const failedWater = water.filter(r=>r.result==='Fail').length;
+  const passedWater = water.filter(r=>r.result==='Pass').length;
   const activeOutb = outb.filter(r=>r.status!=='Closed').length;
   const expiredFH = fh.filter(r=>r.certExpiry&&r.certExpiry<new Date().toISOString().split('T')[0]).length;
   const lowStock = stock.filter(r=>(r.qty||0)<=(r.minLevel||0)&&(r.minLevel||0)>0).length;
@@ -5163,6 +5165,18 @@ function renderDashboard(){
 
 function renderInspections(){
   const data=DB.get('inspections');
+  // Show fail alert
+  var fails=data.filter(function(r){return r.status==='Fail'||r.status==='Failed';});
+  var failAlert=document.getElementById('insp-fail-alert');
+  var failMsg=document.getElementById('insp-fail-msg');
+  if(failAlert){
+    if(fails.length>0){
+      failAlert.style.display='flex';
+      if(failMsg) failMsg.textContent=fails.length+' premises failed inspection and require follow-up action.';
+    } else {
+      failAlert.style.display='none';
+    }
+  }
   const _el_tb_insp=document.getElementById('tb-insp'); if(_el_tb_insp) _el_tb_insp.innerHTML=data.map(r=>`<tr>
     <td>${r.id}</td><td>${r.area||'—'}</td><td>${r.inspector||'—'}</td><td>${fmtDate(r.date)||'—'}</td>
     <td>${r.score||0}%</td><td>${stTag(r.status||'Pending')}</td>
@@ -7330,7 +7344,7 @@ function checkDuplicate(store, fields, currentId){
     hia1:          { keys:['period'],           label:'A HIA 1 report for this period' },
     hia2:          { keys:['period'],           label:'A HIA 2 report for this period' },
     ipc:           { keys:['date','area'],      label:'An IPC audit for this area on this date' },
-    inspections:   { keys:['area','date'],      label:'An inspection for this area on this date' },
+    inspections:   { keys:['premises','area','date'], label:'An inspection for this premises in this area on this date' },
     incidents:     { keys:['location','date'],  label:'An incident for this location on this date' },
     waste:         { keys:['date','type'],      label:'A waste report for this type on this date' },
     vector:        { keys:['type','area','date'], label:'A vector control activity for this area on this date' },
@@ -12077,6 +12091,7 @@ window._mpd=function(btn){
   var data=DB.get('work_planner');
   var idx=data.findIndex(function(r){return r.id===id;});
   if(idx<0) return;
+  data[idx].prevStatus=data[idx].status||'Planned';
   data[idx].status='Done';data[idx].completedAt=new Date().toISOString();
   _store['work_planner']=data;renderPlanner();
   idbPut('work_planner',data);sbSet('work_planner',data);
@@ -12087,10 +12102,13 @@ window._undo=function(btn){
   var data=DB.get('work_planner');
   var idx=data.findIndex(function(r){return r.id===id;});
   if(idx<0) return;
-  data[idx].status='Planned';delete data[idx].completedAt;
+  var prevStatus=data[idx].prevStatus||'Planned';
+  data[idx].status=prevStatus;
+  delete data[idx].completedAt;
+  delete data[idx].prevStatus;
   _store['work_planner']=data;renderPlanner();
   idbPut('work_planner',data);sbSet('work_planner',data);
-  toast('Marked back as Planned','info');
+  toast('Marked back as '+prevStatus,'info');
 };
 window._saf=function(btn){saveAutoFollowup(btn.getAttribute('data-sid'));};
 
