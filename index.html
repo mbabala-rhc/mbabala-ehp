@@ -12352,8 +12352,8 @@ function viewDiseaseEntry(id){
     +(r.recorder?'<div style="margin-top:10px;font-size:12px;color:var(--txt2)">Recorded by: <b>'+r.recorder+'</b></div>':'')
     +(r.notes?'<div style="margin-top:8px;font-size:12px;color:var(--txt2)">Notes: '+r.notes+'</div>':'')
     +'</div>';
-  var modal=document.getElementById('view-modal-body');
-  var title=document.getElementById('view-modal-title');
+  var modal=document.getElementById('view-body');
+  var title=document.getElementById('view-title');
   if(modal) modal.innerHTML=html;
   if(title) title.textContent=r.disease+' — '+r.week;
   openModal('m-view');
