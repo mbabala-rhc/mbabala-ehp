@@ -2694,7 +2694,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="modal-header"><div class="modal-header-icon" style="background:var(--red-l)">📋</div><h3 id="hdr-m-hia1">New HIA 1 Report (Monthly)</h3><button class="btn icon" onclick="closeModal('m-hia1')">✕</button></div>
   <div class="modal-body">
     <input type="hidden" id="f-hia1-id">
-    <div class="form-row"><div class="form-group"><label class="required">Reporting Month</label><input type="date" id="f-hia1-period"></div><div class="form-group"><label>Prepared by</label><input type="text" id="f-hia1-preparer"></div></div>
+    <div class="form-row"><div class="form-group"><label class="required">Reporting Month</label><input type="month" id="f-hia1-period" placeholder="YYYY-MM"></div><div class="form-group"><label>Prepared by</label><input type="text" id="f-hia1-preparer"></div></div>
     <div class="form-section">Attendance</div>
     <div class="form-row cols3"><div class="form-group"><label>OPD attendance</label><input type="number" id="f-hia1-opd" placeholder="0"></div><div class="form-group"><label>Inpatient admissions</label><input type="number" id="f-hia1-inpat" placeholder="0"></div><div class="form-group"><label>Deliveries</label><input type="number" id="f-hia1-deliveries" placeholder="0"></div></div>
     <div class="form-section">Mortality</div>
@@ -2711,7 +2711,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="modal-header"><div class="modal-header-icon" style="background:var(--blue-l)">📋</div><h3 id="hdr-m-hia2">New HIA 2 Report (Monthly)</h3><button class="btn icon" onclick="closeModal('m-hia2')">✕</button></div>
   <div class="modal-body">
     <input type="hidden" id="f-hia2-id">
-    <div class="form-row"><div class="form-group"><label class="required">Reporting Month</label><input type="date" id="f-hia2-period"></div><div class="form-group"><label>Submitted by</label><input type="text" id="f-hia2-submitter"></div></div>
+    <div class="form-row"><div class="form-group"><label class="required">Reporting Month</label><input type="month" id="f-hia2-period" placeholder="YYYY-MM"></div><div class="form-group"><label>Submitted by</label><input type="text" id="f-hia2-submitter"></div></div>
     <div class="form-section">Environmental Health Indicators</div>
     <div class="form-row"><div class="form-group"><label>HHs with latrines (%)</label><input type="number" id="f-hia2-latrines" placeholder="0"></div><div class="form-group"><label>HHs with safe water (%)</label><input type="number" id="f-hia2-water" placeholder="0"></div></div>
     <div class="form-row"><div class="form-group"><label>Food premises inspected</label><input type="number" id="f-hia2-premises" placeholder="0"></div><div class="form-group"><label>Villages triggered (CLTS)</label><input type="number" id="f-hia2-clts" placeholder="0"></div></div>
@@ -2877,7 +2877,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">💉</div><h3 id="t-immunization">EPI Monthly Report</h3><button class="btn icon" onclick="closeModal('m-immunization')">✕</button></div>
   <div class="modal-body">
     <input type="hidden" id="f-epi-id">
-    <div class="form-row"><div class="form-group"><label class="required">Reporting Month</label><input type="date" id="f-epi-period"></div><div class="form-group"><label>Target population (under 1)</label><input type="number" id="f-epi-target"></div></div>
+    <div class="form-row"><div class="form-group"><label class="required">Reporting Month</label><input type="month" id="f-epi-period" placeholder="YYYY-MM"></div><div class="form-group"><label>Target population (under 1)</label><input type="number" id="f-epi-target"></div></div>
     <div class="form-section" style="background:var(--teal-l);padding:7px 12px;border-radius:6px;color:var(--teal);border:none;margin-bottom:8px">🍼 At Birth</div>
     <div class="form-row cols3"><div class="form-group"><label>BCG</label><input type="number" id="f-epi-bcg" placeholder="0" min="0"></div><div class="form-group"><label>OPV 0</label><input type="number" id="f-epi-opv0" placeholder="0" min="0"></div><div class="form-group"></div></div>
 
@@ -3121,7 +3121,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <div style="font-size:15px;font-weight:700;margin-top:2px">Environmental Health Report</div>
     </div>
     <div class="form-row cols3">
-      <div class="form-group"><label class="required">Report Month</label><input type="date" id="f-rm-period"></div>
+      <div class="form-group"><label class="required">Report Month</label><input type="month" id="f-rm-period" placeholder="YYYY-MM"></div>
       <div class="form-group"><label>Prepared by</label><input type="text" id="f-rm-preparer" placeholder="EH Officer name"></div>
       <div class="form-group"><label>Status</label><select id="f-rm-status"><option>Draft</option><option>Submitted</option><option>Approved</option></select></div>
     </div>
@@ -3296,7 +3296,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="modal-header"><div class="modal-header-icon" style="background:var(--blue-l)">📊</div><h3 id="t-routine-activity">EH Activity Report</h3><button class="btn icon" onclick="closeModal('m-routine-activity')">✕</button></div>
   <div class="modal-body">
     <input type="hidden" id="f-ra-id">
-    <div class="form-row"><div class="form-group"><label>Period</label><input type="date" id="f-ra-period"></div><div class="form-group"><label>Activity</label><input type="text" id="f-ra-activity" placeholder="e.g. Water quality testing"></div></div>
+    <div class="form-row"><div class="form-group"><label>Period</label><input type="month" id="f-ra-period" placeholder="YYYY-MM"></div><div class="form-group"><label>Activity</label><input type="text" id="f-ra-activity" placeholder="e.g. Water quality testing"></div></div>
     <div class="form-row cols3"><div class="form-group"><label>Target</label><input type="number" id="f-ra-target" placeholder="0"></div><div class="form-group"><label>Achieved</label><input type="number" id="f-ra-achieved" placeholder="0" oninput="calcRACoverage()"></div><div class="form-group"><label>Coverage % (auto)</label><input type="text" id="f-ra-coverage" readonly></div></div>
     <div class="form-group"><label>Officer responsible</label><input type="text" id="f-ra-officer"></div>
     <div class="form-group"><label>Remarks</label><textarea id="f-ra-remarks" placeholder="Challenges, successes, actions needed..."></textarea></div>
@@ -3474,7 +3474,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="modal-header"><div class="modal-header-icon" style="background:var(--green-l)">📊</div><h3 id="t-chw-activity">CHW Monthly Activity Report</h3><button class="btn icon" onclick="closeModal('m-chw-activity')">✕</button></div>
   <div class="modal-body">
     <input type="hidden" id="f-ca-id">
-    <div class="form-row"><div class="form-group"><label class="required">CHW name</label><select id="f-ca-chw"></select></div><div class="form-group"><label class="required">Month</label><input type="date" id="f-ca-month"></div></div>
+    <div class="form-row"><div class="form-group"><label class="required">CHW name</label><select id="f-ca-chw"></select></div><div class="form-group"><label class="required">Month</label><input type="month" id="f-ca-month" placeholder="YYYY-MM"></div></div>
     <div class="form-row"><div class="form-group"><label>Village</label><input type="text" id="f-ca-village" placeholder="Village name"></div><div class="form-group"><label>Recorded by</label><input type="text" id="f-ca-recorder"></div></div>
     <div class="form-section">Activity Counts</div>
     <div class="form-row cols3"><div class="form-group"><label>Household visits</label><input type="number" id="f-ca-hh" placeholder="0" min="0"></div><div class="form-group"><label>Referrals made</label><input type="number" id="f-ca-ref" placeholder="0" min="0"></div><div class="form-group"><label>Health promotion sessions</label><input type="number" id="f-ca-hp" placeholder="0" min="0"></div></div>
@@ -3685,7 +3685,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="modal-body" style="max-height:75vh;overflow-y:auto">
     <input type="hidden" id="f-u5-id">
     <div class="form-row">
-      <div class="form-group"><label class="required">Month</label><input type="date" id="f-u5-month"></div>
+      <div class="form-group"><label class="required">Month</label><input type="month" id="f-u5-month" placeholder="YYYY-MM"></div>
       <div class="form-group"><label>Prepared by</label><input type="text" id="f-u5-preparer"></div>
     </div>
 
