@@ -7536,6 +7536,14 @@ function doLogin(){
   document.getElementById('login-screen').style.display='none';
   showLoadingScreen(match.name.split(' ')[0], function(){
     document.getElementById('app').classList.add('visible');
+    // Update sidebar after app is visible
+    var sbn=document.getElementById('sb-user-name');
+    var sbr=document.getElementById('sb-user-role');
+    var sba=document.getElementById('sb-avatar');
+    if(sbn) sbn.textContent=match.name||'';
+    if(sbr) sbr.textContent=match.role||'';
+    if(sba) sba.textContent=(match.name||'EH').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+    updateSidebarUser();
   });
   document.getElementById('user-avatar').textContent=(match.name||'EH').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
   nav('dashboard');
