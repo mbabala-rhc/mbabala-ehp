@@ -8130,6 +8130,13 @@ window.onload = function(){
         checkBackupReminder();
         const initials=(currentUser.name||'EH').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
         document.getElementById('user-avatar').textContent=initials;
+        // Update sidebar user info
+        var sbn=document.getElementById('sb-user-name');
+        var sbr=document.getElementById('sb-user-role');
+        var sba=document.getElementById('sb-avatar');
+        if(sbn) sbn.textContent=currentUser.name||'';
+        if(sbr) sbr.textContent=currentUser.role||'';
+        if(sba) sba.textContent=initials;
         nav('dashboard');
         return;
       }
