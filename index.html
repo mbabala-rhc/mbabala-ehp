@@ -4643,8 +4643,15 @@ async function acquireNavLock(page){
     var res=await _supabase.from('eh_data').select('value').eq('store_key',lockKey).maybeSingle();
     if(res.data&&res.data.value){
       var lock=JSON.parse(res.data.value);
-      if(lock.userId!==currentUser.id&&(Date.now()-lock.ts)<10*60*1000){
-        toast(lock.userName+' is currently working in this module. Please wait.','warning');
+      if(lock.userId!==currentUser.id&&(Date.now()-lock.ts)<3*60*1000){
+        var lockMsg=lock.userName+' is currently working in this module.';
+        if(confirm(lockMsg+' Force open anyway?')){
+          // Force release and proceed
+          await _supabase.from('eh_data').delete().eq('store_key',lockKey);
+          _myLock=page;
+        } else {
+          return;
+        }
         return;
       }
     }
