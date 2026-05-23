@@ -2536,6 +2536,9 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <select onchange="filterCol(this,'tbl-cbv',2)"><option value="">All zones</option></select>
     <button class="btn primary" onclick="openModal('m-cbv')">+ Register CBV</button>
     <button class="btn sm" onclick="cbvPDF()">📄 PDF</button>
+    <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
+      <span id="cbv-count" style="font-size:12px;color:var(--txt2);font-weight:600"></span>
+    </div>
     <button class="btn sm" onclick="exportToExcel('cbv','CBV_Register')">📊 Excel</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('CBV Register','tbl-cbv')">🖨 Print</button>
   </div>
