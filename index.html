@@ -2544,7 +2544,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-cbv" style="width:100%">
     <thead><tr>
-      <th>Full Name</th><th>Zone</th><th>Phone</th><th>Status</th><th>Actions</th>
+      <th>Full Name</th><th>Zone</th><th>NRC</th><th>Phone</th><th>Status</th><th>Actions</th>
     </tr></thead>
     <tbody id="tb-cbv"></tbody>
   </table></div></div>
@@ -10663,6 +10663,7 @@ function renderCBV_page(){
     return `<tr>
       <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.nhcPosition||''}</span></td>
       <td>${r.zone||'—'}</td>
+      <td>${r.nrc||'—'}</td>
       <td>${r.phone||'—'}</td>
       <td>${stTag(r.status||'Active')}</td>
       <td><div class="actions">
