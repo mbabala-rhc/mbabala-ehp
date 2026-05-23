@@ -2532,8 +2532,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div id="cbv-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search CBVs..." oninput="filterTbl(this,'tbl-cbv')">
-    <select onchange="filterCol(this,'tbl-cbv',6)"><option value="">All status</option><option>Active</option><option>Inactive</option></select>
-    <select onchange="filterCol(this,'tbl-cbv',2)"><option value="">All zones</option></select>
+    <select onchange="filterCol(this,'tbl-cbv',5)"><option value="">All status</option><option>Active</option><option>Inactive</option></select>
+    <select id="cbv-zone-filter" onchange="filterCBVByZone(this.value)" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="">All zones</option>
+      <option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option>
+    </select>
     <button class="btn primary" onclick="openModal('m-cbv')">+ Register CBV</button>
     <button class="btn sm" onclick="cbvPDF()">📄 PDF</button>
     <div style="margin-left:auto;display:flex;gap:10px;align-items:center">
@@ -2544,7 +2547,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-cbv" style="width:100%">
     <thead><tr>
-      <th>Full Name</th><th>Zone</th><th>NRC</th><th>Phone</th><th>Status</th><th>Actions</th>
+      <th>Full Name</th><th>Zone</th><th>NRC</th><th>Phone</th><th>Training</th><th>Status</th><th>Actions</th>
     </tr></thead>
     <tbody id="tb-cbv"></tbody>
   </table></div></div>
@@ -10665,6 +10668,7 @@ function renderCBV_page(){
       <td>${r.zone||'—'}</td>
       <td>${r.nrc||'—'}</td>
       <td>${r.phone||'—'}</td>
+      <td>${trainingBadges||'<span style="color:var(--txt2);font-size:12px">None</span>'}</td>
       <td>${stTag(r.status||'Active')}</td>
       <td><div class="actions">
         ${rowBtns('cbv',r.id,`viewRecord('cbv','${r.id}',cbvFields)`,`editCBV('${r.id}')`,`deleteRecord('cbv','${r.id}',renderCBV_page)`)}
@@ -12521,4 +12525,17 @@ function generateDiseaseReport(){
   w.document.close();
 }
 
+
+function filterCBVByZone(zone){
+  var rows = document.querySelectorAll('#tbl-cbv tbody tr');
+  rows.forEach(function(row){
+    if(!zone){ row.style.display=''; return; }
+    var zoneCell = row.cells[1];
+    if(zoneCell && zoneCell.textContent.trim().toLowerCase() === zone.toLowerCase()){
+      row.style.display='';
+    } else {
+      row.style.display='none';
+    }
+  });
+}
 </script>
