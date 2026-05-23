@@ -4097,8 +4097,7 @@ const DB = {
     idbPut(k,v);
     sbSet(k,v); // async write to Supabase
     _recentlySaved[k] = Date.now() + 10000;
-    if(!window._storeTimestamps) window._storeTimestamps = {};
-    window._storeTimestamps[k] = Date.now();
+    _storeTimestamps[k] = Date.now();
     markUnsaved();
   },
   setObj(k,v){
@@ -4395,9 +4394,7 @@ async function saveRecord(store, modalId, fields, renderFn){
   auditLog(isNew?'CREATE':'UPDATE', store, rec.id, isNew ? 'New record created' : 'Record updated');
   // Stamp the store with save time so polling can't overwrite newer data
   const _saveTs = Date.now();
-  if(!_storeTimestamps) window._storeTimestamps = {};
-  if(!window._storeTimestamps) window._storeTimestamps = {};
-  window._storeTimestamps[store] = _saveTs;
+  _storeTimestamps[store] = _saveTs;
   // Mark as recently saved FIRST - before any async ops so realtime can't overwrite
   _recentlySaved[store] = Date.now() + 10000;
   _lastPollTime = Date.now() + 15000;
@@ -9307,6 +9304,7 @@ function renderMonthlyGrouped(tbodyId, data, colsFn, dateKey){
 
 let _isOnline = navigator.onLine;
 const _deviceId = Math.random().toString(36).slice(2,10);
+const _storeTimestamps = {};
 const _recentlySaved = {}; // tracks stores saved recently to prevent poll overwrite
 let _offlineQueue = JSON.parse(localStorage.getItem('_offlineQueue')||'[]');
 
