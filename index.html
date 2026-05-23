@@ -4640,7 +4640,7 @@ async function acquireNavLock(page){
   if(!currentUser) return;
   try{
     var lockKey='nav_lock_'+page;
-    var res=await _supabase.from('eh_data').select('value').eq('store_key',lockKey).single();
+    var res=await _supabase.from('eh_data').select('value').eq('store_key',lockKey).maybeSingle();
     if(res.data&&res.data.value){
       var lock=JSON.parse(res.data.value);
       if(lock.userId!==currentUser.id&&(Date.now()-lock.ts)<10*60*1000){
@@ -7604,6 +7604,8 @@ function checklistPDF(){
 // BADGES / NOTIFICATIONS
 // ============================================================
 function updateBadges(){
+  const nb1=document.getElementById('nb1');
+  const nb2=document.getElementById('nb2');
   // Inspections badge = total number of inspections
   const totalInsp=DB.get('inspections').length;
   // Incidents badge = open/unresolved incidents only
