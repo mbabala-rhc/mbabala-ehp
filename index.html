@@ -7660,6 +7660,12 @@ function doLogin(){
   document.getElementById('login-screen').style.display='none';
   showLoadingScreen(match.name.split(' ')[0], function(){
     document.getElementById('app').classList.add('visible');
+    var sbn=document.getElementById('sb-user-name');
+    var sbr=document.getElementById('sb-user-role');
+    var sba=document.getElementById('sb-avatar');
+    if(sbn) sbn.textContent=match.name||'';
+    if(sbr) sbr.textContent=match.role||'';
+    if(sba) sba.textContent=(match.name||'EH').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
   });
   document.getElementById('user-avatar').textContent=(match.name||'EH').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
   nav('dashboard');
@@ -12184,10 +12190,24 @@ function renderVillageVisits(){
 
 // ══ INSPECTION FOLLOW-UP ══
 const ifFields=[{id:'f-if-id',key:'id',hidden:true},{id:'f-if-source-id',key:'sourceId',hidden:true},{id:'f-if-premises',key:'premises',label:'Premises',required:true},{id:'f-if-failed-date',key:'failedDate',label:'Date Failed'},{id:'f-if-reason',key:'reason',label:'Reason'},{id:'f-if-reinsp-date',key:'reinspDate',label:'Re-inspection Date'},{id:'f-if-outcome',key:'outcome',label:'Outcome'},{id:'f-if-zone',key:'zone',label:'Zone'},{id:'f-if-officer',key:'officer',label:'Officer'},{id:'f-if-notes',key:'notes',label:'Notes'}];
-async function saveInspFollowup(){var rec=readFields(ifFields);if(!rec.premises){toast('Please enter premises name','error');return;}if(!rec.failedDate)rec.failedDate=today();
+async function saveInspFollowup(){
+  var rec=readFields(ifFields);
+  if(!rec.premises){toast('Please enter premises name','error');return;}
+  if(!rec.failedDate)rec.failedDate=today();
+  var oldId=rec.id||'';
   // If editing an auto-detected item, give it a proper ID
-  if(!rec.id||rec.id.startsWith('AUTO-')) rec.id=genId('IF');
-  var data=DB.get('insp_followup');var idx=data.findIndex(function(r){return r.id===rec.id;});if(idx>=0)data[idx]=rec;else data.unshift(rec);_store['insp_followup']=data;idbPut('insp_followup',data);closeModal('m-insp-followup');renderInspFollowup();toast('Follow-up saved','success');sbSet('insp_followup',data);}
+  if(!rec.id||rec.id.startsWith('AUTO-')){
+    rec.id=genId('IF');
+    // Store the sourceId so auto-detection won't show it again
+    if(oldId.startsWith('AUTO-')) rec.sourceId=oldId.replace('AUTO-','');
+  }
+  var data=DB.get('insp_followup');
+  var idx=data.findIndex(function(r){return r.id===rec.id||r.sourceId===rec.sourceId;});
+  if(idx>=0) data[idx]=rec; else data.unshift(rec);
+  _store['insp_followup']=data;idbPut('insp_followup',data);
+  closeModal('m-insp-followup');renderInspFollowup();
+  toast('Follow-up saved','success');sbSet('insp_followup',data);
+}
 async function saveAutoFollowup(sourceId){var insp=DB.get('inspections').find(function(r){return r.id===sourceId;});if(!insp)return;var rec={id:genId('IF'),premises:insp.premises||insp.name||'Unknown',failedDate:insp.date,reason:insp.findings||insp.notes||'Failed inspection',outcome:'',zone:insp.zone||'',officer:insp.officer||'',sourceId:sourceId};var data=DB.get('insp_followup');data.unshift(rec);_store['insp_followup']=data;idbPut('insp_followup',data);sbSet('insp_followup',data);renderInspFollowup();toast('Added to follow-up list','success');}
 function renderInspFollowup(){
   var data=DB.get('insp_followup');
