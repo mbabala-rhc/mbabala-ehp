@@ -4319,7 +4319,7 @@ function subscribeToChanges(){
       }
       _lastPollTime = Date.now();
     } catch(e){ console.warn('Poll error:', e); }
-  }, 60000); // every 1 minute
+  }, 120000); // every 2 minutes
 }
 
 // Reconnect when browser tab becomes visible again
