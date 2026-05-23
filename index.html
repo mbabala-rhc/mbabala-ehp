@@ -7183,9 +7183,10 @@ function checkBackupReminder(){
 function dismissBackupReminder(doBackup){
   const el = document.getElementById('backup-reminder');
   if(el) el.classList.remove('visible');
+  // Always reset the timer whether they backup or click Later
+  localStorage.setItem('ehp_last_backup', Date.now().toString());
   if(doBackup){
-    localStorage.setItem('ehp_last_backup', Date.now().toString());
-    exportData();
+    exportAllData();
   }
 }
 
