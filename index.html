@@ -12444,12 +12444,12 @@ function generateDiseaseReport(){
         var hi=v===maxZ&&v>0;
         return '<td style="padding:10px 12px;text-align:center;'+(hi?'font-weight:800;color:#dc2626;background:#fff5f5':'')+'">'+v+'</td>';
       }).join('')
-      +'<td style="padding:10px 12px;text-align:center;font-weight:800;color:#0a5448">'+s.total+'</td>'
+      +'<td style="padding:10px 12px;text-align:center;font-weight:800">'+s.total+'</td>'
       +'</tr>';
   }).join('');
 
   // Zone ranking row
-  var zoneRankRow='<tr style="background:#f0fdf4;border-top:2px solid #0a5448">'
+  var zoneRankRow='<tr style="background:#f5f5f5;border-top:2px solid #333">'
     +'<td style="padding:10px 12px;font-weight:700">ZONE TOTAL</td>'
     +sortedZones.map(function(z,i){
       return '<td style="padding:10px 12px;text-align:center;font-weight:800;color:'+(i===0?'#dc2626':'#111')+'">'+zoneTotals[z]+(i===0?' 🔴':'')+'</td>';
@@ -12477,7 +12477,7 @@ function generateDiseaseReport(){
     +'</div>'
     // Zone ranking summary
     +'<div style="margin-bottom:20px">'
-      +'<div style="font-size:12px;font-weight:700;color:#0a5448;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Zone Ranking — Highest to Lowest</div>'
+      +'<div style="font-size:12px;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Zone Ranking — Highest to Lowest</div>'
       +'<div style="display:flex;gap:10px;flex-wrap:wrap">'
         +sortedZones.map(function(z,i){
           var colors=['#dc2626','#ea580c','#ca8a04','#16a34a','#2563eb'];
