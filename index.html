@@ -2300,7 +2300,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Village Register','tbl-villages')">🖨 Print</button>
   </div>
   <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-villages" style="width:100%">
-    <thead><tr><th>Village Name</th><th>Zone</th><th>Population</th><th>HHs</th><th>Under 5</th><th>CHW Assigned</th><th>ODF Status</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Village Name</th><th>Under 5</th><th>Population</th><th>HHs</th><th>CHW Assigned</th><th>ODF Status</th><th>Actions</th></tr></thead>
     <tbody id="tb-villages"></tbody>
   </table></div></div>
 </div>
@@ -9658,11 +9658,10 @@ function renderVillages(){
   const _el_tb_villages=document.getElementById('tb-villages'); if(_el_tb_villages) _el_tb_villages.innerHTML=data.map(r=>{
     const isOverdue = !r.visited||r.visited<new Date(Date.now()-90*24*60*60*1000).toISOString().split('T')[0];
     return `<tr>
-      <td><b>${r.name||'—'}</b></td>
-      <td style="color:var(--txt2);font-size:12px">${r.zone||'—'}</td>
+      <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.zone||''}</span></td>
+      <td>${r.u5||0}</td>
       <td>${(r.pop||0).toLocaleString()}</td>
       <td>${(r.hh||0).toLocaleString()}</td>
-      <td>${r.u5||0}</td>
       <td>${r.chw||'—'}</td>
       <td>${stTag(r.odf||'Not started')}</td>
       <td>${rowBtns('villages',r.id,`viewRecord('villages','${r.id}',villageFields)`,`editRecord('villages','${r.id}',villageFields,'m-village','t-village','Edit Village')`,`deleteRecord('villages','${r.id}',renderVillages)`)}</td>
