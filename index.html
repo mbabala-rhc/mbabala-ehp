@@ -11777,7 +11777,7 @@ function renderMonthlyReport(){
   var nutrMAM=nutr.filter(function(r){return r.category==='MAM';}).length;
   var mycinS=DB.get('mycin_sess').filter(function(r){return inM(r.date);}).length;
   var _epiYm=ym;
-  var epi=DB.get('immunization').filter(function(r){
+  var epi=DB.get('epi').filter(function(r){
     var p=(r.period||r.date||r.month||'').trim();
     // Match YYYY-MM, YYYY-MM-DD, or any format containing the year-month
     return p.substring(0,7)===_epiYm||p.indexOf(_epiYm)>=0;
