@@ -4991,7 +4991,7 @@ function renderDashboard(){
       {label:'Inspections', val: insp.filter(r=>r.status==='Pass').length, total: insp.length, color:'var(--green)'},
       {label:'IPC Compliance', val: ipcAvg, total: 100, color: ipcAvg>=90?'var(--green)':ipcAvg>=75?'var(--amber)':'var(--red)', suffix:'%', noTotal:true},
       {label:'Water Quality', val: passWater, total: totalWater, color: failedWater===0?'var(--green)':'var(--red)'},
-      {label:'Waste Compliance', val: waste.filter(r=>r.status==='Compliant').length, total: waste.length, color:'var(--teal)'},
+      {label:'Waste Compliance', val: waste.filter(r=>r.compliance==='Compliant').length, total: waste.length, color:'var(--teal)'},
       {label:'Sanitation (ODF)', val: odfVill, total: san.length, color:'var(--amber)'},
       {label:'Vector Control', val: vector.filter(r=>r.status==='Done').length, total: vector.length, color:'var(--purple)'},
     ];
