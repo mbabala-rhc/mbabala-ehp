@@ -5371,7 +5371,7 @@ function renderEPI(){
   // Fallback to per-report target field
   var _annualTarget = 0;
   var _targetsData = DB.get('targets');
-  var _epiTarget = _targetsData.find(function(r){ return r.indicator && r.indicator.toLowerCase().indexOf('immuniz') >= 0 || r.indicator && r.indicator.toLowerCase().indexOf('fic') >= 0 || r.indicator && r.indicator.toLowerCase().indexOf('fully') >= 0; });
+  var _epiTarget = _targetsData.find(function(r){ return r.indicator && (r.indicator.toLowerCase().indexOf('epi') >= 0 || r.indicator.toLowerCase().indexOf('immuniz') >= 0 || r.indicator.toLowerCase().indexOf('fic') >= 0 || r.indicator.toLowerCase().indexOf('fully') >= 0); });
   if(_epiTarget && _epiTarget.target) _annualTarget = parseInt(_epiTarget.target) || 0;
   const t = _annualTarget ? Math.round(_annualTarget / 12) : (latest.target || 0);
   const annualT = _annualTarget || (latest.target ? latest.target * 12 : 0);
