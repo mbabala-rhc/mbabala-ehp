@@ -4895,7 +4895,7 @@ function renderDashboard(){
   // Derived stats
   const openInc = inc.filter(r=>r.status!=='Resolved').length;
   const highInc = inc.filter(r=>r.priority==='High'&&r.status!=='Resolved').length;
-  const ipcAvg = ipc.length ? Math.round(ipc.reduce((s,r)=>s+(r.overall||0),0)/ipc.length) : 0;
+  const ipcAvg = ipc.length ? Math.round(ipc.reduce((s,r)=>s+(((r.hh||0)+(r.ppe||0)+(r.waste||0))/3),0)/ipc.length) : 0;
   const failedWater = water.filter(r=>r.result==='Fail').length;
   const passedWater = water.filter(r=>r.result==='Pass').length;
   const activeOutb = outb.filter(r=>r.status!=='Closed').length;
@@ -4993,7 +4993,7 @@ function renderDashboard(){
       {label:'Water Quality', val: passWater, total: totalWater, color: failedWater===0?'var(--green)':'var(--red)'},
       {label:'Waste Compliance', val: waste.filter(r=>r.compliance==='Compliant').length, total: waste.length, color:'var(--teal)'},
       {label:'Sanitation (ODF)', val: odfVill, total: san.length, color:'var(--amber)'},
-      {label:'Vector Control', val: vector.filter(r=>r.status==='Done').length, total: vector.length, color:'var(--purple)'},
+      {label:'Vector Control', val: vector.filter(r=>r.status==='Completed').length, total: vector.length, color:'var(--purple)'},
     ];
     barsEl.innerHTML = items.map(item => {
       const pct = item.total > 0 ? Math.round(item.val/item.total*100) : 0;
