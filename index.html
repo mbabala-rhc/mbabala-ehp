@@ -9658,8 +9658,8 @@ function renderVillages(){
   const _el_tb_villages=document.getElementById('tb-villages'); if(_el_tb_villages) _el_tb_villages.innerHTML=data.map(r=>{
     const isOverdue = !r.visited||r.visited<new Date(Date.now()-90*24*60*60*1000).toISOString().split('T')[0];
     return `<tr>
-      <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.u5?r.u5+' U5 · ':''}<span style="font-size:11px;color:var(--txt2)">${r.dist?r.dist+'km away':''}</span></span></td>
-      <td>${r.zone||'—'}</td>
+      <td><b>${r.name||'—'}</b></td>
+      <td style="color:var(--txt2);font-size:12px">${r.zone||'—'}</td>
       <td>${(r.pop||0).toLocaleString()}</td>
       <td>${(r.hh||0).toLocaleString()}</td>
       <td>${r.u5||0}</td>
