@@ -11036,8 +11036,10 @@ async function saveUnder5Report(){
 }
 
 function filterU5ByMonth(month){
-  // Will filter the displayed cards
-  renderUnder5(month);
+  // Only filter when complete month entered (YYYY-MM = 7 chars) or cleared
+  if(!month || month.length === 7){
+    renderUnder5(month);
+  }
 }
 
 function renderUnder5(filterMonth){
