@@ -1800,7 +1800,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label class="required">Annual Target</label><input type="number" id="f-tg-target" min="1" placeholder="e.g. 120"></div><div class="form-group"><label>Year</label><select id="f-tg-year"></select></div></div>
   </div>
   <div id="tg-manual-fields" style="display:none;padding:0 4px">
-    <div style="background:var(--teal-l);border-radius:8px;padding:10px 14px;margin:0 0 8px;font-size:12px;color:var(--teal-d);font-weight:600">Enter monthly actuals for this indicator:</div>
+    <div style="background:var(--teal-l);border-radius:8px;padding:10px 14px;margin:0 0 8px;font-size:12px;color:var(--teal-d);font-weight:600">Set monthly targets for this indicator:</div>
     <div class="form-row" style="grid-template-columns:repeat(4,1fr)">
       <div class="form-group"><label>Jan</label><input type="number" id="f-tg-m01" min="0" placeholder="0"></div>
       <div class="form-group"><label>Feb</label><input type="number" id="f-tg-m02" min="0" placeholder="0"></div>
@@ -11927,12 +11927,8 @@ function toggleManualFields(val){
   var el = document.getElementById('tg-manual-fields');
   if(!el) return;
   // Show manual fields for Other AND for any standard indicator that user wants to override
-  var standard = ['Inspections conducted','Water quality tests done','Water tests satisfactory',
-    'Children screened (MUAC)','SAM cases treated','MAM cases treated','Health education sessions',
-    'EPI sessions held','Under-Five attendance','MYCIN counselling sessions',
-    'Food handlers certified','ODF villages'];
-  var isOther = val === 'Other (specify)' || (val && standard.indexOf(val) === -1);
-  el.style.display = isOther ? '' : 'none';
+  // Show monthly targets for all indicators
+  el.style.display = val ? '' : 'none';
 }
 
 function updateSidebarUser(){
