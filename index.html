@@ -9647,6 +9647,7 @@ function stockMovePDF(){ modulePDF('Stock Movements Report','stock_movements',
 function renderVillages(){
   const data = DB.get('villages');
   const totalPop = data.reduce((s,r)=>s+(r.pop||0),0);
+  const totalU5 = data.reduce((s,r)=>s+(parseInt(r.u5)||0),0);
   const totalHH = data.reduce((s,r)=>s+(r.hh||0),0);
   const odf = data.filter(r=>r.odf==='ODF verified').length;
   const today_str = today();
@@ -9657,7 +9658,8 @@ function renderVillages(){
     <div class="card-sm accent-teal"><div class="stat-label">Villages registered</div><div class="stat-val" style="color:var(--teal)">${data.length}</div></div>
     <div class="card-sm accent-blue"><div class="stat-label">Total population</div><div class="stat-val" style="color:var(--blue)">${totalPop.toLocaleString()}</div></div>
     <div class="card-sm accent-green"><div class="stat-label">Total households</div><div class="stat-val" style="color:var(--green)">${totalHH.toLocaleString()}</div></div>
-    <div class="card-sm accent-amber"><div class="stat-label">ODF verified</div><div class="stat-val" style="color:var(--amber)">${odf}/${data.length}</div></div>`;
+    <div class="card-sm accent-amber"><div class="stat-label">ODF verified</div><div class="stat-val" style="color:var(--amber)">${odf}/${data.length}</div></div>
+    <div class="card-sm accent-red"><div class="stat-label">Total Under 5</div><div class="stat-val" style="color:var(--red)">${totalU5.toLocaleString()}</div></div>`;
 
   const _el_tb_villages=document.getElementById('tb-villages'); if(_el_tb_villages) _el_tb_villages.innerHTML=data.map(r=>{
     const isOverdue = !r.visited||r.visited<new Date(Date.now()-90*24*60*60*1000).toISOString().split('T')[0];
