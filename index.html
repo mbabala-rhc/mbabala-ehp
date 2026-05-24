@@ -5367,9 +5367,19 @@ function renderEPIAnalytics(){
 function renderEPI(){
   const data=DB.get('epi');
   const latest=data[0]||{};
-  // Use per-report monthly target field
+  // Cumulative totals for current year vs annual target
+  var _curYear=new Date().getFullYear().toString();
+  var _yearData=data.filter(function(r){return (r.period||'').substring(0,4)===_curYear;});
+  var _totalBCG=_yearData.reduce(function(a,r){return a+(parseInt(r.bcg)||0);},0);
+  var _totalP3=_yearData.reduce(function(a,r){return a+(parseInt(r.p3)||0);},0);
+  var _totalMR1=_yearData.reduce(function(a,r){return a+(parseInt(r.m1)||0);},0);
+  var _annT=latest.target?latest.target*12:0;
+  var _ficT=DB.get('targets').find(function(r){return r.indicator&&(r.indicator.toLowerCase().indexOf('fic')>=0||r.indicator.toLowerCase().indexOf('fully')>=0||r.indicator.toLowerCase().indexOf('immuniz')>=0);});
+  if(_ficT&&_ficT.target) _annT=parseInt(_ficT.target)||_annT;
+  var _mr1Pct=_annT?Math.round(_totalMR1/_annT*100):0;
+  var _bcgPct=_annT?Math.round(_totalBCG/_annT*100):0;
+  var _p3Pct=_annT?Math.round(_totalP3/_annT*100):0;
   const t = latest.target || 0;
-  const annualT = t * 12;
   const _el_epi_stats=document.getElementById('epi-stats'); if(_el_epi_stats) _el_epi_stats.innerHTML=`
     <div class="card-sm accent-green"><div class="stat-label">BCG coverage</div><div class="stat-val" style="color:var(--green)">${t?Math.round((latest.bcg||0)/t*100):'—'}%</div><div class="stat-sub">Latest period: ${latest.period||'N/A'}</div></div>
     <div class="card-sm accent-teal"><div class="stat-label">Penta 3 coverage</div><div class="stat-val" style="color:var(--teal)">${t?Math.round((latest.p3||0)/t*100):'—'}%</div><div class="stat-sub">Target: 90%</div></div>
