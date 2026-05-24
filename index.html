@@ -5380,10 +5380,7 @@ function renderEPI(){
   var _bcgPct=_annT?Math.round(_totalBCG/_annT*100):0;
   var _p3Pct=_annT?Math.round(_totalP3/_annT*100):0;
   const t = latest.target || 0;
-  const _el_epi_stats=document.getElementById('epi-stats'); if(_el_epi_stats) _el_epi_stats.innerHTML=`
-    <div class="card-sm accent-green"><div class="stat-label">BCG coverage</div><div class="stat-val" style="color:var(--green)">${t?Math.round((latest.bcg||0)/t*100):'—'}%</div><div class="stat-sub">Latest period: ${latest.period||'N/A'}</div></div>
-    <div class="card-sm accent-teal"><div class="stat-label">Penta 3 coverage</div><div class="stat-val" style="color:var(--teal)">${t?Math.round((latest.p3||0)/t*100):'—'}%</div><div class="stat-sub">Target: 90%</div></div>
-    <div class="card-sm accent-amber"><div class="stat-label">MR 1 coverage</div><div class="stat-val" style="color:${t&&Math.round((latest.m1||0)/t*100)<90?'var(--red)':'var(--green)'}">${t?Math.round((latest.m1||0)/t*100):'—'}%</div><div class="stat-sub">Monthly target: ${t} | Annual: ${annualT}</div></div>`;
+
   const container=document.getElementById('epi-cards-container');
   if(!data.length){ container.innerHTML='<div style="text-align:center;padding:24px;color:var(--txt2)">No EPI records yet. Click + New EPI Report to add one.</div>'; return; }
   const vaxGroups=[
