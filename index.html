@@ -1137,13 +1137,13 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 <div id="page-dashboard" class="page active">
 
   <!-- Welcome Banner -->
-  <div id="dash-welcome" style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:var(--rl);padding:20px 24px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+  <div id="dash-welcome" style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:var(--rl);padding:20px 24px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px" id="dash-welcome-card">
     <div>
       <div style="color:rgba(255,255,255,.7);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Environmental Health Management Platform</div>
       <div id="dash-greeting" style="color:#fff;font-size:20px;font-weight:700">Good morning 👋</div>
       <div id="dash-date" style="color:rgba(255,255,255,.8);font-size:13px;margin-top:2px"></div>
     </div>
-    <div style="text-align:right">
+    <div style="text-align:right" id="dash-welcome-right">
       <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Mbabala Rural Health Centre</div>
       <div style="color:#fff;font-size:12px;margin-top:2px">Chifunabuli District · Luapula</div>
       <div id="dash-online-badge" style="margin-top:6px"></div>
@@ -12348,7 +12348,13 @@ function generateDiseaseReport(){
     return '<tr style="border-bottom:1px solid #e5e7eb"><td style="padding:10px 12px;font-weight:700">'+(i+1)+'. '+d+'</td>'+sortedZones.map(function(z){var v=s[z];var hi=v===maxZ&&v>0;return '<td style="padding:10px 12px;text-align:center;'+(hi?'font-weight:800;color:#dc2626;background:#fff5f5':'')+'">'+v+'</td>';}).join('')+'<td style="padding:10px 12px;text-align:center;font-weight:800">'+s.total+'</td></tr>';
   }).join('');
   var zoneRankRow='<tr style="background:#f5f5f5;border-top:2px solid #333"><td style="padding:10px 12px;font-weight:700">ZONE TOTAL</td>'+sortedZones.map(function(z,i){return '<td style="padding:10px 12px;text-align:center;font-weight:800;color:'+(i===0?'#dc2626':'#111')+'">'+zoneTotals[z]+(i===0?' &#128308;':'')+'</td>';}).join('')+'<td style="padding:10px 12px;text-align:center;font-weight:800">'+(Object.values(zoneTotals).reduce(function(a,b){return a+b;},0))+'</td></tr>';
-  var html='<!DOCTYPE html><html><head><title>Disease Report</title><style>body{font-family:Arial,sans-serif;padding:32px;color:#111;max-width:900px;margin:0 auto}.hdr{text-align:center;border-bottom:2px solid #0a5448;padding-bottom:14px;margin-bottom:20px}table{width:100%;border-collapse:collapse}th{background:#0a5448;color:#fff;padding:10px 12px;text-align:center;font-size:12px}th:first-child{text-align:left}tr:nth-child(even){background:#f9fafb}@media print{button{display:none}}</style></head><body>'
+  var html='<!DOCTYPE html><html><head><title>Disease Report</title><style>body{font-family:Arial,sans-serif;padding:32px;color:#111;max-width:900px;margin:0 auto}.hdr{text-align:center;border-bottom:2px solid #0a5448;padding-bottom:14px;margin-bottom:20px}table{width:100%;border-collapse:collapse}th{background:#0a5448;color:#fff;padding:10px 12px;text-align:center;font-size:12px}th:first-child{text-align:left}tr:nth-child(even){background:#f9fafb}@media print{button{display:none}}
+@media(max-width:600px){
+  #dash-welcome-card{ flex-direction:column; align-items:flex-start; }
+  #dash-welcome-right{ text-align:left !important; width:100%; }
+  #dash-welcome-card > div:first-child { width:100%; }
+}
+</style></head><body>'
     +'<div class="hdr"><div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia</div><div style="font-size:20px;font-weight:800;margin:6px 0">Disease Occurrence Report by Zone</div><div style="font-size:13px;color:#374151">Mbabala RHC · Chifunabuli · Luapula</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Period: <b>'+from+'</b> to <b>'+to+'</b>'+(disease?' | Disease: <b>'+disease+'</b>':'')+'</div></div>'
     +'<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:#333;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Zone Ranking — Highest to Lowest</div><div style="display:flex;gap:10px;flex-wrap:wrap">'+sortedZones.map(function(z,i){var colors=['#dc2626','#ea580c','#ca8a04','#16a34a','#2563eb'];return '<div style="flex:1;min-width:100px;background:'+colors[i]+'1a;border:1px solid '+colors[i]+'40;border-radius:8px;padding:10px;text-align:center"><div style="font-size:11px;font-weight:700;color:'+colors[i]+';text-transform:uppercase">#'+(i+1)+' '+z+'</div><div style="font-size:22px;font-weight:800;color:'+colors[i]+'">'+zoneTotals[z]+'</div><div style="font-size:10px;color:#6b7280">cases</div></div>';}).join('')+'</div></div>'
     +'<table><thead><tr><th style="text-align:left">Disease</th>'+sortedZones.map(function(z,i){return '<th>'+z+(i===0?' &#128308;':'')+'</th>';}).join('')+'<th>Total</th></tr></thead><tbody>'+rows+zoneRankRow+'</tbody></table>'
