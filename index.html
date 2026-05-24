@@ -12350,9 +12350,9 @@ function generateDiseaseReport(){
   var zoneRankRow='<tr style="background:#f5f5f5;border-top:2px solid #333"><td style="padding:10px 12px;font-weight:700">ZONE TOTAL</td>'+sortedZones.map(function(z,i){return '<td style="padding:10px 12px;text-align:center;font-weight:800;color:'+(i===0?'#dc2626':'#111')+'">'+zoneTotals[z]+(i===0?' &#128308;':'')+'</td>';}).join('')+'<td style="padding:10px 12px;text-align:center;font-weight:800">'+(Object.values(zoneTotals).reduce(function(a,b){return a+b;},0))+'</td></tr>';
   var html='<!DOCTYPE html><html><head><title>Disease Report</title><style>body{font-family:Arial,sans-serif;padding:32px;color:#111;max-width:900px;margin:0 auto}.hdr{text-align:center;border-bottom:2px solid #0a5448;padding-bottom:14px;margin-bottom:20px}table{width:100%;border-collapse:collapse}th{background:#0a5448;color:#fff;padding:10px 12px;text-align:center;font-size:12px}th:first-child{text-align:left}tr:nth-child(even){background:#f9fafb}@media print{button{display:none}}
 @media(max-width:600px){
-  #dash-welcome-card{ flex-direction:column; align-items:flex-start; }
-  #dash-welcome-right{ text-align:left !important; width:100%; }
-  #dash-welcome-card > div:first-child { width:100%; }
+  #dash-welcome-card{ padding:14px 16px !important; gap:8px !important; }
+  #dash-welcome-card #dash-greeting{ font-size:16px !important; }
+  #dash-welcome-right{ font-size:11px !important; }
 }
 </style></head><body>'
     +'<div class="hdr"><div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia</div><div style="font-size:20px;font-weight:800;margin:6px 0">Disease Occurrence Report by Zone</div><div style="font-size:13px;color:#374151">Mbabala RHC · Chifunabuli · Luapula</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Period: <b>'+from+'</b> to <b>'+to+'</b>'+(disease?' | Disease: <b>'+disease+'</b>':'')+'</div></div>'
