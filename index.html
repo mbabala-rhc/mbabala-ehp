@@ -2300,7 +2300,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Village Register','tbl-villages')">🖨 Print</button>
   </div>
   <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-villages" style="width:100%">
-    <thead><tr><th>Village Name</th><th>Under 5</th><th>Population</th><th>HHs</th><th>CHW Assigned</th><th>ODF Status</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Village Name</th><th>Under 5</th><th>Population</th><th>HHs</th><th>CHW Assigned</th><th>Distance (km)</th><th>ODF Status</th><th>Actions</th></tr></thead>
     <tbody id="tb-villages"></tbody>
   </table></div></div>
 </div>
@@ -9663,6 +9663,7 @@ function renderVillages(){
       <td>${(r.pop||0).toLocaleString()}</td>
       <td>${(r.hh||0).toLocaleString()}</td>
       <td>${r.chw||'—'}</td>
+      <td>${r.dist?r.dist+' km':'—'}</td>
       <td>${stTag(r.odf||'Not started')}</td>
       <td>${rowBtns('villages',r.id,`viewRecord('villages','${r.id}',villageFields)`,`editRecord('villages','${r.id}',villageFields,'m-village','t-village','Edit Village')`,`deleteRecord('villages','${r.id}',renderVillages)`)}</td>
     </tr>`;
