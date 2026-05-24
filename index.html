@@ -2294,6 +2294,10 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div id="village-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search villages..." oninput="filterTbl(this,'tbl-villages')">
+    <select id="village-zone-filter" onchange="filterVillageByZone(this.value)" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="">All Zones</option>
+      <option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option>
+    </select>
     <button class="btn primary" onclick="openModal('m-village')">+ Add Village</button>
     <button class="btn sm" onclick="villagePDF()">📄 PDF</button>
     <button class="btn sm" onclick="exportToExcel('villages','Village_Register')">📊 Excel</button>
@@ -12351,6 +12355,19 @@ function generateDiseaseReport(){
   var w=window.open('','_blank');w.document.write(html);w.document.close();
 }
 
+
+function filterVillageByZone(zone){
+  var rows=document.querySelectorAll('#tbl-villages tbody tr');
+  rows.forEach(function(row){
+    if(!zone){row.style.display='';return;}
+    var nameCell=row.cells[0];
+    if(nameCell&&nameCell.textContent.trim().toLowerCase().indexOf(zone.toLowerCase())>=0){
+      row.style.display='';
+    } else {
+      row.style.display='none';
+    }
+  });
+}
 </script>
 </body>
 </html>
