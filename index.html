@@ -11776,12 +11776,12 @@ function renderMonthlyReport(){
   var nutrSAM=nutr.filter(function(r){return r.category==='SAM';}).length;
   var nutrMAM=nutr.filter(function(r){return r.category==='MAM';}).length;
   var mycinS=DB.get('mycin_sess').filter(function(r){return inM(r.date);}).length;
-  var epi=DB.get('immunization').filter(function(r){return inM(r.date);}).length;
-  var u5=DB.get('under5').filter(function(r){return inM(r.date);}).reduce(function(a,r){return a+(parseInt(r.total)||0);},0);
+  var epi=DB.get('immunization').filter(function(r){return (r.period||'').substring(0,7)===ym;}).length;
+  var u5=DB.get('under5').filter(function(r){return (r.month||'').substring(0,7)===ym;}).reduce(function(a,r){return a+(parseInt(r.att0to5)||0)+(parseInt(r.att6to11)||0)+(parseInt(r.att12to23)||0)+(parseInt(r.att24to59)||0);},0);
   var hp=DB.get('health_promo').filter(function(r){return inM(r.date);}).length;
   var legal=DB.get('legal').filter(function(r){return inM(r.date);}).length;
-  var outbreaks=DB.get('outbreak').filter(function(r){return inM(r.date);}).length;
-  var odf=new Set(DB.get('sanitation').filter(function(r){return r.odf_status==='ODF';}).map(function(r){return r.village;})).size;
+  var outbreaks=DB.get('outbreak').filter(function(r){return inM(r.start)||inM(r.date);}).length;
+  var odf=new Set(DB.get('sanitation').filter(function(r){return r.clts==='ODF verified';}).map(function(r){return r.village;})).size;
 
   var indicators=[
     {icon:'🏥', label:'Premises Inspected',     val:insp.length,  detail:inspPass+' passed inspection',          color:'#0a5448'},
