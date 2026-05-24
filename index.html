@@ -4144,19 +4144,49 @@ async function loadFromSupabase(){
       }
 
       if(data && data.length > 0){
+        // Save current IDB data before overwriting with Supabase
+        var _idbSnapshot = {};
+        Object.keys(_store).forEach(function(k){ _idbSnapshot[k] = _store[k]; });
+
+        // Load Supabase data into store
         data.forEach(row => {
           try{
-            // Never overwrite a store that was recently saved on this device
             if(_recentlySaved[row.store_key] && Date.now() < _recentlySaved[row.store_key]) return;
             _store[row.store_key] = JSON.parse(row.value);
           }
           catch(e){}
         });
+
+        // Merge: for array stores, add IDB records that Supabase doesn't have
+        // These are records saved offline that haven't synced yet
+        var pendingSync = [];
+        Object.keys(_idbSnapshot).forEach(function(k){
+          var idbVal = _idbSnapshot[k];
+          var sbVal = _store[k];
+          if(!Array.isArray(idbVal) || !Array.isArray(sbVal)) return;
+          var sbIds = new Set(sbVal.map(function(r){return r.id;}));
+          var missing = idbVal.filter(function(r){return r.id && !sbIds.has(r.id);});
+          if(missing.length > 0){
+            _store[k] = sbVal.concat(missing);
+            idbPut(k, _store[k]);
+            pendingSync.push(k);
+            console.log('Restored', missing.length, 'offline records for', k);
+          }
+        });
+        // Push merged data back to Supabase
+        pendingSync.forEach(function(k){ sbSet(k, _store[k]); });
+        if(pendingSync.length > 0) toast('Synced ' + pendingSync.length + ' offline store(s) to cloud', 'success');
+
         console.log('✅ Loaded', data.length, 'stores from Supabase');
         _supabaseIsEmpty = false;
       } else {
-        // Supabase is empty - brand new database
+        // Supabase is empty - push all local IDB data up
         _supabaseIsEmpty = true;
+        var localKeys = Object.keys(_store).filter(function(k){ return _store[k] && (Array.isArray(_store[k]) ? _store[k].length > 0 : true); });
+        if(localKeys.length > 0){
+          localKeys.forEach(function(k){ sbSet(k, _store[k]); });
+          console.log('Pushed local data to fresh Supabase:', localKeys.length, 'stores');
+        }
         console.log('Fresh database detected');
       }
       return 'ok';
