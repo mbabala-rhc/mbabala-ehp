@@ -4166,6 +4166,7 @@ async function loadFromSupabase(){
           catch(e){}
         });
         _offlineSaved = {};
+        idbPut('_offlineSaved', {});
         console.log('✅ Loaded', data.length, 'stores from Supabase');
         _supabaseIsEmpty = false;
       } else {
@@ -4424,7 +4425,11 @@ async function saveRecord(store, modalId, fields, renderFn){
   updateBadges();
   toast('✅ Record saved','success');
   // Write to Supabase in background
-  if(!navigator.onLine) { if(!_offlineSaved) _offlineSaved={}; _offlineSaved[store]=true; }
+  if(!navigator.onLine){
+    if(!_offlineSaved) _offlineSaved={};
+    _offlineSaved[store]=true;
+    idbPut('_offlineSaved', _offlineSaved); // persist across refresh
+  }
   sbSet(store, data);
   saveAttachments(store, rec.id, modalId);
   setTimeout(() => broadcastUpdate(), 2500);
@@ -8235,6 +8240,8 @@ window.onload = function(){
     updateOnline();
 
     // Step 1: Render from IDB cache immediately (instant for returning users)
+    // Restore offline flags from IDB
+    if(_store['_offlineSaved']) _offlineSaved = _store['_offlineSaved'];
     seedData();
     loadSettings();
     updateBadges();
