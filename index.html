@@ -12440,8 +12440,7 @@ function filterVillageByZone(zone){
 
 var IDSR_DISEASES = [
   // Priority diseases
-  {name:'Malaria (Confirmed)', part:'Priority'},
-  {name:'Malaria (Suspected)', part:'Priority'},
+  {name:'Malaria', part:'Priority'},
   {name:'Diarrhoea (Non-Blood)', part:'Priority'},
   {name:'Diarrhoea with Blood (Dysentery)', part:'Priority'},
   {name:'Scabies', part:'Priority'},
@@ -12468,6 +12467,7 @@ var IDSR_DISEASES = [
   // HIV
   {name:'HIV Testing (New Positive)', part:'HIV'},
   {name:'HIV Recency Testing', part:'HIV'},
+  {name:'Other (specify)', part:'Other'},
 ];
 
 function buildSurvDiseaseRows(existingData){
@@ -12481,9 +12481,9 @@ function buildSurvDiseaseRows(existingData){
     var partHeader = '';
     if(d.part !== lastPart){
       lastPart = d.part;
-      var colors = {Priority:'#1d4ed8',Immediate:'#dc2626',HIV:'#7c3aed'};
+      var colors = {Priority:'#1d4ed8',Immediate:'#dc2626',HIV:'#7c3aed',Other:'#374151'};
       partHeader = '<tr><td colspan="11" style="background:'+(colors[d.part]||'#374151')+';color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">'+
-        (d.part==='Priority'?'Part 1 — Priority Diseases':d.part==='Immediate'?'Part 2 — Immediate Notifiable Diseases':'Part 3 — HIV Surveillance')+'</td></tr>';
+        (d.part==='Priority'?'Part 1 — Priority Diseases':d.part==='Immediate'?'Part 2 — Immediate Notifiable Diseases':d.part==='HIV'?'Part 3 — HIV Surveillance':'Part 4 — Other Conditions')+'</td></tr>';
     }
     var bg = i%2===0?'':'background:var(--bg2)';
     function inp(fld){ var v=existing[fld]||''; return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-'+key+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; }
