@@ -1084,6 +1084,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
         <div class="nav-item" onclick="nav('surveillance')"><span class="nav-icon">🔬</span><span class="nav-label">Surveillance</span></div>
         <div class="nav-item" onclick="nav('disease-register')"><span class="nav-icon">📈</span><span class="nav-label">Disease Register</span></div>
         <div class="nav-item" onclick="nav('health_promo')"><span class="nav-icon">📢</span><span class="nav-label">Health Promotion</span></div>
+        <div class="nav-item" onclick="nav('complaints')"><span class="nav-icon">📋</span><span class="nav-label">Complaint Register</span></div>
 
         </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Nutrition &amp; Child Health</div><div class="nav-group collapsed">
         <div class="nav-item" onclick="nav('nutrition')"><span class="nav-icon">🥗</span><span class="nav-label">Nutrition</span></div>
@@ -2250,6 +2251,91 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </div>
   </div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-disease-report')">Cancel</button><button class="btn primary" onclick="generateDiseaseReport()">&#128202; Generate</button></div>
+</div></div>
+
+<!-- ===== COMPLAINT REGISTER ===== -->
+<div id="page-complaints" class="page">
+  <div style="background:linear-gradient(135deg,#b45309,#d97706);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📋 Complaint Register</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Record and track community complaints and follow-up actions</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" onclick="openModal('m-complaint')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Complaint</button>
+      <button class="btn" onclick="printCurrentPage('Complaint Register','tbl-complaints')" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">🖨 Print</button>
+    </div>
+  </div>
+
+  <div class="card" style="padding:12px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <input type="text" placeholder="🔍 Search complaints..." oninput="filterTbl(this,'tbl-complaints')" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt);flex:1;max-width:220px">
+    <select id="complaint-filter-status" onchange="renderComplaints()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="">All Status</option>
+      <option>Open</option><option>In Progress</option><option>Resolved</option>
+    </select>
+    <select id="complaint-filter-zone" onchange="renderComplaints()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="">All Zones</option>
+      <option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option>
+    </select>
+  </div>
+
+  <div id="complaint-stats" style="margin-bottom:14px"></div>
+
+  <div class="card"><div class="tbl-wrap">
+    <table class="dt" id="tbl-complaints">
+      <thead><tr>
+        <th>Date</th><th>Complainant</th><th>Village/Zone</th>
+        <th>Nature of Complaint</th><th>Action Taken</th>
+        <th>Status</th><th>Date Resolved</th><th>Actions</th>
+      </tr></thead>
+      <tbody id="tb-complaints"></tbody>
+    </table>
+  </div></div>
+</div>
+
+<!-- COMPLAINT MODAL -->
+<div id="m-complaint" class="modal-overlay"><div class="modal">
+  <div class="modal-header"><div class="modal-header-icon" style="background:#fef3c7;color:#b45309">📋</div><h3 id="hdr-m-complaint" data-orig="Log Complaint">Log Complaint</h3><button class="btn icon" onclick="closeModal('m-complaint')">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="f-comp-id">
+    <div class="form-row">
+      <div class="form-group"><label class="required">Date Received</label><input type="date" id="f-comp-date"></div>
+      <div class="form-group"><label>Complainant Name</label><input type="text" id="f-comp-name" placeholder="Full name (or Anonymous)"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Contact / Phone</label><input type="text" id="f-comp-contact" placeholder="Phone number"></div>
+      <div class="form-group"><label>Village</label><input type="text" id="f-comp-village" placeholder="Village name"></div>
+      <div class="form-group"><label>Zone</label><select id="f-comp-zone"><option value="">Select zone...</option><option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="required">Nature of Complaint</label>
+        <select id="f-comp-nature">
+          <option value="">Select...</option>
+          <option>Sanitation / Latrine</option>
+          <option>Waste Disposal</option>
+          <option>Water Quality / Supply</option>
+          <option>Food Hygiene</option>
+          <option>Noise / Air Pollution</option>
+          <option>Vector / Pest</option>
+          <option>Illegal Dumpsite</option>
+          <option>Premises Condition</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Specify (if Other)</label><input type="text" id="f-comp-nature-other" placeholder="Specify complaint..."></div>
+    </div>
+    <div class="form-row"><div class="form-group full"><label class="required">Complaint Details</label><textarea id="f-comp-details" rows="3" placeholder="Describe the complaint in detail..."></textarea></div></div>
+    <div class="form-row">
+      <div class="form-group"><label>Action Taken</label><textarea id="f-comp-action" rows="2" placeholder="Action taken or planned..."></textarea></div>
+      <div class="form-group">
+        <div class="form-group"><label>Status</label><select id="f-comp-status"><option>Open</option><option>In Progress</option><option>Resolved</option></select></div>
+        <div class="form-group" style="margin-top:8px"><label>Date Resolved</label><input type="date" id="f-comp-resolved"></div>
+      </div>
+    </div>
+    <div class="form-row"><div class="form-group"><label>Officer Handling</label><input type="text" id="f-comp-officer" placeholder="Officer name"></div></div>
+    <div id="attach-m-complaint"></div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-complaint')">Cancel</button><button class="btn primary" onclick="saveComplaint()">💾 Save</button></div>
 </div></div>
 
 <!-- ===== LEGAL / ENFORCEMENT ===== -->
@@ -5022,7 +5108,7 @@ function rowBtns(store,id,viewFn,editFn,delfn,attStore){
 // ============================================================
 // RENDER FUNCTIONS
 // ============================================================
-function renderPage(p){ const fn={dashboard:renderDashboard,inspections:renderInspections,incidents:renderIncidents,immunization:renderEPI,hia:renderHIA,water:renderWater,ebs:renderEBS,ipc:renderIPC,ecd:renderECD,nutrition:renderNutrition,waste:renderWaste,vector:renderVector,sanitation:renderSanitation,surveillance:renderSurveillance,health_promo:renderHP,facilities:renderFacilities,households:renderHouseholds,premises:renderPremises,documents:renderDocuments,analytics:renderAnalytics,admin:renderAdmin,mycin:renderMycin,legal:renderLegal,routine:renderRoutine,outbreak:renderOutbreak,'monthly-report':renderMonthlyReport,catchment:renderCatchment,planner:renderPlanner,targets:renderTargets,followup:renderFollowup,stock:renderStock,'village-visits':renderVillageVisits,'insp-followup':renderInspFollowup,'disease-register':renderDiseaseRegister,villages:renderVillages,defaulters:renderDefaulters,foodhandlers:renderFoodHandlers,waterpoints:renderWaterPoints,schools:renderSchools,chw:renderCHW,meetings:renderMeetings,cbv:renderCBV_page,under5:renderUnder5}[p]; if(fn) fn(); }
+function renderPage(p){ const fn={dashboard:renderDashboard,inspections:renderInspections,incidents:renderIncidents,immunization:renderEPI,hia:renderHIA,water:renderWater,ebs:renderEBS,ipc:renderIPC,ecd:renderECD,nutrition:renderNutrition,waste:renderWaste,vector:renderVector,sanitation:renderSanitation,surveillance:renderSurveillance,health_promo:renderHP,complaints:renderComplaints,facilities:renderFacilities,households:renderHouseholds,premises:renderPremises,documents:renderDocuments,analytics:renderAnalytics,admin:renderAdmin,mycin:renderMycin,legal:renderLegal,routine:renderRoutine,outbreak:renderOutbreak,'monthly-report':renderMonthlyReport,catchment:renderCatchment,planner:renderPlanner,targets:renderTargets,followup:renderFollowup,stock:renderStock,'village-visits':renderVillageVisits,'insp-followup':renderInspFollowup,'disease-register':renderDiseaseRegister,villages:renderVillages,defaulters:renderDefaulters,foodhandlers:renderFoodHandlers,waterpoints:renderWaterPoints,schools:renderSchools,chw:renderCHW,meetings:renderMeetings,cbv:renderCBV_page,under5:renderUnder5}[p]; if(fn) fn(); }
 
 function renderDashboard(){
   const now = new Date();
@@ -12881,6 +12967,99 @@ function editCommunityWaste(id){
   document.getElementById('hdr-m-community-waste').textContent='Edit Community Waste Report';
   openModal('m-community-waste');
   loadAttachments('community_waste',r.id,'m-community-waste');
+}
+
+
+
+// ══ COMPLAINT REGISTER ══
+async function saveComplaint(){
+  var date=document.getElementById('f-comp-date').value;
+  var nature=document.getElementById('f-comp-nature').value;
+  var details=document.getElementById('f-comp-details').value.trim();
+  if(!date||!nature||!details){toast('Please fill Date, Nature and Details','error');return;}
+  var id=document.getElementById('f-comp-id').value||genId('CMP');
+  var rec={
+    id:id, date:date,
+    name:document.getElementById('f-comp-name').value||'Anonymous',
+    contact:document.getElementById('f-comp-contact').value||'',
+    village:document.getElementById('f-comp-village').value||'',
+    zone:document.getElementById('f-comp-zone').value||'',
+    nature:nature==='Other'?(document.getElementById('f-comp-nature-other').value||'Other'):nature,
+    details:details,
+    action:document.getElementById('f-comp-action').value||'',
+    status:document.getElementById('f-comp-status').value||'Open',
+    resolved:document.getElementById('f-comp-resolved').value||'',
+    officer:document.getElementById('f-comp-officer').value||''
+  };
+  var data=DB.get('complaints');
+  var idx=data.findIndex(function(r){return r.id===id;});
+  if(idx>=0) data[idx]=rec; else data.unshift(rec);
+  _store['complaints']=data; idbPut('complaints',data);
+  saveAttachments('complaints',rec.id,'m-complaint');
+  closeModal('m-complaint');
+  renderComplaints();
+  toast('Complaint logged successfully','success');
+  sbSet('complaints',data);
+}
+
+function renderComplaints(){
+  var filterStatus=(document.getElementById('complaint-filter-status')||{value:''}).value;
+  var filterZone=(document.getElementById('complaint-filter-zone')||{value:''}).value;
+  var data=DB.get('complaints').filter(function(r){
+    if(filterStatus&&r.status!==filterStatus) return false;
+    if(filterZone&&r.zone!==filterZone) return false;
+    return true;
+  });
+  var open=data.filter(function(r){return r.status==='Open';}).length;
+  var inprog=data.filter(function(r){return r.status==='In Progress';}).length;
+  var resolved=data.filter(function(r){return r.status==='Resolved';}).length;
+  var st=document.getElementById('complaint-stats');
+  if(st) st.innerHTML='<div class="g4">'
+    +'<div class="card-sm"><div class="stat-label">Total</div><div class="stat-val" style="color:var(--teal-d)">'+data.length+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Open</div><div class="stat-val" style="color:var(--red)">'+open+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">In Progress</div><div class="stat-val" style="color:var(--amber)">'+inprog+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Resolved</div><div class="stat-val" style="color:var(--green)">'+resolved+'</div></div>'
+    +'</div>';
+  var tb=document.getElementById('tb-complaints');
+  if(!tb) return;
+  if(!data.length){
+    tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--txt2)"><div style="font-size:24px">📋</div><div style="font-weight:600;margin-top:8px">No complaints recorded yet</div></td></tr>';
+    return;
+  }
+  tb.innerHTML=data.map(function(r){
+    var sc=r.status==='Resolved'?'var(--green)':r.status==='In Progress'?'var(--amber)':'var(--red)';
+    var sb=r.status==='Resolved'?'#dcfce7':r.status==='In Progress'?'#fef3c7':'#fee2e2';
+    return '<tr>'
+      +'<td>'+fmtDate(r.date)+'</td>'
+      +'<td><b>'+(r.name||'Anonymous')+'</b>'+(r.contact?'<br><span style="font-size:11px;color:var(--txt2)">'+r.contact+'</span>':'')+'</td>'
+      +'<td>'+(r.village||'—')+(r.zone?'<br><span style="font-size:11px;color:var(--txt2)">'+r.zone+'</span>':'')+'</td>'
+      +'<td style="font-weight:600">'+r.nature+'<br><span style="font-size:11px;color:var(--txt2);font-weight:400">'+((r.details||'').substring(0,40))+'...</span></td>'
+      +'<td style="font-size:12px;color:var(--txt2)">'+(r.action||'—')+'</td>'
+      +'<td><span style="padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;background:'+sb+';color:'+sc+'">'+r.status+'</span></td>'
+      +'<td style="font-size:12px">'+(r.resolved?fmtDate(r.resolved):'—')+'</td>'
+      +'<td>'+rowBtns('complaints',r.id,"viewRecord('complaints','"+r.id+"',[])", "editComplaint('"+r.id+"')","deleteRecord('complaints','"+r.id+"',renderComplaints)")+'</td>'
+    +'</tr>';
+  }).join('');
+}
+
+function editComplaint(id){
+  var r=DB.get('complaints').find(function(x){return x.id===id;});if(!r)return;
+  document.getElementById('f-comp-id').value=r.id;
+  document.getElementById('f-comp-date').value=r.date||'';
+  document.getElementById('f-comp-name').value=r.name||'';
+  document.getElementById('f-comp-contact').value=r.contact||'';
+  document.getElementById('f-comp-village').value=r.village||'';
+  document.getElementById('f-comp-zone').value=r.zone||'';
+  document.getElementById('f-comp-nature').value=r.nature||'';
+  document.getElementById('f-comp-nature-other').value='';
+  document.getElementById('f-comp-details').value=r.details||'';
+  document.getElementById('f-comp-action').value=r.action||'';
+  document.getElementById('f-comp-status').value=r.status||'Open';
+  document.getElementById('f-comp-resolved').value=r.resolved||'';
+  document.getElementById('f-comp-officer').value=r.officer||'';
+  document.getElementById('hdr-m-complaint').textContent='Edit Complaint';
+  openModal('m-complaint');
+  loadAttachments('complaints',r.id,'m-complaint');
 }
 
 </script>
