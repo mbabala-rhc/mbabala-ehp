@@ -1771,6 +1771,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label>Priority</label><select id="f-pl-priority"><option>Normal</option><option>High</option><option>Urgent</option></select></div><div class="form-group"><label>Status</label><select id="f-pl-status"><option>Planned</option><option>In Progress</option><option>Done</option><option>Cancelled</option></select></div></div>
     <div class="form-row"><div class="form-group full"><label>Notes / Outcome</label><textarea id="f-pl-notes" rows="2" placeholder="Any notes or outcome..."></textarea></div></div>
   </div>
+  <div id="attach-m-target"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-planner')">Cancel</button><button class="btn primary" onclick="savePlanner()">Save</button></div>
 </div></div>
 
@@ -1827,6 +1828,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <div class="form-group"><label>Dec</label><input type="number" id="f-tg-m12" min="0" placeholder="0"></div>
     </div>
   </div>
+  <div id="attach-m-catchment"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-target')">Cancel</button><button class="btn primary" onclick="saveTarget()">Save</button></div>
 </div></div>
 
@@ -2786,6 +2788,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-group"><label>Status</label><select id="f-ecd-status"><option>Completed</option><option>Planned</option><option>Cancelled</option></select></div>
     <div id="attach-m-ecd"></div>
   </div>
+  <div id="attach-m-nutrition-normal"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-ecd')">Cancel</button><button class="btn primary" onclick="saveRecord('ecd','m-ecd',ecdFields,renderECD)">💾 Save</button></div>
 </div></div>
 
@@ -3003,6 +3006,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-group"><label>Outcome / Key messages delivered</label><textarea id="f-hp-outcome" placeholder="Summary of what was achieved..."></textarea></div>
     <div id="attach-m-hp"></div>
   </div>
+  <div id="attach-m-facility"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-hp')">Cancel</button><button class="btn primary" onclick="saveRecord('health_promo','m-hp',hpFields,renderHP)">💾 Save</button></div>
 </div></div>
 
@@ -3017,6 +3021,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label>Phone</label><input type="tel" id="f-fac-phone" placeholder="+260..."></div><div class="form-group"><label>Last inspected</label><input type="date" placeholder="dd/mm/yyyy" id="f-fac-inspected"></div></div>
     <div class="form-group"><label>Status</label><select id="f-fac-status"><option>Active</option><option>Closed</option><option>Under review</option></select></div>
   </div>
+  <div id="attach-m-household"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-facility')">Cancel</button><button class="btn primary" onclick="saveRecord('facilities','m-facility',facFields,renderFacilities)">💾 Save</button></div>
 </div></div>
 
@@ -3031,6 +3036,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label>Handwashing facility?</label><select id="f-hh-hwf"><option>Yes</option><option>No</option></select></div><div class="form-group"><label>Has ITN (bednet)?</label><select id="f-hh-itn"><option>Yes</option><option>No</option></select></div></div>
     <div class="form-group"><label>Date registered</label><input type="date" placeholder="dd/mm/yyyy" id="f-hh-date"></div>
   </div>
+  <div id="attach-m-premises"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-household')">Cancel</button><button class="btn primary" onclick="saveRecord('households','m-household',hhFields,renderHouseholds)">💾 Save</button></div>
 </div></div>
 
@@ -3049,6 +3055,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label>Licence expiry</label><input type="date" placeholder="dd/mm/yyyy" id="f-prem-licence"></div><div class="form-group"><label>Last inspected</label><input type="date" placeholder="dd/mm/yyyy" id="f-prem-inspected"></div></div>
     <div class="form-group"><label>Status</label><select id="f-prem-status"><option>Licensed</option><option>Unlicensed</option><option>Suspended</option></select></div>
   </div>
+  <div id="attach-m-user"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-premises')">Cancel</button><button class="btn primary" onclick="saveRecord('premises','m-premises',premFields,renderPremises)">💾 Save</button></div>
 </div></div>
 
@@ -3061,6 +3068,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label class="required">Password</label><div class="pw-wrap"><input type="password" id="f-user-pwd"><button type="button" class="pw-toggle" onclick="togglePw('f-user-pwd',this)" title="Show password">👁</button></div></div><div class="form-group"><label>Role</label><select id="f-user-role"><option>EH Officer</option><option>IPC Nurse</option><option>Lab Technician</option><option>Data Entry</option><option>Admin</option><option>Viewer</option></select></div></div>
     <div class="form-group"><label>Status</label><select id="f-user-status"><option>Active</option><option>Inactive</option></select></div>
   </div>
+  <div id="attach-m-mycin-reg"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-user')">Cancel</button><button class="btn primary" onclick="saveUser()">💾 Save</button></div>
 </div></div>
 
@@ -3138,6 +3146,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-group"><label>Legal section / Reference (Public Health Act)</label><input type="text" id="f-legal-section" placeholder="e.g. Section 47(1) of the Public Health Act Cap 295"></div>
     <div id="attach-m-legal"></div>
   </div>
+  <div id="attach-m-routine-monthly"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-legal')">Cancel</button><button class="btn primary" onclick="saveRecord('legal','m-legal',legalFields,renderLegal)">💾 Save</button></div>
 </div></div>
 
@@ -3501,6 +3510,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-group"><label>Notes</label><textarea id="f-chw-notes" placeholder="Any additional notes..."></textarea></div>
     <div id="attach-m-chw"></div>
   </div>
+  <div id="attach-m-chw-activity"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-chw')">Cancel</button><button class="btn primary" onclick="saveRecord('chw','m-chw',chwFields,renderCHW)">💾 Save</button></div>
 </div></div>
 
@@ -3516,6 +3526,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row cols3"><div class="form-group"><label>WASH activities</label><input type="number" id="f-ca-wash" placeholder="0" min="0"></div><div class="form-group"><label>Defaulters followed up</label><input type="number" id="f-ca-def" placeholder="0" min="0"></div><div class="form-group"><label>Births recorded</label><input type="number" id="f-ca-births" placeholder="0" min="0"></div></div>
     <div class="form-group"><label>Key achievements / challenges</label><textarea id="f-ca-notes" placeholder="What went well, challenges faced, support needed..."></textarea></div>
   </div>
+  <div id="attach-m-chw-sup"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-chw-activity')">Cancel</button><button class="btn primary" onclick="saveRecord('chw_activities','m-chw-activity',chwActivityFields,renderCHW)">💾 Save</button></div>
 </div></div>
 
@@ -3553,6 +3564,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-group"><label>Action points</label><textarea id="f-mt-actions" placeholder="What needs to be done, by whom and by when..."></textarea></div>
     <div id="attach-m-meeting"></div>
   </div>
+  <div id="attach-m-attendance"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-meeting')">Cancel</button><button class="btn primary" onclick="saveRecord('meetings','m-meeting',meetingFields,renderMeetings)">💾 Save</button></div>
 </div></div>
 
@@ -3655,6 +3667,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label>Follow-up date</label><input type="date" placeholder="dd/mm/yyyy" id="f-si-followup"></div></div>
     <div id="attach-m-school-insp"></div>
   </div>
+  <div id="attach-m-stock"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-school-insp')">Cancel</button><button class="btn primary" onclick="saveSchoolInspection()">💾 Save</button></div>
 </div></div>
 
@@ -3671,6 +3684,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label>Supplier / Source</label><input type="text" id="f-stk-supplier" placeholder="e.g. DHO, UNICEF, MSL"></div><div class="form-group"><label>Last updated by</label><input type="text" id="f-stk-updater"></div></div>
     <div class="form-group"><label>Notes</label><textarea id="f-stk-notes" placeholder="Any notes about this stock item..."></textarea></div>
   </div>
+  <div id="attach-m-stock-move"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-stock')">Cancel</button><button class="btn primary" onclick="saveStock()">💾 Save</button></div>
 </div></div>
 
@@ -3711,6 +3725,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-group"><label>Notes / Special considerations</label><textarea id="f-vill-notes" placeholder="Any important notes about this village..."></textarea></div>
     <div id="attach-m-village"></div>
   </div>
+  <div id="attach-m-under5"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-village')">Cancel</button><button class="btn primary" onclick="saveRecord('villages','m-village',villageFields,renderVillages)">💾 Save</button></div>
 </div></div>
 
@@ -3921,6 +3936,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </div>
     <div class="alert info"><span class="alert-icon">💡</span>For children with Delayed or Referred milestones, record their individual details separately in the Developmental Milestones tab after saving this report.</div>
   </div>
+  <div id="attach-m-u5-milestone"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-under5')">Cancel</button><button class="btn primary" onclick="saveUnder5Report()">💾 Save Report</button></div>
 </div></div>
 
@@ -3937,6 +3953,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-row"><div class="form-group"><label>Referred to</label><input type="text" id="f-ms-referred-to" placeholder="e.g. Paediatric clinic, physiotherapy, hospital..."></div><div class="form-group"><label>Follow-up date</label><input type="date" placeholder="dd/mm/yyyy" id="f-ms-followup"></div></div>
     <div class="form-group"><label>Notes / Actions taken</label><textarea id="f-ms-notes" placeholder="Any additional notes or actions taken..."></textarea></div>
   </div>
+  <div id="attach-m-outcome"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-u5-milestone')">Cancel</button><button class="btn primary" onclick="saveRecord('u5_milestones','m-u5-milestone',msFields,renderUnder5)">💾 Save</button></div>
 </div></div>
 
@@ -3959,6 +3976,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="form-group"><label>Reason for defaulting / non-response (if applicable)</label><textarea id="f-out-reason" placeholder="e.g. Caregiver stopped coming, no improvement after 8 weeks..."></textarea></div>
     <div class="form-row"><div class="form-group"><label>Recorded by</label><input type="text" id="f-out-recorder"></div></div>
   </div>
+  <div id="attach-m-disease-trend"></div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-outcome')">Cancel</button><button class="btn primary" onclick="saveOutcomeRecord()">💾 Save</button></div>
 </div></div>
 
