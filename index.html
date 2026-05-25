@@ -4467,6 +4467,8 @@ async function saveRecord(store, modalId, fields, renderFn){
   // Write to memory and local cache immediately
   _store[store] = data;
   idbPut(store, data);
+  // Save attachments BEFORE closing modal (pending clears on modal close)
+  saveAttachments(store, rec.id, modalId);
   // Close modal and render IMMEDIATELY
   closeModal(modalId);
   renderFn();
@@ -4476,10 +4478,9 @@ async function saveRecord(store, modalId, fields, renderFn){
   if(!navigator.onLine){
     if(!_offlineSaved) _offlineSaved={};
     _offlineSaved[store]=true;
-    idbPut('_offlineSaved', _offlineSaved); // persist across refresh
+    idbPut('_offlineSaved', _offlineSaved);
   }
   sbSet(store, data);
-  saveAttachments(store, rec.id, modalId);
   setTimeout(() => broadcastUpdate(), 2500);
 }
 
