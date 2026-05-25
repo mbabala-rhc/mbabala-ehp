@@ -4661,10 +4661,12 @@ function saveAttachments(store, id, mid){
   const atts=_pending[mid]||[];
   const key='att_'+store+'_'+id;
   const isEdit = (_pendingIsEdit||{})[mid];
-  // For edits: always save (even empty = user deleted all attachments)
-  // For new records: only save if there are files to save
+  // Save attachments - store in _store and IDB only (files too large for Supabase)
   if(isEdit || atts.length){
-    DB.set(key, atts);
+    _store[key] = atts;
+    idbPut(key, atts);
+    // Also try Supabase but don't block on failure (may exceed row limit for large files)
+    try{ sbSet(key, atts); } catch(e){}
   }
   _pending[mid]=[];
   if(_pendingIsEdit) _pendingIsEdit[mid] = false;
