@@ -1617,7 +1617,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm danger" onclick="if(confirm('Clear audit log?')){DB.set('audit_log',[]);renderAuditLog();}">🗑 Clear Log</button>
     </div>
     <div class="card"><div class="tbl-wrap">
-      <table class="dt" id="tbl-audit-log" style="min-width:800px">
+      <table class="dt" id="tbl-audit-log" style=";width:100%">
         <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Module</th><th>Record ID</th><th>Details</th></tr></thead>
         <tbody id="tb-audit-log"></tbody>
       </table>
@@ -1676,7 +1676,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn primary" onclick="openModal('m-mycin-sess')">+ Record Session</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('MYCIN Counselling Sessions','tbl-mycin-sess')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-mycin-sess" style="min-width:1000px"><thead><tr><th>Date</th><th>Caregiver</th><th>Child</th><th>Village</th><th>Child age(m)</th><th>Topics covered</th><th>Health worker</th><th>Follow-up</th><th>Actions</th></tr></thead><tbody id="tb-mycin-sess"></tbody></table></div></div>
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-mycin-sess" style=";width:100%"><thead><tr><th>Date</th><th>Caregiver</th><th>Child</th><th>Village</th><th>Child age(m)</th><th>Topics covered</th><th>Health worker</th><th>Follow-up</th><th>Actions</th></tr></thead><tbody id="tb-mycin-sess"></tbody></table></div></div>
   </div>
 
   <div id="t-mycin-reports" class="tab-pane">
@@ -1751,7 +1751,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <button onclick="filterPlannerUrgent(this)" class="planner-filter-btn" data-color="#dc2626" style="padding:6px 16px;border-radius:20px;border:2px solid #dc2626;background:transparent;color:#dc2626;font-size:12px;font-weight:600;cursor:pointer">Urgent</button>
   </div>
   <div class="card" style="padding:0;overflow:hidden">
-    <div class="tbl-wrap"><table class="dt" id="tbl-planner" style="min-width:750px">
+    <div class="tbl-wrap"><table class="dt" id="tbl-planner" style=";width:100%">
       <thead><tr>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Date</th>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Activity</th>
@@ -1798,7 +1798,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div id="targets-cards" style="margin-bottom:16px"></div>
   <div class="card">
     <div class="card-title">Monthly Breakdown</div>
-    <div class="tbl-wrap"><table class="dt" id="tbl-targets" style="min-width:1000px">
+    <div class="tbl-wrap"><table class="dt" id="tbl-targets" style=";width:100%">
       <thead><tr><th>Indicator</th><th style="text-align:center">Target</th><th style="text-align:center">Jan</th><th style="text-align:center">Feb</th><th style="text-align:center">Mar</th><th style="text-align:center">Apr</th><th style="text-align:center">May</th><th style="text-align:center">Jun</th><th style="text-align:center">Jul</th><th style="text-align:center">Aug</th><th style="text-align:center">Sep</th><th style="text-align:center">Oct</th><th style="text-align:center">Nov</th><th style="text-align:center">Dec</th><th style="text-align:center">Total</th><th style="text-align:center">%</th><th>Actions</th></tr></thead>
       <tbody id="tb-targets"></tbody>
     </table></div>
@@ -1851,7 +1851,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   <div id="followup-stats" style="margin-bottom:16px"></div>
   <div class="card" style="padding:0;overflow:hidden">
-    <div class="tbl-wrap"><table class="dt" id="tbl-followup" style="min-width:650px">
+    <div class="tbl-wrap"><table class="dt" id="tbl-followup" style=";width:100%">
       <thead><tr>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Child / Caregiver</th>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Village</th>
@@ -1973,7 +1973,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   <div id="vv-stats" style="margin-bottom:14px"></div>
   <div class="card"><div class="tbl-wrap">
-    <table class="dt" id="vv-table" style="min-width:700px">
+    <table class="dt" id="vv-table" style=";width:100%">
       <thead><tr>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Date</th>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Village</th>
@@ -2028,7 +2028,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   <div id="if-stats" style="margin-bottom:14px"></div>
   <div class="card"><div class="tbl-wrap">
-    <table class="dt" id="if-table" style="min-width:750px">
+    <table class="dt" id="if-table" style=";width:100%">
       <thead><tr>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Premises</th>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Failed Date</th>
@@ -2091,7 +2091,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   <div id="dr-stats" style="margin-bottom:14px"></div>
   <div class="card"><div class="tbl-wrap">
-    <table class="dt" id="dr-table" style="min-width:750px">
+    <table class="dt" id="dr-table" style=";width:100%">
       <thead><tr>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Epi Week</th>
         <th style="background:#0a5448 !important;color:#fff !important;padding:12px 14px">Disease</th>
@@ -2182,13 +2182,13 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-legal"><thead><tr><th>Ref #</th><th>Type</th><th>Premises/Person</th><th>Date issued</th><th>Issued by</th><th>Compliance by</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-legal"></tbody></table></div></div>
   </div>
   <div id="t-legal-improvement" class="tab-pane">
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-legal-improvement" style="min-width:900px"><thead><tr><th>Ref #</th><th>Premises/Person</th><th>Contravention</th><th>Date issued</th><th>Comply by</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-legal-improvement"></tbody></table></div></div>
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-legal-improvement" style=";width:100%"><thead><tr><th>Ref #</th><th>Premises/Person</th><th>Contravention</th><th>Date issued</th><th>Comply by</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-legal-improvement"></tbody></table></div></div>
   </div>
   <div id="t-legal-closure" class="tab-pane">
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-legal-closure" style="min-width:900px"><thead><tr><th>Ref #</th><th>Premises</th><th>Reason</th><th>Date issued</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-legal-closure"></tbody></table></div></div>
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-legal-closure" style=";width:100%"><thead><tr><th>Ref #</th><th>Premises</th><th>Reason</th><th>Date issued</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-legal-closure"></tbody></table></div></div>
   </div>
   <div id="t-legal-prosecution" class="tab-pane">
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-legal-prosecution" style="min-width:900px"><thead><tr><th>Case #</th><th>Defendant</th><th>Offence</th><th>Court date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-legal-prosecution"></tbody></table></div></div>
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-legal-prosecution" style=";width:100%"><thead><tr><th>Case #</th><th>Defendant</th><th>Offence</th><th>Court date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-legal-prosecution"></tbody></table></div></div>
   </div>
 </div>
 
@@ -2284,7 +2284,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="exportToExcel('stock','Stock_Supplies')">📊 Excel</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Stock Register','tbl-stock')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-stock" style="min-width:700px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-stock" style=";width:100%">
       <thead><tr><th>Item</th><th>Category</th><th>Current stock</th><th>Unit</th><th>Min level</th><th>Status</th><th>Last updated</th><th>Actions</th></tr></thead>
       <tbody id="tb-stock"></tbody>
     </table></div></div>
@@ -2295,7 +2295,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="stockMovePDF()">📄 PDF</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Current Stock','tbl-stock')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-stock-move" style="min-width:700px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-stock-move" style=";width:100%">
       <thead><tr><th>Date</th><th>Item</th><th>Type</th><th>Quantity</th><th>Balance after</th><th>Party</th><th>Recorded by</th><th>Actions</th></tr></thead>
       <tbody id="tb-stock-move"></tbody>
     </table></div></div>
@@ -2339,7 +2339,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="exportToExcel('chw','CHW_Register')">📊 Excel</button>
       <button class="btn sm" onclick="printCurrentPage('CHW Register','tbl-chw')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-chw" style="min-width:800px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-chw" style=";width:100%">
       <thead><tr><th>Full name</th><th>Type</th><th>Village</th><th>Phone</th><th>Training</th><th>Last supervised</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody id="tb-chw"></tbody>
     </table></div></div>
@@ -2349,7 +2349,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn primary" onclick="openModal('m-chw-activity')">+ Record Monthly Activity</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('CHW Monthly Activities','tbl-chw-act')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-chw-act" style="min-width:700px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-chw-act" style=";width:100%">
       <thead><tr><th>Month</th><th>CHW name</th><th>Village</th><th>HH visits</th><th>Referrals</th><th>HP sessions</th><th>ANC follow-ups</th><th>Recorded by</th><th>Actions</th></tr></thead>
       <tbody id="tb-chw-act"></tbody>
     </table></div></div>
@@ -2359,7 +2359,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn primary" onclick="openModal('m-chw-sup')">+ Record Supervision Visit</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('CHW Supervision Visits','tbl-chw-sup')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-chw-sup" style="min-width:700px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-chw-sup" style=";width:100%">
       <thead><tr><th>Date</th><th>CHW name</th><th>Village</th><th>Supervisor</th><th>Score</th><th>Findings</th><th>Next visit</th><th>Actions</th></tr></thead>
       <tbody id="tb-chw-sup"></tbody>
     </table></div></div>
@@ -2381,7 +2381,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="exportToExcel('schools','School_Register')">📊 Excel</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('School Health Register','tbl-schools')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-schools" style="min-width:900px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-schools" style=";width:100%">
       <thead><tr><th>School name</th><th>Type</th><th>Village</th><th>Enrolment</th><th>Boys toilets</th><th>Girls toilets</th><th>Water source</th><th>Health club</th><th>Last inspected</th><th>Actions</th></tr></thead>
       <tbody id="tb-schools"></tbody>
     </table></div></div>
@@ -2391,7 +2391,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn primary" onclick="openModal('m-school-insp')">+ New School Inspection</button>
       <button class="btn sm" onclick="schoolInspPDF()">📄 PDF</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-school-insp" style="min-width:800px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-school-insp" style=";width:100%">
       <thead><tr><th>Date</th><th>School</th><th>Inspector</th><th>Sanitation</th><th>Water</th><th>Waste</th><th>Overall</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody id="tb-school-insp"></tbody>
     </table></div></div>
@@ -2409,7 +2409,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <button class="btn sm" onclick="exportToExcel('waterpoints','Water_Points')">📊 Excel</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Water Points Register','tbl-wp')">🖨 Print</button>
   </div>
-  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-wp" style="min-width:900px">
+  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-wp" style=";width:100%">
     <thead><tr><th>Name/ID</th><th>Village</th><th>Type</th><th>GPS/Location</th><th>Condition</th><th>Last tested</th><th>Last maintained</th><th>HHs served</th><th>Actions</th></tr></thead>
     <tbody id="tb-wp"></tbody>
   </table></div></div>
@@ -2427,7 +2427,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <button class="btn sm" onclick="exportToExcel('foodhandlers','Food_Handlers')">📊 Excel</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Food Handlers Register','tbl-fh')">🖨 Print</button>
   </div>
-  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-fh" style="min-width:900px">
+  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-fh" style=";width:100%">
     <thead><tr><th>Full name</th><th>Premises/Employer</th><th>Village</th><th>Cert issued</th><th>Cert expires</th><th>Status</th><th>Examined by</th><th>Actions</th></tr></thead>
     <tbody id="tb-fh"></tbody>
   </table></div></div>
@@ -2451,7 +2451,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="outcomePDF('SAM')">📄 PDF</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Malnutrition Outcomes','tbl-out-sam')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-out-sam" style="min-width:800px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-out-sam" style=";width:100%">
       <thead><tr><th>Child name</th><th>Village</th><th>Age(m)</th><th>MUAC adm</th><th>Date admitted</th><th>Outcome</th><th>Date of outcome</th><th>Weeks</th><th>Recorder</th><th>Actions</th></tr></thead>
       <tbody id="tb-out-sam"></tbody>
     </table></div></div>
@@ -2463,7 +2463,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="outcomePDF('MAM')">📄 PDF</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('MAM Outcomes','tbl-out-mam')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-out-mam" style="min-width:800px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-out-mam" style=";width:100%">
       <thead><tr><th>Child name</th><th>Village</th><th>Age(m)</th><th>MUAC adm</th><th>Date admitted</th><th>Outcome</th><th>Date of outcome</th><th>Weeks</th><th>Recorder</th><th>Actions</th></tr></thead>
       <tbody id="tb-out-mam"></tbody>
     </table></div></div>
@@ -2508,7 +2508,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="exportToExcel('meetings','Meetings_Training')">📊 Excel</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Meetings & Training','tbl-meetings')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-meetings" style="min-width:800px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-meetings" style=";width:100%">
       <thead><tr><th>Date</th><th>Type</th><th>Title / Topic</th><th>Venue</th><th>Facilitator</th><th>Attendees</th><th>Status</th><th>Actions</th></tr></thead>
       <tbody id="tb-meetings"></tbody>
     </table></div></div>
@@ -2520,7 +2520,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="modulePDF('Attendance Register','attendance',[{label:'Meeting'},{label:'Name'},{label:'Designation'},{label:'Organisation'},{label:'Signed'}],r=>[r.meeting,r.name,r.designation,r.org,r.signed?'Yes':'No'])">📄 PDF</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Attendance Register','tbl-attendance')">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-attendance" style="min-width:700px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-attendance" style=";width:100%">
       <thead><tr><th>Meeting / Training</th><th>Participant name</th><th>Designation</th><th>Organisation</th><th>Phone</th><th>Signed attendance?</th><th>Actions</th></tr></thead>
       <tbody id="tb-attendance"></tbody>
     </table></div></div>
@@ -2590,7 +2590,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
         </div>
       </div>
       <div class="tbl-wrap">
-        <table id="tbl-dm-summary" class="dt" style="min-width:600px">
+        <table id="tbl-dm-summary" class="dt" style=";width:100%">
           <thead>
             <tr style="background:var(--bg2)">
               <th style="text-align:left">Age Group</th>
@@ -2612,7 +2612,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <button class="btn sm" onclick="modulePDF('Developmental Milestones','u5_milestones',[{label:'Name'},{label:'Age group'},{label:'Status'},{label:'Village'},{label:'Milestone concern'},{label:'Referred to'},{label:'Date'}],r=>[r.name,r.ageGroup,r.status,r.village,r.concern,r.referredTo,fmtDate(r.date)])">📄 PDF</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printIndividualMilestones()">🖨 Print</button>
     </div>
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-u5-milestones" style="min-width:700px">
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-u5-milestones" style=";width:100%">
       <thead><tr><th>Child name</th><th>Village</th><th>Age group</th><th>Status</th><th>Milestone concern</th><th>Referred to</th><th>Date recorded</th><th>Actions</th></tr></thead>
       <tbody id="tb-u5-milestones"></tbody>
     </table></div></div>
@@ -3174,7 +3174,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </div>
 
     <div style="background:var(--teal);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:7px 14px;border-radius:6px;margin:14px 0 8px">1. Inspection of Public Premises Conducted</div>
-    <div class="tbl-wrap"><table class="dt" style="min-width:650px;font-size:11px">
+    <div class="tbl-wrap"><table class="dt" style="font-size:11px;width:100%">
       <thead><tr><th style="background:var(--teal-d);color:#fff;padding:5px 8px">#</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Area / Zone</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Target</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Done</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Complying</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Not Complying</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Warning Letters</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">To Court</th></tr></thead>
       <tbody><tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">1</td><td style="padding:4px 8px;font-weight:400">Kapili</td><td><input type="number" id="f-rm-insp-target-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-done-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-comply-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-noncomply-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-warning-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-court-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
 <tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">2</td><td style="padding:4px 8px;font-weight:400">Kauni</td><td><input type="number" id="f-rm-insp-target-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-done-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-comply-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-noncomply-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-warning-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-insp-court-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
@@ -3187,7 +3187,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
     <div style="background:var(--blue);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:7px 14px;border-radius:6px
     <div style="background:var(--teal);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;padding:7px 14px;border-radius:6px;margin:14px 0 8px">2. Meat and Other Foods Inspections</div>
-    <div class="tbl-wrap"><table class="dt" style="min-width:540px;font-size:11px">
+    <div class="tbl-wrap"><table class="dt" style="font-size:11px;width:100%">
       <thead><tr><th style="background:var(--teal-d);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">#</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Area / Zone</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Type of Food</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">No. Inspected</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Satisfactory</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Seized (qty)</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Reason for Seizure</th></tr></thead>
       <tbody><tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">1</td><td style="padding:4px 8px;font-weight:400">Kapili</td><td><textarea id="f-rm-meat-type-kapili" placeholder="e.g. Beef, Fish, Drinks" rows="2" style="width:120px;padding:3px;border:1px solid var(--bd);border-radius:4px;font-size:11px;resize:vertical"></textarea></td><td><input type="number" id="f-rm-meat-insp-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-meat-satisf-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-meat-seized-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><textarea id="f-rm-meat-reason-kapili" placeholder="Reason..." rows="2" style="width:120px;padding:3px;border:1px solid var(--bd);border-radius:4px;font-size:11px;resize:vertical"></textarea></td></tr>
 <tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">2</td><td style="padding:4px 8px;font-weight:400">Kauni</td><td><textarea id="f-rm-meat-type-kauni" placeholder="e.g. Beef, Fish, Drinks" rows="2" style="width:120px;padding:3px;border:1px solid var(--bd);border-radius:4px;font-size:11px;resize:vertical"></textarea></td><td><input type="number" id="f-rm-meat-insp-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-meat-satisf-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-meat-seized-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><textarea id="f-rm-meat-reason-kauni" placeholder="Reason..." rows="2" style="width:120px;padding:3px;border:1px solid var(--bd);border-radius:4px;font-size:11px;resize:vertical"></textarea></td></tr>
@@ -3199,7 +3199,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </table></div>
 
     <div style="background:var(--blue);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;padding:7px 14px;border-radius:6px;margin:14px 0 8px">3. Water Quality Monitoring (Bacteriological &amp; Chemical)</div>
-    <div class="tbl-wrap"><table class="dt" style="min-width:650px;font-size:11px">
+    <div class="tbl-wrap"><table class="dt" style="font-size:11px;width:100%">
       <thead><tr><th rowspan="2" style="background:var(--teal-d);color:#fff;padding:5px 8px">#</th><th rowspan="2" style="background:var(--teal-d);color:#fff;padding:5px 8px">Area / Zone</th><th colspan="3" style="background:var(--blue);color:#fff;padding:5px 8px;text-align:center">Bacteriological</th><th colspan="3" style="background:var(--green);color:#fff;padding:5px 8px;text-align:center">Chemical</th></tr><tr><th style="background:var(--blue-l);color:var(--blue);padding:4px 8px;font-size:10px">Total</th><th style="background:var(--blue-l);color:var(--blue);padding:4px 8px;font-size:10px">Satisfactory</th><th style="background:var(--blue-l);color:var(--blue);padding:4px 8px;font-size:10px">Unsatisfactory</th><th style="background:var(--green-l);color:var(--green);padding:4px 8px;font-size:10px">Total</th><th style="background:var(--green-l);color:var(--green);padding:4px 8px;font-size:10px">Satisfactory</th><th style="background:var(--green-l);color:var(--green);padding:4px 8px;font-size:10px">Unsatisfactory</th></tr></thead>
       <tbody><tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">1</td><td style="padding:4px 8px;font-weight:400">Kapili</td><td><input type="number" id="f-rm-bact-total-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-bact-satisf-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-bact-unsatisf-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-chem-total-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-chem-satisf-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-chem-unsatisf-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
 <tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">2</td><td style="padding:4px 8px;font-weight:400">Kauni</td><td><input type="number" id="f-rm-bact-total-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-bact-satisf-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-bact-unsatisf-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-chem-total-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-chem-satisf-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-chem-unsatisf-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
@@ -3226,7 +3226,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </div>
 
     <div style="background:var(--teal);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:7px 14px;border-radius:6px;margin:14px 0 8px">5. Health Education in Public Places</div>
-    <div class="tbl-wrap"><table class="dt" style="min-width:450px;font-size:11px">
+    <div class="tbl-wrap"><table class="dt" style="font-size:11px;width:100%">
       <thead><tr><th style="background:var(--teal-d);color:#fff;padding:5px 8px">#</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Area / Zone</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Topics Covered</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Sessions</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Attendance</th></tr></thead>
       <tbody><tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">1</td><td style="padding:4px 8px;font-weight:400">Kapili</td><td><input type="text" id="f-rm-hp-topics-kapili" placeholder="Topics..." style="width:130px;padding:3px;border:1px solid var(--bd);border-radius:4px"></td><td><input type="number" id="f-rm-hp-sess-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-hp-attend-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
 <tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">2</td><td style="padding:4px 8px;font-weight:400">Kauni</td><td><input type="text" id="f-rm-hp-topics-kauni" placeholder="Topics..." style="width:130px;padding:3px;border:1px solid var(--bd);border-radius:4px"></td><td><input type="number" id="f-rm-hp-sess-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-hp-attend-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
@@ -3238,7 +3238,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </table></div>
 
     <div style="background:var(--teal);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:7px 14px;border-radius:6px;margin:14px 0 8px">6. Door-to-Door Health Education (PHAST / CLTS)</div>
-    <div class="tbl-wrap"><table class="dt" style="min-width:420px;font-size:11px">
+    <div class="tbl-wrap"><table class="dt" style="font-size:11px;width:100%">
       <thead><tr><th style="background:var(--teal-d);color:#fff;padding:5px 8px">#</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Area / Zone</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">HHs Visited</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Male</th><th style="background:var(--teal-d);color:#fff;padding:5px 8px">Female</th></tr></thead>
       <tbody><tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">1</td><td style="padding:4px 8px;font-weight:400">Kapili</td><td><input type="number" id="f-rm-d2d-hh-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-d2d-male-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-d2d-female-kapili" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
 <tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">2</td><td style="padding:4px 8px;font-weight:400">Kauni</td><td><input type="number" id="f-rm-d2d-hh-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-d2d-male-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-d2d-female-kauni" min="0" placeholder="0" style="width:55px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
@@ -3251,7 +3251,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
     <div style="background:var(--purple);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:7px 14px;border-radius:6px
     <div style="background:var(--blue);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;padding:7px 14px;border-radius:6px;margin:14px 0 8px">Port Health Services</div>
-    <div class="tbl-wrap"><table class="dt" style="min-width:600px;font-size:11px">
+    <div class="tbl-wrap"><table class="dt" style="font-size:11px;width:100%">
       <thead><tr><th style="background:var(--blue);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">#</th><th style="background:var(--blue);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Health Facility</th><th style="background:var(--blue);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Name of Point of Entry</th><th style="background:var(--blue);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Port Health Present?</th><th style="background:var(--blue);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Total Flights/Vehicles</th><th style="background:var(--blue);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Passengers Screened</th><th style="background:var(--blue);color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Passengers from Risk Countries</th></tr></thead>
       <tbody><tr>
         <td style="padding:4px 8px;font-size:11px;color:var(--txt2)">1</td>
@@ -3266,7 +3266,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 
     <div style="background:var(--purple);color:#fff;font-weight:700;font-size:11px;text-transform:uppercase;padding:7px 14px;border-radius:6px;margin:14px 0 8px">Occupational Health &amp; Safety</div>
-    <div class="tbl-wrap"><table class="dt" style="min-width:480px;font-size:11px">
+    <div class="tbl-wrap"><table class="dt" style="font-size:11px;width:100%">
       <thead><tr><th style="background:#6b3fa0;color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">#</th><th style="background:#6b3fa0;color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Area / Zone</th><th style="background:#6b3fa0;color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Total Workplaces</th><th style="background:#6b3fa0;color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Inspected</th><th style="background:#6b3fa0;color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Compliant</th><th style="background:#6b3fa0;color:#fff;padding:5px 8px;font-size:10px;white-space:nowrap">Not Compliant</th></tr></thead>
       <tbody><tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">1</td><td style="padding:4px 8px;font-weight:400">Kapili</td><td><input type="number" id="f-rm-occ-total-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-occ-insp-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-occ-comply-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-occ-noncomply-kapili" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
 <tr><td style="padding:4px 8px;font-size:11px;color:var(--txt2)">2</td><td style="padding:4px 8px;font-weight:400">Kauni</td><td><input type="number" id="f-rm-occ-total-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-occ-insp-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-occ-comply-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td><td><input type="number" id="f-rm-occ-noncomply-kauni" min="0" placeholder="0" style="width:50px;padding:3px;border:1px solid var(--bd);border-radius:4px;text-align:center"></td></tr>
@@ -5371,7 +5371,7 @@ function renderEPIAnalytics(){
       <div class="card">
         <div class="card-title">📊 Total Doses by Vaccine (All Months)</div>
         <div class="tbl-wrap">
-          <table class="dt" style="min-width:400px">
+          <table class="dt" style=";width:100%">
             <thead><tr>
               <th>Vaccine</th>
               <th style="text-align:center">Total doses</th>
@@ -5411,7 +5411,7 @@ function renderEPIAnalytics(){
         <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('EPI Monthly Trend — All Vaccines','tbl-epi-trend')">🖨 Print</button>
       </div>
       <div class="tbl-wrap">
-        <table class="dt" id="tbl-epi-trend" style="min-width:${Math.max(500, sorted.length*90+150)}px">
+        <table class="dt" id="tbl-epi-trend" style="min-width:${Math.max(500, sorted.length*90+150)}px;width:100%">
           <thead><tr><th>Vaccine</th>${trendHeaders}</tr></thead>
           <tbody>${trendRows || '<tr><td colspan="20" style="text-align:center;padding:20px;color:var(--txt2)">No data yet</td></tr>'}</tbody>
         </table>
@@ -5657,7 +5657,7 @@ function renderNutrition(){
       </div>
       <div class="card-body">
         <div class="tbl-wrap">
-          <table class="dt" style="min-width:650px">
+          <table class="dt" style=";width:100%">
             <thead><tr><th>Name / Type</th><th>Age</th><th>Village</th><th>MUAC</th><th>Weight</th><th>Category</th><th>Referred</th><th>Actions</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
@@ -7319,7 +7319,7 @@ function viewRoutineReport(id){
   const zoneTable = (cols, rows) => {
     const hdrs = cols.map(c=>`<th style="background:var(--teal-d);color:#fff;padding:5px 8px;white-space:nowrap">${c}</th>`).join('');
     const trs = Array.isArray(rows) ? rows.join('') : rows;
-    return `<div class="tbl-wrap"><table class="dt" style="font-size:11px;min-width:400px;width:100%"><thead><tr>${hdrs}</tr></thead><tbody>${trs}</tbody></table></div>`;
+    return `<div class="tbl-wrap"><table class="dt" style="font-size:11px;width:100%;width:100%"><thead><tr>${hdrs}</tr></thead><tbody>${trs}</tbody></table></div>`;
   };
 
   const inspRows = zones.map((z,i)=>`<tr><td style="padding:5px 8px;font-size:11px">${i<5?i+1:''}</td><td style="padding:5px 8px">${zoneLabels[z]}</td><td style="text-align:center">${r['insp_target_'+z]||0}</td><td style="text-align:center;font-weight:600">${r['insp_done_'+z]||0}</td><td style="text-align:center;color:var(--green)">${r['insp_comply_'+z]||0}</td><td style="text-align:center;color:var(--red)">${r['insp_noncomply_'+z]||0}</td><td style="text-align:center">${r['insp_warning_'+z]||0}</td><td style="text-align:center">${r['insp_court_'+z]||0}</td></tr>`).join('');
@@ -11405,7 +11405,7 @@ function renderU5Growth(){
     <div class="card" style="margin-bottom:14px">
       <div class="card-title">⚖️ Children Weighed &amp; Height/Length Taken — by Month</div>
       <div class="tbl-wrap">
-        <table class="dt" style="min-width:600px">
+        <table class="dt" style=";width:100%">
           <thead>
             <tr>
               <th>Month</th>
@@ -11425,7 +11425,7 @@ function renderU5Growth(){
     <div class="card">
       <div class="card-title">📉 Malnutrition Indicators — by Month (0–23 months)</div>
       <div class="tbl-wrap">
-        <table class="dt" style="min-width:800px">
+        <table class="dt" style=";width:100%">
           <thead>
             <tr>
               <th>Month</th>
