@@ -1389,27 +1389,22 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== SURVEILLANCE ===== -->
 <div id="page-surveillance" class="page">
-  <div style="background:linear-gradient(135deg,var(--navy-d,#1e3a5f),var(--navy,#2d5a8e));border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+  <div style="background:linear-gradient(135deg,#1e3a5f,#2d5a8e);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
     <div>
       <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
       <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🔬 IDSR Surveillance Report</div>
-      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Integrated Disease Surveillance and Response — Weekly Reports</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Integrated Disease Surveillance and Response</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn" onclick="openSurveillanceModal()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Weekly Report</button>
       <button class="btn" onclick="printIDSRReport()" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">🖨 Print IDSR</button>
     </div>
   </div>
-
-  <!-- Filters -->
   <div class="card" style="padding:12px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
     <select id="surv-filter-year" onchange="renderSurveillance()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
     <input type="text" id="surv-search" placeholder="🔍 Search disease..." oninput="renderSurveillance()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt);flex:1;max-width:220px">
   </div>
-
   <div id="surv-stats" style="margin-bottom:14px"></div>
-
-  <!-- Reports List -->
   <div id="surv-reports-list"></div>
 </div>
 <!-- ===== HEALTH PROMOTION ===== -->
@@ -2959,8 +2954,6 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <div class="form-group"><label>Reported By</label><input type="text" id="f-surv-reporter" placeholder="Officer name"></div>
       <div class="form-group"><label>Reported to DHO?</label><select id="f-surv-reported"><option>Yes</option><option>No</option><option>Pending</option></select></div>
     </div>
-
-    <!-- IDSR Table -->
     <div style="font-size:12px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.06em;margin:12px 0 8px">Disease / Condition Report (by Age Group)</div>
     <div class="tbl-wrap">
     <table style="width:100%;border-collapse:collapse;font-size:11px">
@@ -2970,18 +2963,12 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
           <th colspan="3" style="padding:8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">Suspected Cases</th>
           <th colspan="3" style="padding:8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">Confirmed Cases</th>
           <th colspan="3" style="padding:8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">Deaths</th>
-          <th rowspan="2" style="padding:8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">Sent to Lab</th>
+          <th rowspan="2" style="padding:8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">Lab</th>
         </tr>
         <tr style="background:#2d5a8e;color:#fff">
-          <th style="padding:6px 8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">0-4</th>
-          <th style="padding:6px 8px;text-align:center">5-14</th>
-          <th style="padding:6px 8px;text-align:center">15+</th>
-          <th style="padding:6px 8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">0-4</th>
-          <th style="padding:6px 8px;text-align:center">5-14</th>
-          <th style="padding:6px 8px;text-align:center">15+</th>
-          <th style="padding:6px 8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">0-4</th>
-          <th style="padding:6px 8px;text-align:center">5-14</th>
-          <th style="padding:6px 8px;text-align:center">15+</th>
+          <th style="padding:6px 8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">0-4</th><th style="padding:6px 8px;text-align:center">5-14</th><th style="padding:6px 8px;text-align:center">15+</th>
+          <th style="padding:6px 8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">0-4</th><th style="padding:6px 8px;text-align:center">5-14</th><th style="padding:6px 8px;text-align:center">15+</th>
+          <th style="padding:6px 8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">0-4</th><th style="padding:6px 8px;text-align:center">5-14</th><th style="padding:6px 8px;text-align:center">15+</th>
         </tr>
       </thead>
       <tbody id="surv-disease-rows"></tbody>
@@ -2992,7 +2979,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </div>
   </div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-surveillance')">Cancel</button><button class="btn primary" onclick="saveSurveillance()">💾 Save Report</button></div>
-</div>
+</div></div>
 
 <!-- HEALTH PROMOTION -->
 <div id="m-hp" class="modal-overlay"><div class="modal">
@@ -5697,7 +5684,72 @@ function renderSanitation(){
   </tr>`).join('')||emptyRow(7);
 }
 
-
+function renderSurveillance(){
+  var yrSel=document.getElementById('surv-filter-year');
+  if(yrSel&&!yrSel.options.length){var cy=new Date().getFullYear();for(var y=cy-2;y<=cy+3;y++) yrSel.add(new Option(y,y,y===cy,y===cy));}
+  var filterYear=(document.getElementById('surv-filter-year')||{value:String(new Date().getFullYear())}).value;
+  var search=(document.getElementById('surv-search')||{value:''}).value.toLowerCase();
+  var data=DB.get('surveillance').filter(function(r){
+    if(filterYear&&r.week&&!r.week.startsWith(filterYear)) return false;
+    return true;
+  });
+  var totalCases=data.reduce(function(a,r){return a+(r.totalCases||0);},0);
+  var totalDeaths=data.reduce(function(a,r){return a+(r.totalDeaths||0);},0);
+  var st=document.getElementById('surv-stats');
+  if(st) st.innerHTML='<div class="g4">'
+    +'<div class="card-sm"><div class="stat-label">Weekly Reports</div><div class="stat-val" style="color:var(--teal-d)">'+data.length+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Total Cases</div><div class="stat-val" style="color:var(--amber)">'+totalCases+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Total Deaths</div><div class="stat-val" style="color:var(--red)">'+totalDeaths+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Reported to DHO</div><div class="stat-val" style="color:var(--green)">'+data.filter(function(r){return r.reported==='Yes';}).length+'</div></div>'
+    +'</div>';
+  var container=document.getElementById('surv-reports-list');
+  if(!container) return;
+  if(!data.length){
+    container.innerHTML='<div class="card" style="text-align:center;padding:32px;color:var(--txt2)"><div style="font-size:28px">🔬</div><div style="font-weight:600;margin-top:8px">No surveillance reports yet</div></div>';
+    return;
+  }
+  var html='';
+  for(var ri=0;ri<data.length;ri++){
+    var r=data[ri];
+    var diseases=r.diseases||{};
+    var topDisease='None';var topCount=0;
+    IDSR_DISEASES.forEach(function(d){
+      var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+      var dr=diseases[key]||{};
+      var total=(dr.s04||0)+(dr.s514||0)+(dr.s15||0);
+      if(total>topCount){topCount=total;topDisease=d.name;}
+    });
+    var rb=r.reported==='Yes'?'background:#dcfce7;color:#15803d':r.reported==='Pending'?'background:#fef3c7;color:#92400e':'background:#fee2e2;color:#dc2626';
+    var diseaseTags='';
+    IDSR_DISEASES.forEach(function(d){
+      var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+      var dr=diseases[key]||{};
+      var susp=(dr.s04||0)+(dr.s514||0)+(dr.s15||0);
+      var conf=(dr.c04||0)+(dr.c514||0)+(dr.c15||0);
+      var dths=(dr.d04||0)+(dr.d514||0)+(dr.d15||0);
+      if(susp===0&&conf===0&&dths===0) return;
+      if(search&&d.name.toLowerCase().indexOf(search)<0) return;
+      var color=dths>0?'#dc2626':conf>0?'#0891b2':'#374151';
+      diseaseTags+='<span style="padding:3px 10px;border-radius:10px;font-size:11px;background:var(--bg2);color:'+color+';font-weight:600;border:1px solid var(--bd)">'+d.name+': S'+susp+(conf>0?' C'+conf:'')+(dths>0?' D'+dths:'')+'</span>';
+    });
+    html+='<div class="card" style="margin-bottom:12px">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd)">'
+        +'<div><div style="font-weight:700;font-size:14px">'+(r.week||'')+' '+(r.date?'· '+fmtDate(r.date):'')+'</div>'
+          +'<div style="font-size:12px;color:var(--txt2);margin-top:3px">Top: <b>'+topDisease+'</b>'+(topCount>0?' ('+topCount+' susp.)':'')+'</div></div>'
+        +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
+          +'<span style="padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;'+rb+'">DHO: '+(r.reported||'—')+'</span>'
+          +'<span style="padding:3px 10px;border-radius:10px;font-size:11px;background:var(--bg2);color:var(--txt);font-weight:600">Cases: '+(r.totalCases||0)+'</span>'
+          +'<span style="padding:3px 10px;border-radius:10px;font-size:11px;background:#fee2e2;color:#dc2626;font-weight:600">Deaths: '+(r.totalDeaths||0)+'</span>'
+          +'<button onclick="editSurveillance(this.getAttribute(\'data-id\'))" data-id="'+r.id+'" style="padding:5px 12px;border-radius:7px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer">✏ Edit</button>'
+          +'<button onclick="viewSurveillanceReport(this.getAttribute(\'data-id\'))" data-id="'+r.id+'" style="padding:5px 12px;border-radius:7px;border:1.5px solid var(--bd);background:var(--bg2);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer">👁 View</button>'
+          +'<button onclick="deleteRecord(\'surveillance\',this.getAttribute(\'data-id\'),renderSurveillance)" data-id="'+r.id+'" style="padding:5px 12px;border-radius:7px;border:1.5px solid #dc2626;background:transparent;color:#dc2626;font-size:11px;font-weight:600;cursor:pointer">🗑</button>'
+        +'</div>'
+      +'</div>'
+      +'<div style="padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px">'+diseaseTags+'</div>'
+    +'</div>';
+  }
+  container.innerHTML=html;
+}
 
 function renderHP(){
   const data=DB.get('health_promo');
@@ -12434,369 +12486,172 @@ function filterVillageByZone(zone){
   });
 }
 
-// ══════════════════════════════════════════════════════
-// SURVEILLANCE MODULE — IDSR WEEKLY REPORT
-// ══════════════════════════════════════════════════════
 
-var IDSR_DISEASES = [
-  // Priority diseases
-  {name:'Malaria', part:'Priority'},
-  {name:'Diarrhoea (Non-Blood)', part:'Priority'},
-  {name:'Diarrhoea with Blood (Dysentery)', part:'Priority'},
-  {name:'Scabies', part:'Priority'},
-  {name:'Hypertension (New Cases)', part:'Priority'},
-  {name:'Dog Bites', part:'Priority'},
-  {name:'Chicken Pox', part:'Priority'},
-  {name:'Acute Viral Hepatitis', part:'Priority'},
-  {name:'Soil Transmitted Helminths', part:'Priority'},
-  {name:'Food Poisoning', part:'Priority'},
-  {name:'Road Traffic Injuries', part:'Priority'},
-  {name:'COVID-19', part:'Priority'},
-  {name:'Neonatal Death', part:'Priority'},
-  // Immediate notifiable
-  {name:'Cholera', part:'Immediate'},
-  {name:'Typhoid Fever', part:'Immediate'},
-  {name:'Measles', part:'Immediate'},
-  {name:'Bacterial Meningitis', part:'Immediate'},
-  {name:'Acute Flaccid Paralysis (AFP)', part:'Immediate'},
-  {name:'Human Rabies', part:'Immediate'},
-  {name:'Influenza Like Illness (ILI)', part:'Immediate'},
-  {name:'Maternal Death', part:'Immediate'},
-  {name:'Mpox', part:'Immediate'},
-  {name:'Severe Acute Respiratory Infection (SARI)', part:'Immediate'},
-  // HIV
-  {name:'HIV Testing (New Positive)', part:'HIV'},
-  {name:'HIV Recency Testing', part:'HIV'},
+var IDSR_DISEASES=[
+  {name:'Malaria',part:'Priority'},{name:'Diarrhoea (Non-Blood)',part:'Priority'},
+  {name:'Diarrhoea with Blood (Dysentery)',part:'Priority'},{name:'Scabies',part:'Priority'},
+  {name:'Hypertension (New Cases)',part:'Priority'},{name:'Dog Bites',part:'Priority'},
+  {name:'Chicken Pox',part:'Priority'},{name:'Acute Viral Hepatitis',part:'Priority'},
+  {name:'Food Poisoning',part:'Priority'},{name:'COVID-19',part:'Priority'},
+  {name:'Soil Transmitted Helminths',part:'Priority'},{name:'Road Traffic Injuries',part:'Priority'},
+  {name:'Neonatal Death',part:'Priority'},
+  {name:'Cholera',part:'Immediate'},{name:'Typhoid Fever',part:'Immediate'},
+  {name:'Measles',part:'Immediate'},{name:'Bacterial Meningitis',part:'Immediate'},
+  {name:'Acute Flaccid Paralysis (AFP)',part:'Immediate'},{name:'Human Rabies',part:'Immediate'},
+  {name:'Influenza Like Illness (ILI)',part:'Immediate'},{name:'Maternal Death',part:'Immediate'},
+  {name:'Mpox',part:'Immediate'},{name:'SARI',part:'Immediate'},
+  {name:'HIV Testing (New Positive)',part:'HIV'},{name:'HIV Recency Testing',part:'HIV'}
 ];
 
 function buildSurvDiseaseRows(existingData){
-  var tbody = document.getElementById('surv-disease-rows');
+  var tbody=document.getElementById('surv-disease-rows');
   if(!tbody) return;
-
-  var lastPart = '';
-  // Track other diseases count
-  if(!window._survOtherCount) window._survOtherCount = 1;
-
-  tbody.innerHTML = IDSR_DISEASES.map(function(d, i){
-    var key = d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
-    var existing = existingData && existingData[key] ? existingData[key] : {};
-    var partHeader = '';
-    if(d.part !== lastPart){
-      lastPart = d.part;
-      var colors = {Priority:'#1d4ed8',Immediate:'#dc2626',HIV:'#7c3aed'};
-      partHeader = '<tr><td colspan="11" style="background:'+(colors[d.part]||'#374151')+';color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">'+
-        (d.part==='Priority'?'Part 1 — Priority Diseases':d.part==='Immediate'?'Part 2 — Immediate Notifiable Diseases':'Part 3 — HIV Surveillance')+'</td></tr>';
+  var lastPart='';
+  var partColors={Priority:'#1d4ed8',Immediate:'#dc2626',HIV:'#7c3aed'};
+  var partLabels={Priority:'Part 1 — Priority Diseases',Immediate:'Part 2 — Immediate Notifiable Diseases',HIV:'Part 3 — HIV Surveillance'};
+  var rows=IDSR_DISEASES.map(function(d,i){
+    var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+    var ex=existingData&&existingData[key]?existingData[key]:{};
+    var header='';
+    if(d.part!==lastPart){
+      lastPart=d.part;
+      header='<tr><td colspan="11" style="background:'+(partColors[d.part]||'#374151')+';color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase">'+partLabels[d.part]+'</td></tr>';
     }
-    var bg = i%2===0?'':'background:var(--bg2)';
-    function inp(fld){ var v=existing[fld]||''; return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-'+key+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; }
-    return partHeader+'<tr style="'+bg+'">'
-      +'<td style="padding:5px 10px;font-size:11px;font-weight:500">'+d.name+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('s04')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+inp('s514')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+inp('s15')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('c04')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+inp('c514')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+inp('c15')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('d04')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+inp('d514')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+inp('d15')+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('lab')+'</td>'
-    +'</tr>';
-  }).join('')
-
-  // Add "Other" section at bottom
-  var otherSection = '<tr><td colspan="11" style="background:#374151;color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Part 4 — Other Conditions (Specify)</td></tr>';
-  var otherCount = (existingData && existingData._otherCount) ? existingData._otherCount : 1;
-  window._survOtherCount = otherCount;
-  var _survOinp = function(fld,idx,existingData){ var v=(existingData&&existingData['_other_'+idx]&&existingData['_other_'+idx][fld])||''; return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-_other_'+idx+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; };
-  for(var oi=1; oi<=otherCount; oi++){
-    var oexist = existingData && existingData['_other_'+oi] ? existingData['_other_'+oi] : {};
-    var oname = oexist.name||'';
-    otherSection += '<tr style="'+(oi%2===0?'background:var(--bg2)':'')+'">'
-      +'<td style="padding:5px 6px"><input type="text" placeholder="Specify disease/condition..." value="'+oname+'" id="f-surv-other-name-'+oi+'" style="width:100%;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+_survOinp('s04',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('s514',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('s15',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+_survOinp('c04',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('c514',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('c15',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+_survOinp('d04',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('d514',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('d15',oi,existingData)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+_survOinp('lab',oi,existingData)+'</td>'
-    +'</tr>';
+    var bg=i%2===0?'':'background:var(--bg2)';
+    function inp(f){var v=ex[f]||'';return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-'+key+'-'+f+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">';}
+    return header+'<tr style="'+bg+'"><td style="padding:5px 10px;font-size:11px;font-weight:500">'+d.name+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('s04')+'</td><td style="padding:3px 4px;text-align:center">'+inp('s514')+'</td><td style="padding:3px 4px;text-align:center">'+inp('s15')+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('c04')+'</td><td style="padding:3px 4px;text-align:center">'+inp('c514')+'</td><td style="padding:3px 4px;text-align:center">'+inp('c15')+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('d04')+'</td><td style="padding:3px 4px;text-align:center">'+inp('d514')+'</td><td style="padding:3px 4px;text-align:center">'+inp('d15')+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('lab')+'</td></tr>';
+  }).join('');
+  // Add Other section
+  var otherCount=existingData&&existingData._otherCount?existingData._otherCount:1;
+  window._survOtherCount=otherCount;
+  var otherRows='<tr><td colspan="11" style="background:#374151;color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase">Part 4 — Other Conditions (Specify)</td></tr>';
+  for(var oi=1;oi<=otherCount;oi++){
+    var oex=existingData&&existingData['_other_'+oi]?existingData['_other_'+oi]:{};
+    var oname=oex.name||'';
+    var obg=oi%2===0?'background:var(--bg2)':'';
+    var oidx=oi;
+    function makeOtherInp(fld,idx){var v2=(existingData&&existingData['_other_'+idx]&&existingData['_other_'+idx][fld])||'';return '<input type="number" min="0" placeholder="0" value="'+v2+'" id="f-surv-oth'+idx+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">';}
+    otherRows+='<tr style="'+obg+'"><td style="padding:5px 6px"><input type="text" placeholder="Specify disease..." value="'+oname+'" id="f-surv-oth-name-'+oi+'" style="width:100%;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+makeOtherInp('s04',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('s514',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('s15',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+makeOtherInp('c04',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('c514',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('c15',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+makeOtherInp('d04',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('d514',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('d15',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+makeOtherInp('lab',oi)+'</td></tr>';
   }
-  otherSection += '<tr><td colspan="11" style="padding:6px 10px"><button type="button" onclick="addSurvOtherRow()" style="padding:4px 14px;border-radius:6px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer">+ Add Another Other Disease</button></td></tr>';
-  tbody.innerHTML += otherSection;
+  otherRows+='<tr><td colspan="11" style="padding:6px 10px"><button type="button" onclick="addSurvOtherRow()" style="padding:4px 14px;border-radius:6px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer">+ Add Another Disease</button></td></tr>';
+  tbody.innerHTML=rows+otherRows;
+}
+
+function addSurvOtherRow(){
+  window._survOtherCount=(window._survOtherCount||1)+1;
+  var count=window._survOtherCount;
+  var tbody=document.getElementById('surv-disease-rows');
+  if(!tbody) return;
+  var rows=tbody.querySelectorAll('tr');
+  var lastRow=rows[rows.length-1];
+  var newRow=document.createElement('tr');
+  newRow.style.background=count%2===0?'var(--bg2)':'';
+  function ni(f){return '<input type="number" min="0" placeholder="0" id="f-surv-oth'+count+'-'+f+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">';}
+  newRow.innerHTML='<td style="padding:5px 6px"><input type="text" placeholder="Specify disease..." id="f-surv-oth-name-'+count+'" style="width:100%;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
+    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+ni('s04')+'</td><td style="padding:3px 4px;text-align:center">'+ni('s514')+'</td><td style="padding:3px 4px;text-align:center">'+ni('s15')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+ni('c04')+'</td><td style="padding:3px 4px;text-align:center">'+ni('c514')+'</td><td style="padding:3px 4px;text-align:center">'+ni('c15')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+ni('d04')+'</td><td style="padding:3px 4px;text-align:center">'+ni('d514')+'</td><td style="padding:3px 4px;text-align:center">'+ni('d15')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+ni('lab')+'</td>';
+  tbody.insertBefore(newRow,lastRow);
 }
 
 function readSurvDiseaseRows(){
-  var result = {};
+  var result={};
   IDSR_DISEASES.forEach(function(d){
-    var key = d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
-    var fields = ['s04','s514','s15','c04','c514','c15','d04','d514','d15','lab'];
-    var row = {};
-    var hasData = false;
-    fields.forEach(function(f){
-      var el = document.getElementById('f-surv-'+key+'-'+f);
-      var v = el ? (parseInt(el.value)||0) : 0;
-      row[f] = v;
-      if(v>0) hasData = true;
-    });
-    if(hasData) result[key] = row;
+    var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+    var fields=['s04','s514','s15','c04','c514','c15','d04','d514','d15','lab'];
+    var row={};var hasData=false;
+    fields.forEach(function(f){var el=document.getElementById('f-surv-'+key+'-'+f);var v=el?(parseInt(el.value)||0):0;row[f]=v;if(v>0) hasData=true;});
+    if(hasData) result[key]=row;
   });
-  // Read Other rows
-  var otherCount = window._survOtherCount||1;
-  result._otherCount = otherCount;
-  for(var oi=1; oi<=otherCount; oi++){
-    var nameEl = document.getElementById('f-surv-other-name-'+oi);
+  var otherCount=window._survOtherCount||1;
+  result._otherCount=otherCount;
+  for(var oi=1;oi<=otherCount;oi++){
+    var nameEl=document.getElementById('f-surv-oth-name-'+oi);
     if(!nameEl) continue;
-    var oname = nameEl.value.trim();
-    var fields2 = ['s04','s514','s15','c04','c514','c15','d04','d514','d15','lab'];
-    var orow = {name:oname};
-    var hasOData = oname !== '';
-    fields2.forEach(function(f){
-      var el2 = document.getElementById('f-surv-_other_'+oi+'-'+f);
-      var v2 = el2 ? (parseInt(el2.value)||0) : 0;
-      orow[f] = v2;
-      if(v2>0) hasOData = true;
-    });
-    if(hasOData) result['_other_'+oi] = orow;
+    var oname=nameEl.value.trim();
+    var fields2=['s04','s514','s15','c04','c514','c15','d04','d514','d15','lab'];
+    var orow={name:oname};var hasOData=oname!=='';
+    fields2.forEach(function(f){var el2=document.getElementById('f-surv-oth'+oi+'-'+f);var v2=el2?(parseInt(el2.value)||0):0;orow[f]=v2;if(v2>0) hasOData=true;});
+    if(hasOData) result['_other_'+oi]=orow;
   }
   return result;
 }
 
 function openSurveillanceModal(existingData){
+  window._survOtherCount=1;
   buildSurvDiseaseRows(existingData||{});
   openModal('m-surveillance');
 }
 
 async function saveSurveillance(){
-  var week = document.getElementById('f-surv-week').value;
-  var date = document.getElementById('f-surv-date').value;
-  if(!week && !date){toast('Please enter the epi week or date','error');return;}
-  var id = document.getElementById('f-surv-id').value || genId('SV');
-  var diseaseData = readSurvDiseaseRows();
-  var rec = {
-    id: id,
-    week: week,
-    date: date,
-    reporter: document.getElementById('f-surv-reporter').value||'',
-    reported: document.getElementById('f-surv-reported').value||'',
-    action: document.getElementById('f-surv-action').value||'',
-    diseases: diseaseData
-  };
-  // Calculate totals
-  var totalCases=0, totalDeaths=0;
-  Object.values(diseaseData).forEach(function(r){
-    totalCases+=(r.s04||0)+(r.s514||0)+(r.s15||0)+(r.c04||0)+(r.c514||0)+(r.c15||0);
-    totalDeaths+=(r.d04||0)+(r.d514||0)+(r.d15||0);
-  });
-  rec.totalCases = totalCases;
-  rec.totalDeaths = totalDeaths;
-  var data = DB.get('surveillance');
-  var idx = data.findIndex(function(r){return r.id===id;});
+  var week=document.getElementById('f-surv-week').value;
+  var date=document.getElementById('f-surv-date').value;
+  if(!week&&!date){toast('Please enter the epi week or date','error');return;}
+  var id=document.getElementById('f-surv-id').value||genId('SV');
+  var diseaseData=readSurvDiseaseRows();
+  var rec={id:id,week:week,date:date,reporter:document.getElementById('f-surv-reporter').value||'',reported:document.getElementById('f-surv-reported').value||'',action:document.getElementById('f-surv-action').value||'',diseases:diseaseData};
+  var totalCases=0,totalDeaths=0;
+  Object.values(diseaseData).forEach(function(r){if(typeof r!=='object'||r===null) return;totalCases+=(r.s04||0)+(r.s514||0)+(r.s15||0)+(r.c04||0)+(r.c514||0)+(r.c15||0);totalDeaths+=(r.d04||0)+(r.d514||0)+(r.d15||0);});
+  rec.totalCases=totalCases;rec.totalDeaths=totalDeaths;
+  var data=DB.get('surveillance');var idx=data.findIndex(function(r){return r.id===id;});
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
-  _store['surveillance']=data; idbPut('surveillance',data);
-  closeModal('m-surveillance');
-  renderSurveillance();
-  toast('Surveillance report saved','success');
-  sbSet('surveillance',data);
-}
-
-function renderSurveillance(){
-  // Year dropdown
-  var yrSel = document.getElementById('surv-filter-year');
-  if(yrSel && !yrSel.options.length){
-    var cy=new Date().getFullYear();
-    for(var y=cy-2;y<=cy+3;y++) yrSel.add(new Option(y,y,y===cy,y===cy));
-  }
-  var filterYear = (document.getElementById('surv-filter-year')||{value:String(new Date().getFullYear())}).value;
-  var search = (document.getElementById('surv-search')||{value:''}).value.toLowerCase();
-  var data = DB.get('surveillance').filter(function(r){
-    if(filterYear && r.week && !r.week.startsWith(filterYear)) return false;
-    if(filterYear && !r.week && r.date && !r.date.startsWith(filterYear)) return false;
-    return true;
-  });
-
-  // Stats
-  var totalCases = data.reduce(function(a,r){return a+(r.totalCases||0);},0);
-  var totalDeaths = data.reduce(function(a,r){return a+(r.totalDeaths||0);},0);
-  var totalReports = data.length;
-  var st = document.getElementById('surv-stats');
-  if(st) st.innerHTML='<div class="g4">'
-    +'<div class="card-sm"><div class="stat-label">Weekly Reports</div><div class="stat-val" style="color:var(--teal-d)">'+totalReports+'</div></div>'
-    +'<div class="card-sm"><div class="stat-label">Total Cases</div><div class="stat-val" style="color:var(--amber)">'+totalCases+'</div></div>'
-    +'<div class="card-sm"><div class="stat-label">Total Deaths</div><div class="stat-val" style="color:var(--red)">'+totalDeaths+'</div></div>'
-    +'<div class="card-sm"><div class="stat-label">Reported to DHO</div><div class="stat-val" style="color:var(--green)">'+data.filter(function(r){return r.reported==='Yes';}).length+'</div></div>'
-    +'</div>';
-
-  var container = document.getElementById('surv-reports-list');
-  if(!container) return;
-  if(!data.length){
-    container.innerHTML='<div class="card" style="text-align:center;padding:32px;color:var(--txt2)"><div style="font-size:28px;margin-bottom:8px">🔬</div><div style="font-weight:600">No surveillance reports yet</div><div style="font-size:12px;margin-top:6px">Click + New Weekly Report to add one</div></div>';
-    return;
-  }
-
-  container.innerHTML = data.map(function(r){
-    var diseases = r.diseases || {};
-    // Find top disease
-    var topDisease='None'; var topCount=0;
-    IDSR_DISEASES.forEach(function(d){
-      var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
-      var dr=diseases[key]||{};
-      var total=(dr.s04||0)+(dr.s514||0)+(dr.s15||0);
-      if(total>topCount){topCount=total;topDisease=d.name;}
-    });
-    var reported_badge = r.reported==='Yes'?'background:#dcfce7;color:#15803d':r.reported==='Pending'?'background:#fef3c7;color:#92400e':'background:#fee2e2;color:#dc2626';
-    return '<div class="card" style="margin-bottom:12px">'
-      +'<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd)">'
-        +'<div>'
-          +'<div style="font-weight:700;font-size:14px">'+r.week+' '+(r.date?'· '+fmtDate(r.date):'')+'</div>'
-          +'<div style="font-size:12px;color:var(--txt2);margin-top:3px">Top: <b>'+topDisease+'</b>'+(topCount>0?' ('+topCount+' suspected)':'')+'</div>'
-        +'</div>'
-        +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
-          +'<span style="padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;'+reported_badge+'">DHO: '+(r.reported||'—')+'</span>'
-          +'<span style="padding:3px 10px;border-radius:10px;font-size:11px;background:var(--bg2);color:var(--txt);font-weight:600">Cases: '+(r.totalCases||0)+'</span>'
-          +'<span style="padding:3px 10px;border-radius:10px;font-size:11px;background:#fee2e2;color:#dc2626;font-weight:600">Deaths: '+(r.totalDeaths||0)+'</span>'
-          +'<button onclick="editSurveillance(\''+r.id+'\')" style="padding:5px 12px;border-radius:7px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer">✏ Edit</button>'
-          +'<button onclick="viewSurveillanceReport(\''+r.id+'\')" style="padding:5px 12px;border-radius:7px;border:1.5px solid var(--bd);background:var(--bg2);color:var(--txt);font-size:11px;font-weight:600;cursor:pointer">👁 View</button>'
-          +'<button onclick="deleteRecord(\'surveillance\',\''+r.id+'\',renderSurveillance)" style="padding:5px 12px;border-radius:7px;border:1.5px solid #dc2626;background:transparent;color:#dc2626;font-size:11px;font-weight:600;cursor:pointer">🗑</button>'
-        +'</div>'
-      +'</div>'
-      // Mini disease summary
-      +'<div style="padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px">'
-        +IDSR_DISEASES.map(function(d){
-          var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
-          var dr=diseases[key]||{};
-          var susp=(dr.s04||0)+(dr.s514||0)+(dr.s15||0);
-          var conf=(dr.c04||0)+(dr.c514||0)+(dr.c15||0);
-          var dths=(dr.d04||0)+(dr.d514||0)+(dr.d15||0);
-          if(susp===0&&conf===0&&dths===0) return '';
-          if(search && d.name.toLowerCase().indexOf(search)<0) return '';
-          var color=dths>0?'#dc2626':conf>0?'#0891b2':'#374151';
-          return '<span style="padding:3px 10px;border-radius:10px;font-size:11px;background:var(--bg2);color:'+color+';font-weight:600;border:1px solid var(--bd)">'
-            +d.name+': S'+susp+(conf>0?' C'+conf:'')+(dths>0?' D'+dths:'')+
-          '</span>';
-        }).join('')
-      +'</div>'
-    +'</div>';
-  }).join('');
+  _store['surveillance']=data;idbPut('surveillance',data);
+  closeModal('m-surveillance');renderSurveillance();
+  toast('Surveillance report saved','success');sbSet('surveillance',data);
 }
 
 function editSurveillance(id){
-  var data = DB.get('surveillance');
-  var r = data.find(function(x){return x.id===id;});
-  if(!r) return;
-  document.getElementById('f-surv-id').value = r.id;
-  document.getElementById('f-surv-week').value = r.week||'';
-  document.getElementById('f-surv-date').value = r.date||'';
-  document.getElementById('f-surv-reporter').value = r.reporter||'';
-  document.getElementById('f-surv-reported').value = r.reported||'Yes';
-  document.getElementById('f-surv-action').value = r.action||'';
-  document.getElementById('t-surveillance').textContent = 'Edit IDSR Report — '+r.week;
+  var r=DB.get('surveillance').find(function(x){return x.id===id;});if(!r)return;
+  document.getElementById('f-surv-id').value=r.id;
+  document.getElementById('f-surv-week').value=r.week||'';
+  document.getElementById('f-surv-date').value=r.date||'';
+  document.getElementById('f-surv-reporter').value=r.reporter||'';
+  document.getElementById('f-surv-reported').value=r.reported||'Yes';
+  document.getElementById('f-surv-action').value=r.action||'';
+  document.getElementById('t-surveillance').textContent='Edit IDSR Report — '+r.week;
   openSurveillanceModal(r.diseases||{});
 }
 
 function viewSurveillanceReport(id){
-  var data = DB.get('surveillance');
-  var r = data.find(function(x){return x.id===id;});
-  if(!r) return;
-  var diseases = r.diseases||{};
-
-  var rows = IDSR_DISEASES.map(function(d,i){
+  var r=DB.get('surveillance').find(function(x){return x.id===id;});if(!r)return;
+  var diseases=r.diseases||{};
+  var rows=IDSR_DISEASES.map(function(d,i){
     var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
     var dr=diseases[key]||{};
-    var susp=(dr.s04||0)+(dr.s514||0)+(dr.s15||0);
-    var conf=(dr.c04||0)+(dr.c514||0)+(dr.c15||0);
-    var dths=(dr.d04||0)+(dr.d514||0)+(dr.d15||0);
-    var lab=dr.lab||0;
+    var susp=(dr.s04||0)+(dr.s514||0)+(dr.s15||0);var conf=(dr.c04||0)+(dr.c514||0)+(dr.c15||0);var dths=(dr.d04||0)+(dr.d514||0)+(dr.d15||0);var lab=dr.lab||0;
     if(susp===0&&conf===0&&dths===0&&lab===0) return '';
     var bg=i%2===0?'#f9fafb':'#fff';
-    return '<tr style="background:'+bg+';border-bottom:1px solid #e5e7eb">'
-      +'<td style="padding:7px 10px;font-size:12px;font-weight:600">'+d.name+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s04||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s514||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s15||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px;background:#e0f2fe">'+(dr.c04||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px;background:#e0f2fe">'+(dr.c514||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px;background:#e0f2fe">'+(dr.c15||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px;background:#fee2e2">'+(dr.d04||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px;background:#fee2e2">'+(dr.d514||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px;background:#fee2e2">'+(dr.d15||0)+'</td>'
-      +'<td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.lab||0)+'</td>'
-    +'</tr>';
+    return '<tr style="background:'+bg+';border-bottom:1px solid #e5e7eb"><td style="padding:7px 10px;font-size:12px;font-weight:600">'+d.name+'</td>'
+      +'<td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s04||0)+'</td><td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s514||0)+'</td><td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s15||0)+'</td>'
+      +'<td style="padding:7px 8px;text-align:center;font-size:12px;background:#e0f2fe">'+(dr.c04||0)+'</td><td style="padding:7px 8px;text-align:center;font-size:12px;background:#e0f2fe">'+(dr.c514||0)+'</td><td style="padding:7px 8px;text-align:center;font-size:12px;background:#e0f2fe">'+(dr.c15||0)+'</td>'
+      +'<td style="padding:7px 8px;text-align:center;font-size:12px;background:#fee2e2">'+(dr.d04||0)+'</td><td style="padding:7px 8px;text-align:center;font-size:12px;background:#fee2e2">'+(dr.d514||0)+'</td><td style="padding:7px 8px;text-align:center;font-size:12px;background:#fee2e2">'+(dr.d15||0)+'</td>'
+      +'<td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.lab||0)+'</td></tr>';
   }).join('');
-
-  var html='<!DOCTYPE html><html><head><title>IDSR Report '+r.week+'</title>'
-    +'<style>body{font-family:Arial,sans-serif;padding:24px;color:#111;max-width:1000px;margin:0 auto}'
-    +'.hdr{text-align:center;border-bottom:2px solid #1e3a5f;padding-bottom:12px;margin-bottom:16px}'
-    +'table{width:100%;border-collapse:collapse}th{background:#1e3a5f;color:#fff;padding:7px 8px;text-align:center;font-size:11px}'
-    +'th:first-child{text-align:left}tr:nth-child(even){background:#f9fafb}'
-    +'@media print{button{display:none}}</style></head><body>'
-    +'<div class="hdr">'
-      +'<div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia</div>'
-      +'<div style="font-size:20px;font-weight:800;margin:6px 0">IDSR Weekly Surveillance Report</div>'
-      +'<div style="font-size:13px;color:#374151">Mbabala RHC · Chifunabuli · Luapula</div>'
-      +'<div style="font-size:12px;color:#6b7280;margin-top:4px">Epi Week: <b>'+r.week+'</b> · Date: <b>'+fmtDate(r.date)+'</b> · Reporter: <b>'+(r.reporter||'—')+'</b></div>'
-    +'</div>'
-    +'<table><thead><tr>'
-      +'<th style="text-align:left;min-width:150px">Disease / Condition</th>'
-      +'<th colspan="3">Suspected Cases</th>'
-      +'<th colspan="3" style="background:#0e7490">Confirmed Cases</th>'
-      +'<th colspan="3" style="background:#991b1b">Deaths</th>'
-      +'<th>Sent to Lab</th>'
-    +'</tr>'
-    +'<tr style="background:#2d5a8e">'
-      +'<th></th>'
-      +'<th>0-4</th><th>5-14</th><th>15+</th>'
-      +'<th style="background:#0e7490">0-4</th><th style="background:#0e7490">5-14</th><th style="background:#0e7490">15+</th>'
-      +'<th style="background:#991b1b">0-4</th><th style="background:#991b1b">5-14</th><th style="background:#991b1b">15+</th>'
-      +'<th></th>'
-    +'</tr></thead>'
-    +'<tbody>'+rows+'</tbody></table>'
-    +'<div style="margin-top:16px;font-size:12px"><b>Actions/Remarks:</b> '+(r.action||'None')+'</div>'
-    +'<div style="margin-top:12px;font-size:11px;color:#6b7280">Reported to DHO: '+(r.reported||'—')+' · Total Cases: '+(r.totalCases||0)+' · Total Deaths: '+(r.totalDeaths||0)+'</div>'
-    +'<div style="margin-top:10px;display:flex;gap:40px">'
-      +'<div style="flex:1;border-top:1px solid #111;margin-top:30px;padding-top:4px;font-size:11px">EH Officer Signature &amp; Date</div>'
-      +'<div style="flex:1;border-top:1px solid #111;margin-top:30px;padding-top:4px;font-size:11px">HMIS Officer Signature &amp; Date</div>'
-    +'</div>'
+  var html='<!DOCTYPE html><html><head><title>IDSR '+r.week+'</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#111;max-width:1000px;margin:0 auto}table{width:100%;border-collapse:collapse}th{background:#1e3a5f;color:#fff;padding:7px 8px;text-align:center;font-size:11px}th:first-child{text-align:left}@media print{button{display:none}}</style></head><body>'
+    +'<div style="text-align:center;border-bottom:2px solid #1e3a5f;padding-bottom:12px;margin-bottom:16px"><div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia</div><div style="font-size:20px;font-weight:800;margin:6px 0">IDSR Weekly Surveillance Report</div><div style="font-size:13px;color:#374151">Mbabala RHC · Chifunabuli · Luapula</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Epi Week: <b>'+r.week+'</b> · Date: <b>'+fmtDate(r.date)+'</b> · Reporter: <b>'+(r.reporter||'—')+'</b></div></div>'
+    +'<table><thead><tr><th style="text-align:left;min-width:150px">Disease</th><th colspan="3">Suspected</th><th colspan="3" style="background:#0e7490">Confirmed</th><th colspan="3" style="background:#991b1b">Deaths</th><th>Lab</th></tr>'
+    +'<tr style="background:#2d5a8e"><th></th><th>0-4</th><th>5-14</th><th>15+</th><th style="background:#0e7490">0-4</th><th style="background:#0e7490">5-14</th><th style="background:#0e7490">15+</th><th style="background:#991b1b">0-4</th><th style="background:#991b1b">5-14</th><th style="background:#991b1b">15+</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div style="margin-top:16px;font-size:12px"><b>Actions:</b> '+(r.action||'None')+'</div>'
     +'<div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 24px;background:#1e3a5f;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer">🖨 Print / Save PDF</button></div>'
     +'</body></html>';
   var w=window.open('','_blank');w.document.write(html);w.document.close();
 }
 
 function printIDSRReport(){
-  var data = DB.get('surveillance');
+  var data=DB.get('surveillance');
   if(!data.length){toast('No surveillance reports to print','warning');return;}
   viewSurveillanceReport(data[0].id);
 }
 
-
-function addSurvOtherRow(){
-  window._survOtherCount = (window._survOtherCount||1) + 1;
-  var count = window._survOtherCount;
-  var tbody = document.getElementById('surv-disease-rows');
-  if(!tbody) return;
-  // Find the add button row and insert before it
-  var rows = tbody.querySelectorAll('tr');
-  var lastRow = rows[rows.length-1];
-  var newRow = document.createElement('tr');
-  newRow.style.background = count%2===0?'var(--bg2)':'';
-  function inp(fld){ return '<input type="number" min="0" placeholder="0" id="f-surv-_other_'+count+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; }
-  newRow.innerHTML = '<td style="padding:5px 6px"><input type="text" placeholder="Specify disease/condition..." id="f-surv-other-name-'+count+'" style="width:100%;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
-    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('s04')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center">'+inp('s514')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center">'+inp('s15')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('c04')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center">'+inp('c514')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center">'+inp('c15')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('d04')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center">'+inp('d514')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center">'+inp('d15')+'</td>'
-    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('lab')+'</td>';
-  tbody.insertBefore(newRow, lastRow);
-}
 </script>
 </body>
 </html>
