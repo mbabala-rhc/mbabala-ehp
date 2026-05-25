@@ -12509,22 +12509,22 @@ function buildSurvDiseaseRows(existingData){
   var otherSection = '<tr><td colspan="11" style="background:#374151;color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Part 4 — Other Conditions (Specify)</td></tr>';
   var otherCount = (existingData && existingData._otherCount) ? existingData._otherCount : 1;
   window._survOtherCount = otherCount;
+  var _survOinp = function(fld,idx,existingData){ var v=(existingData&&existingData['_other_'+idx]&&existingData['_other_'+idx][fld])||''; return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-_other_'+idx+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; };
   for(var oi=1; oi<=otherCount; oi++){
     var oexist = existingData && existingData['_other_'+oi] ? existingData['_other_'+oi] : {};
     var oname = oexist.name||'';
-    function oinp(fld,idx){ var v=(existingData&&existingData['_other_'+idx]&&existingData['_other_'+idx][fld])||''; return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-_other_'+idx+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; }
     otherSection += '<tr style="'+(oi%2===0?'background:var(--bg2)':'')+'">'
       +'<td style="padding:5px 6px"><input type="text" placeholder="Specify disease/condition..." value="'+oname+'" id="f-surv-other-name-'+oi+'" style="width:100%;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+oinp('s04',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+oinp('s514',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+oinp('s15',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+oinp('c04',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+oinp('c514',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+oinp('c15',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+oinp('d04',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+oinp('d514',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center">'+oinp('d15',oi)+'</td>'
-      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+oinp('lab',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+_survOinp('s04',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('s514',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('s15',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+_survOinp('c04',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('c514',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('c15',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+_survOinp('d04',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('d514',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+_survOinp('d15',oi,existingData)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+_survOinp('lab',oi,existingData)+'</td>'
     +'</tr>';
   }
   otherSection += '<tr><td colspan="11" style="padding:6px 10px"><button type="button" onclick="addSurvOtherRow()" style="padding:4px 14px;border-radius:6px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer">+ Add Another Other Disease</button></td></tr>';
