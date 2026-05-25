@@ -12467,7 +12467,6 @@ var IDSR_DISEASES = [
   // HIV
   {name:'HIV Testing (New Positive)', part:'HIV'},
   {name:'HIV Recency Testing', part:'HIV'},
-  {name:'Other (specify)', part:'Other'},
 ];
 
 function buildSurvDiseaseRows(existingData){
@@ -12475,15 +12474,18 @@ function buildSurvDiseaseRows(existingData){
   if(!tbody) return;
 
   var lastPart = '';
+  // Track other diseases count
+  if(!window._survOtherCount) window._survOtherCount = 1;
+
   tbody.innerHTML = IDSR_DISEASES.map(function(d, i){
     var key = d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
     var existing = existingData && existingData[key] ? existingData[key] : {};
     var partHeader = '';
     if(d.part !== lastPart){
       lastPart = d.part;
-      var colors = {Priority:'#1d4ed8',Immediate:'#dc2626',HIV:'#7c3aed',Other:'#374151'};
+      var colors = {Priority:'#1d4ed8',Immediate:'#dc2626',HIV:'#7c3aed'};
       partHeader = '<tr><td colspan="11" style="background:'+(colors[d.part]||'#374151')+';color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">'+
-        (d.part==='Priority'?'Part 1 — Priority Diseases':d.part==='Immediate'?'Part 2 — Immediate Notifiable Diseases':d.part==='HIV'?'Part 3 — HIV Surveillance':'Part 4 — Other Conditions')+'</td></tr>';
+        (d.part==='Priority'?'Part 1 — Priority Diseases':d.part==='Immediate'?'Part 2 — Immediate Notifiable Diseases':'Part 3 — HIV Surveillance')+'</td></tr>';
     }
     var bg = i%2===0?'':'background:var(--bg2)';
     function inp(fld){ var v=existing[fld]||''; return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-'+key+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; }
@@ -12500,7 +12502,32 @@ function buildSurvDiseaseRows(existingData){
       +'<td style="padding:3px 4px;text-align:center">'+inp('d15')+'</td>'
       +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('lab')+'</td>'
     +'</tr>';
-  }).join('');
+  }).join('')
+
+  // Add "Other" section at bottom
+  var otherSection = '<tr><td colspan="11" style="background:#374151;color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Part 4 — Other Conditions (Specify)</td></tr>';
+  var otherCount = (existingData && existingData._otherCount) ? existingData._otherCount : 1;
+  window._survOtherCount = otherCount;
+  for(var oi=1; oi<=otherCount; oi++){
+    var oexist = existingData && existingData['_other_'+oi] ? existingData['_other_'+oi] : {};
+    var oname = oexist.name||'';
+    function oinp(fld,idx){ var v=(existingData&&existingData['_other_'+idx]&&existingData['_other_'+idx][fld])||''; return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-_other_'+idx+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; }
+    otherSection += '<tr style="'+(oi%2===0?'background:var(--bg2)':'')+'">'
+      +'<td style="padding:5px 6px"><input type="text" placeholder="Specify disease/condition..." value="'+oname+'" id="f-surv-other-name-'+oi+'" style="width:100%;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+oinp('s04',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+oinp('s514',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+oinp('s15',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+oinp('c04',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+oinp('c514',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+oinp('c15',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+oinp('d04',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+oinp('d514',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center">'+oinp('d15',oi)+'</td>'
+      +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+oinp('lab',oi)+'</td>'
+    +'</tr>';
+  }
+  otherSection += '<tr><td colspan="11" style="padding:6px 10px"><button type="button" onclick="addSurvOtherRow()" style="padding:4px 14px;border-radius:6px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer">+ Add Another Other Disease</button></td></tr>';
+  tbody.innerHTML += otherSection;;
 }
 
 function readSurvDiseaseRows(){
@@ -12518,6 +12545,24 @@ function readSurvDiseaseRows(){
     });
     if(hasData) result[key] = row;
   });
+  // Read Other rows
+  var otherCount = window._survOtherCount||1;
+  result._otherCount = otherCount;
+  for(var oi=1; oi<=otherCount; oi++){
+    var nameEl = document.getElementById('f-surv-other-name-'+oi);
+    if(!nameEl) continue;
+    var oname = nameEl.value.trim();
+    var fields2 = ['s04','s514','s15','c04','c514','c15','d04','d514','d15','lab'];
+    var orow = {name:oname};
+    var hasOData = oname !== '';
+    fields2.forEach(function(f){
+      var el2 = document.getElementById('f-surv-_other_'+oi+'-'+f);
+      var v2 = el2 ? (parseInt(el2.value)||0) : 0;
+      orow[f] = v2;
+      if(v2>0) hasOData = true;
+    });
+    if(hasOData) result['_other_'+oi] = orow;
+  }
   return result;
 }
 
@@ -12727,6 +12772,31 @@ function printIDSRReport(){
   viewSurveillanceReport(data[0].id);
 }
 
+
+function addSurvOtherRow(){
+  window._survOtherCount = (window._survOtherCount||1) + 1;
+  var count = window._survOtherCount;
+  var tbody = document.getElementById('surv-disease-rows');
+  if(!tbody) return;
+  // Find the add button row and insert before it
+  var rows = tbody.querySelectorAll('tr');
+  var lastRow = rows[rows.length-1];
+  var newRow = document.createElement('tr');
+  newRow.style.background = count%2===0?'var(--bg2)':'';
+  function inp(fld){ return '<input type="number" min="0" placeholder="0" id="f-surv-_other_'+count+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">'; }
+  newRow.innerHTML = '<td style="padding:5px 6px"><input type="text" placeholder="Specify disease/condition..." id="f-surv-other-name-'+count+'" style="width:100%;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
+    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('s04')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center">'+inp('s514')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center">'+inp('s15')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('c04')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center">'+inp('c514')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center">'+inp('c15')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('d04')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center">'+inp('d514')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center">'+inp('d15')+'</td>'
+    +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('lab')+'</td>';
+  tbody.insertBefore(newRow, lastRow);
+}
 </script>
 </body>
 </html>
