@@ -12775,17 +12775,15 @@ function readSurvDiseaseRows(){
   IDSR_DISEASES.forEach(function(d){
     var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
     var fields=['s04','s514','s15','c04','c514','c15','d04','d514','d15','lab'];
-    var row={};var wasTouched=false;var hasValue=false;
+    var row={};var hasValue=false;
     fields.forEach(function(f){
       var el=document.getElementById('f-surv-'+key+'-'+f);
-      if(el){
-        var v=parseInt(el.value)||0;
-        row[f]=v;
-        if(el.getAttribute('data-touched')==='1') wasTouched=true;
-        if(v>0) hasValue=true;
-      } else { row[f]=0; }
+      var v=el?(parseInt(el.value)||0):0;
+      row[f]=v;
+      if(v>0) hasValue=true;
     });
-    if(wasTouched||hasValue) result[key]=row;
+    // Save if has any value > 0
+    if(hasValue) result[key]=row;
   });
   var otherCount=window._survOtherCount||1;
   result._otherCount=otherCount;
