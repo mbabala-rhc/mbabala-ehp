@@ -13140,7 +13140,7 @@ function updateTrendCharts(){
   var zones = ['Kapili','Kauni','Kasenga','Central','Isenga'];
   var zoneColors = ['#0ea5e9','#10b981','#f59e0b','#ef4444','#8b5cf6'];
 
-  // ── Chart 1: Cases by Zone (Bar) ──────────────────────────────────
+  // ── Chart 1: Cases by Zone (Bar) with data labels ─────────────────
   var zoneTotals = zones.map(function(z){
     return data.reduce(function(a,r){ return a+(r[z.toLowerCase()]||0); }, 0);
   });
@@ -13165,30 +13165,69 @@ function updateTrendCharts(){
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          title: { display: true, text: 'Cases by Zone — '+year, font:{size:13,weight:'bold'} }
+          title: { display: true, text: 'Cases by Zone — '+year, font:{size:13,weight:'bold'} },
+          tooltip: { enabled: true }
         },
         scales: {
           y: { beginAtZero: true, grid:{color:'rgba(0,0,0,0.05)'} },
           x: { grid:{display:false} }
+        },
+        animation: {
+          onComplete: function(){
+            var chart = _drChartZone;
+            if(!chart) return;
+            var ctx = chart.ctx;
+            ctx.font = 'bold 12px Arial';
+            ctx.fillStyle = '#111';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            chart.data.datasets.forEach(function(dataset, i){
+              var meta = chart.getDatasetMeta(i);
+              meta.data.forEach(function(bar, index){
+                var val = dataset.data[index];
+                if(val > 0){
+                  ctx.fillText(val, bar.x, bar.y - 4);
+                }
+              });
+            });
+          }
         }
       }
     });
   }
 
   // ── Chart 2: Weekly Trend (Line) ──────────────────────────────────
-  // Group by week
+  // Group by week - aggregate across all diseases if needed
   var weekMap = {};
-  data.forEach(function(r){
-    var wk = r.week || 'Unknown';
+  // Get ALL data for year (ignore disease filter for trend line if only 1 point)
+  var trendData = DB.get('disease_register').filter(function(r){
+    if(year && r.week && !r.week.startsWith(year)) return false;
+    if(disease !== 'all' && r.disease !== disease) return false;
+    return true;
+  });
+  trendData.forEach(function(r){
+    var wk = r.week || '';
+    if(!wk) return;
     if(!weekMap[wk]) weekMap[wk] = 0;
     weekMap[wk] += (r.total || 0);
   });
   var weeks = Object.keys(weekMap).sort();
   var weekTotals = weeks.map(function(w){ return weekMap[w]; });
 
+  // If only 1 week, show message instead of chart
   var ctxTrend = document.getElementById('chart-trend');
   if(ctxTrend){
     if(_drChartTrend) _drChartTrend.destroy();
+    if(weeks.length < 2){
+      // Show info message on canvas
+      var ctx2 = ctxTrend.getContext('2d');
+      ctx2.clearRect(0,0,ctxTrend.width,ctxTrend.height);
+      ctx2.font = '13px Arial';
+      ctx2.fillStyle = '#6b7280';
+      ctx2.textAlign = 'center';
+      ctx2.fillText('Add more weekly reports to see trend', ctxTrend.width/2, ctxTrend.height/2);
+      return;
+    }
     _drChartTrend = new Chart(ctxTrend, {
       type: 'line',
       data: {
@@ -13199,9 +13238,12 @@ function updateTrendCharts(){
           borderColor: '#0a5448',
           backgroundColor: 'rgba(10,84,72,0.1)',
           fill: true,
-          tension: 0.4,
+          tension: 0.3,
           pointBackgroundColor: '#0a5448',
-          pointRadius: 4
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8
         }]
       },
       options: {
@@ -13209,10 +13251,15 @@ function updateTrendCharts(){
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
-          title: { display: true, text: 'Weekly Trend — '+(disease==='all'?'All Diseases':disease), font:{size:13,weight:'bold'} }
+          title: { display: true, text: 'Weekly Trend — '+(disease==='all'?'All Diseases':disease), font:{size:13,weight:'bold'} },
+          tooltip: {
+            callbacks: {
+              label: function(ctx){ return ' Cases: ' + ctx.parsed.y; }
+            }
+          }
         },
         scales: {
-          y: { beginAtZero: true, grid:{color:'rgba(0,0,0,0.05)'} },
+          y: { beginAtZero: true, grid:{color:'rgba(0,0,0,0.05)'}, ticks:{stepSize:1} },
           x: { grid:{display:false}, ticks:{maxRotation:45, font:{size:10}} }
         }
       }
