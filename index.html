@@ -12931,8 +12931,8 @@ function renderCommunityWaste(){
     return;
   }
   tb.innerHTML=data.map(function(r){
-    var compColor=r.compliance==='Compliant'?'var(--green)':r.compliance==='Non-Compliant'?'var(--red)':'var(--amber)';
-    var compBg=r.compliance==='Compliant'?'#dcfce7':r.compliance==='Non-Compliant'?'#fee2e2':'#fef3c7';
+    var compColor=r.compliance==='Compliant'?'var(--green)':r.compliance==='Non-Compliant'?'var(--red)':'#1d4ed8';
+    var compBg=r.compliance==='Compliant'?'#dcfce7':r.compliance==='Non-Compliant'?'#fee2e2':'#dbeafe';
     var cwFields=[{id:'f-cw-id',key:'id',hidden:true},{id:'f-cw-date',key:'date'},{id:'f-cw-village',key:'village'},{id:'f-cw-zone',key:'zone'},{id:'f-cw-officer',key:'officer'},{id:'f-cw-disposal',key:'disposal'},{id:'f-cw-dumpsite',key:'dumpsite'},{id:'f-cw-hh-visited',key:'hhVisited'},{id:'f-cw-hh-pit',key:'hhPit'},{id:'f-cw-hh-burning',key:'hhBurning'},{id:'f-cw-hh-dumping',key:'hhDumping'},{id:'f-cw-compliance',key:'compliance'},{id:'f-cw-action',key:'action'},{id:'f-cw-notes',key:'notes'}];
     return '<tr>'
       +'<td>'+fmtDate(r.date)+'</td>'
