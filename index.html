@@ -2192,6 +2192,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="card" style="padding:16px">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
         <div style="font-weight:700;font-size:14px;color:var(--txt)">📈 Disease Trends</div>
+        <button onclick="printDRTrends()" style="padding:6px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--bg2);color:var(--txt);font-size:12px;font-weight:600;cursor:pointer">🖨 Print Charts</button>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <select id="trend-disease" onchange="updateTrendCharts()" style="padding:6px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
             <option value="all">All Diseases</option>
@@ -13217,6 +13218,50 @@ function updateTrendCharts(){
       }
     });
   }
+}
+
+
+
+function printDRTrends(){
+  var disease = (document.getElementById('trend-disease')||{value:'all'}).value;
+  var year = (document.getElementById('trend-year')||{value:String(new Date().getFullYear())}).value;
+
+  var zoneCanvas = document.getElementById('chart-zone');
+  var trendCanvas = document.getElementById('chart-trend');
+  if(!zoneCanvas || !trendCanvas){ toast('Please open the trends panel first','warning'); return; }
+
+  var zoneImg = zoneCanvas.toDataURL('image/png');
+  var trendImg = trendCanvas.toDataURL('image/png');
+
+  var html = '<!DOCTYPE html><html><head><title>Disease Trends</title>'
+    +'<style>body{font-family:Arial,sans-serif;padding:30px;color:#111;max-width:900px;margin:0 auto}'
+    +'.hdr{text-align:center;border-bottom:2px solid #0a5448;padding-bottom:12px;margin-bottom:20px}'
+    +'.charts{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px}'
+    +'.chart-box{border:1px solid #e5e7eb;border-radius:8px;padding:12px}'
+    +'img{width:100%;height:auto}'
+    +'@media print{button{display:none}}</style></head><body>'
+    +'<div class="hdr">'
+      +'<div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia</div>'
+      +'<div style="font-size:20px;font-weight:800;margin:6px 0">Disease Trend Report</div>'
+      +'<div style="font-size:13px;color:#374151">Mbabala RHC · Chifunabuli · Luapula</div>'
+      +'<div style="font-size:12px;color:#6b7280;margin-top:4px">'
+        +'Disease: <b>'+(disease==='all'?'All Diseases':disease)+'</b>'
+        +' &nbsp;·&nbsp; Year: <b>'+year+'</b>'
+        +' &nbsp;·&nbsp; Generated: <b>'+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'</b>'
+      +'</div>'
+    +'</div>'
+    +'<div class="charts">'
+      +'<div class="chart-box"><img src="'+zoneImg+'" alt="Cases by Zone"></div>'
+      +'<div class="chart-box"><img src="'+trendImg+'" alt="Weekly Trend"></div>'
+    +'</div>'
+    +'<div style="text-align:center;margin-top:20px">'
+      +'<button onclick="window.print()" style="padding:10px 24px;background:#0a5448;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer">🖨 Print / Save PDF</button>'
+    +'</div>'
+    +'</body></html>';
+
+  var w = window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
 }
 
 </script>
