@@ -1364,14 +1364,105 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== WASTE ===== -->
 <div id="page-waste" class="page">
-  <div id="waste-stats"></div>
-  <div class="toolbar">
-    <input type="text" placeholder="🔍 Search..." oninput="filterTbl(this,'tbl-waste')">
-    <button class="btn primary" onclick="openModal('m-waste')">+ Log Report</button>
-      <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Waste Management Reports','tbl-waste')">🖨 Print</button>
+  <!-- Tabs -->
+  <div style="display:flex;gap:4px;margin-bottom:14px;border-bottom:2px solid var(--bd);padding-bottom:0">
+    <button id="waste-tab-facility" onclick="switchWasteTab('facility')" style="padding:9px 18px;border:none;border-bottom:2px solid var(--teal-d);margin-bottom:-2px;background:transparent;color:var(--teal-d);font-weight:700;font-size:13px;cursor:pointer">🏥 Facility Waste</button>
+    <button id="waste-tab-community" onclick="switchWasteTab('community')" style="padding:9px 18px;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;background:transparent;color:var(--txt2);font-weight:600;font-size:13px;cursor:pointer">🏘️ Community Waste</button>
   </div>
-  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-waste"><thead><tr><th>Date</th><th>Waste Type</th><th>Qty(kg)</th><th>Disposal</th><th>Facility</th><th>Compliance</th><th>Actions</th></tr></thead><tbody id="tb-waste"></tbody></table></div></div>
+
+  <!-- Facility Waste -->
+  <div id="waste-section-facility">
+    <div id="waste-stats"></div>
+    <div class="toolbar">
+      <input type="text" placeholder="🔍 Search..." oninput="filterTbl(this,'tbl-waste')">
+      <button class="btn primary" onclick="openModal('m-waste')">+ Log Report</button>
+      <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Waste Management Reports','tbl-waste')">🖨 Print</button>
+    </div>
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-waste"><thead><tr><th>Date</th><th>Waste Type</th><th>Qty(kg)</th><th>Disposal</th><th>Facility</th><th>Compliance</th><th>Actions</th></tr></thead><tbody id="tb-waste"></tbody></table></div></div>
+  </div>
+
+  <!-- Community Waste -->
+  <div id="waste-section-community" style="display:none">
+    <div id="community-waste-stats" style="margin-bottom:14px"></div>
+    <div class="toolbar">
+      <input type="text" placeholder="🔍 Search by village/zone..." oninput="filterTbl(this,'tbl-community-waste')">
+      <select id="cw-filter-zone" onchange="renderCommunityWaste()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+        <option value="">All Zones</option>
+        <option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option>
+      </select>
+      <button class="btn primary" onclick="openModal('m-community-waste')">+ Log Community Waste</button>
+      <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Community Waste Reports','tbl-community-waste')">🖨 Print</button>
+    </div>
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-community-waste">
+      <thead><tr>
+        <th>Date</th><th>Village</th><th>Zone</th>
+        <th>Disposal Method</th><th>Illegal Dumpsite</th>
+        <th>HHs with Pit Latrine</th><th>Open Burning</th>
+        <th>Compliance</th><th>Actions</th>
+      </tr></thead>
+      <tbody id="tb-community-waste"></tbody>
+    </table></div></div>
+  </div>
 </div>
+
+<!-- ===== COMMUNITY WASTE MODAL ===== -->
+<div id="m-community-waste" class="modal-overlay"><div class="modal">
+  <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">🏘️</div><h3 id="hdr-m-community-waste" data-orig="Log Community Waste">Log Community Waste</h3><button class="btn icon" onclick="closeModal('m-community-waste')">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="f-cw-id">
+    <div class="form-row">
+      <div class="form-group"><label class="required">Date</label><input type="date" id="f-cw-date"></div>
+      <div class="form-group"><label class="required">Village</label><input type="text" id="f-cw-village" placeholder="Village name"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="required">Zone</label><select id="f-cw-zone"><option value="">Select zone...</option><option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option></select></div>
+      <div class="form-group"><label>Officer</label><input type="text" id="f-cw-officer" placeholder="Officer name"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Primary Disposal Method</label>
+        <select id="f-cw-disposal">
+          <option value="">Select...</option>
+          <option>Pit/Burial</option>
+          <option>Burning</option>
+          <option>Composting</option>
+          <option>Council Collection</option>
+          <option>Open Dumping</option>
+          <option>Mixed</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Illegal Dumpsite Identified?</label>
+        <select id="f-cw-dumpsite">
+          <option>No</option><option>Yes</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>HHs Visited</label><input type="number" id="f-cw-hh-visited" min="0" placeholder="0"></div>
+      <div class="form-group"><label>HHs with Waste Pit</label><input type="number" id="f-cw-hh-pit" min="0" placeholder="0"></div>
+      <div class="form-group"><label>HHs Open Burning</label><input type="number" id="f-cw-hh-burning" min="0" placeholder="0"></div>
+      <div class="form-group"><label>HHs Open Dumping</label><input type="number" id="f-cw-hh-dumping" min="0" placeholder="0"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Compliance Status</label>
+        <select id="f-cw-compliance">
+          <option>Compliant</option><option>Non-Compliant</option><option>Partially Compliant</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Action Taken</label>
+        <select id="f-cw-action">
+          <option value="">None</option>
+          <option>Health Education</option>
+          <option>Warning Issued</option>
+          <option>Referred to Legal</option>
+          <option>Dumpsite Cleared</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row"><div class="form-group full"><label>Notes</label><textarea id="f-cw-notes" rows="2" placeholder="Additional observations..."></textarea></div></div>
+    <div id="attach-m-community-waste"></div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-community-waste')">Cancel</button><button class="btn primary" onclick="saveCommunityWaste()">💾 Save</button></div>
+</div></div>
 
 <!-- ===== VECTOR ===== -->
 <div id="page-vector" class="page">
@@ -12679,6 +12770,117 @@ function printIDSRReport(){
   var data=DB.get('surveillance');
   if(!data.length){toast('No surveillance reports to print','warning');return;}
   viewSurveillanceReport(data[0].id);
+}
+
+
+
+// ══ COMMUNITY WASTE ══
+function switchWasteTab(tab){
+  var facility = document.getElementById('waste-section-facility');
+  var community = document.getElementById('waste-section-community');
+  var tabF = document.getElementById('waste-tab-facility');
+  var tabC = document.getElementById('waste-tab-community');
+  if(tab==='facility'){
+    facility.style.display='';community.style.display='none';
+    tabF.style.borderBottomColor='var(--teal-d)';tabF.style.color='var(--teal-d)';tabF.style.fontWeight='700';
+    tabC.style.borderBottomColor='transparent';tabC.style.color='var(--txt2)';tabC.style.fontWeight='600';
+  } else {
+    facility.style.display='none';community.style.display='';
+    tabC.style.borderBottomColor='var(--teal-d)';tabC.style.color='var(--teal-d)';tabC.style.fontWeight='700';
+    tabF.style.borderBottomColor='transparent';tabF.style.color='var(--txt2)';tabF.style.fontWeight='600';
+    renderCommunityWaste();
+  }
+}
+
+async function saveCommunityWaste(){
+  var date=document.getElementById('f-cw-date').value;
+  var village=document.getElementById('f-cw-village').value.trim();
+  var zone=document.getElementById('f-cw-zone').value;
+  if(!date||!village||!zone){toast('Please fill Date, Village and Zone','error');return;}
+  var id=document.getElementById('f-cw-id').value||genId('CW');
+  var rec={
+    id:id,date:date,village:village,zone:zone,
+    officer:document.getElementById('f-cw-officer').value||'',
+    disposal:document.getElementById('f-cw-disposal').value||'',
+    dumpsite:document.getElementById('f-cw-dumpsite').value||'No',
+    hhVisited:parseInt(document.getElementById('f-cw-hh-visited').value)||0,
+    hhPit:parseInt(document.getElementById('f-cw-hh-pit').value)||0,
+    hhBurning:parseInt(document.getElementById('f-cw-hh-burning').value)||0,
+    hhDumping:parseInt(document.getElementById('f-cw-hh-dumping').value)||0,
+    compliance:document.getElementById('f-cw-compliance').value||'',
+    action:document.getElementById('f-cw-action').value||'',
+    notes:document.getElementById('f-cw-notes').value||''
+  };
+  var data=DB.get('community_waste');
+  var idx=data.findIndex(function(r){return r.id===id;});
+  if(idx>=0) data[idx]=rec; else data.unshift(rec);
+  _store['community_waste']=data; idbPut('community_waste',data);
+  saveAttachments('community_waste',rec.id,'m-community-waste');
+  closeModal('m-community-waste');
+  renderCommunityWaste();
+  toast('Community waste report saved','success');
+  sbSet('community_waste',data);
+}
+
+function renderCommunityWaste(){
+  var filterZone=(document.getElementById('cw-filter-zone')||{value:''}).value;
+  var data=DB.get('community_waste').filter(function(r){
+    return !filterZone||r.zone===filterZone;
+  });
+  var totalHH=data.reduce(function(a,r){return a+(r.hhVisited||0);},0);
+  var totalPit=data.reduce(function(a,r){return a+(r.hhPit||0);},0);
+  var dumpsites=data.filter(function(r){return r.dumpsite==='Yes';}).length;
+  var compliant=data.filter(function(r){return r.compliance==='Compliant';}).length;
+  var st=document.getElementById('community-waste-stats');
+  if(st) st.innerHTML='<div class="g4">'
+    +'<div class="card-sm"><div class="stat-label">Villages Visited</div><div class="stat-val" style="color:var(--teal-d)">'+new Set(data.map(function(r){return r.village;})).size+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">HHs Visited</div><div class="stat-val" style="color:var(--blue)">'+totalHH+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Illegal Dumpsites</div><div class="stat-val" style="color:var(--red)">'+dumpsites+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Compliant</div><div class="stat-val" style="color:var(--green)">'+compliant+'/'+data.length+'</div></div>'
+    +'</div>';
+  var tb=document.getElementById('tb-community-waste');
+  if(!tb) return;
+  if(!data.length){
+    tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)"><div style="font-size:24px">🏘️</div><div style="font-weight:600;margin-top:8px">No community waste reports yet</div></td></tr>';
+    return;
+  }
+  tb.innerHTML=data.map(function(r){
+    var compColor=r.compliance==='Compliant'?'var(--green)':r.compliance==='Non-Compliant'?'var(--red)':'var(--amber)';
+    var compBg=r.compliance==='Compliant'?'#dcfce7':r.compliance==='Non-Compliant'?'#fee2e2':'#fef3c7';
+    var cwFields=[{id:'f-cw-id',key:'id',hidden:true},{id:'f-cw-date',key:'date'},{id:'f-cw-village',key:'village'},{id:'f-cw-zone',key:'zone'},{id:'f-cw-officer',key:'officer'},{id:'f-cw-disposal',key:'disposal'},{id:'f-cw-dumpsite',key:'dumpsite'},{id:'f-cw-hh-visited',key:'hhVisited'},{id:'f-cw-hh-pit',key:'hhPit'},{id:'f-cw-hh-burning',key:'hhBurning'},{id:'f-cw-hh-dumping',key:'hhDumping'},{id:'f-cw-compliance',key:'compliance'},{id:'f-cw-action',key:'action'},{id:'f-cw-notes',key:'notes'}];
+    return '<tr>'
+      +'<td>'+fmtDate(r.date)+'</td>'
+      +'<td><b>'+r.village+'</b></td>'
+      +'<td>'+r.zone+'</td>'
+      +'<td>'+(r.disposal||'—')+'</td>'
+      +'<td style="text-align:center">'+(r.dumpsite==='Yes'?'<span style="color:#dc2626;font-weight:700">⚠ Yes</span>':'No')+'</td>'
+      +'<td style="text-align:center">'+(r.hhPit||0)+' / '+(r.hhVisited||0)+'</td>'
+      +'<td style="text-align:center">'+(r.hhBurning||0)+'</td>'
+      +'<td><span style="padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;background:'+compBg+';color:'+compColor+'">'+(r.compliance||'—')+'</span></td>'
+      +'<td>'+rowBtns('community_waste',r.id,"viewRecord('community_waste','"+r.id+"',[])", "editCommunityWaste('"+r.id+"')","deleteRecord('community_waste','"+r.id+"',renderCommunityWaste)")+'</td>'
+    +'</tr>';
+  }).join('');
+}
+
+function editCommunityWaste(id){
+  var r=DB.get('community_waste').find(function(x){return x.id===id;});if(!r)return;
+  document.getElementById('f-cw-id').value=r.id;
+  document.getElementById('f-cw-date').value=r.date||'';
+  document.getElementById('f-cw-village').value=r.village||'';
+  document.getElementById('f-cw-zone').value=r.zone||'';
+  document.getElementById('f-cw-officer').value=r.officer||'';
+  document.getElementById('f-cw-disposal').value=r.disposal||'';
+  document.getElementById('f-cw-dumpsite').value=r.dumpsite||'No';
+  document.getElementById('f-cw-hh-visited').value=r.hhVisited||0;
+  document.getElementById('f-cw-hh-pit').value=r.hhPit||0;
+  document.getElementById('f-cw-hh-burning').value=r.hhBurning||0;
+  document.getElementById('f-cw-hh-dumping').value=r.hhDumping||0;
+  document.getElementById('f-cw-compliance').value=r.compliance||'Compliant';
+  document.getElementById('f-cw-action').value=r.action||'';
+  document.getElementById('f-cw-notes').value=r.notes||'';
+  document.getElementById('hdr-m-community-waste').textContent='Edit Community Waste Report';
+  openModal('m-community-waste');
+  loadAttachments('community_waste',r.id,'m-community-waste');
 }
 
 </script>
