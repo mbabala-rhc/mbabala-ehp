@@ -3147,6 +3147,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <table style="width:100%;border-collapse:collapse;font-size:11px">
       <thead>
         <tr style="background:#1e3a5f;color:#fff">
+          <th rowspan="2" style="padding:8px 10px;text-align:center;width:30px">✓</th>
           <th rowspan="2" style="padding:8px 10px;text-align:left;min-width:160px">Disease / Condition</th>
           <th colspan="3" style="padding:8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">Suspected Cases</th>
           <th colspan="3" style="padding:8px;text-align:center;border-left:1px solid rgba(255,255,255,.2)">Confirmed Cases</th>
@@ -12726,7 +12727,8 @@ function buildSurvDiseaseRows(existingData){
     }
     var bg=i%2===0?'':'background:var(--bg2)';
     function inp(f){var v=ex[f]!==undefined?ex[f]:'';var touched=hasExisting?'1':(v!==''&&v!==0?'1':'0');return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-'+key+'-'+f+'" data-touched="'+touched+'" oninput="this.setAttribute(\"data-touched\",\"1\")" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">';}
-    return header+'<tr style="'+bg+'"><td style="padding:5px 10px;font-size:11px;font-weight:500">'+d.name+'</td>'
+    var chk='<input type="checkbox" id="f-surv-chk-'+key+'" '+(hasExisting?'checked':'')+' style="width:15px;height:15px;cursor:pointer">';
+    return header+'<tr style="'+bg+'"><td style="padding:3px 6px;text-align:center">'+chk+'</td><td style="padding:5px 10px;font-size:11px;font-weight:500">'+d.name+'</td>'
       +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('s04')+'</td><td style="padding:3px 4px;text-align:center">'+inp('s514')+'</td><td style="padding:3px 4px;text-align:center">'+inp('s15')+'</td>'
       +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('c04')+'</td><td style="padding:3px 4px;text-align:center">'+inp('c514')+'</td><td style="padding:3px 4px;text-align:center">'+inp('c15')+'</td>'
       +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+inp('d04')+'</td><td style="padding:3px 4px;text-align:center">'+inp('d514')+'</td><td style="padding:3px 4px;text-align:center">'+inp('d15')+'</td>'
@@ -12782,8 +12784,9 @@ function readSurvDiseaseRows(){
       row[f]=v;
       if(v>0) hasValue=true;
     });
-    // Save if has any value > 0
-    if(hasValue) result[key]=row;
+    var chkEl=document.getElementById('f-surv-chk-'+key);
+    var isChecked=chkEl?chkEl.checked:false;
+    if(hasValue||isChecked) result[key]=row;
   });
   var otherCount=window._survOtherCount||1;
   result._otherCount=otherCount;
