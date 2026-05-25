@@ -13027,8 +13027,8 @@ function renderComplaints(){
     return;
   }
   tb.innerHTML=data.map(function(r){
-    var sc=r.status==='Resolved'?'var(--green)':r.status==='In Progress'?'var(--amber)':'var(--red)';
-    var sb=r.status==='Resolved'?'#dcfce7':r.status==='In Progress'?'#fef3c7':'#fee2e2';
+    var sc=r.status==='Resolved'?'var(--green)':r.status==='In Progress'?'#1d4ed8':'var(--red)';
+    var sb=r.status==='Resolved'?'#dcfce7':r.status==='In Progress'?'#dbeafe':'#fee2e2';
     return '<tr>'
       +'<td>'+fmtDate(r.date)+'</td>'
       +'<td><b>'+(r.name||'Anonymous')+'</b>'+(r.contact?'<br><span style="font-size:11px;color:var(--txt2)">'+r.contact+'</span>':'')+'</td>'
