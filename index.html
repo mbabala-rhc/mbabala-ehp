@@ -860,6 +860,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 #loading-screen.active { display: flex !important; animation: ld-fadein .3s ease; }
 @keyframes ld-fadein { from { opacity:0; } to { opacity:1; } }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -2171,6 +2172,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn" onclick="openModal('m-disease-entry')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Record Cases</button>
       <button class="btn" onclick="openModal('m-disease-report')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">&#128202; Generate Report</button>
+      <button class="btn" onclick="toggleDRTrends()" id="btn-dr-trends" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">📈 View Trends</button>
     </div>
   </div>
   <div class="card" style="padding:12px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
@@ -2185,6 +2187,32 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </select>
     <select id="dr-filter-year" onchange="renderDiseaseRegister()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
   </div>
+  <!-- Trends Panel -->
+  <div id="dr-trends-panel" style="display:none;margin-bottom:14px">
+    <div class="card" style="padding:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+        <div style="font-weight:700;font-size:14px;color:var(--txt)">📈 Disease Trends</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <select id="trend-disease" onchange="updateTrendCharts()" style="padding:6px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+            <option value="all">All Diseases</option>
+            <option>Malaria</option><option>Diarrhoea</option><option>Cholera</option><option>Typhoid</option>
+            <option>Dysentery</option><option>Pneumonia</option><option>Malnutrition</option><option>COVID-19</option>
+            <option>Measles</option><option>Meningitis</option><option>Rabies</option>
+          </select>
+          <select id="trend-year" onchange="updateTrendCharts()" style="padding:6px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
+          <select id="trend-view" onchange="updateTrendCharts()" style="padding:6px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+            <option value="zone">Cases by Zone</option>
+            <option value="trend">Weekly Trend</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div style="position:relative;height:250px"><canvas id="chart-zone"></canvas></div>
+        <div style="position:relative;height:250px"><canvas id="chart-trend"></canvas></div>
+      </div>
+    </div>
+  </div>
+
   <div id="dr-stats" style="margin-bottom:14px"></div>
   <div class="card"><div class="tbl-wrap">
     <table class="dt" id="dr-table" style=";width:100%">
@@ -13071,6 +13099,124 @@ function editComplaint(id){
   document.getElementById('hdr-m-complaint').textContent='Edit Complaint';
   openModal('m-complaint');
   loadAttachments('complaints',r.id,'m-complaint');
+}
+
+
+
+// ══ DISEASE REGISTER TREND CHARTS ══
+var _drChartZone = null;
+var _drChartTrend = null;
+
+function toggleDRTrends(){
+  var panel = document.getElementById('dr-trends-panel');
+  var btn = document.getElementById('btn-dr-trends');
+  if(!panel) return;
+  if(panel.style.display === 'none'){
+    panel.style.display = '';
+    if(btn) btn.textContent = '📈 Hide Trends';
+    // Populate year dropdown
+    var yrSel = document.getElementById('trend-year');
+    if(yrSel && !yrSel.options.length){
+      var cy = new Date().getFullYear();
+      for(var y=cy-2; y<=cy+1; y++) yrSel.add(new Option(y, y, y===cy, y===cy));
+    }
+    updateTrendCharts();
+  } else {
+    panel.style.display = 'none';
+    if(btn) btn.textContent = '📈 View Trends';
+  }
+}
+
+function updateTrendCharts(){
+  var disease = (document.getElementById('trend-disease')||{value:'all'}).value;
+  var year = (document.getElementById('trend-year')||{value:String(new Date().getFullYear())}).value;
+  var data = DB.get('disease_register').filter(function(r){
+    if(year && r.week && !r.week.startsWith(year)) return false;
+    if(disease !== 'all' && r.disease !== disease) return false;
+    return true;
+  });
+
+  var zones = ['Kapili','Kauni','Kasenga','Central','Isenga'];
+  var zoneColors = ['#0ea5e9','#10b981','#f59e0b','#ef4444','#8b5cf6'];
+
+  // ── Chart 1: Cases by Zone (Bar) ──────────────────────────────────
+  var zoneTotals = zones.map(function(z){
+    return data.reduce(function(a,r){ return a+(r[z.toLowerCase()]||0); }, 0);
+  });
+
+  var ctxZone = document.getElementById('chart-zone');
+  if(ctxZone){
+    if(_drChartZone) _drChartZone.destroy();
+    _drChartZone = new Chart(ctxZone, {
+      type: 'bar',
+      data: {
+        labels: zones,
+        datasets: [{
+          label: disease==='all'?'Total Cases':disease,
+          data: zoneTotals,
+          backgroundColor: zoneColors,
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Cases by Zone — '+year, font:{size:13,weight:'bold'} }
+        },
+        scales: {
+          y: { beginAtZero: true, grid:{color:'rgba(0,0,0,0.05)'} },
+          x: { grid:{display:false} }
+        }
+      }
+    });
+  }
+
+  // ── Chart 2: Weekly Trend (Line) ──────────────────────────────────
+  // Group by week
+  var weekMap = {};
+  data.forEach(function(r){
+    var wk = r.week || 'Unknown';
+    if(!weekMap[wk]) weekMap[wk] = 0;
+    weekMap[wk] += (r.total || 0);
+  });
+  var weeks = Object.keys(weekMap).sort();
+  var weekTotals = weeks.map(function(w){ return weekMap[w]; });
+
+  var ctxTrend = document.getElementById('chart-trend');
+  if(ctxTrend){
+    if(_drChartTrend) _drChartTrend.destroy();
+    _drChartTrend = new Chart(ctxTrend, {
+      type: 'line',
+      data: {
+        labels: weeks,
+        datasets: [{
+          label: 'Total Cases',
+          data: weekTotals,
+          borderColor: '#0a5448',
+          backgroundColor: 'rgba(10,84,72,0.1)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#0a5448',
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: 'Weekly Trend — '+(disease==='all'?'All Diseases':disease), font:{size:13,weight:'bold'} }
+        },
+        scales: {
+          y: { beginAtZero: true, grid:{color:'rgba(0,0,0,0.05)'} },
+          x: { grid:{display:false}, ticks:{maxRotation:45, font:{size:10}} }
+        }
+      }
+    });
+  }
 }
 
 </script>
