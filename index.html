@@ -12834,7 +12834,8 @@ function viewSurveillanceReport(id){
     var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
     var dr=diseases[key]||{};
     var susp=(dr.s04||0)+(dr.s514||0)+(dr.s15||0);var conf=(dr.c04||0)+(dr.c514||0)+(dr.c15||0);var dths=(dr.d04||0)+(dr.d514||0)+(dr.d15||0);var lab=dr.lab||0;
-    if(susp===0&&conf===0&&dths===0&&lab===0) return '';
+    // Show row only if disease data exists in the saved record (key exists)
+    if(!diseases[key]) return '';
     var bg=i%2===0?'#f9fafb':'#fff';
     return '<tr style="background:'+bg+';border-bottom:1px solid #e5e7eb"><td style="padding:7px 10px;font-size:12px;font-weight:600">'+d.name+'</td>'
       +'<td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s04||0)+'</td><td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s514||0)+'</td><td style="padding:7px 8px;text-align:center;font-size:12px">'+(dr.s15||0)+'</td>'
