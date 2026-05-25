@@ -12774,9 +12774,9 @@ function readSurvDiseaseRows(){
   IDSR_DISEASES.forEach(function(d){
     var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
     var fields=['s04','s514','s15','c04','c514','c15','d04','d514','d15','lab'];
-    var row={};var hasData=false;
-    fields.forEach(function(f){var el=document.getElementById('f-surv-'+key+'-'+f);var v=el?(parseInt(el.value)||0):0;row[f]=v;if(v>0) hasData=true;});
-    if(hasData) result[key]=row;
+    var row={};var fieldExists=false;
+    fields.forEach(function(f){var el=document.getElementById('f-surv-'+key+'-'+f);if(el){fieldExists=true;row[f]=parseInt(el.value)||0;}else{row[f]=0;}});
+    if(fieldExists) result[key]=row;
   });
   var otherCount=window._survOtherCount||1;
   result._otherCount=otherCount;
