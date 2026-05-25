@@ -5697,7 +5697,7 @@ function renderSanitation(){
   </tr>`).join('')||emptyRow(7);
 }
 
-// renderSurveillance replaced below
+
 
 function renderHP(){
   const data=DB.get('health_promo');
@@ -12434,7 +12434,6 @@ function filterVillageByZone(zone){
   });
 }
 
-
 // ══════════════════════════════════════════════════════
 // SURVEILLANCE MODULE — IDSR WEEKLY REPORT
 // ══════════════════════════════════════════════════════
@@ -12528,7 +12527,7 @@ function buildSurvDiseaseRows(existingData){
     +'</tr>';
   }
   otherSection += '<tr><td colspan="11" style="padding:6px 10px"><button type="button" onclick="addSurvOtherRow()" style="padding:4px 14px;border-radius:6px;border:1.5px solid var(--teal-d);background:transparent;color:var(--teal-d);font-size:11px;font-weight:600;cursor:pointer">+ Add Another Other Disease</button></td></tr>';
-  tbody.innerHTML += otherSection;;
+  tbody.innerHTML += otherSection;
 }
 
 function readSurvDiseaseRows(){
