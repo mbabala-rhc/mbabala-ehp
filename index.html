@@ -8789,6 +8789,18 @@ function toggleDRTrends(){
 }
 
 function updateTrendCharts(){
+  // Always repopulate disease dropdown from latest records
+  var diseaseSel = document.getElementById('trend-disease');
+  if(diseaseSel){
+    var currentVal = diseaseSel.value;
+    var allRecs = DB.get('disease_register');
+    var seenD = {};
+    var opts = '<option value="all">All Diseases</option>';
+    ['Malaria','Diarrhoea','Cholera','Typhoid','Dysentery','Pneumonia','Malnutrition','COVID-19','Measles','Meningitis','Rabies'].forEach(function(d){ seenD[d]=1; opts+='<option>'+d+'</option>'; });
+    allRecs.forEach(function(r){ if(r.disease && !seenD[r.disease]){ seenD[r.disease]=1; opts+='<option>'+r.disease+'</option>'; }});
+    diseaseSel.innerHTML = opts;
+    diseaseSel.value = currentVal;
+  }
   var disease = (document.getElementById('trend-disease')||{value:'all'}).value;
   var year = (document.getElementById('trend-year')||{value:String(new Date().getFullYear())}).value;
   var data = DB.get('disease_register').filter(function(r){
