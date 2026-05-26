@@ -12815,14 +12815,14 @@ function buildSurvDiseaseRows(existingData){
   // Add Other section
   var otherCount=existingData&&existingData._otherCount?existingData._otherCount:1;
   window._survOtherCount=otherCount;
-  var otherRows='<tr><td colspan="11" style="background:#374151;color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase">Part 4 — Other Conditions (Specify)</td></tr>';
+  var otherRows='<tr><td colspan="12" style="background:#374151;color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase">Part 4 — Other Conditions (Specify)</td></tr>';
   for(var oi=1;oi<=otherCount;oi++){
     var oex=existingData&&existingData['_other_'+oi]?existingData['_other_'+oi]:{};
     var oname=oex.name||'';
     var obg=oi%2===0?'background:var(--bg2)':'';
     var oidx=oi;
     function makeOtherInp(fld,idx){var v2=(existingData&&existingData['_other_'+idx]&&existingData['_other_'+idx][fld])||'';return '<input type="number" min="0" placeholder="0" value="'+v2+'" id="f-surv-oth'+idx+'-'+fld+'" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">';}
-    otherRows+='<tr style="'+obg+'"><td style="padding:5px 6px"><input type="text" placeholder="Specify disease..." value="'+oname+'" id="f-surv-oth-name-'+oi+'" style="width:100%;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
+    otherRows+='<tr style="'+obg+'"><td style="padding:5px 6px;min-width:160px"><input type="text" placeholder="Specify disease..." value="'+oname+'" id="f-surv-oth-name-'+oi+'" style="width:100%;min-width:140px;border:1px solid var(--bd);border-radius:4px;padding:3px 6px;font-size:11px;background:var(--bg);color:var(--txt)"></td>'
       +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+makeOtherInp('s04',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('s514',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('s15',oi)+'</td>'
       +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+makeOtherInp('c04',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('c514',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('c15',oi)+'</td>'
       +'<td style="padding:3px 4px;text-align:center;border-left:1px solid var(--bd)">'+makeOtherInp('d04',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('d514',oi)+'</td><td style="padding:3px 4px;text-align:center">'+makeOtherInp('d15',oi)+'</td>'
