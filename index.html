@@ -1566,6 +1566,76 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="modal-footer"><button class="btn" onclick="closeModal('m-community-waste')">Cancel</button><button class="btn primary" onclick="saveCommunityWaste()">💾 Save</button></div>
 </div></div>
 
+<!-- ===== GENERAL SANITATION MODAL ===== -->
+<div id="m-gen-sanitation" class="modal-overlay"><div class="modal wide">
+  <div class="modal-header"><div class="modal-header-icon" style="background:#fef3c7;color:#92400e">🏘️</div><h3 id="hdr-m-gen-sanitation" data-orig="General Sanitation Assessment">General Sanitation Assessment</h3><button class="btn icon" onclick="closeModal('m-gen-sanitation')">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="f-gs-id">
+    <div class="form-row">
+      <div class="form-group"><label class="required">Date</label><input type="date" id="f-gs-date"></div>
+      <div class="form-group"><label class="required">Village</label><input type="text" id="f-gs-village" placeholder="Village name"></div>
+      <div class="form-group"><label class="required">Zone</label><select id="f-gs-zone"><option value="">Select zone...</option><option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option></select></div>
+      <div class="form-group"><label>Officer</label><input type="text" id="f-gs-officer" placeholder="Officer name"></div>
+    </div>
+
+    <div class="form-section">Latrine Coverage</div>
+    <div class="form-row">
+      <div class="form-group"><label>Total Households</label><input type="number" id="f-gs-total-hh" min="0" placeholder="0"></div>
+      <div class="form-group"><label>HHs with Improved Latrine</label><input type="number" id="f-gs-hh-latrine" min="0" placeholder="0"></div>
+      <div class="form-group"><label>HHs Open Defecating</label><input type="number" id="f-gs-hh-od" min="0" placeholder="0"></div>
+      <div class="form-group"><label>HHs with Latrine (Not Using)</label><input type="number" id="f-gs-hh-notusing" min="0" placeholder="0"></div>
+    </div>
+
+    <div class="form-section">Solid Waste Management</div>
+    <div class="form-row">
+      <div class="form-group"><label>HHs with Waste Pit</label><input type="number" id="f-gs-hh-wastepit" min="0" placeholder="0"></div>
+      <div class="form-group"><label>HHs Burning Waste</label><input type="number" id="f-gs-hh-burning" min="0" placeholder="0"></div>
+      <div class="form-group"><label>HHs Open Dumping</label><input type="number" id="f-gs-hh-opendump" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Illegal Dumpsites Found</label><input type="number" id="f-gs-dumpsites" min="0" placeholder="0"></div>
+    </div>
+
+    <div class="form-section">Water & Drainage</div>
+    <div class="form-row">
+      <div class="form-group"><label>Main Water Source</label>
+        <select id="f-gs-water-source">
+          <option value="">Select...</option>
+          <option>Borehole</option><option>Protected Well</option><option>Unprotected Well</option>
+          <option>River/Stream</option><option>Piped Water</option><option>Rainwater</option>
+        </select>
+      </div>
+      <div class="form-group"><label>HHs with Safe Water Storage</label><input type="number" id="f-gs-hh-safewater" min="0" placeholder="0"></div>
+      <div class="form-group"><label>Drainage Condition</label>
+        <select id="f-gs-drainage">
+          <option>Good</option><option>Fair</option><option>Poor</option><option>None</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Stagnant Water Observed?</label>
+        <select id="f-gs-stagnant"><option>No</option><option>Yes</option></select>
+      </div>
+    </div>
+
+    <div class="form-section">General Environment</div>
+    <div class="form-row">
+      <div class="form-group"><label>Overall Cleanliness</label>
+        <select id="f-gs-cleanliness"><option>Good</option><option>Fair</option><option>Poor</option></select>
+      </div>
+      <div class="form-group"><label>Overall Status</label>
+        <select id="f-gs-status"><option>Satisfactory</option><option>Needs Improvement</option><option>Unsatisfactory</option></select>
+      </div>
+      <div class="form-group"><label>Action Taken</label>
+        <select id="f-gs-action">
+          <option value="">None</option>
+          <option>Health Education</option><option>Warning Issued</option>
+          <option>Referred to Legal</option><option>Follow-up Scheduled</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row"><div class="form-group full"><label>Notes / Observations</label><textarea id="f-gs-notes" rows="2" placeholder="Additional observations..."></textarea></div></div>
+    <div id="attach-m-gen-sanitation"></div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('m-gen-sanitation')">Cancel</button><button class="btn primary" onclick="saveGeneralSanitation()">💾 Save</button></div>
+</div></div>
+
 <!-- ===== VECTOR ===== -->
 <div id="page-vector" class="page">
   <div style="background:linear-gradient(135deg,#4d7c0f,#3f6212);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
@@ -1592,20 +1662,54 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div style="background:linear-gradient(135deg,#92400e,#b45309);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
     <div>
       <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
-      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🚽 Sanitation (ODF)</div>
-      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Open Defecation Free village verification and tracking</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🚽 Sanitation</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">ODF/CLTS tracking and General Village Sanitation assessments</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn" onclick="openModal('m-sanitation')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button>
+      <button class="btn" id="san-banner-btn" onclick="openModal('m-sanitation')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log ODF Village</button>
     </div>
   </div>
-  <div id="san-stats"></div>
-  <div class="toolbar">
-    <input type="text" placeholder="🔍 Search villages..." oninput="filterTbl(this,'tbl-san')">
-    <button class="btn primary" onclick="openModal('m-sanitation')">+ Log Village</button>
-      <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Sanitation Reports','tbl-san')">🖨 Print</button>
+
+  <!-- Tabs -->
+  <div style="display:flex;gap:4px;margin-bottom:14px;border-bottom:2px solid var(--bd);padding-bottom:0">
+    <button id="san-tab-odf" onclick="switchSanTab('odf')" style="padding:9px 18px;border:none;border-bottom:2px solid var(--teal-d);margin-bottom:-2px;background:transparent;color:var(--teal-d);font-weight:700;font-size:13px;cursor:pointer">🚽 ODF / CLTS</button>
+    <button id="san-tab-general" onclick="switchSanTab('general')" style="padding:9px 18px;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;background:transparent;color:var(--txt2);font-weight:600;font-size:13px;cursor:pointer">🏘️ General Sanitation</button>
   </div>
-  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-san"><thead><tr><th>Village</th><th>HHs</th><th>Latrines</th><th>Coverage%</th><th>CLTS Status</th><th>ODF Date</th><th>Actions</th></tr></thead><tbody id="tb-san"></tbody></table></div></div>
+
+  <!-- ODF / CLTS Tab -->
+  <div id="san-section-odf">
+    <div id="san-stats"></div>
+    <div class="toolbar">
+      <input type="text" placeholder="🔍 Search villages..." oninput="filterTbl(this,'tbl-san')">
+      <button class="btn primary" onclick="openModal('m-sanitation')">+ Log Village</button>
+      <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Sanitation Reports','tbl-san')">🖨 Print</button>
+    </div>
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-san"><thead><tr><th>Village</th><th>HHs</th><th>Latrines</th><th>Coverage%</th><th>CLTS Status</th><th>ODF Date</th><th>Actions</th></tr></thead><tbody id="tb-san"></tbody></table></div></div>
+  </div>
+
+  <!-- General Sanitation Tab -->
+  <div id="san-section-general" style="display:none">
+    <div id="gen-san-stats" style="margin-bottom:14px"></div>
+    <div class="toolbar">
+      <input type="text" placeholder="🔍 Search by village/zone..." oninput="filterTbl(this,'tbl-gen-san')">
+      <select id="gen-san-filter-zone" onchange="renderGeneralSanitation()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+        <option value="">All Zones</option>
+        <option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option>
+      </select>
+      <button class="btn primary" onclick="openModal('m-gen-sanitation')">+ New Assessment</button>
+      <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('General Sanitation','tbl-gen-san')">🖨 Print</button>
+    </div>
+    <div class="card"><div class="tbl-wrap">
+      <table class="dt" id="tbl-gen-san">
+        <thead><tr>
+          <th>Date</th><th>Village</th><th>Zone</th>
+          <th>Total HHs</th><th>Improved Latrine</th><th>Open Defecation</th>
+          <th>Safe Water</th><th>Waste Pit</th><th>Overall</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="tb-gen-san"></tbody>
+      </table>
+    </div></div>
+  </div>
 </div>
 
 <!-- ===== SURVEILLANCE ===== -->
@@ -13745,6 +13849,126 @@ function setInspChecklist(items){
     var el = document.getElementById('chk-'+c);
     if(el) el.checked = items.indexOf(c) >= 0;
   });
+}
+
+
+
+// ══ GENERAL SANITATION ══
+function switchSanTab(tab){
+  var odf = document.getElementById('san-section-odf');
+  var gen = document.getElementById('san-section-general');
+  var tabO = document.getElementById('san-tab-odf');
+  var tabG = document.getElementById('san-tab-general');
+  var bannerBtn = document.getElementById('san-banner-btn');
+  if(tab==='odf'){
+    odf.style.display=''; gen.style.display='none';
+    tabO.style.borderBottomColor='var(--teal-d)'; tabO.style.color='var(--teal-d)'; tabO.style.fontWeight='700';
+    tabG.style.borderBottomColor='transparent'; tabG.style.color='var(--txt2)'; tabG.style.fontWeight='600';
+    if(bannerBtn){bannerBtn.textContent='+ Log ODF Village'; bannerBtn.setAttribute('onclick',"openModal('m-sanitation')");}
+  } else {
+    odf.style.display='none'; gen.style.display='';
+    tabG.style.borderBottomColor='var(--teal-d)'; tabG.style.color='var(--teal-d)'; tabG.style.fontWeight='700';
+    tabO.style.borderBottomColor='transparent'; tabO.style.color='var(--txt2)'; tabO.style.fontWeight='600';
+    if(bannerBtn){bannerBtn.textContent='+ New Assessment'; bannerBtn.setAttribute('onclick',"openModal('m-gen-sanitation')");}
+    renderGeneralSanitation();
+  }
+}
+
+async function saveGeneralSanitation(){
+  var date=document.getElementById('f-gs-date').value;
+  var village=document.getElementById('f-gs-village').value.trim();
+  var zone=document.getElementById('f-gs-zone').value;
+  if(!date||!village||!zone){toast('Please fill Date, Village and Zone','error');return;}
+  var id=document.getElementById('f-gs-id').value||genId('GS');
+  var rec={
+    id:id, date:date, village:village, zone:zone,
+    officer:document.getElementById('f-gs-officer').value||'',
+    totalHH:parseInt(document.getElementById('f-gs-total-hh').value)||0,
+    hhLatrine:parseInt(document.getElementById('f-gs-hh-latrine').value)||0,
+    hhOD:parseInt(document.getElementById('f-gs-hh-od').value)||0,
+    hhNotUsing:parseInt(document.getElementById('f-gs-hh-notusing').value)||0,
+    hhWastePit:parseInt(document.getElementById('f-gs-hh-wastepit').value)||0,
+    hhBurning:parseInt(document.getElementById('f-gs-hh-burning').value)||0,
+    hhOpenDump:parseInt(document.getElementById('f-gs-hh-opendump').value)||0,
+    dumpsites:parseInt(document.getElementById('f-gs-dumpsites').value)||0,
+    waterSource:document.getElementById('f-gs-water-source').value||'',
+    hhSafeWater:parseInt(document.getElementById('f-gs-hh-safewater').value)||0,
+    drainage:document.getElementById('f-gs-drainage').value||'',
+    stagnant:document.getElementById('f-gs-stagnant').value||'No',
+    cleanliness:document.getElementById('f-gs-cleanliness').value||'',
+    status:document.getElementById('f-gs-status').value||'',
+    action:document.getElementById('f-gs-action').value||'',
+    notes:document.getElementById('f-gs-notes').value||''
+  };
+  var data=DB.get('gen_sanitation');
+  var idx=data.findIndex(function(r){return r.id===id;});
+  if(idx>=0) data[idx]=rec; else data.unshift(rec);
+  _store['gen_sanitation']=data; idbPut('gen_sanitation',data);
+  saveAttachments('gen_sanitation',rec.id,'m-gen-sanitation');
+  closeModal('m-gen-sanitation');
+  renderGeneralSanitation();
+  toast('Sanitation assessment saved','success');
+  sbSet('gen_sanitation',data);
+}
+
+function renderGeneralSanitation(){
+  var filterZone=(document.getElementById('gen-san-filter-zone')||{value:''}).value;
+  var data=DB.get('gen_sanitation').filter(function(r){
+    return !filterZone||r.zone===filterZone;
+  });
+  var totalHH=data.reduce(function(a,r){return a+(r.totalHH||0);},0);
+  var totalLatrine=data.reduce(function(a,r){return a+(r.hhLatrine||0);},0);
+  var totalOD=data.reduce(function(a,r){return a+(r.hhOD||0);},0);
+  var satisfactory=data.filter(function(r){return r.status==='Satisfactory';}).length;
+  var st=document.getElementById('gen-san-stats');
+  if(st) st.innerHTML='<div class="g4">'
+    +'<div class="card-sm"><div class="stat-label">Villages Assessed</div><div class="stat-val" style="color:var(--teal-d)">'+data.length+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Total HHs</div><div class="stat-val" style="color:var(--blue)">'+totalHH+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Open Defecating</div><div class="stat-val" style="color:var(--red)">'+totalOD+'</div></div>'
+    +'<div class="card-sm"><div class="stat-label">Satisfactory</div><div class="stat-val" style="color:var(--green)">'+satisfactory+'/'+data.length+'</div></div>'
+    +'</div>';
+  var tb=document.getElementById('tb-gen-san');
+  if(!tb) return;
+  if(!data.length){
+    tb.innerHTML='<tr><td colspan="10" style="text-align:center;padding:32px;color:var(--txt2)"><div style="font-size:24px">🏘️</div><div style="font-weight:600;margin-top:8px">No sanitation assessments yet</div></td></tr>';
+    return;
+  }
+  tb.innerHTML=data.map(function(r){
+    var sc=r.status==='Satisfactory'?'var(--green)':r.status==='Needs Improvement'?'#1d4ed8':'var(--red)';
+    var sb=r.status==='Satisfactory'?'#dcfce7':r.status==='Needs Improvement'?'#dbeafe':'#fee2e2';
+    var latPct=r.totalHH?Math.round(r.hhLatrine/r.totalHH*100):0;
+    var waterPct=r.totalHH?Math.round(r.hhSafeWater/r.totalHH*100):0;
+    var wastePct=r.totalHH?Math.round(r.hhWastePit/r.totalHH*100):0;
+    return '<tr>'
+      +'<td>'+fmtDate(r.date)+'</td>'
+      +'<td><b>'+r.village+'</b></td>'
+      +'<td>'+r.zone+'</td>'
+      +'<td style="text-align:center">'+(r.totalHH||0)+'</td>'
+      +'<td style="text-align:center">'+(r.hhLatrine||0)+' <span style="font-size:11px;color:var(--txt2)">('+latPct+'%)</span></td>'
+      +'<td style="text-align:center;color:var(--red);font-weight:600">'+(r.hhOD||0)+'</td>'
+      +'<td style="text-align:center">'+(r.hhSafeWater||0)+' <span style="font-size:11px;color:var(--txt2)">('+waterPct+'%)</span></td>'
+      +'<td style="text-align:center">'+(r.hhWastePit||0)+' <span style="font-size:11px;color:var(--txt2)">('+wastePct+'%)</span></td>'
+      +'<td><span style="padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;background:'+sb+';color:'+sc+'">'+(r.status||'—')+'</span></td>'
+      +'<td>'+rowBtns('gen_sanitation',r.id,"viewRecord('gen_sanitation','"+r.id+"',[])", "editGenSanitation('"+r.id+"')","deleteRecord('gen_sanitation','"+r.id+"',renderGeneralSanitation)")+'</td>'
+    +'</tr>';
+  }).join('');
+}
+
+function editGenSanitation(id){
+  var r=DB.get('gen_sanitation').find(function(x){return x.id===id;});if(!r)return;
+  var fields={
+    'f-gs-id':r.id,'f-gs-date':r.date,'f-gs-village':r.village,'f-gs-zone':r.zone,
+    'f-gs-officer':r.officer,'f-gs-total-hh':r.totalHH,'f-gs-hh-latrine':r.hhLatrine,
+    'f-gs-hh-od':r.hhOD,'f-gs-hh-notusing':r.hhNotUsing,'f-gs-hh-wastepit':r.hhWastePit,
+    'f-gs-hh-burning':r.hhBurning,'f-gs-hh-opendump':r.hhOpenDump,'f-gs-dumpsites':r.dumpsites,
+    'f-gs-water-source':r.waterSource,'f-gs-hh-safewater':r.hhSafeWater,'f-gs-drainage':r.drainage,
+    'f-gs-stagnant':r.stagnant,'f-gs-cleanliness':r.cleanliness,'f-gs-status':r.status,
+    'f-gs-action':r.action,'f-gs-notes':r.notes
+  };
+  Object.keys(fields).forEach(function(k){var el=document.getElementById(k);if(el) el.value=fields[k]||'';});
+  document.getElementById('hdr-m-gen-sanitation').textContent='Edit Sanitation Assessment';
+  openModal('m-gen-sanitation');
+  loadAttachments('gen_sanitation',r.id,'m-gen-sanitation');
 }
 
 </script>
