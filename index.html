@@ -1233,7 +1233,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="tab" onclick="switchTab(this,'t-insp-check')">Checklist</div>
   </div>
   <div id="t-insp-list" class="tab-pane active">
-    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-insp"><thead><tr><th>ID</th><th>Area</th><th>Inspector</th><th>Date</th><th>Score</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-insp"></tbody></table></div></div>
+    <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-insp"><thead><tr><th>Date</th><th>Premises</th><th>Type</th><th>Area</th><th>Inspector</th><th>Score</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-insp"></tbody></table></div></div>
   </div>
   <div id="t-insp-check" class="tab-pane">
     <div class="card">
@@ -5514,7 +5514,7 @@ function renderInspections(){
     }
   }
   const _el_tb_insp=document.getElementById('tb-insp'); if(_el_tb_insp) _el_tb_insp.innerHTML=data.map(r=>`<tr>
-    <td>${r.id}</td><td>${r.area||'—'}</td><td>${r.inspector||'—'}</td><td>${fmtDate(r.date)||'—'}</td>
+    <td>${fmtDate(r.date)||'—'}</td><td><b>${r.premises||'—'}</b></td><td>${r.type||'—'}</td><td>${r.area||'—'}</td><td>${r.inspector||'—'}</td>
     <td>${r.score||0}%</td><td>${stTag(r.status||'Pending')}</td>
     <td>${rowBtns('inspections',r.id,`viewRecord('inspections','${r.id}',inspFields)`,`editRecord('inspections','${r.id}',inspFields,'m-inspection','t-inspection','Edit Inspection')`,`deleteRecord('inspections','${r.id}',renderInspections)`)}</td>
   </tr>`).join('')||emptyRow(7);
