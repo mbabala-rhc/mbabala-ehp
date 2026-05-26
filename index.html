@@ -863,12 +863,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </div>
   </div>
   <div class="card" style="padding:12px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-    <select id="ws-month" onchange="renderWorkSchedule()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
-      <option value="1">January</option><option value="2">February</option><option value="3">March</option>
-      <option value="4">April</option><option value="5">May</option><option value="6">June</option>
-      <option value="7">July</option><option value="8">August</option><option value="9">September</option>
-      <option value="10">October</option><option value="11">November</option><option value="12">December</option>
-    </select>
+
     <select id="ws-year" onchange="renderWorkSchedule()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
     <button class="btn primary" onclick="saveWorkSchedule()">💾 Save</button>
   </div>
@@ -9136,23 +9131,16 @@ function renderWorkSchedule(){
     var cy = new Date().getFullYear();
     for(var y=cy-1; y<=cy+3; y++) yrSel.add(new Option(y,y,y===cy,y===cy));
   }
-  var monthSel = document.getElementById('ws-month');
-  if(monthSel && !monthSel.dataset.init){
-    monthSel.value = String(new Date().getMonth()+1);
-    monthSel.dataset.init = '1';
-  }
-  var month = (document.getElementById('ws-month')||{value:'1'}).value;
   var year = (document.getElementById('ws-year')||{value:String(new Date().getFullYear())}).value;
-  var key = 'work_schedule_'+year+'_'+month;
+  var key = 'work_schedule_'+year;
   var saved = DB.get(key) || {};
-  var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
 
   var html = '<div class="card" style="overflow:hidden;border:1px solid var(--bd);border-radius:10px">'
     // Title header
     +'<div style="background:var(--teal-d,#0a5448);padding:14px 20px;text-align:center">'
       +'<div style="color:rgba(255,255,255,.8);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em">Ministry of Health — Mbabala Rural Health Centre</div>'
       +'<div style="color:#fff;font-size:16px;font-weight:800;margin-top:4px;text-transform:uppercase;letter-spacing:.04em">Environmental Health Work Schedule</div>'
-      +'<div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:4px">'+monthNames[parseInt(month)]+' '+year+'</div>'
+      +'<div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:4px">'+year+'</div>'
     +'</div>'
     +'<div style="padding:0">';
 
@@ -9208,10 +9196,8 @@ function _esc(str){ return (str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;'
 function _esc2(str){ return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 
 function saveWorkSchedule(){
-  var month = document.getElementById('ws-month').value;
   var year = document.getElementById('ws-year').value;
-  var key = 'work_schedule_'+year+'_'+month;
-  var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
+  var key = 'work_schedule_'+year;
   var data = {};
   WS_WEEKS.forEach(function(week, wi){
     WS_DAYS.forEach(function(day, di){
@@ -9225,7 +9211,7 @@ function saveWorkSchedule(){
   _store[key] = data;
   idbPut(key, data);
   sbSet(key, data);
-  toast('Schedule saved for '+monthNames[parseInt(month)]+' '+year,'success');
+  toast('Work schedule saved for '+year,'success');
 }
 
 function printWorkSchedule(){
@@ -9266,7 +9252,7 @@ function printWorkSchedule(){
       +'<div style="font-weight:700;font-size:13px;text-transform:uppercase">Ministry of Health</div>'
       +'<div style="font-weight:700;font-size:13px;text-transform:uppercase">'+(s.facility||'Mbabala Rural Health Centre')+'</div>'
       +'<div style="font-weight:800;font-size:16px;text-transform:uppercase;margin-top:8px;text-decoration:underline">Environmental Health Work Schedule</div>'
-      +'<div style="font-size:12px;margin-top:6px">'+monthNames[parseInt(month)]+' '+year+' &nbsp;·&nbsp; Officer: '+(currentUser&&currentUser.name||'—')+'</div>'
+      +'<div style="font-size:12px;margin-top:6px">Year: '+year+' &nbsp;·&nbsp; Officer: '+(currentUser&&currentUser.name||'—')+'</div>'
     +'</div>'
     +'<table><tbody>'+rows+'</tbody></table>'
     +'<div style="margin-top:12px;font-size:11px;font-style:italic"><b>NOTE:</b> This schedule is flexible to change due to demands from other facility duties.</div>'
