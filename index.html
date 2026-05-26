@@ -9147,39 +9147,59 @@ function renderWorkSchedule(){
   var saved = DB.get(key) || {};
   var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
 
-  // Build table: rows = Week 1-4, columns = Mon-Fri
-  // Each cell has Activity + Location
-  var html = '<div class="card" style="overflow:hidden">'
-    +'<div style="background:#0369a1;padding:10px 16px">'
-      +'<div style="color:#fff;font-weight:700;font-size:14px">'+monthNames[parseInt(month)]+' '+year+'</div>'
+  var html = '<div class="card" style="overflow:hidden;border:1px solid var(--bd);border-radius:10px">'
+    // Title header
+    +'<div style="background:var(--teal-d,#0a5448);padding:14px 20px;text-align:center">'
+      +'<div style="color:rgba(255,255,255,.8);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em">Ministry of Health — Mbabala Rural Health Centre</div>'
+      +'<div style="color:#fff;font-size:16px;font-weight:800;margin-top:4px;text-transform:uppercase;letter-spacing:.04em">Environmental Health Work Schedule</div>'
+      +'<div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:4px">'+monthNames[parseInt(month)]+' '+year+'</div>'
     +'</div>'
-    +'<div class="tbl-wrap"><table style="width:100%;border-collapse:collapse">'
-    +'<thead>'
-    +'<tr>'
-      +'<th style="width:80px;padding:10px 12px;background:#1e3a5f;color:#fff;font-size:11px;text-transform:uppercase;text-align:center;border-right:2px solid rgba(255,255,255,.2)">Week</th>';
-
-  WS_DAYS.forEach(function(day){
-    html += '<th style="padding:10px 12px;background:#1e3a5f;color:#fff;font-size:11px;text-transform:uppercase;text-align:center;border-right:1px solid rgba(255,255,255,.1)">'+day+'</th>';
-  });
-  html += '</tr></thead><tbody>';
+    +'<div style="padding:0">';
 
   WS_WEEKS.forEach(function(week, wi){
-    var rowBg = wi%2===0 ? 'var(--bg)' : 'var(--bg2)';
-    html += '<tr style="border-bottom:2px solid var(--bd)">'
-      +'<td style="padding:8px 12px;font-weight:700;font-size:12px;text-align:center;vertical-align:middle;background:'+WS_WEEK_COLORS[wi]+';color:#fff;border-right:2px solid var(--bd)">'+week+'</td>';
+    // Week header row
+    html += '<div style="background:var(--bg2);padding:8px 16px;font-weight:700;font-size:13px;color:var(--teal-d);border-top:2px solid var(--bd)">'+week+'</div>'
+      +'<table style="width:100%;border-collapse:collapse;border-bottom:1px solid var(--bd)">'
+      // Column headers
+      +'<thead><tr>'
+        +'<th style="padding:8px 12px;background:#1e3a5f;color:#fff;font-size:11px;text-transform:uppercase;width:100px;border-right:1px solid rgba(255,255,255,.2)">Days</th>'
+        +'<th style="padding:8px 12px;background:#1e3a5f;color:#fff;font-size:11px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,.2)" colspan="2">Activity</th>'
+        +'<th style="padding:8px 12px;background:#1e3a5f;color:#fff;font-size:11px;text-transform:uppercase;width:160px">Location</th>'
+      +'</tr>'
+      +'<tr>'
+        +'<th style="padding:6px 12px;background:#2d5a8e;color:#fff;font-size:10px;border-right:1px solid rgba(255,255,255,.2)"></th>'
+        +'<th style="padding:6px 12px;background:#2d5a8e;color:#fff;font-size:10px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,.2);width:calc(50% - 130px)">Morning</th>'
+        +'<th style="padding:6px 12px;background:#2d5a8e;color:#fff;font-size:10px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,.2);width:calc(50% - 130px)">Afternoon</th>'
+        +'<th style="padding:6px 12px;background:#2d5a8e;color:#fff;font-size:10px"></th>'
+      +'</tr>'
+      +'</thead><tbody>';
 
     WS_DAYS.forEach(function(day, di){
       var cellKey = wi+'_'+di;
-      var val = saved[cellKey] || {activity:'', location:''};
-      html += '<td style="padding:6px 8px;vertical-align:top;border-right:1px solid var(--bd);background:'+rowBg+'">'
-        +'<textarea id="ws-act-'+cellKey+'" rows="3" placeholder="Activity..." style="width:100%;border:1px solid var(--bd);border-radius:5px;padding:5px 8px;font-size:11px;background:var(--bg);color:var(--txt);resize:none;font-family:inherit;margin-bottom:4px">'+(_esc2(val.activity))+'</textarea>'
-        +'<input type="text" id="ws-loc-'+cellKey+'" value="'+(_esc(val.location))+'" placeholder="📍 Location" style="width:100%;border:1px solid var(--bd);border-radius:5px;padding:4px 8px;font-size:11px;background:var(--bg);color:var(--txt)">'
-        +'</td>';
+      var val = saved[cellKey] || {morning:'', afternoon:'', location:''};
+      var rowBg = di%2===0 ? 'var(--bg)' : 'var(--bg2)';
+      html += '<tr style="background:'+rowBg+';border-bottom:1px solid var(--bd)">'
+        +'<td style="padding:6px 12px;font-weight:700;font-size:12px;color:var(--txt);border-right:1px solid var(--bd);vertical-align:middle;white-space:nowrap">'+day.toUpperCase()+'</td>'
+        +'<td style="padding:4px 8px;border-right:1px solid var(--bd);vertical-align:top">'
+          +'<textarea id="ws-mor-'+cellKey+'" rows="2" placeholder="Morning activity..." style="width:100%;border:1px solid var(--bd);border-radius:5px;padding:5px 8px;font-size:11px;background:var(--bg);color:var(--txt);resize:none;font-family:inherit">'+(_esc2(val.morning||val.activity||''))+'</textarea>'
+        +'</td>'
+        +'<td style="padding:4px 8px;border-right:1px solid var(--bd);vertical-align:top">'
+          +'<textarea id="ws-aft-'+cellKey+'" rows="2" placeholder="Afternoon activity..." style="width:100%;border:1px solid var(--bd);border-radius:5px;padding:5px 8px;font-size:11px;background:var(--bg);color:var(--txt);resize:none;font-family:inherit">'+(_esc2(val.afternoon||''))+'</textarea>'
+        +'</td>'
+        +'<td style="padding:4px 8px;vertical-align:top">'
+          +'<input type="text" id="ws-loc-'+cellKey+'" value="'+(_esc(val.location))+'" placeholder="Location..." style="width:100%;border:1px solid var(--bd);border-radius:5px;padding:6px 8px;font-size:11px;background:var(--bg);color:var(--txt)">'
+        +'</td>'
+      +'</tr>';
     });
-    html += '</tr>';
+    html += '</tbody></table>';
   });
 
-  html += '</tbody></table></div></div>';
+  // Note at bottom
+  html += '<div style="padding:10px 16px;font-size:11px;font-style:italic;color:var(--txt2);border-top:1px solid var(--bd)">'
+    +'<b>NOTE:</b> This schedule is flexible to change due to demands from other facility duties.'
+  +'</div>';
+  html += '</div></div>';
+
   var container = document.getElementById('ws-table-container');
   if(container) container.innerHTML = html;
 }
@@ -9196,11 +9216,10 @@ function saveWorkSchedule(){
   WS_WEEKS.forEach(function(week, wi){
     WS_DAYS.forEach(function(day, di){
       var cellKey = wi+'_'+di;
-      var actEl = document.getElementById('ws-act-'+cellKey);
-      var locEl = document.getElementById('ws-loc-'+cellKey);
-      var act = actEl ? actEl.value.trim() : '';
-      var loc = locEl ? locEl.value.trim() : '';
-      if(act||loc) data[cellKey] = {activity:act, location:loc};
+      var mor = (document.getElementById('ws-mor-'+cellKey)||{value:''}).value.trim();
+      var aft = (document.getElementById('ws-aft-'+cellKey)||{value:''}).value.trim();
+      var loc = (document.getElementById('ws-loc-'+cellKey)||{value:''}).value.trim();
+      if(mor||aft||loc) data[cellKey] = {morning:mor, afternoon:aft, location:loc};
     });
   });
   _store[key] = data;
@@ -9216,42 +9235,48 @@ function printWorkSchedule(){
   var saved = DB.get(key) || {};
   var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
   var s = DB.getObj('settings')||{};
-  var monthName = monthNames[parseInt(month)];
-
-  var headers = '<th style="width:70px;background:#1e3a5f;color:#fff;padding:8px;text-align:center">Week</th>';
-  WS_DAYS.forEach(function(d){ headers += '<th style="background:#1e3a5f;color:#fff;padding:8px;text-align:center;font-size:11px">'+d+'</th>'; });
 
   var rows = '';
   WS_WEEKS.forEach(function(week, wi){
-    rows += '<tr style="border-bottom:2px solid #e2e8f0">'
-      +'<td style="padding:8px;font-weight:700;text-align:center;vertical-align:middle;background:'+WS_WEEK_COLORS[wi]+';color:#fff;font-size:11px">'+week+'</td>';
+    rows += '<tr><td colspan="4" style="background:#1e3a5f;color:#fff;font-weight:700;padding:8px 12px;font-size:12px">'+week+'</td></tr>';
+    rows += '<tr style="background:#2d5a8e">'
+      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Days</th>'
+      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Morning</th>'
+      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Afternoon</th>'
+      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Location</th>'
+    +'</tr>';
     WS_DAYS.forEach(function(day, di){
       var cellKey = wi+'_'+di;
-      var val = saved[cellKey]||{activity:'',location:''};
-      rows += '<td style="padding:6px 8px;vertical-align:top;border-right:1px solid #e2e8f0;font-size:11px">'
-        +(val.activity ? '<div>'+val.activity+'</div>' : '')
-        +(val.location ? '<div style="color:#6b7280;font-size:10px;margin-top:3px">📍 '+val.location+'</div>' : '')
-        +'</td>';
+      var val = saved[cellKey]||{morning:'',afternoon:'',location:''};
+      var bg = di%2===0?'#fff':'#f8fafc';
+      rows += '<tr style="background:'+bg+';border-bottom:1px solid #e2e8f0">'
+        +'<td style="padding:7px 10px;font-weight:700;font-size:11px;white-space:nowrap;border-right:1px solid #e2e8f0">'+day.toUpperCase()+'</td>'
+        +'<td style="padding:7px 10px;font-size:11px;border-right:1px solid #e2e8f0">'+(val.morning||'')+'</td>'
+        +'<td style="padding:7px 10px;font-size:11px;border-right:1px solid #e2e8f0">'+(val.afternoon||'')+'</td>'
+        +'<td style="padding:7px 10px;font-size:11px">'+(val.location||'')+'</td>'
+      +'</tr>';
     });
-    rows += '</tr>';
   });
 
   var html = '<!DOCTYPE html><html><head><title>Work Schedule</title>'
-    +'<style>body{font-family:Arial,sans-serif;padding:20px;color:#111}table{width:100%;border-collapse:collapse;margin-top:16px}'
-    +'td,th{border:1px solid #e2e8f0}@media print{button{display:none}}</style></head><body>'
-    +'<div style="text-align:center;border-bottom:2px solid #0369a1;padding-bottom:10px;margin-bottom:16px">'
-      +'<div style="font-size:11px;color:#6b7280">Ministry of Health · Zambia — Environmental Health</div>'
-      +'<div style="font-size:18px;font-weight:800;margin:4px 0">Work Schedule — '+monthName+' '+year+'</div>'
-      +'<div style="font-size:12px;color:#374151">'+(s.facility||'Mbabala RHC')+' · Officer: '+(currentUser&&currentUser.name||'—')+'</div>'
+    +'<style>body{font-family:Arial,sans-serif;padding:24px;color:#111;max-width:900px;margin:0 auto}'
+    +'table{width:100%;border-collapse:collapse}td,th{border:1px solid #e2e8f0;text-align:left}'
+    +'@media print{button{display:none}}</style></head><body>'
+    +'<div style="text-align:center;margin-bottom:16px">'
+      +'<div style="font-weight:700;font-size:13px;text-transform:uppercase">Ministry of Health</div>'
+      +'<div style="font-weight:700;font-size:13px;text-transform:uppercase">'+(s.facility||'Mbabala Rural Health Centre')+'</div>'
+      +'<div style="font-weight:800;font-size:16px;text-transform:uppercase;margin-top:8px;text-decoration:underline">Environmental Health Work Schedule</div>'
+      +'<div style="font-size:12px;margin-top:6px">'+monthNames[parseInt(month)]+' '+year+' &nbsp;·&nbsp; Officer: '+(currentUser&&currentUser.name||'—')+'</div>'
     +'</div>'
-    +'<table><thead><tr>'+headers+'</tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<table><tbody>'+rows+'</tbody></table>'
+    +'<div style="margin-top:12px;font-size:11px;font-style:italic"><b>NOTE:</b> This schedule is flexible to change due to demands from other facility duties.</div>'
     +'<div style="margin-top:24px;display:flex;gap:60px">'
       +'<div style="flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px">Officer Signature &amp; Date</div>'
       +'<div style="flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px">Supervisor Signature &amp; Date</div>'
     +'</div>'
-    +'<div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 24px;background:#0369a1;color:#fff;border:none;border-radius:8px;cursor:pointer">🖨 Print / Save PDF</button></div>'
+    +'<div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 24px;background:#0a5448;color:#fff;border:none;border-radius:8px;cursor:pointer">🖨 Print / Save PDF</button></div>'
     +'</body></html>';
-  var w = window.open('','_blank'); w.document.write(html); w.document.close();
+  var w=window.open('','_blank'); w.document.write(html); w.document.close();
 }
 
 </script>
