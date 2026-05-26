@@ -12801,7 +12801,7 @@ function buildSurvDiseaseRows(existingData){
     var header='';
     if(d.part!==lastPart){
       lastPart=d.part;
-      header='<tr><td colspan="11" style="background:'+(partColors[d.part]||'#374151')+';color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase">'+partLabels[d.part]+'</td></tr>';
+      header='<tr><td colspan="12" style="background:'+(partColors[d.part]||'#374151')+';color:#fff;padding:5px 10px;font-size:10px;font-weight:700;text-transform:uppercase">'+partLabels[d.part]+'</td></tr>';
     }
     var bg=i%2===0?'':'background:var(--bg2)';
     function inp(f){var v=ex[f]!==undefined?ex[f]:'';var touched=hasExisting?'1':(v!==''&&v!==0?'1':'0');return '<input type="number" min="0" placeholder="0" value="'+v+'" id="f-surv-'+key+'-'+f+'" data-touched="'+touched+'" oninput="this.setAttribute(\"data-touched\",\"1\")" style="width:48px;border:1px solid var(--bd);border-radius:4px;padding:2px 4px;text-align:center;font-size:11px;background:var(--bg);color:var(--txt)">';}
