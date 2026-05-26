@@ -8773,6 +8773,17 @@ function updateTrendCharts(){
   var zones = ['Kapili','Kauni','Kasenga','Central','Isenga'];
   var zoneColors = ['#0ea5e9','#10b981','#f59e0b','#ef4444','#8b5cf6'];
 
+  // ── If no data, show empty charts ────────────────────────────────
+  if(!data.length){
+    var ctxZ = document.getElementById('chart-zone');
+    var ctxT = document.getElementById('chart-trend');
+    if(_drChartZone){ _drChartZone.destroy(); _drChartZone=null; }
+    if(_drChartTrend){ _drChartTrend.destroy(); _drChartTrend=null; }
+    if(ctxZ){ var c1=ctxZ.getContext('2d');c1.clearRect(0,0,ctxZ.width,ctxZ.height);c1.font='13px Arial';c1.fillStyle='#6b7280';c1.textAlign='center';c1.fillText('No data for selected disease',ctxZ.width/2,ctxZ.height/2); }
+    if(ctxT){ var c2=ctxT.getContext('2d');c2.clearRect(0,0,ctxT.width,ctxT.height);c2.font='13px Arial';c2.fillStyle='#6b7280';c2.textAlign='center';c2.fillText('No data for selected disease',ctxT.width/2,ctxT.height/2); }
+    return;
+  }
+
   // ── Chart 1: Cases by Zone (Bar) with data labels ─────────────────
   var zoneTotals = zones.map(function(z){
     return data.reduce(function(a,r){ return a+(r[z.toLowerCase()]||0); }, 0);
