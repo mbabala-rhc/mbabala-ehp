@@ -6966,7 +6966,12 @@ function switchHIATab(btn, paneId, type){
   page.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(paneId)?.classList.add('active');
-  // Don't change topbar button label - openNewModal handles HIA tab detection
+  // Update banner button based on active tab
+  var hiaBannerBtn = document.querySelector('#page-hia .btn[style*="rgba(255"]');
+  if(hiaBannerBtn){
+    if(type==='hia1'){hiaBannerBtn.textContent='+ New HIA 1 Report'; hiaBannerBtn.setAttribute('onclick',"openModal('m-hia1')");}
+    else{hiaBannerBtn.textContent='+ New HIA 2 Report'; hiaBannerBtn.setAttribute('onclick',"openModal('m-hia2')");}
+  }
   renderHIA(); // Always re-render when switching HIA tabs
   const newBtn = document.getElementById('hia-new-btn');
   const printBtn = document.getElementById('hia-print-btn');
@@ -6999,6 +7004,15 @@ function switchOutbreakTab(btn, paneId, type){
     newBtn.style.display = btnCfg.show ? '' : 'none';
     newBtn.textContent = btnCfg.text;
     newBtn.onclick = btnCfg.show ? ()=>openModal(btnCfg.modal) : null;
+  }
+
+  // Update banner button based on active tab
+  var obBannerBtn = document.querySelector('#page-outbreak .btn[style*="rgba(255"]');
+  if(obBannerBtn){
+    var obLabels={investigation:'+ New Investigation',case:'+ Log Case',contact:'+ Log Contact'};
+    var obModals={investigation:"openModal('m-outbreak')",case:"openModal('m-rapid')",contact:"openModal('m-contact')"};
+    obBannerBtn.textContent = obLabels[type]||'+ New Record';
+    obBannerBtn.setAttribute('onclick', obModals[type]||"openModal('m-outbreak')");
   }
 }
 
@@ -7037,6 +7051,14 @@ function switchLegalTab(btn, paneId, type){
   if(alertEl){ alertEl.className = 'alert ' + cfg.type; alertEl.style.marginBottom='12px'; }
   if(alertEl) alertEl.querySelector('.alert-icon').textContent = cfg.icon;
   if(msgEl) msgEl.textContent = cfg.msg;
+
+  // Update banner button based on active tab
+  var legalBannerBtn = document.querySelector('#page-legal .btn[style*="rgba(255"]');
+  if(legalBannerBtn){
+    var legalLabels={all:'+ Log Action',improvement:'+ Log Improvement Notice',closure:'+ Log Closure Order'};
+    legalBannerBtn.textContent = legalLabels[type]||'+ Log Action';
+    legalBannerBtn.setAttribute('onclick', "openModal('m-legal')");
+  }
 }
 
 function filterLegalAll(val){
@@ -13417,10 +13439,14 @@ function switchWasteTab(tab){
     facility.style.display='';community.style.display='none';
     tabF.style.borderBottomColor='var(--teal-d)';tabF.style.color='var(--teal-d)';tabF.style.fontWeight='700';
     tabC.style.borderBottomColor='transparent';tabC.style.color='var(--txt2)';tabC.style.fontWeight='600';
+    var wasteBannerBtn=document.querySelector('#page-waste .btn[style*="rgba(255"]');
+    if(wasteBannerBtn){wasteBannerBtn.textContent='+ Log Facility Waste';wasteBannerBtn.setAttribute('onclick',"openModal('m-waste')");}
   } else {
     facility.style.display='none';community.style.display='';
     tabC.style.borderBottomColor='var(--teal-d)';tabC.style.color='var(--teal-d)';tabC.style.fontWeight='700';
     tabF.style.borderBottomColor='transparent';tabF.style.color='var(--txt2)';tabF.style.fontWeight='600';
+    var wasteBannerBtn2=document.querySelector('#page-waste .btn[style*="rgba(255"]');
+    if(wasteBannerBtn2){wasteBannerBtn2.textContent='+ Log Community Waste';wasteBannerBtn2.setAttribute('onclick',"openModal('m-community-waste')");}
     renderCommunityWaste();
   }
 }
