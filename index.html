@@ -2024,7 +2024,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">MYCIN nutrition counselling and session records</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn" onclick="openMycin()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button>
+    <button class="btn" onclick="openModal('m-mycin-reg')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button>
     </div>
   </div>
   <div id="mycin-stats"></div>
@@ -3044,7 +3044,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Nutrition and health program defaulter tracking</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn" onclick="openModal('m-defaulter')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Record</button>
+    <button class="btn" onclick="openModal('m-outcome');setTimeout(function(){setOutcomeType('SAM');},80)" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Outcome</button>
     </div>
   </div>
   <div class="alert info"><span class="alert-icon">📊</span>Track outcomes for all SAM and MAM children — Admitted, Cured, Defaulted and Non-Responder.</div>
