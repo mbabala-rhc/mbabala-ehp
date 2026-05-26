@@ -9215,11 +9215,9 @@ function saveWorkSchedule(){
 }
 
 function printWorkSchedule(){
-  var month = document.getElementById('ws-month').value;
   var year = document.getElementById('ws-year').value;
-  var key = 'work_schedule_'+year+'_'+month;
+  var key = 'work_schedule_'+year;
   var saved = DB.get(key) || {};
-  var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
   var s = DB.getObj('settings')||{};
 
   var rows = '';
