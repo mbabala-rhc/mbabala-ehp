@@ -8846,7 +8846,9 @@ function updateTrendCharts(){
     var wk = r.week || '';
     if(!wk) return;
     if(!weekMap[wk]) weekMap[wk] = 0;
-    weekMap[wk] += (r.total || 0);
+    // Sum all zone cases since total field may not exist
+    var rowTotal = (r.kapili||0)+(r.kauni||0)+(r.kasenga||0)+(r.central||0)+(r.isenga||0);
+    weekMap[wk] += rowTotal || (r.total||0);
   });
   var weeks = Object.keys(weekMap).sort();
   var weekTotals = weeks.map(function(w){ return weekMap[w]; });
