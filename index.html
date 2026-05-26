@@ -4689,7 +4689,15 @@ function readFields(fields){
     if(f.key==='id') rec.id=v(f.id)||'';
     else if(f.type==='num') rec[f.key]=parseInt(v(f.id))||0;
     else if(f.type==='float') rec[f.key]=parseFloat(v(f.id))||0;
-    else rec[f.key]=v(f.id);
+    else {
+      var val = v(f.id);
+      // If user selected 'Other', use the specify field instead
+      if(val === 'Other' || val === 'Other (specify below)') {
+        var specifyEl = document.getElementById('other-' + f.id);
+        if(specifyEl && specifyEl.value.trim()) val = specifyEl.value.trim();
+      }
+      rec[f.key] = val;
+    }
   });
   return rec;
 }
