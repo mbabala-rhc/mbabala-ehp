@@ -8841,15 +8841,8 @@ function updateTrendCharts(){
   }
 
   // ── Chart 2: Weekly Trend (Line) ──────────────────────────────────
-  // Group by week - aggregate across all diseases if needed
   var weekMap = {};
-  // Get ALL data for year (ignore disease filter for trend line if only 1 point)
-  var trendData = DB.get('disease_register').filter(function(r){
-    if(year && r.week && !r.week.startsWith(year)) return false;
-    if(disease !== 'all' && r.disease !== disease) return false;
-    return true;
-  });
-  trendData.forEach(function(r){
+  data.forEach(function(r){
     var wk = r.week || '';
     if(!wk) return;
     if(!weekMap[wk]) weekMap[wk] = 0;
