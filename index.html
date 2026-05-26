@@ -2030,10 +2030,10 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div id="mycin-stats"></div>
 
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
-    <div class="tab active" onclick="switchTab(this,'t-mycin-dash')">📊 Dashboard</div>
-    <div class="tab" onclick="switchTab(this,'t-mycin-register')">👩 Caregiver Register</div>
-    <div class="tab" onclick="switchTab(this,'t-mycin-sessions')">📋 Counselling Sessions</div>
-    <div class="tab" onclick="switchTab(this,'t-mycin-reports')">📄 Reports</div>
+    <div class="tab active" onclick="switchTab(this,'t-mycin-dash');updateMycinBannerBtn('dash')">📊 Dashboard</div>
+    <div class="tab" onclick="switchTab(this,'t-mycin-register');updateMycinBannerBtn('register')">👩 Caregiver Register</div>
+    <div class="tab" onclick="switchTab(this,'t-mycin-sessions');updateMycinBannerBtn('sessions')">📋 Counselling Sessions</div>
+    <div class="tab" onclick="switchTab(this,'t-mycin-reports');updateMycinBannerBtn('reports')">📄 Reports</div>
   </div>
 
   <div id="t-mycin-dash" class="tab-pane active">
@@ -7006,13 +7006,17 @@ function switchOutbreakTab(btn, paneId, type){
     newBtn.onclick = btnCfg.show ? ()=>openModal(btnCfg.modal) : null;
   }
 
-  // Update banner button based on active tab
+  // Update banner button based on active tab - matches _outbreakNewBtns
   var obBannerBtn = document.querySelector('#page-outbreak .btn[style*="rgba(255"]');
   if(obBannerBtn){
-    var obLabels={investigation:'+ New Investigation',case:'+ Log Case',contact:'+ Log Contact'};
-    var obModals={investigation:"openModal('m-outbreak')",case:"openModal('m-rapid')",contact:"openModal('m-contact')"};
-    obBannerBtn.textContent = obLabels[type]||'+ New Record';
-    obBannerBtn.setAttribute('onclick', obModals[type]||"openModal('m-outbreak')");
+    var btnCfg2 = _outbreakNewBtns[type];
+    if(btnCfg2 && btnCfg2.show){
+      obBannerBtn.style.display='';
+      obBannerBtn.textContent = btnCfg2.text;
+      obBannerBtn.setAttribute('onclick', "openModal('"+btnCfg2.modal+"')");
+    } else {
+      obBannerBtn.style.display='none';
+    }
   }
 }
 
@@ -7055,9 +7059,11 @@ function switchLegalTab(btn, paneId, type){
   // Update banner button based on active tab
   var legalBannerBtn = document.querySelector('#page-legal .btn[style*="rgba(255"]');
   if(legalBannerBtn){
-    var legalLabels={all:'+ Log Action',improvement:'+ Log Improvement Notice',closure:'+ Log Closure Order'};
+    var legalLabels={all:'+ Log Action',improvement:'+ Log Improvement Notice',closure:'+ Log Closure Order',prosecution:'+ Log Prosecution'};
+    var legalDefaults={all:'',improvement:'Improvement Notice',closure:'Closure Order',prosecution:'Prosecution'};
     legalBannerBtn.textContent = legalLabels[type]||'+ Log Action';
-    legalBannerBtn.setAttribute('onclick', "openModal('m-legal')");
+    var legalDefault = legalDefaults[type]||'';
+    legalBannerBtn.setAttribute('onclick', "openModal('m-legal');setTimeout(function(){var el=document.getElementById('f-legal-type');if(el&&'"+legalDefault+"')el.value='"+legalDefault+"';},80)");
   }
 }
 
@@ -13995,6 +14001,26 @@ function editGenSanitation(id){
   document.getElementById('hdr-m-gen-sanitation').textContent='Edit Sanitation Assessment';
   openModal('m-gen-sanitation');
   loadAttachments('gen_sanitation',r.id,'m-gen-sanitation');
+}
+
+
+
+function updateMycinBannerBtn(tab){
+  var btn = document.querySelector('#page-mycin .btn[style*="rgba(255"]');
+  if(!btn) return;
+  var labels = {dash:'+ New Session', register:'+ Add Caregiver', sessions:'+ Log Session', reports:''};
+  var modals = {dash:"openModal('m-mycin-sess')", register:"openModal('m-mycin-reg')", sessions:"openModal('m-mycin-sess')", reports:''};
+  if(tab==='reports'){ btn.style.display='none'; return; }
+  btn.style.display='';
+  btn.textContent = labels[tab]||'+ New Record';
+  btn.setAttribute('onclick', modals[tab]||"openModal('m-mycin-reg')");
+}
+
+function updateOutcomeBannerBtn(type){
+  var btn = document.querySelector('#page-defaulters .btn[style*="rgba(255"]');
+  if(!btn) return;
+  btn.textContent = '+ New '+ type +' Outcome';
+  btn.setAttribute('onclick', "openModal('m-outcome');setTimeout(function(){setOutcomeType('"+type+"');},80)");
 }
 
 </script>
