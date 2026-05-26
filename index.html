@@ -8769,6 +8769,18 @@ function toggleDRTrends(){
       var cy = new Date().getFullYear();
       for(var y=cy-2; y<=cy+1; y++) yrSel.add(new Option(y, y, y===cy, y===cy));
     }
+    // Populate disease dropdown dynamically from records
+    var diseaseSel = document.getElementById('trend-disease');
+    if(diseaseSel){
+      var current = diseaseSel.value;
+      var allData = DB.get('disease_register');
+      var seen = {};
+      var options = '<option value="all">All Diseases</option>';
+      ['Malaria','Diarrhoea','Cholera','Typhoid','Dysentery','Pneumonia','Malnutrition','COVID-19','Measles','Meningitis','Rabies'].forEach(function(d){ seen[d]=1; options+='<option>'+d+'</option>'; });
+      allData.forEach(function(r){ if(r.disease && !seen[r.disease]){ seen[r.disease]=1; options+='<option>'+r.disease+'</option>'; }});
+      diseaseSel.innerHTML = options;
+      if(current) diseaseSel.value = current;
+    }
     updateTrendCharts();
   } else {
     panel.style.display = 'none';
