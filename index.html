@@ -3040,11 +3040,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
     <div>
       <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
-      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📋 Defaulter Follow-up</div>
-      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Nutrition and health program defaulter tracking</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px" id="defaulters-banner-title">📊 Malnutrition Outcome</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px" id="defaulters-banner-desc">SAM and MAM malnutrition outcome tracking</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn" onclick="openModal('m-outcome');setTimeout(function(){setOutcomeType('SAM');},80)" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Outcome</button>
+      <button class="btn" id="defaulters-banner-btn" onclick="openModal('m-outcome');setTimeout(function(){setOutcomeType('SAM');},80)" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New SAM Outcome</button>
     </div>
   </div>
   <div class="alert info"><span class="alert-icon">📊</span>Track outcomes for all SAM and MAM children — Admitted, Cured, Defaulted and Non-Responder.</div>
@@ -3059,7 +3059,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div id="t-out-sam" class="tab-pane active">
     <div class="toolbar">
       <input type="text" placeholder="🔍 Search SAM records..." oninput="filterTbl(this,'tbl-out-sam')" style="flex:1;max-width:240px">
-      <button class="btn primary" onclick="openModal('m-outcome');setTimeout(()=>setOutcomeType('SAM'),80)">+ Record SAM Outcome</button>
+      <button class="btn primary" onclick="setDefaultersBanner('SAM');openModal('m-outcome');setTimeout(()=>setOutcomeType('SAM'),80)">+ Record SAM Outcome</button>
       <button class="btn sm" onclick="outcomePDF('SAM')">📄 PDF</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Malnutrition Outcomes','tbl-out-sam')">🖨 Print</button>
     </div>
@@ -3071,7 +3071,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div id="t-out-mam" class="tab-pane">
     <div class="toolbar">
       <input type="text" placeholder="🔍 Search MAM records..." oninput="filterTbl(this,'tbl-out-mam')" style="flex:1;max-width:240px">
-      <button class="btn primary" onclick="openModal('m-outcome');setTimeout(()=>setOutcomeType('MAM'),80)">+ Record MAM Outcome</button>
+      <button class="btn primary" onclick="setDefaultersBanner('MAM');openModal('m-outcome');setTimeout(()=>setOutcomeType('MAM'),80)">+ Record MAM Outcome</button>
       <button class="btn sm" onclick="outcomePDF('MAM')">📄 PDF</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('MAM Outcomes','tbl-out-mam')">🖨 Print</button>
     </div>
@@ -14021,6 +14021,17 @@ function updateOutcomeBannerBtn(type){
   if(!btn) return;
   btn.textContent = '+ New '+ type +' Outcome';
   btn.setAttribute('onclick', "openModal('m-outcome');setTimeout(function(){setOutcomeType('"+type+"');},80)");
+}
+
+
+
+function setDefaultersBanner(type){
+  var btn = document.getElementById('defaulters-banner-btn');
+  var title = document.getElementById('defaulters-banner-title');
+  var desc = document.getElementById('defaulters-banner-desc');
+  if(btn){ btn.textContent = '+ New '+type+' Outcome'; }
+  if(title){ title.textContent = '📊 Malnutrition Outcome — '+type; }
+  if(desc){ desc.textContent = type+' malnutrition outcome tracking'; }
 }
 
 </script>
