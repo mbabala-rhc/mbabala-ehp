@@ -855,18 +855,22 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div style="background:linear-gradient(135deg,#0369a1,#0284c7);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
     <div>
       <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre — EH Department</div>
-      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🗓️ Annual Work Schedule</div>
-      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Yearly work timetable — activities and locations by month and week</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🗓️ Work Schedule</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Monthly work timetable — Week 1 to 4, Monday to Friday</div>
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn" onclick="printWorkSchedule()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">🖨 Print Schedule</button>
+      <button class="btn" onclick="printWorkSchedule()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">🖨 Print</button>
     </div>
   </div>
   <div class="card" style="padding:12px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-    <label style="font-size:13px;font-weight:600;color:var(--txt)">Year:</label>
+    <select id="ws-month" onchange="renderWorkSchedule()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+      <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+      <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+      <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+    </select>
     <select id="ws-year" onchange="renderWorkSchedule()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
-    <button class="btn primary" onclick="saveWorkSchedule()">💾 Save Schedule</button>
-    <span style="font-size:12px;color:var(--txt2);margin-left:4px">Changes save automatically per year</span>
+    <button class="btn primary" onclick="saveWorkSchedule()">💾 Save</button>
   </div>
   <div id="ws-table-container"></div>
 </div>
@@ -9132,52 +9136,50 @@ function renderWorkSchedule(){
     var cy = new Date().getFullYear();
     for(var y=cy-1; y<=cy+3; y++) yrSel.add(new Option(y,y,y===cy,y===cy));
   }
+  var monthSel = document.getElementById('ws-month');
+  if(monthSel && !monthSel.dataset.init){
+    monthSel.value = String(new Date().getMonth()+1);
+    monthSel.dataset.init = '1';
+  }
+  var month = (document.getElementById('ws-month')||{value:'1'}).value;
   var year = (document.getElementById('ws-year')||{value:String(new Date().getFullYear())}).value;
-  var key = 'work_schedule_'+year;
+  var key = 'work_schedule_'+year+'_'+month;
   var saved = DB.get(key) || {};
+  var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
 
-  var html = '';
+  // Build table: rows = Week 1-4, columns = Mon-Fri
+  // Each cell has Activity + Location
+  var html = '<div class="card" style="overflow:hidden">'
+    +'<div style="background:#0369a1;padding:10px 16px">'
+      +'<div style="color:#fff;font-weight:700;font-size:14px">'+monthNames[parseInt(month)]+' '+year+'</div>'
+    +'</div>'
+    +'<div class="tbl-wrap"><table style="width:100%;border-collapse:collapse">'
+    +'<thead>'
+    +'<tr>'
+      +'<th style="width:80px;padding:10px 12px;background:#1e3a5f;color:#fff;font-size:11px;text-transform:uppercase;text-align:center;border-right:2px solid rgba(255,255,255,.2)">Week</th>';
 
-  WS_MONTHS.forEach(function(month, mi){
-    var monthKey = 'M'+(mi+1);
-    html += '<div class="card" style="margin-bottom:20px;overflow:hidden">';
-    // Month header
-    html += '<div style="background:linear-gradient(135deg,#0369a1,#0284c7);padding:12px 16px;display:flex;align-items:center;justify-content:space-between">'
-      +'<div style="color:#fff;font-size:15px;font-weight:700">📅 '+month+' '+year+'</div>'
-      +'</div>';
+  WS_DAYS.forEach(function(day){
+    html += '<th style="padding:10px 12px;background:#1e3a5f;color:#fff;font-size:11px;text-transform:uppercase;text-align:center;border-right:1px solid rgba(255,255,255,.1)">'+day+'</th>';
+  });
+  html += '</tr></thead><tbody>';
 
-    html += '<div class="tbl-wrap"><table style="width:100%;border-collapse:collapse;font-size:12px">';
-    html += '<thead><tr style="background:#f1f5f9">'
-      +'<th style="padding:8px 12px;font-weight:700;font-size:11px;text-transform:uppercase;color:#475569;width:80px;border-bottom:2px solid #e2e8f0">Week</th>'
-      +'<th style="padding:8px 12px;font-weight:700;font-size:11px;text-transform:uppercase;color:#475569;width:100px;border-bottom:2px solid #e2e8f0">Day</th>'
-      +'<th style="padding:8px 12px;font-weight:700;font-size:11px;text-transform:uppercase;color:#475569;border-bottom:2px solid #e2e8f0">Activity / Task</th>'
-      +'<th style="padding:8px 12px;font-weight:700;font-size:11px;text-transform:uppercase;color:#475569;width:160px;border-bottom:2px solid #e2e8f0">Location</th>'
-      +'</tr></thead><tbody>';
+  WS_WEEKS.forEach(function(week, wi){
+    var rowBg = wi%2===0 ? 'var(--bg)' : 'var(--bg2)';
+    html += '<tr style="border-bottom:2px solid var(--bd)">'
+      +'<td style="padding:8px 12px;font-weight:700;font-size:12px;text-align:center;vertical-align:middle;background:'+WS_WEEK_COLORS[wi]+';color:#fff;border-right:2px solid var(--bd)">'+week+'</td>';
 
-    WS_WEEKS.forEach(function(week, wi){
-      WS_DAYS.forEach(function(day, di){
-        var cellKey = monthKey+'_W'+(wi+1)+'_'+di;
-        var val = saved[cellKey] || {activity:'', location:''};
-        var isFirst = di === 0;
-        var rowBg = di%2===0 ? '#fff' : '#f8fafc';
-        html += '<tr style="background:'+rowBg+';border-bottom:1px solid #e2e8f0">';
-        if(isFirst){
-          html += '<td rowspan="5" style="padding:8px 12px;font-weight:700;font-size:11px;text-align:center;vertical-align:middle;background:'+WS_WEEK_COLORS[wi]+';color:#fff;border-right:2px solid #e2e8f0">'+week+'</td>';
-        }
-        html += '<td style="padding:6px 12px;font-weight:600;color:#374151;white-space:nowrap;border-right:1px solid #e2e8f0">'+day+'</td>'
-          +'<td style="padding:4px 8px;border-right:1px solid #e2e8f0"><textarea id="ws-act-'+cellKey+'" rows="2" placeholder="Enter activity..." style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:12px;background:#fff;color:#111;resize:none;font-family:inherit">'+(_esc2(val.activity))+'</textarea></td>'
-          +'<td style="padding:4px 8px"><input type="text" id="ws-loc-'+cellKey+'" value="'+(_esc(val.location))+'" placeholder="Location..." style="width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:12px;background:#fff;color:#111"></td>'
-        +'</tr>';
-      });
-      // Spacer row between weeks (except last)
-      if(wi < 3){
-        html += '<tr style="height:4px;background:#e2e8f0"><td colspan="4"></td></tr>';
-      }
+    WS_DAYS.forEach(function(day, di){
+      var cellKey = wi+'_'+di;
+      var val = saved[cellKey] || {activity:'', location:''};
+      html += '<td style="padding:6px 8px;vertical-align:top;border-right:1px solid var(--bd);background:'+rowBg+'">'
+        +'<textarea id="ws-act-'+cellKey+'" rows="3" placeholder="Activity..." style="width:100%;border:1px solid var(--bd);border-radius:5px;padding:5px 8px;font-size:11px;background:var(--bg);color:var(--txt);resize:none;font-family:inherit;margin-bottom:4px">'+(_esc2(val.activity))+'</textarea>'
+        +'<input type="text" id="ws-loc-'+cellKey+'" value="'+(_esc(val.location))+'" placeholder="📍 Location" style="width:100%;border:1px solid var(--bd);border-radius:5px;padding:4px 8px;font-size:11px;background:var(--bg);color:var(--txt)">'
+        +'</td>';
     });
-
-    html += '</tbody></table></div></div>';
+    html += '</tr>';
   });
 
+  html += '</tbody></table></div></div>';
   var container = document.getElementById('ws-table-container');
   if(container) container.innerHTML = html;
 }
@@ -9186,79 +9188,70 @@ function _esc(str){ return (str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;'
 function _esc2(str){ return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 
 function saveWorkSchedule(){
+  var month = document.getElementById('ws-month').value;
   var year = document.getElementById('ws-year').value;
-  var key = 'work_schedule_'+year;
+  var key = 'work_schedule_'+year+'_'+month;
+  var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
   var data = {};
-  WS_MONTHS.forEach(function(month, mi){
-    var monthKey = 'M'+(mi+1);
-    WS_WEEKS.forEach(function(week, wi){
-      WS_DAYS.forEach(function(day, di){
-        var cellKey = monthKey+'_W'+(wi+1)+'_'+di;
-        var actEl = document.getElementById('ws-act-'+cellKey);
-        var locEl = document.getElementById('ws-loc-'+cellKey);
-        var act = actEl ? actEl.value.trim() : '';
-        var loc = locEl ? locEl.value.trim() : '';
-        if(act||loc) data[cellKey] = {activity:act, location:loc};
-      });
+  WS_WEEKS.forEach(function(week, wi){
+    WS_DAYS.forEach(function(day, di){
+      var cellKey = wi+'_'+di;
+      var actEl = document.getElementById('ws-act-'+cellKey);
+      var locEl = document.getElementById('ws-loc-'+cellKey);
+      var act = actEl ? actEl.value.trim() : '';
+      var loc = locEl ? locEl.value.trim() : '';
+      if(act||loc) data[cellKey] = {activity:act, location:loc};
     });
   });
   _store[key] = data;
   idbPut(key, data);
   sbSet(key, data);
-  toast('Work schedule saved for '+year,'success');
+  toast('Schedule saved for '+monthNames[parseInt(month)]+' '+year,'success');
 }
 
 function printWorkSchedule(){
+  var month = document.getElementById('ws-month').value;
   var year = document.getElementById('ws-year').value;
-  var key = 'work_schedule_'+year;
+  var key = 'work_schedule_'+year+'_'+month;
   var saved = DB.get(key) || {};
+  var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
   var s = DB.getObj('settings')||{};
+  var monthName = monthNames[parseInt(month)];
+
+  var headers = '<th style="width:70px;background:#1e3a5f;color:#fff;padding:8px;text-align:center">Week</th>';
+  WS_DAYS.forEach(function(d){ headers += '<th style="background:#1e3a5f;color:#fff;padding:8px;text-align:center;font-size:11px">'+d+'</th>'; });
 
   var rows = '';
-  WS_MONTHS.forEach(function(month, mi){
-    var monthKey = 'M'+(mi+1);
-    // Month header row
-    rows += '<tr><td colspan="4" style="background:#0369a1;color:#fff;font-weight:700;font-size:13px;padding:8px 12px">📅 '+month+' '+year+'</td></tr>';
-    WS_WEEKS.forEach(function(week, wi){
-      WS_DAYS.forEach(function(day, di){
-        var cellKey = monthKey+'_W'+(wi+1)+'_'+di;
-        var val = saved[cellKey] || {activity:'', location:''};
-        var isFirst = di === 0;
-        var rowBg = di%2===0?'#fff':'#f8fafc';
-        rows += '<tr style="background:'+rowBg+'">';
-        if(isFirst) rows += '<td rowspan="5" style="font-weight:700;text-align:center;vertical-align:middle;background:'+WS_WEEK_COLORS[wi]+';color:#fff;font-size:11px">'+week+'</td>';
-        rows += '<td style="font-weight:600;white-space:nowrap;font-size:11px">'+day+'</td>'
-          +'<td style="font-size:11px">'+(val.activity||'')+'</td>'
-          +'<td style="font-size:11px">'+(val.location||'')+'</td>'
-        +'</tr>';
-      });
+  WS_WEEKS.forEach(function(week, wi){
+    rows += '<tr style="border-bottom:2px solid #e2e8f0">'
+      +'<td style="padding:8px;font-weight:700;text-align:center;vertical-align:middle;background:'+WS_WEEK_COLORS[wi]+';color:#fff;font-size:11px">'+week+'</td>';
+    WS_DAYS.forEach(function(day, di){
+      var cellKey = wi+'_'+di;
+      var val = saved[cellKey]||{activity:'',location:''};
+      rows += '<td style="padding:6px 8px;vertical-align:top;border-right:1px solid #e2e8f0;font-size:11px">'
+        +(val.activity ? '<div>'+val.activity+'</div>' : '')
+        +(val.location ? '<div style="color:#6b7280;font-size:10px;margin-top:3px">📍 '+val.location+'</div>' : '')
+        +'</td>';
     });
+    rows += '</tr>';
   });
 
-  var html = '<!DOCTYPE html><html><head><title>Work Schedule '+year+'</title>'
-    +'<style>body{font-family:Arial,sans-serif;padding:20px;color:#111;max-width:1000px;margin:0 auto}'
-    +'.hdr{text-align:center;border-bottom:2px solid #0369a1;padding-bottom:12px;margin-bottom:16px}'
-    +'table{width:100%;border-collapse:collapse;margin-bottom:8px}'
-    +'th{background:#1e3a5f;color:#fff;padding:7px 10px;text-align:left;font-size:11px}'
-    +'td{padding:6px 10px;border-bottom:1px solid #e5e7eb;font-size:11px;vertical-align:middle}'
-    +'@media print{button{display:none}}</style></head><body>'
-    +'<div class="hdr">'
-      +'<div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia — Environmental Health Department</div>'
-      +'<div style="font-size:20px;font-weight:800;margin:6px 0">Annual Work Schedule — '+year+'</div>'
-      +'<div style="font-size:13px;color:#374151">'+(s.facility||'Mbabala RHC')+' · Chifunabuli · Luapula</div>'
-      +'<div style="font-size:12px;color:#6b7280;margin-top:4px">Officer: <b>'+(currentUser&&currentUser.name||'—')+'</b></div>'
+  var html = '<!DOCTYPE html><html><head><title>Work Schedule</title>'
+    +'<style>body{font-family:Arial,sans-serif;padding:20px;color:#111}table{width:100%;border-collapse:collapse;margin-top:16px}'
+    +'td,th{border:1px solid #e2e8f0}@media print{button{display:none}}</style></head><body>'
+    +'<div style="text-align:center;border-bottom:2px solid #0369a1;padding-bottom:10px;margin-bottom:16px">'
+      +'<div style="font-size:11px;color:#6b7280">Ministry of Health · Zambia — Environmental Health</div>'
+      +'<div style="font-size:18px;font-weight:800;margin:4px 0">Work Schedule — '+monthName+' '+year+'</div>'
+      +'<div style="font-size:12px;color:#374151">'+(s.facility||'Mbabala RHC')+' · Officer: '+(currentUser&&currentUser.name||'—')+'</div>'
     +'</div>'
-    +'<table><thead><tr><th style="width:70px">Week</th><th style="width:90px">Day</th><th>Activity / Task</th><th style="width:140px">Location</th></tr></thead>'
-    +'<tbody>'+rows+'</tbody></table>'
-    +'<div style="margin-top:20px;display:flex;gap:60px">'
-      +'<div style="flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px">EH Officer Signature &amp; Date</div>'
+    +'<table><thead><tr>'+headers+'</tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div style="margin-top:24px;display:flex;gap:60px">'
+      +'<div style="flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px">Officer Signature &amp; Date</div>'
       +'<div style="flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px">Supervisor Signature &amp; Date</div>'
     +'</div>'
-    +'<div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 24px;background:#0369a1;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer">🖨 Print / Save PDF</button></div>'
+    +'<div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 24px;background:#0369a1;color:#fff;border:none;border-radius:8px;cursor:pointer">🖨 Print / Save PDF</button></div>'
     +'</body></html>';
-  var w = window.open('','_blank');
-  w.document.write(html);
-  w.document.close();
+  var w = window.open('','_blank'); w.document.write(html); w.document.close();
 }
 
 </script>
