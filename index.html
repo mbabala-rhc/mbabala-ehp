@@ -8273,6 +8273,19 @@ function viewDiseaseEntry(id){
   openModal('m-view');
 }
 function renderDiseaseRegister(){
+  // Populate filter with all unique diseases from records
+  var allData = DB.get('disease_register');
+  var sel = document.getElementById('dr-filter-disease');
+  if(sel){
+    var current = sel.value;
+    var diseases = ['All Diseases'];
+    var seen = {};
+    allData.forEach(function(r){ if(r.disease && !seen[r.disease]){ seen[r.disease]=1; diseases.push(r.disease); } });
+    // Add standard diseases not yet in data
+    ['Malaria','Diarrhoea','Cholera','Typhoid','Dysentery','Pneumonia','Malnutrition','COVID-19','Measles','Meningitis','Rabies'].forEach(function(d){ if(!seen[d]) diseases.push(d); });
+    sel.innerHTML = diseases.map(function(d,i){ return '<option value="'+(i===0?'':d)+'">'+d+'</option>'; }).join('');
+    sel.value = current;
+  }
   var sel=document.getElementById('dr-filter-year');
   if(sel&&!sel.options.length){var cy=new Date().getFullYear();for(var y=cy-2;y<=cy+3;y++)sel.add(new Option(y,y,y===cy,y===cy));}
   var filterDisease=(document.getElementById('dr-filter-disease')||{value:''}).value;
