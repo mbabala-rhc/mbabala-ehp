@@ -1221,6 +1221,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== INSPECTIONS ===== -->
 <div id="page-inspections" class="page">
+  <div style="background:linear-gradient(135deg,#0a5448,#0d7a5f);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">✅ Inspections</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Premises inspections and compliance tracking</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-inspection')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Inspection</button>
+    </div>
+  </div>
     <div class="toolbar">
       <input type="text" placeholder="🔍 Search inspections..." oninput="filterTbl(this,'tbl-insp')">
       <select onchange="filterCol(this,'tbl-insp',5)"><option value="">All statuses</option><option>Pass</option><option>Fail</option><option>Action needed</option><option>Pending</option></select>
@@ -1250,6 +1260,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== INCIDENTS ===== -->
 <div id="page-incidents" class="page">
+  <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">⚠️ Incidents & Hazards</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Log and track environmental health incidents</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-incident')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Incident</button>
+    </div>
+  </div>
   <div class="alert danger" id="inc-alert" style="display:none"><span class="alert-icon">🔴</span><span id="inc-alert-text"></span></div>
 
   <div class="toolbar">
@@ -1263,6 +1283,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== IMMUNIZATION ===== -->
 <div id="page-immunization" class="page">
+  <div style="background:linear-gradient(135deg,#0891b2,#0e7490);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">💉 EPI / Immunization</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Monthly immunization session reports</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-immunization')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New EPI Report</button>
+    </div>
+  </div>
   <div id="epi-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search by period, vaccine..." oninput="filterEPICards(this.value)">
@@ -1290,6 +1320,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== HIA ===== -->
 <div id="page-hia" class="page">
+  <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📋 HIA Reports</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Health Impact Assessment reports (HIA 1 & 2)</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-hia1')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New HIA Report</button>
+    </div>
+  </div>
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
     <div class="tab active" onclick="switchHIATab(this,'t-hia1','hia1')" style="white-space:nowrap;flex-shrink:0">HIA 1 Monthly</div>
     <div class="tab" onclick="switchHIATab(this,'t-hia2','hia2')" style="white-space:nowrap;flex-shrink:0">HIA 2 Monthly</div>
@@ -1310,6 +1350,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== WATER ===== -->
 <div id="page-water" class="page">
+  <div style="background:linear-gradient(135deg,#0369a1,#0284c7);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">💧 Water Quality</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Water source testing and quality monitoring</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-water')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Test</button>
+    </div>
+  </div>
   <div id="water-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search water tests..." oninput="filterTbl(this,'tbl-water')">
@@ -1322,6 +1372,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== EBS ===== -->
 <div id="page-ebs" class="page">
+  <div style="background:linear-gradient(135deg,#b45309,#d97706);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🚨 EBS / EMS</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Event-Based Surveillance and Emergency Management</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-ebs')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Report</button>
+    </div>
+  </div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search signals..." oninput="filterTbl(this,'tbl-ebs')">
     <button class="btn primary" onclick="openModal('m-ebs')">+ New Signal</button>
@@ -1332,6 +1392,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== IPC ===== -->
 <div id="page-ipc" class="page">
+  <div style="background:linear-gradient(135deg,#0f766e,#0d9488);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🧤 IPC Reports</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Infection Prevention and Control assessments</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-ipc')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New IPC Report</button>
+    </div>
+  </div>
   <div id="ipc-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search audits..." oninput="filterTbl(this,'tbl-ipc')">
@@ -1343,6 +1413,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== ECD ===== -->
 <div id="page-ecd" class="page">
+  <div style="background:linear-gradient(135deg,#9333ea,#7c3aed);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">👶 ECD Activities</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Early Childhood Development activities and reports</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-ecd')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Activity</button>
+    </div>
+  </div>
   <div id="ecd-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search ECD activities..." oninput="filterTbl(this,'tbl-ecd')">
@@ -1354,6 +1434,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== NUTRITION ===== -->
 <div id="page-nutrition" class="page">
+  <div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🥗 Nutrition (MUAC)</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Child nutrition screening and malnutrition management</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-nutrition')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button>
+    </div>
+  </div>
   <div id="nutr-stats"></div>
   <div class="toolbar">
     <input type="text" id="nutr-search" placeholder="🔍 Search by name, village..." oninput="filterNutrition(this.value)">
@@ -1366,6 +1456,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== WASTE ===== -->
 <div id="page-waste" class="page">
+  <div style="background:linear-gradient(135deg,#0a5448,#047857);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">♻️ Waste Management</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Facility and community waste management reports</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-waste')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Report</button>
+    </div>
+  </div>
   <!-- Tabs -->
   <div style="display:flex;gap:4px;margin-bottom:14px;border-bottom:2px solid var(--bd);padding-bottom:0">
     <button id="waste-tab-facility" onclick="switchWasteTab('facility')" style="padding:9px 18px;border:none;border-bottom:2px solid var(--teal-d);margin-bottom:-2px;background:transparent;color:var(--teal-d);font-weight:700;font-size:13px;cursor:pointer">🏥 Facility Waste</button>
@@ -1468,6 +1568,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== VECTOR ===== -->
 <div id="page-vector" class="page">
+  <div style="background:linear-gradient(135deg,#4d7c0f,#3f6212);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🦟 Vector Control</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Vector surveillance and control activities</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-vector')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Activity</button>
+    </div>
+  </div>
   <div id="vector-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search..." oninput="filterTbl(this,'tbl-vector')">
@@ -1479,6 +1589,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== SANITATION ===== -->
 <div id="page-sanitation" class="page">
+  <div style="background:linear-gradient(135deg,#92400e,#b45309);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🚽 Sanitation (ODF)</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Open Defecation Free village verification and tracking</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-sanitation')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button>
+    </div>
+  </div>
   <div id="san-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search villages..." oninput="filterTbl(this,'tbl-san')">
@@ -1510,6 +1630,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div>
 <!-- ===== HEALTH PROMOTION =====  -->
 <div id="page-health_promo" class="page">
+  <div style="background:linear-gradient(135deg,#1d4ed8,#1e40af);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📢 Health Promotion</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Health education sessions and community outreach activities</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-hp')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Activity</button>
+    </div>
+  </div>
   <div id="hp-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search activities..." oninput="filterTbl(this,'tbl-hp')">
@@ -1521,6 +1651,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== FACILITIES ===== -->
 <div id="page-facilities" class="page">
+  <div style="background:linear-gradient(135deg,#0a5448,#0d7a5f);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🏥 Facilities</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Health facility registry and details</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-facility')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Facility</button>
+    </div>
+  </div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search facilities..." oninput="filterTbl(this,'tbl-fac')">
     <select onchange="filterCol(this,'tbl-fac',2)"><option value="">All types</option><option>Health centre</option><option>School</option><option>Market</option><option>Borehole</option><option>Restaurant/Food outlet</option></select>
@@ -1532,6 +1672,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== HOUSEHOLDS ===== -->
 <div id="page-households" class="page">
+  <div style="background:linear-gradient(135deg,#0369a1,#0284c7);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🏠 Households</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Household registration and health data</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-household')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Household</button>
+    </div>
+  </div>
   <div id="hh-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search households..." oninput="filterTbl(this,'tbl-hh')">
@@ -1543,6 +1693,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== PREMISES ===== -->
 <div id="page-premises" class="page">
+  <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🏪 Premises</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Business and public premises registration</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-premises')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Premises</button>
+    </div>
+  </div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search premises..." oninput="filterTbl(this,'tbl-prem')">
     <select onchange="filterCol(this,'tbl-prem',1)"><option value="">All types</option><option>Food outlet</option><option>Butchery</option><option>Tuck shop</option><option>Bar/Lodge</option><option>School canteen</option><option>Barbershop</option></select>
@@ -1554,6 +1714,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== DOCUMENTS ===== -->
 <div id="page-documents" class="page">
+  <div style="background:linear-gradient(135deg,#374151,#1f2937);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📄 Documents</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Policy documents, guidelines and reference materials</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-doc')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Upload Document</button>
+    </div>
+  </div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search documents..." oninput="filterTbl(this,'tbl-docs')">
     <button class="btn" onclick="document.getElementById('doc-file-input').click()">⬆ Upload File</button>
@@ -1568,6 +1738,15 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== ANALYTICS ===== -->
 <div id="page-analytics" class="page">
+  <div style="background:linear-gradient(135deg,#0891b2,#0e7490);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📊 Analytics</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Platform data analytics and performance overview</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    </div>
+  </div>
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
     <div style="font-size:13px;color:var(--txt2)">Auto-updated from all modules · <span id="analytics-last-update" style="color:var(--teal);font-weight:500"></span></div>
     <div style="display:flex;gap:8px">
@@ -1630,6 +1809,15 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== ADMIN ===== -->
 <div id="page-admin" class="page">
+  <div style="background:linear-gradient(135deg,#1e3a5f,#1e40af);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">⚙️ Administration</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">User management, settings and system administration</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    </div>
+  </div>
   <div id="admin-restricted-msg" style="display:none;background:var(--amber-l);border:1px solid var(--amber);border-radius:8px;padding:12px 16px;margin-bottom:14px;color:var(--txt);font-size:13px">
     🔒 <b>Restricted Access</b> — User Management and Facility Settings are only available to Admin users. Contact your administrator to make changes.
   </div>
@@ -1725,6 +1913,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== MYCIN NUTRITION ===== -->
 <div id="page-mycin" class="page">
+  <div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📝 MYCIN Nutrition</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">MYCIN nutrition counselling and session records</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openMycin()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button>
+    </div>
+  </div>
   <div id="mycin-stats"></div>
 
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
@@ -2369,6 +2567,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== LEGAL / ENFORCEMENT ===== -->
 <div id="page-legal" class="page">
+  <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">⚖️ Legal / Enforcement</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Legal notices, enforcement actions and compliance records</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-legal')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Action</button>
+    </div>
+  </div>
   <!-- Dynamic alert changes per tab -->
   <div id="legal-alert" class="alert info" style="margin-bottom:12px">
     <span class="alert-icon">📋</span>
@@ -2403,6 +2611,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div>
 
 <div id="page-routine" class="page">
+  <div style="background:linear-gradient(135deg,#0a5448,#047857);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📅 Routine EH Reports</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Monthly routine Environmental Health activity reports</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-routine-monthly')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Report</button>
+    </div>
+  </div>
   <div class="alert info"><span class="alert-icon">📋</span>Monthly EH Report — Ministry of Health format covering all 13 reporting sections.</div>
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
     <div class="tab active" onclick="switchTab(this,'t-routine-monthly')">📅 Monthly EH Reports</div>
@@ -2438,6 +2656,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== OUTBREAK INVESTIGATION ===== -->
 <div id="page-outbreak" class="page">
+  <div style="background:linear-gradient(135deg,#dc2626,#991b1b);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🔴 Outbreak Investigation</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Disease outbreak investigation and response records</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-outbreak')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Investigation</button>
+    </div>
+  </div>
   <!-- Dynamic alert changes per tab -->
   <div id="outbreak-alert" class="alert danger" style="margin-bottom:12px">
     <span class="alert-icon">🦠</span>
@@ -2480,6 +2708,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div>
 
 <div id="page-stock" class="page">
+  <div style="background:linear-gradient(135deg,#374151,#1f2937);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📦 Stock & Supplies</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Medical supplies and equipment stock management</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-stock')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Item</button>
+    </div>
+  </div>
   <div id="stock-alerts" style="margin-bottom:14px"></div>
   <div id="stock-stats"></div>
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
@@ -2514,6 +2752,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== VILLAGE REGISTER ===== -->
 <div id="page-villages" class="page">
+  <div style="background:linear-gradient(135deg,#0a5448,#0d7a5f);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🏘️ Village Register</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Village registration and catchment population data</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-village')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Village</button>
+    </div>
+  </div>
   <div id="village-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search villages..." oninput="filterTbl(this,'tbl-villages')">
@@ -2534,6 +2782,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== CBV REGISTER ===== -->
 <div id="page-chw" class="page">
+  <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">👩‍⚕️ CHW Register</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Community Health Worker registration and activities</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-chw')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add CHW</button>
+    </div>
+  </div>
   <div class="alert info"><span class="alert-icon">👥</span>Register and track all Community Health Workers in your catchment area.</div>
   <div id="chw-stats"></div>
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
@@ -2578,6 +2836,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== MEETINGS & TRAINING ===== -->
 <div id="page-schools" class="page">
+  <div style="background:linear-gradient(135deg,#1d4ed8,#1e40af);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🏫 School Health</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">School health inspections and pupil health records</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-school')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add School</button>
+    </div>
+  </div>
   <div id="school-stats"></div>
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
     <div class="tab active" onclick="switchTab(this,'t-schools-register')">School Register</div>
@@ -2610,6 +2878,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== WATER POINTS ===== -->
 <div id="page-waterpoints" class="page">
+  <div style="background:linear-gradient(135deg,#0369a1,#0284c7);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🚰 Water Points</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Community water point registration and condition tracking</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-waterpoint')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Water Point</button>
+    </div>
+  </div>
   <div id="wp-stats"></div>
   <div class="toolbar">
     <input type="text" placeholder="🔍 Search water points..." oninput="filterTbl(this,'tbl-wp')">
@@ -2627,6 +2905,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== FOOD HANDLERS ===== -->
 <div id="page-foodhandlers" class="page">
+  <div style="background:linear-gradient(135deg,#b45309,#92400e);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🍽️ Food Handlers</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Food handler certification and health screening records</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-foodhandler')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Record</button>
+    </div>
+  </div>
   <div id="fh-stats"></div>
   <div id="fh-expiry-alert" style="margin-bottom:14px"></div>
   <div class="toolbar">
@@ -2645,6 +2933,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 <!-- ===== UNDER FIVE COVERAGE ===== -->
 <div id="page-defaulters" class="page">
+  <div style="background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📋 Defaulter Follow-up</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Nutrition and health program defaulter tracking</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-defaulter')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Record</button>
+    </div>
+  </div>
   <div class="alert info"><span class="alert-icon">📊</span>Track outcomes for all SAM and MAM children — Admitted, Cured, Defaulted and Non-Responder.</div>
   <div id="defaulters-stats"></div>
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
@@ -2704,6 +3002,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 
 
 <div id="page-meetings" class="page">
+  <div style="background:linear-gradient(135deg,#0891b2,#0e7490);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🤝 Meetings & Training</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Community meetings, training sessions and attendance records</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-meeting')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Meeting</button>
+    </div>
+  </div>
   <div id="meetings-stats"></div>
   <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
     <div class="tab active" onclick="switchTab(this,'t-meetings-list')">All Meetings & Training</div>
@@ -2737,6 +3045,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
 </div>
 <div id="page-cbv" class="page">
+  <div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🤲 CBV Register</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Community Based Volunteer registration and activities</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-cbv')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add CBV</button>
+    </div>
+  </div>
   <div class="alert info"><span class="alert-icon">🤝</span>Register all Community Based Volunteers (CBVs) in your catchment area including their NHC position and training details.</div>
   <div id="cbv-stats"></div>
   <div class="toolbar">
@@ -2756,6 +3074,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </table></div></div>
 </div>
 <div id="page-under5" class="page">
+  <div style="background:linear-gradient(135deg,#9333ea,#7c3aed);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div>
+      <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">👶 Under Five Coverage</div>
+      <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Under-five child health coverage and immunization tracking</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn" onclick="openModal('m-under5')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button>
+    </div>
+  </div>
   <div id="u5-stats"></div>
   <div class="toolbar">
     <input type="text" id="u5-search" placeholder="🔍 Search by month, village..." oninput="filterU5ByText(this.value)" style="flex:1;max-width:220px">
