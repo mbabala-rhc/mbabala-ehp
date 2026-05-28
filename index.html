@@ -5653,7 +5653,7 @@ function renderOutbreakTimeline(){
   if(!c)return;
   var obs=DB.get('outbreak');
   var ci=DB.get('case_inv')||[];
-  if(!obs.length){c.innerHTML='<p style="padding:20px;color:var(--txt2)">No outbreaks recorded yet.</p>';return;}
+  if(!obs.length){c.innerHTML='<div style="text-align:center;padding:30px"><div style="color:var(--txt2);margin-bottom:12px">No outbreaks recorded yet, or data still loading.</div><button onclick="renderOutbreakTimeline()" style="background:#0a5448;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer">Refresh</button></div>';return;}
   var h='';
   for(var i=0;i<obs.length;i++){
     var ob=obs[i];
@@ -5715,7 +5715,8 @@ function renderOutbreak(){
   // Risk assessment
   const risk=DB.get('risk_assessment');
   const tbrisk=document.getElementById('tb-risk');
-  if(tbrisk) tbrisk.innerHTML=risk.map(r=>`<tr> <td>${fmtDate(r.date)||'—'}</td><td>${r.hazard||'—'}</td><td>${(r.population||'—').substring(0,20)}</td> <td>${r.likelihood||'—'}</td><td>${r.impact||'—'}</td><td>${stTag(r.level||'—')}</td> <td>${(r.mitigation||'—').substring(0,25)}</td> <td>${rowBtns('risk_assessment',r.id,`viewRecord('risk_assessment','${r.id}',riskFields)`,`editRecord('risk_assessment','${r.id}',riskFields,'m-risk','','Edit Risk')`,`deleteRecord('risk_assessment','${r.id}',renderOutbreak)`)}</td> </tr>`).join('')||emptyRow(8);
+  if(tbrisk) tbrisk.innerHTML=risk.map(r=>`<tr> <td>${fmtDate(r.date)||'—'}</td><td>${r.hazard||'—'}</td><td>${(r.population||'—').substring(0,20)}</td> <td>${r.likelihood||'—'}</td><td>${r.impact||'—'}</td><td>${stTag(r.level||'—')}</td> <td>${(r.mitigation||'—').substring(0,25)}</td> <td>${rowBtns('risk_assessment',r.id,`viewRecord('risk_assessment','${r.id}',riskFields)`,`editRecord('risk_assessment','${r.id}',riskFields,'m-risk','','Edit Risk')`,`deleteRecord('risk_assessment','${r.id}',renderOutbreak)`)}</td> </tr>`).join('')||emptyRow(8);  // Refresh timeline if visible
+  var tl=document.getElementById('t-ob-timeline');if(tl&&tl.classList.contains('active'))renderOutbreakTimeline();
 }
 
 // ── Seed new stores ────────────────────────────────────────
