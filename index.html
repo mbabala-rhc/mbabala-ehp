@@ -5645,66 +5645,72 @@ function renderOutbreakTimeline(){
   if(!cont) return;
   var outbreaks = DB.get('outbreak');
   var cases = DB.get('case_inv') || [];
+  cont.innerHTML = '';
   if(!outbreaks.length){
     cont.innerHTML = '<div style="text-align:center;padding:40px;color:var(--txt2)">No outbreak investigations recorded yet.</div>';
     return;
   }
-  var html = '<div style="font-size:12px;color:var(--txt2);margin-bottom:12px">Click on an outbreak to expand its timeline.</div>';
+  cont.insertAdjacentHTML('beforeend','<div style="font-size:12px;color:var(--txt2);margin-bottom:12px">Click Show on any outbreak to expand its timeline.</div>');
   outbreaks.forEach(function(ob, oi){
     var obRef = ob.ref||ob.id;
     var obCases = cases.filter(function(c){ return c.outbreakRef === obRef; });
     var statusColor = ob.status==='Closed' ? '#6b7280' : '#dc2626';
-    html += '<div style="margin-bottom:8px;border:1px solid var(--bd);border-radius:10px;overflow:hidden">'
-      // Clickable header
-      +'<div onclick="toggleObTimeline(\'ob-tl-\'+oi)" style="cursor:pointer;background:var(--bg2);padding:12px 16px;display:flex;justify-content:space-between;align-items:center">'
-        +'<div style="display:flex;align-items:center;gap:10px">'
-          +'<span style="font-size:18px">🦠</span>'
-          +'<div>'
-            +'<div style="font-weight:700;font-size:13px">'+(ob.disease||'Unknown Disease')+'</div>'
-            +'<div style="font-size:11px;color:var(--txt2)">'+(obRef)+' · '+(ob.area||'—')+' · '+fmtDate(ob.start)+'</div>'
-          +'</div>'
-        +'</div>'
-        +'<div style="display:flex;align-items:center;gap:8px">'
-          +'<span style="background:'+statusColor+';color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600">'+(ob.status||'Active')+'</span>'
-          +'<span id="ob-tl-arrow-'+oi+'" style="background:var(--teal-d,#0a5448);color:#fff;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600">▼ Show</span>'
-        +'</div>'
+    var paneId = 'ob-tl-pane-'+oi;
+    var btnId = 'ob-tl-btn-'+oi;
+
+    var wrapper = document.createElement('div');
+    wrapper.style.cssText = 'margin-bottom:8px;border:1px solid var(--bd);border-radius:10px;overflow:hidden';
+
+    var header = document.createElement('div');
+    header.style.cssText = 'background:var(--bg2);padding:12px 16px;display:flex;justify-content:space-between;align-items:center';
+    header.innerHTML = '<div style="display:flex;align-items:center;gap:10px"><span style="font-size:18px">🦠</span><div><div style="font-weight:700;font-size:13px">'+(ob.disease||'Unknown Disease')+'</div><div style="font-size:11px;color:var(--txt2)">'+(obRef)+' · '+(ob.area||'—')+' · '+fmtDate(ob.start)+'</div></div></div><div style="display:flex;align-items:center;gap:8px"><span style="background:'+statusColor+';color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600">'+(ob.status||'Active')+'</span></div>';
+
+    var btn = document.createElement('button');
+    btn.id = btnId;
+    btn.textContent = '▼ Show';
+    btn.style.cssText = 'background:#0a5448;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer';
+    header.querySelector('div:last-child').appendChild(btn);
+
+    var pane = document.createElement('div');
+    pane.id = paneId;
+    pane.style.display = 'none';
+    pane.style.cssText = 'display:none;padding:16px;border-top:1px solid var(--bd)';
+    pane.innerHTML = '<div style="display:flex;gap:0;margin-bottom:16px;border:1px solid var(--bd);border-radius:8px;overflow:hidden">'
+      +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800;color:#dc2626">'+(ob.cases||0)+'</div><div style="font-size:10px;color:var(--txt2)">Cases</div></div>'
+      +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800">'+(ob.deaths||0)+'</div><div style="font-size:10px;color:var(--txt2)">Deaths</div></div>'
+      +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800;color:#0a5448">'+(ob.cfr||0)+'%</div><div style="font-size:10px;color:var(--txt2)">CFR</div></div>'
+      +'<div style="flex:1;padding:10px;text-align:center"><div style="font-size:18px;font-weight:800;color:#0369a1">'+obCases.length+'</div><div style="font-size:10px;color:var(--txt2)">Investigated</div></div>'
       +'</div>'
-      // Expandable content (hidden by default)
-      +'<div id="ob-tl-'+oi+'" style="display:none;padding:16px;border-top:1px solid var(--bd)">'
-        // Stats
-        +'<div style="display:flex;gap:0;margin-bottom:16px;border:1px solid var(--bd);border-radius:8px;overflow:hidden">'
-          +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)">'
-            +'<div style="font-size:18px;font-weight:800;color:#dc2626">'+(ob.cases||0)+'</div>'
-            +'<div style="font-size:10px;color:var(--txt2)">Cases</div>'
-          +'</div>'
-          +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)">'
-            +'<div style="font-size:18px;font-weight:800">'+(ob.deaths||0)+'</div>'
-            +'<div style="font-size:10px;color:var(--txt2)">Deaths</div>'
-          +'</div>'
-          +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)">'
-            +'<div style="font-size:18px;font-weight:800;color:#0a5448">'+(ob.cfr||0)+'%</div>'
-            +'<div style="font-size:10px;color:var(--txt2)">CFR</div>'
-          +'</div>'
-          +'<div style="flex:1;padding:10px;text-align:center">'
-            +'<div style="font-size:18px;font-weight:800;color:#0369a1">'+obCases.length+'</div>'
-            +'<div style="font-size:10px;color:var(--txt2)">Investigated</div>'
-          +'</div>'
-        +'</div>'
-        // Timeline events
-        +'<div style="font-weight:700;font-size:12px;margin-bottom:12px">📅 Event Timeline</div>'
-        +'<div style="position:relative;padding-left:24px">'
-          +'<div style="position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--bd)"></div>'
-          +timelineEvent('#dc2626','🔴','Outbreak Started / First Case',ob.start,ob.area)
-          +timelineEvent('#f59e0b','🔬','Investigation Initiated',ob.start,'Investigator: '+(ob.investigator||'—'))
-          +timelineEvent('#0369a1','📋','DHO Notified',ob.dho,ob.dho?'Notification sent':'Pending notification')
-          +(ob.control?timelineEvent('#0a5448','🛡️','Control Measures Taken',ob.start,ob.control):'')
-          +(ob.status==='Closed'?timelineEvent('#6b7280','✅','Outbreak Closed',ob.start,'Status: Closed'):timelineEvent('#f59e0b','⏳','Outbreak Status',null,ob.status||'Active — Under investigation'))
-        +'</div>'
-        +(ob.source?'<div style="margin-top:10px;font-size:12px;color:var(--txt2)"><b>Source:</b> '+ob.source+'</div>':'')
+      +'<div style="font-weight:700;font-size:12px;margin-bottom:12px">📅 Event Timeline</div>'
+      +'<div style="position:relative;padding-left:24px">'
+        +'<div style="position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--bd)"></div>'
+        +timelineEvent('#dc2626','🔴','Outbreak Started / First Case',ob.start,ob.area)
+        +timelineEvent('#f59e0b','🔬','Investigation Initiated',ob.start,'Investigator: '+(ob.investigator||'—'))
+        +timelineEvent('#0369a1','📋','DHO Notified',ob.dho,ob.dho?'Notification sent':'Pending notification')
+        +(ob.control?timelineEvent('#0a5448','🛡️','Control Measures Taken',ob.start,ob.control):'')
+        +(ob.status==='Closed'?timelineEvent('#6b7280','✅','Outbreak Closed',ob.start,'Status: Closed'):timelineEvent('#f59e0b','⏳','Outbreak Status',null,ob.status||'Active — Under investigation'))
       +'</div>'
-    +'</div>';
+      +(ob.source?'<div style="margin-top:10px;font-size:12px;color:var(--txt2)"><b>Source:</b> '+ob.source+'</div>':'');
+
+    btn.addEventListener('click', (function(p,b){ return function(){
+      var isOpen = p.style.display !== 'none';
+      p.style.display = isOpen ? 'none' : 'block';
+      b.textContent = isOpen ? '▼ Show' : '▲ Hide';
+    };})(pane, btn));
+
+    wrapper.appendChild(header);
+    wrapper.appendChild(pane);
+    cont.appendChild(wrapper);
   });
-  cont.innerHTML = html;
+}
+
+function toggleObTimeline(paneId, btnId){
+  var pane = document.getElementById(paneId);
+  var btn = document.getElementById(btnId);
+  if(!pane) return;
+  var isOpen = pane.style.display !== 'none';
+  pane.style.display = isOpen ? 'none' : 'block';
+  if(btn) btn.textContent = isOpen ? '▼ Show' : '▲ Hide';
 }
 
 function toggleObTimeline(id){
