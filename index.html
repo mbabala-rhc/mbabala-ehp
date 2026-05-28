@@ -1155,6 +1155,13 @@ async function sbGet(store){
 }
 
 async function sbSet(store, value){
+  // If offline, queue for later sync
+  if(!navigator.onLine){
+    _offlineQueue = _offlineQueue.filter(q => q.store !== store);
+    _offlineQueue.push({store, value, ts: Date.now()});
+    localStorage.setItem('_offlineQueue', JSON.stringify(_offlineQueue));
+    return;
+  }
   try{
     const serialized = JSON.stringify(value);
     const { error } = await _supabase
@@ -1165,17 +1172,18 @@ async function sbSet(store, value){
       );
     if(error){
       console.warn('Supabase write error:', error.message);
-      // Retry once after 2 seconds
-      setTimeout(async () => {
-        try{
-          await _supabase.from('eh_data').upsert(
-            { store_key: store, value: serialized, updated_at: new Date().toISOString() },
-            { onConflict: 'store_key' }
-          );
-        } catch(e2){ console.warn('Retry failed:', e2); }
-      }, 2000);
+      // Queue for retry
+      _offlineQueue = _offlineQueue.filter(q => q.store !== store);
+      _offlineQueue.push({store, value, ts: Date.now()});
+      localStorage.setItem('_offlineQueue', JSON.stringify(_offlineQueue));
     }
-  } catch(e){ console.warn('sbSet error:', e); }
+  } catch(e){
+    console.warn('sbSet error:', e);
+    // Queue for retry when back online
+    _offlineQueue = _offlineQueue.filter(q => q.store !== store);
+    _offlineQueue.push({store, value, ts: Date.now()});
+    localStorage.setItem('_offlineQueue', JSON.stringify(_offlineQueue));
+  }
 }
 
 // Force all other devices to refresh by updating a broadcast key
@@ -5908,9 +5916,15 @@ async function syncOfflineQueue(){
   let synced = 0;
   for(const item of queue){
     try{
-      await sbSet(item.store, item.value);
-      _offlineQueue = _offlineQueue.filter(q => q.store !== item.store || q.ts !== item.ts);
-      synced++;
+      const serialized = JSON.stringify(item.value);
+      const { error } = await _supabase.from('eh_data').upsert(
+        { store_key: item.store, value: serialized, updated_at: new Date().toISOString() },
+        { onConflict: 'store_key' }
+      );
+      if(!error){
+        _offlineQueue = _offlineQueue.filter(q => !(q.store === item.store && q.ts === item.ts));
+        synced++;
+      }
     } catch(e){ console.warn('Sync failed for', item.store, e); }
   }
   localStorage.setItem('_offlineQueue', JSON.stringify(_offlineQueue));
