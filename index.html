@@ -9466,46 +9466,43 @@ function openInspReport(id){
 }
 
 function saveInspReport(){
-  var business = document.getElementById('ir-business').value.trim();
-  var owner = document.getElementById('ir-owner').value.trim();
-  if(!business && !owner){ toast('Enter at least business name or owner','error'); return; }
   var id = _irEditing || genId('IR');
   var rec = {
     id: id,
-    to: document.getElementById('ir-to').value,
-    owner: owner,
-    ownerAddr: document.getElementById('ir-owner-addr').value,
-    occupier: document.getElementById('ir-occupier').value,
-    occupierAddr: document.getElementById('ir-occupier-addr').value,
-    business: business,
-    plot: document.getElementById('ir-plot').value,
-    area: document.getElementById('ir-area').value,
-    bizType: document.getElementById('ir-biz-type').value,
-    license: document.getElementById('ir-license').value,
-    licenseDate: document.getElementById('ir-license-date').value,
-    contact: document.getElementById('ir-contact').value,
-    male: document.getElementById('ir-male').value,
-    female: document.getElementById('ir-female').value,
-    toilets: document.getElementById('ir-toilets').value,
-    inspDate: document.getElementById('ir-insp-date').value,
-    inspTime: document.getElementById('ir-insp-time').value,
-    re: document.getElementById('ir-re').value,
-    defects: document.getElementById('ir-defects').value,
-    recommendations: document.getElementById('ir-recommendations').value,
-    conclusion: document.getElementById('ir-conclusion').value,
-    inspector: document.getElementById('ir-inspector').value,
-    designation: document.getElementById('ir-designation').value,
-    signDate: document.getElementById('ir-sign-date').value
+    to: (document.getElementById('ir-to')||{value:''}).value,
+    owner: (document.getElementById('ir-owner')||{value:''}).value,
+    ownerAddr: (document.getElementById('ir-owner-addr')||{value:''}).value,
+    occupier: (document.getElementById('ir-occupier')||{value:''}).value,
+    occupierAddr: (document.getElementById('ir-occupier-addr')||{value:''}).value,
+    business: (document.getElementById('ir-business')||{value:''}).value,
+    plot: (document.getElementById('ir-plot')||{value:''}).value,
+    area: (document.getElementById('ir-area')||{value:''}).value,
+    bizType: (document.getElementById('ir-biz-type')||{value:''}).value,
+    license: (document.getElementById('ir-license')||{value:''}).value,
+    licenseDate: (document.getElementById('ir-license-date')||{value:''}).value,
+    contact: (document.getElementById('ir-contact')||{value:''}).value,
+    male: (document.getElementById('ir-male')||{value:''}).value,
+    female: (document.getElementById('ir-female')||{value:''}).value,
+    toilets: (document.getElementById('ir-toilets')||{value:''}).value,
+    inspDate: (document.getElementById('ir-insp-date')||{value:''}).value,
+    inspTime: (document.getElementById('ir-insp-time')||{value:''}).value,
+    re: (document.getElementById('ir-re')||{value:''}).value,
+    defects: (document.getElementById('ir-defects')||{value:''}).value,
+    recommendations: (document.getElementById('ir-recommendations')||{value:''}).value,
+    conclusion: (document.getElementById('ir-conclusion')||{value:''}).value,
+    inspector: (document.getElementById('ir-inspector')||{value:''}).value,
+    designation: (document.getElementById('ir-designation')||{value:''}).value,
+    signDate: (document.getElementById('ir-sign-date')||{value:''}).value
   };
   var data = DB.get('insp_reports');
   var i = data.findIndex(function(r){ return r.id === id; });
   if(i >= 0) data[i] = rec; else data.unshift(rec);
   _store['insp_reports'] = data;
   idbPut('insp_reports', data);
+  sbSet('insp_reports', data);
   closeModal('m-insp-report');
   renderInspReports();
   toast('Inspection report saved','success');
-  sbSet('insp_reports', data);
 }
 
 function renderInspReports(){
