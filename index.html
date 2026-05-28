@@ -9827,10 +9827,10 @@ function buildTimeline(){
     var sc = ob.status === 'Closed' ? '#6b7280' : '#dc2626';
     var pid = 'otl_' + i;
     html += '<details style="margin-bottom:10px;border:1px solid var(--bd);border-radius:10px;overflow:hidden">'
-      + '<summary style="background:var(--bg2);padding:12px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;list-style:none;-webkit-appearance:none">'
+      + '<summary style="background:linear-gradient(135deg,#0a5448,#0d7a5f);padding:12px 16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;list-style:none;-webkit-appearance:none">'
         + '<div>'
-          + '<div style="font-weight:700;font-size:13px">' + (ob.disease||'Unknown') + '</div>'
-          + '<div style="font-size:11px;color:var(--txt2)">' + ref + ' &bull; ' + (ob.area||'&mdash;') + ' &bull; ' + fmtDate(ob.start) + '</div>'
+          + '<div style="font-weight:700;font-size:13px;color:#fff">' + (ob.disease||'Unknown') + '</div>'
+          + '<div style="font-size:11px;color:rgba(255,255,255,.8)">' + ref + ' &bull; ' + (ob.area||'&mdash;') + ' &bull; ' + fmtDate(ob.start) + '</div>'
         + '</div>'
         + '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0">'
           + '<span style="background:' + sc + ';color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600">' + (ob.status||'Active') + '</span>'
