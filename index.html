@@ -9471,43 +9471,48 @@ function openInspReport(id){
 }
 
 function saveInspReport(){
-  var id = document.getElementById('f-ir-id').value || genId('IR');
-  var rec = {
-    id: id,
-    to: document.getElementById('ir-to').value,
-    owner: document.getElementById('ir-owner').value,
-    ownerAddr: document.getElementById('ir-owner-addr').value,
-    occupier: document.getElementById('ir-occupier').value,
-    occupierAddr: document.getElementById('ir-occupier-addr').value,
-    business: document.getElementById('ir-business').value,
-    plot: document.getElementById('ir-plot').value,
-    area: document.getElementById('ir-area').value,
-    bizType: document.getElementById('ir-biz-type').value,
-    license: document.getElementById('ir-license').value,
-    licenseDate: document.getElementById('ir-license-date').value,
-    contact: document.getElementById('ir-contact').value,
-    male: document.getElementById('ir-male').value,
-    female: document.getElementById('ir-female').value,
-    toilets: document.getElementById('ir-toilets').value,
-    inspDate: document.getElementById('ir-insp-date').value,
-    inspTime: document.getElementById('ir-insp-time').value,
-    re: document.getElementById('ir-re').value,
-    defects: document.getElementById('ir-defects').value,
-    recommendations: document.getElementById('ir-recommendations').value,
-    conclusion: document.getElementById('ir-conclusion').value,
-    inspector: document.getElementById('ir-inspector').value,
-    designation: document.getElementById('ir-designation').value,
-    signDate: document.getElementById('ir-sign-date').value
-  };
-  var data = DB.get('insp_reports');
-  var i = data.findIndex(function(r){ return r.id === id; });
-  if(i >= 0) data[i] = rec; else data.unshift(rec);
-  _store['insp_reports'] = data;
-  idbPut('insp_reports', data);
-  closeModal('m-insp-report');
-  renderInspReports();
-  toast('Inspection report saved','success');
-  sbSet('insp_reports', data);
+  try {
+    var id = document.getElementById('f-ir-id').value || genId('IR');
+    var rec = {
+      id: id,
+      to: document.getElementById('ir-to').value,
+      owner: document.getElementById('ir-owner').value,
+      ownerAddr: document.getElementById('ir-owner-addr').value,
+      occupier: document.getElementById('ir-occupier').value,
+      occupierAddr: document.getElementById('ir-occupier-addr').value,
+      business: document.getElementById('ir-business').value,
+      plot: document.getElementById('ir-plot').value,
+      area: document.getElementById('ir-area').value,
+      bizType: document.getElementById('ir-biz-type').value,
+      license: document.getElementById('ir-license').value,
+      licenseDate: document.getElementById('ir-license-date').value,
+      contact: document.getElementById('ir-contact').value,
+      male: document.getElementById('ir-male').value,
+      female: document.getElementById('ir-female').value,
+      toilets: document.getElementById('ir-toilets').value,
+      inspDate: document.getElementById('ir-insp-date').value,
+      inspTime: document.getElementById('ir-insp-time').value,
+      re: document.getElementById('ir-re').value,
+      defects: document.getElementById('ir-defects').value,
+      recommendations: document.getElementById('ir-recommendations').value,
+      conclusion: document.getElementById('ir-conclusion').value,
+      inspector: document.getElementById('ir-inspector').value,
+      designation: document.getElementById('ir-designation').value,
+      signDate: document.getElementById('ir-sign-date').value
+    };
+    var data = DB.get('insp_reports');
+    var i = data.findIndex(function(r){ return r.id === id; });
+    if(i >= 0) data[i] = rec; else data.unshift(rec);
+    _store['insp_reports'] = data;
+    idbPut('insp_reports', data);
+    closeModal('m-insp-report');
+    renderInspReports();
+    toast('Inspection report saved','success');
+    sbSet('insp_reports', data);
+  } catch(e) {
+    toast('Error: ' + e.message, 'error');
+    console.error('saveInspReport error:', e);
+  }
 }
 
 function renderInspReports(){
