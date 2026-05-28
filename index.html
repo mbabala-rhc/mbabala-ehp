@@ -5666,7 +5666,7 @@ function renderOutbreakTimeline(){
         +'</div>'
         +'<div style="display:flex;align-items:center;gap:8px">'
           +'<span style="background:'+statusColor+';color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600">'+(ob.status||'Active')+'</span>'
-          +'<span id="ob-tl-arrow-'+oi+'" style="font-size:14px;transition:transform .2s">▼</span>'
+          +'<span id="ob-tl-arrow-'+oi+'" style="background:var(--teal-d,#0a5448);color:#fff;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600">▼ Show</span>'
         +'</div>'
       +'</div>'
       // Expandable content (hidden by default)
@@ -5714,7 +5714,7 @@ function toggleObTimeline(id){
   if(!el) return;
   var isOpen = el.style.display !== 'none';
   el.style.display = isOpen ? 'none' : 'block';
-  if(arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+  if(arrow) arrow.textContent = isOpen ? '▼ Show' : '▲ Hide';
 }
 
 function renderOutbreak(){
