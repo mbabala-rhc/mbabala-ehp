@@ -818,70 +818,12 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div> <div id="app"> <div class="topbar"> <button class="topbar-menu" onclick="toggleSidebar()" title="Menu">☰</button> <div class="topbar-title" id="page-title">Dashboard</div> <div class="topbar-right"> <span id="sync-status" style="font-size:11px;padding:4px 9px;border-radius:10px;background:rgba(255,255,255,.15);color:#fff">● Online</span> <button id="dark-mode-btn" onclick="toggleDarkMode()" title="Switch to dark mode" style="background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.4);cursor:pointer;font-size:15px;color:#fff;padding:4px 10px;border-radius:8px;line-height:1.2">🌙</button> <button class="topbar-btn export-btn" onclick="exportAllData()">⬇ Export</button> <button class="topbar-btn new" id="new-btn" onclick="openNewModal()">+ New</button> <div class="avatar" onclick="nav('admin')" id="user-avatar" title="Profile">EH</div> <button onclick="doLogout()" title="Log out" style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;border:1.5px solid rgba(255,255,255,0.25);background:rgba(220,38,38,0.15);color:#fff;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.02em" onmouseover="this.style.background='rgba(220,38,38,0.35)';this.style.borderColor='rgba(220,38,38,0.6)'" onmouseout="this.style.background='rgba(220,38,38,0.15)';this.style.borderColor='rgba(255,255,255,0.25)'"><span style="font-size:14px">&#x23FB;</span> Logout</button> </div> </div> <div class="app-body"> <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div> <div class="sidebar" id="sidebar"> <div class="sidebar-facility"> <div class="facility-badge"> <div class="facility-icon">EH</div> <div> <div class="facility-name" id="sb-facility-name">Mbabala RHC</div> <div class="facility-sub" id="sb-facility-sub">Chifunabuli District</div> </div> </div> </div> <nav class="nav" id="nav"> <div class="nav-section collapsed" onclick="toggleNavSection(this)">Overview</div><div class="nav-group collapsed"> <div class="nav-item active" onclick="nav('dashboard')"><span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span></div> <div class="nav-item" onclick="nav('planner')"><span class="nav-icon">📅</span><span class="nav-label">Work Planner</span></div> <div class="nav-item" onclick="nav('work-schedule')"><span class="nav-icon">🗓️</span><span class="nav-label">Work Schedule</span></div> <div class="nav-item" onclick="nav('targets')"><span class="nav-icon">&#127919;</span><span class="nav-label">Targets &amp; Achievement</span></div> <div class="nav-item" onclick="nav('monthly-report')"><span class="nav-icon">📊</span><span class="nav-label">Monthly Report Card</span></div> <div class="nav-item" onclick="nav('catchment')"><span class="nav-icon">🏘️</span><span class="nav-label">Catchment Profile</span></div> </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">EH Reports</div><div class="nav-group collapsed"> <div class="nav-item" onclick="nav('inspections')"><span class="nav-icon">✅</span><span class="nav-label">Inspections</span></div> <div class="nav-item" onclick="nav('insp-followup')"><span class="nav-icon">🔍</span><span class="nav-label">Inspection Follow-up</span></div> <div class="nav-item" onclick="nav('incidents')"><span class="nav-icon">⚠️</span><span class="nav-label">Incidents / Hazards</span></div> <div class="nav-item" onclick="nav('immunization')"><span class="nav-icon">💉</span><span class="nav-label">Immunization (EPI)</span></div> <div class="nav-item" onclick="nav('hia')"><span class="nav-icon">📋</span><span class="nav-label">HIA 1 &amp; 2</span></div> <div class="nav-item" onclick="nav('water')"><span class="nav-icon">💧</span><span class="nav-label">Water Quality</span></div> <div class="nav-item" onclick="nav('ebs')"><span class="nav-icon">📡</span><span class="nav-label">EBS / EMS</span></div> <div class="nav-item" onclick="nav('ipc')"><span class="nav-icon">🛡️</span><span class="nav-label">IPC Reports</span></div> <div class="nav-item" onclick="nav('waste')"><span class="nav-icon">♻️</span><span class="nav-label">Waste Management</span></div> <div class="nav-item" onclick="nav('vector')"><span class="nav-icon">🦟</span><span class="nav-label">Vector Control</span></div> <div class="nav-item" onclick="nav('sanitation')"><span class="nav-icon">🚽</span><span class="nav-label">Sanitation (ODF)</span></div> <div class="nav-item" onclick="nav('surveillance')"><span class="nav-icon">🔬</span><span class="nav-label">Surveillance</span></div> <div class="nav-item" onclick="nav('disease-register')"><span class="nav-icon">📈</span><span class="nav-label">Disease Register</span></div> <div class="nav-item" onclick="nav('health_promo')"><span class="nav-icon">📢</span><span class="nav-label">Health Promotion</span></div> <div class="nav-item" onclick="nav('complaints')"><span class="nav-icon">📋</span><span class="nav-label">Complaint Register</span></div> </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Nutrition &amp; Child Health</div><div class="nav-group collapsed"> <div class="nav-item" onclick="nav('nutrition')"><span class="nav-icon">🥗</span><span class="nav-label">Nutrition</span></div> <div class="nav-item" onclick="nav('ecd')"><span class="nav-icon">🧒</span><span class="nav-label">ECD Activities</span></div> <div class="nav-item" onclick="nav('mycin')"><span class="nav-icon">🤱</span><span class="nav-label">MYCIN Nutrition</span></div> <div class="nav-item" onclick="nav('under5')"><span class="nav-icon">👶</span><span class="nav-label">Under Five Coverage</span></div> <div class="nav-item" onclick="nav('defaulters')"><span class="nav-icon">📊</span><span class="nav-label">Malnutrition Outcome</span></div> <div class="nav-item" onclick="nav('followup')"><span class="nav-icon">&#128276;</span><span class="nav-label">Defaulter Follow-up</span></div> </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Legal &amp; Investigations</div><div class="nav-group collapsed"> <div class="nav-item" onclick="nav('legal')"><span class="nav-icon">⚖️</span><span class="nav-label">Legal / Enforcement</span></div> <div class="nav-item" onclick="nav('routine')"><span class="nav-icon">📅</span><span class="nav-label">Routine EH Reports</span></div> <div class="nav-item" onclick="nav('outbreak')"><span class="nav-icon">🦠</span><span class="nav-label">Outbreak Investigation</span></div> </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Community</div><div class="nav-group collapsed"> <div class="nav-item" onclick="nav('cbv')"><span class="nav-icon">🤝</span><span class="nav-label">CBV Register</span></div> <div class="nav-item" onclick="nav('chw')"><span class="nav-icon">👥</span><span class="nav-label">CHW Register</span></div> <div class="nav-item" onclick="nav('villages')"><span class="nav-icon">🏘️</span><span class="nav-label">Village Register</span></div> <div class="nav-item" onclick="nav('households')"><span class="nav-icon">🏠</span><span class="nav-label">Households</span></div> <div class="nav-item" onclick="nav('meetings')"><span class="nav-icon">📝</span><span class="nav-label">Meetings &amp; Training</span></div> <div class="nav-item" onclick="nav('village-visits')"><span class="nav-icon">🏘️</span><span class="nav-label">Village Visit Tracker</span></div> </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Facilities &amp; Infrastructure</div><div class="nav-group collapsed"> <div class="nav-item" onclick="nav('facilities')"><span class="nav-icon">🏥</span><span class="nav-label">Facilities</span></div> <div class="nav-item" onclick="nav('schools')"><span class="nav-icon">🏫</span><span class="nav-label">School Health</span></div> <div class="nav-item" onclick="nav('waterpoints')"><span class="nav-icon">🚰</span><span class="nav-label">Water Points</span></div> <div class="nav-item" onclick="nav('premises')"><span class="nav-icon">🏬</span><span class="nav-label">Premises</span></div> <div class="nav-item" onclick="nav('foodhandlers')"><span class="nav-icon">🍽️</span><span class="nav-label">Food Handlers</span></div> </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">Resources</div><div class="nav-group collapsed"> <div class="nav-item" onclick="nav('stock')"><span class="nav-icon">📦</span><span class="nav-label">Stock &amp; Supplies</span></div> <div class="nav-item" onclick="nav('documents')"><span class="nav-icon">📁</span><span class="nav-label">Documents</span></div> </div><div class="nav-section collapsed" onclick="toggleNavSection(this)">System</div><div class="nav-group collapsed"> <div class="nav-item" onclick="nav('analytics')"><span class="nav-icon">📈</span><span class="nav-label">Analytics</span></div> <div class="nav-item" onclick="nav('admin')"><span class="nav-icon">⚙️</span><span class="nav-label">Administration</span></div> </div></nav> <div class="sidebar-bottom" style="padding:12px 10px;border-top:1px solid rgba(255,255,255,.08)"> <div style="display:flex;align-items:center;gap:10px;padding:8px 6px;border-radius:10px;background:rgba(255,255,255,0.06);margin-bottom:8px"> <div id="sb-avatar" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0d9488,#0a5448);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0">EH</div> <div style="overflow:hidden;flex:1"> <div id="sb-user-name" style="font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></div> <div id="sb-user-role" style="font-size:10px;color:rgba(255,255,255,.5);margin-top:1px"></div> </div> <div id="sb-online-dot" style="width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0" title="Online"></div> </div> <div style="font-size:10px;color:rgba(255,255,255,.2);text-align:center">EH Platform v3.0 · Mbabala RHC · 2026</div> </div> </div> <div class="main"> <div class="offline-banner" id="offline-banner">⚠ You are offline — data saves locally</div> <div class="content" id="content"> <div id="page-dashboard" class="page active"> <div id="dash-welcome" style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:var(--rl);padding:16px 18px;margin-bottom:18px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:nowrap;gap:8px"> <div> <div style="color:rgba(255,255,255,.7);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Environmental Health Management Platform</div> <div id="dash-greeting" style="color:#fff;font-size:clamp(14px,4vw,20px);font-weight:700">Good morning 👋</div> <div id="dash-date" style="color:rgba(255,255,255,.8);font-size:13px;margin-top:2px"></div> </div> <div style="text-align:right;flex-shrink:0"> <div style="color:rgba(255,255,255,.7);font-size:10px;text-transform:uppercase;letter-spacing:.06em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:11px;margin-top:2px">Chifunabuli · Luapula</div> <div id="dash-online-badge" style="margin-top:6px"></div> </div> </div> <div id="dash-stats" style="margin-bottom:18px"></div> <div id="dash-alerts-section" style="margin-bottom:18px"></div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px"> <div class="card"> <div class="card-title">🔔 Overdue Follow-ups &amp; Alerts</div> <div id="dash-overdue-alerts"><div style="color:var(--txt2);font-size:12px;padding:8px 0">Loading...</div></div> </div> <div class="card"> <div class="card-title">📦 Stock Alerts</div> <div id="dash-stock-alerts"><div style="color:var(--txt2);font-size:12px;padding:8px 0">Loading...</div></div> </div> </div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px"> <div class="card" style="align-self:start"> <div class="card-title">📊 Compliance Overview</div> <div id="compliance-bars" style="display:flex;flex-direction:column;gap:10px;padding-bottom:0"></div> </div> <div class="card"> <div class="card-title">🕐 Recent Activity</div> <div id="dash-recent-activity"></div> </div> </div> <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px"> <div class="card"> <div class="card-title">💉 EPI Coverage</div> <div id="dash-epi-summary"></div> </div> <div class="card"> <div class="card-title">🥗 Nutrition Status</div> <div id="dash-nutr-summary"></div> </div> <div class="card"> <div class="card-title">💧 Water Quality</div> <div id="dash-water-summary"></div> </div> </div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px"> <div class="card"> <div class="card-title">👥 CHW Performance</div> <div id="dash-chw-summary"></div> </div> <div class="card"> <div class="card-title">📦 Stock Alerts</div> <div id="dash-stock-summary"></div> </div> </div> </div> <div id="page-inspections" class="page"> <div style="background:linear-gradient(135deg,#0a5448,#0d7a5f);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">✅ Inspections</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Premises inspections and compliance tracking</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-inspection')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Inspection</button> </div> </div> <div class="toolbar"> <input type="text" placeholder="🔍 Search inspections..." oninput="filterTbl(this,'tbl-insp')"> <select onchange="filterCol(this,'tbl-insp',5)"><option value="">All statuses</option><option>Pass</option><option>Fail</option><option>Action needed</option><option>Pending</option></select> <button class="btn primary" onclick="openModal('m-inspection')">+ New</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Inspection Reports','tbl-insp')">🖨 Print</button> </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchTab(this,'t-insp-list')">All Inspections</div> <div class="tab" onclick="switchTab(this,'t-insp-check')">Checklist</div> <div class="tab" onclick="switchTab(this,'t-insp-report');loadInspReport()">📄 Inspection Report</div> </div> <div id="t-insp-list" class="tab-pane active"> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-insp"><thead><tr><th>Date</th><th>Premises</th><th>Type</th><th>Area</th><th>Inspector</th><th>Score</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-insp"></tbody></table></div></div> </div> <div id="t-insp-check" class="tab-pane"> <div class="card"> <div class="card-title">Kitchen / Food Area Checklist
         <div style="display:flex;gap:6px"><button class="btn sm" onclick="checklistPDF()">📄 PDF</button><button class="btn sm primary" onclick="saveChecklist()">💾 Save</button></div> </div> <div id="checklist-body"></div> <div class="divider"></div> <div class="form-row"><div class="form-group"><label>Inspector</label><input id="cl-inspector" type="text"></div><div class="form-group"><label>Date</label><input id="cl-date" type="date"></div></div> <div class="form-group"><label>Additional observations</label><textarea id="cl-notes"></textarea></div> </div> </div>
  <div id="t-insp-report" class="tab-pane">
-  <div class="card">
-    <div class="card-title">📄 Inspection Report — Chifunabuli DHO Format
-      <div style="display:flex;gap:6px">
-        <button class="btn sm primary" onclick="saveInspReport()">💾 Save</button>
-        <button class="btn sm" onclick="printInspReport()">🖨 Print Report</button>
-      </div>
-    </div>
-    <div style="padding:4px 0 12px;font-size:12px;color:var(--txt2)">Fill in the details below and click Print to generate the official inspection report letter.</div>
-
-    <div class="form-section">TO: (Recipient Address)</div>
-    <div class="form-row"><div class="form-group full"><textarea id="ir-to" rows="3" placeholder="Name and address of owner/occupier..."></textarea></div></div>
-
-    <div class="form-section">Premises Details</div>
-    <div class="form-row">
-      <div class="form-group"><label>Name of Owner</label><input type="text" id="ir-owner" placeholder="Full name"></div>
-      <div class="form-group"><label>Residential Address</label><input type="text" id="ir-owner-addr" placeholder="Address"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Name of Occupier</label><input type="text" id="ir-occupier" placeholder="Full name"></div>
-      <div class="form-group"><label>Residential Address</label><input type="text" id="ir-occupier-addr" placeholder="Address"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Business Name</label><input type="text" id="ir-business" placeholder="Business name"></div>
-      <div class="form-group"><label>Plot #</label><input type="text" id="ir-plot" placeholder="Plot number"></div>
-      <div class="form-group"><label>Area</label><input type="text" id="ir-area" placeholder="Area/Zone"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Type of Business</label><input type="text" id="ir-biz-type" placeholder="e.g. Restaurant, Tuck shop"></div>
-      <div class="form-group"><label>License #</label><input type="text" id="ir-license" placeholder="License number"></div>
-      <div class="form-group"><label>Date Issued</label><input type="date" id="ir-license-date"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Contact #</label><input type="text" id="ir-contact" placeholder="Phone number"></div>
-      <div class="form-group"><label>Workers — Male</label><input type="number" id="ir-male" placeholder="0" min="0"></div>
-      <div class="form-group"><label>Workers — Female</label><input type="number" id="ir-female" placeholder="0" min="0"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Number of Toilets</label><input type="number" id="ir-toilets" placeholder="0" min="0"></div>
-      <div class="form-group"><label>Date of Inspection</label><input type="date" id="ir-insp-date"></div>
-      <div class="form-group"><label>Time</label><input type="time" id="ir-insp-time"></div>
-    </div>
-
-    <div class="form-section">RE: Subject</div>
-    <div class="form-row"><div class="form-group full"><input type="text" id="ir-re" placeholder="e.g. Inspection of Kapili Grocery Store — Compliance Notice"></div></div>
-
-    <div class="form-section">Defects / Anomalies Found</div>
-    <div style="font-size:12px;color:var(--txt2);margin-bottom:8px">Enter each defect on a new line.</div>
-    <div class="form-row"><div class="form-group full"><textarea id="ir-defects" rows="8" placeholder="1. Poor waste disposal observed at the rear of the premises&#10;2. No handwashing facility available&#10;3. Food stored on the floor..."></textarea></div></div>
-
-    <div class="form-section">Recommendations</div>
-    <div style="font-size:12px;color:var(--txt2);margin-bottom:8px">Enter each recommendation on a new line.</div>
-    <div class="form-row"><div class="form-group full"><textarea id="ir-recommendations" rows="8" placeholder="1. Construct an adequate waste pit at the rear of the premises&#10;2. Install a handwashing facility with soap and water&#10;3. Store all food on shelves off the floor..."></textarea></div></div>
-
-    <div class="form-section">Conclusion</div>
-    <div class="form-row"><div class="form-group full"><textarea id="ir-conclusion" rows="3" placeholder="The owner/occupier is hereby required to address the above defects within 14 days of receipt of this notice..."></textarea></div></div>
-
-    <div class="form-section">Inspector Details</div>
-    <div class="form-row">
-      <div class="form-group"><label>Name of Inspector</label><input type="text" id="ir-inspector" placeholder="Full name"></div>
-      <div class="form-group"><label>Designation</label><input type="text" id="ir-designation" placeholder="e.g. Environmental Health Officer"></div>
-      <div class="form-group"><label>Date Signed</label><input type="date" id="ir-sign-date"></div>
-    </div>
-  </div>
+ <div class="toolbar">
+  <input type="text" placeholder="&#128269; Search reports..." oninput="filterTbl(this,'tbl-insp-reports')">
+  <button class="btn primary" onclick="openInspReport()">+ New Report</button>
  </div>
+ <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-insp-reports"><thead><tr><th>Date</th><th>Premises</th><th>Owner</th><th>Area</th><th>Inspector</th><th>Actions</th></tr></thead><tbody id="tb-insp-reports"></tbody></table></div></div>
+</div>
 </div> <div id="page-incidents" class="page"> <div style="background:linear-gradient(135deg,#b45309,#d97706);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">⚠️ Incidents & Hazards</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Log and track environmental health incidents</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-incident')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Incident</button> </div> </div> <div class="alert danger" id="inc-alert" style="display:none"><span class="alert-icon">🔴</span><span id="inc-alert-text"></span></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search incidents..." oninput="filterTbl(this,'tbl-inc')"> <select onchange="filterCol(this,'tbl-inc',5)"><option value="">All statuses</option><option>Open</option><option>In progress</option><option>Resolved</option></select> <button class="btn primary" onclick="openModal('m-incident')">+ Log Incident</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Incident Reports','tbl-inc')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-inc"><thead><tr><th>#</th><th>Description</th><th>Location</th><th>Date</th><th>Priority</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-inc"></tbody></table></div></div>
 </div> <div id="page-immunization" class="page"> <div style="background:linear-gradient(135deg,#0891b2,#0e7490);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">💉 EPI / Immunization</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Monthly immunization session reports</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-immunization')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New EPI Report</button> </div> </div> <div id="epi-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search by period, vaccine..." oninput="filterEPICards(this.value)"> <button class="btn primary" onclick="openModal('m-immunization')">+ New EPI Report</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printSection('EPI Reports', document.getElementById('epi-cards-container').innerHTML)">🖨 Print</button> </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchTab(this,'t-epi-reports')">📋 Monthly Reports</div> <div class="tab" onclick="switchTab(this,'t-epi-analytics');renderEPIAnalytics()">📊 Analytics</div> </div> <div id="t-epi-reports" class="tab-pane active" style="padding-top:14px"> <div class="card"> <div class="card-title">EPI Monthly Reports <button class="btn sm" onclick="epiSummaryPDF()">📄 PDF</button></div> <div id="epi-cards-container"></div> </div> </div> <div id="t-epi-analytics" class="tab-pane"> <div id="epi-analytics-content"> <div style="text-align:center;padding:32px;color:var(--txt2)">Loading analytics...</div> </div> </div> </div> <div id="page-hia" class="page"> <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📋 HIA Reports</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Health Information Aggregation reports (HIA 1 & 2)</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-hia1')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New HIA Report</button> </div> </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchHIATab(this,'t-hia1','hia1')" style="white-space:nowrap;flex-shrink:0">HIA 1 Monthly</div> <div class="tab" onclick="switchHIATab(this,'t-hia2','hia2')" style="white-space:nowrap;flex-shrink:0">HIA 2 Monthly</div> </div> <div class="toolbar" style="margin-top:16px"> <input type="text" id="hia-search" placeholder="🔍 Search HIA reports..." oninput="filterHIA(this.value)" style="flex:1;max-width:260px"> <button class="btn primary" id="hia-new-btn" onclick="openModal('m-hia1')">+ New HIA 1</button> <button class="btn sm" style="background:var(--teal);color:#fff;border:none" onclick="openDiseaseTrend()">📈 Disease Trend</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" id="hia-print-btn" onclick="printCurrentPage('HIA 1 Reports','tbl-hia1')">🖨 Print</button> </div> <div id="t-hia1" class="tab-pane active"> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-hia1"><thead><tr><th>Period</th><th>OPD</th><th>Admissions</th><th>Deaths</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-hia1"></tbody></table></div></div> </div> <div id="t-hia2" class="tab-pane"> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-hia2"><thead><tr><th>Period</th><th>Latrines%</th><th>Safe Water%</th><th>Premises Insp.</th><th>ODF Villages</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-hia2"><tr class="loading-row"><td colspan="7">Loading HIA 2 records...</td></tr></tbody></table></div></div> </div>
 </div> <div id="page-water" class="page"> <div style="background:linear-gradient(135deg,#0369a1,#0284c7);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">💧 Water Quality</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Water source testing and quality monitoring</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-water')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Test</button> </div> </div> <div id="water-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search water tests..." oninput="filterTbl(this,'tbl-water')"> <button class="btn primary" onclick="openModal('m-water')">+ Log Test</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Water Quality Tests','tbl-water')">🖨 Print</button> </div> <div class="card"><div class="card-title">Water Quality Log <button class="btn sm" onclick="waterPDF()">📄 PDF</button></div> <div class="tbl-wrap"><table class="dt" id="tbl-water"><thead><tr><th>Source</th><th>Location</th><th>Owner</th><th>Date</th><th>pH</th><th>E.coli</th><th>Result</th><th>Actions</th></tr></thead><tbody id="tb-water"></tbody></table></div></div>
@@ -974,7 +916,61 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </select></div>
 <div class="form-group" id="other-f-insp-type-wrap" style="display:none"> <label>Specify other inspection type</label> <input type="text" id="other-f-insp-type" placeholder="Please specify...">
 </div><div class="form-group"><label class="required">Date</label><input type="date" placeholder="dd/mm/yyyy" id="f-insp-date"></div></div> <div class="form-row"><div class="form-group"><label class="required">Inspector name</label><input type="text" id="f-insp-inspector" placeholder="Full name"></div><div class="form-group"><label class="required">Area/Location</label><input type="text" id="f-insp-area" placeholder="e.g. Ward 2 kitchen"></div></div> <div class="form-row"><div class="form-group"><label>Premises name</label><input type="text" id="f-insp-premises" placeholder="e.g. Kapili Grocery Store"></div><div class="form-group"><label>Owner / Contact person</label><input type="text" id="f-insp-owner" placeholder="e.g. John Banda"></div></div> <div class="form-section">General Inspection Checklist</div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;font-size:12px"> <div style="font-weight:700;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bd);grid-column:1/-1">Sanitation & Hygiene</div> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-latrine" style="width:14px;height:14px"> Adequate latrine/toilet facilities</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-handwash"> Handwashing facility with soap/water</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-clean-env"> Clean and tidy environment</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-no-stagnant"> No stagnant water</label> <div style="font-weight:700;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bd);margin-top:6px;grid-column:1/-1">Waste Management</div> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-waste-bin"> Adequate waste bins available</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-waste-disposal"> Proper waste disposal method</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-no-litter"> No open littering/dumping</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-waste-covered"> Waste containers covered</label> <div style="font-weight:700;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bd);margin-top:6px;grid-column:1/-1">Water & Food Safety</div> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-safe-water"> Safe water supply available</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-water-stored"> Water properly stored/covered</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-food-covered"> Food properly covered/stored</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-no-pests"> No evidence of pests/rodents</label> <div style="font-weight:700;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bd);margin-top:6px;grid-column:1/-1">Structural & Ventilation</div> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-ventilation"> Adequate ventilation/windows</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-structure"> Good structural condition</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-lighting"> Adequate lighting</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-drainage"> Proper drainage system</label> </div> <div class="form-group full" style="margin-bottom:12px"><label>Additional Findings / Observations</label><textarea id="f-insp-findings" placeholder="Describe any additional findings..."></textarea></div> <div class="form-row"><div class="form-group"><label>Score (%)</label><input type="number" id="f-insp-score" min="0" max="100" oninput="autoInspStatus(this.value)"></div><div class="form-group"><label>Follow-up date</label><input type="date" placeholder="dd/mm/yyyy" id="f-insp-followup"></div></div> <div class="form-group"><label>Corrective actions required</label><textarea id="f-insp-actions" placeholder="Actions to be taken..."></textarea></div> <div id="attach-m-inspection"></div> </div> <div class="modal-footer"><button class="btn" onclick="closeModal('m-inspection')">Cancel</button><button class="btn primary" onclick="saveRecord('inspections','m-inspection',inspFields,renderInspections)">💾 Save</button></div>
-</div></div> <div id="m-incident" class="modal-overlay"><div class="modal wide"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--red-l)">⚠️</div><h3 id="t-incident">Log Incident / Hazard</h3><button class="btn icon" onclick="closeModal('m-incident')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-inc-id"> <div class="form-row"><div class="form-group"><label class="required">Incident type</label><select id="f-inc-type"><option>Biological hazard</option><option>Chemical spill</option><option>Waste mismanagement</option><option>Water contamination</option><option>Structural hazard</option><option>Food safety breach</option><option>Other</option></select></div><div class="form-group"><label>Priority</label><select id="f-inc-priority"><option>High</option><option>Medium</option><option>Low</option></select></div></div> <div class="form-row" id="inc-other-row" style="display:none"><div class="form-group full"><label>Specify incident type</label><input type="text" id="f-inc-type-other" placeholder="Describe type..."></div></div> <div class="form-row"><div class="form-group"><label class="required">Location</label><input type="text" id="f-inc-location" placeholder="e.g. OPD Block"></div><div class="form-group"><label>Date reported</label><input type="date" placeholder="dd/mm/yyyy" id="f-inc-date"></div></div> <div class="form-group full" style="margin-bottom:12px"><label class="required">Description</label><textarea id="f-inc-desc" placeholder="Describe the incident..."></textarea></div> <div class="form-group" style="margin-bottom:12px"><label>Immediate action taken</label><textarea id="f-inc-action" placeholder="What was done immediately..."></textarea></div> <div class="form-row"><div class="form-group"><label>Status</label><select id="f-inc-status"><option>Open</option><option>In progress</option><option>Resolved</option></select></div><div class="form-group"><label>Reported by</label><input type="text" id="f-inc-reporter"></div></div> <div id="attach-m-incident"></div> </div> <div class="modal-footer"><button class="btn" onclick="closeModal('m-incident')">Cancel</button><button class="btn primary" onclick="saveRecord('incidents','m-incident',incFields,renderIncidents)">💾 Save</button></div>
+</div></div> <div id="m-insp-report" class="modal-overlay"><div class="modal wide">
+ <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">&#128196;</div><h3 id="hdr-m-insp-report">Inspection Report</h3><button class="btn icon" onclick="closeModal('m-insp-report')">&#10005;</button></div>
+ <div class="modal-body">
+  <div class="form-section">TO: (Recipient Address)</div>
+  <div class="form-row"><div class="form-group full"><textarea id="ir-to" rows="3" placeholder="Name and address of owner/occupier..."></textarea></div></div>
+  <div class="form-section">Premises Details</div>
+  <div class="form-row">
+   <div class="form-group"><label>Name of Owner</label><input type="text" id="ir-owner" placeholder="Full name"></div>
+   <div class="form-group"><label>Residential Address</label><input type="text" id="ir-owner-addr" placeholder="Address"></div>
+  </div>
+  <div class="form-row">
+   <div class="form-group"><label>Name of Occupier</label><input type="text" id="ir-occupier" placeholder="Full name"></div>
+   <div class="form-group"><label>Residential Address</label><input type="text" id="ir-occupier-addr" placeholder="Address"></div>
+  </div>
+  <div class="form-row">
+   <div class="form-group"><label>Business Name</label><input type="text" id="ir-business" placeholder="Business name"></div>
+   <div class="form-group"><label>Plot #</label><input type="text" id="ir-plot" placeholder="Plot number"></div>
+   <div class="form-group"><label>Area</label><input type="text" id="ir-area" placeholder="Area/Zone"></div>
+  </div>
+  <div class="form-row">
+   <div class="form-group"><label>Type of Business</label><input type="text" id="ir-biz-type" placeholder="e.g. Restaurant, Tuck shop"></div>
+   <div class="form-group"><label>License #</label><input type="text" id="ir-license" placeholder="License number"></div>
+   <div class="form-group"><label>Date Issued</label><input type="date" id="ir-license-date"></div>
+  </div>
+  <div class="form-row">
+   <div class="form-group"><label>Contact #</label><input type="text" id="ir-contact" placeholder="Phone number"></div>
+   <div class="form-group"><label>Workers Male</label><input type="number" id="ir-male" placeholder="0" min="0"></div>
+   <div class="form-group"><label>Workers Female</label><input type="number" id="ir-female" placeholder="0" min="0"></div>
+   <div class="form-group"><label>Toilets</label><input type="number" id="ir-toilets" placeholder="0" min="0"></div>
+  </div>
+  <div class="form-row">
+   <div class="form-group"><label>Date of Inspection</label><input type="date" id="ir-insp-date"></div>
+   <div class="form-group"><label>Time</label><input type="time" id="ir-insp-time"></div>
+  </div>
+  <div class="form-section">RE: Subject</div>
+  <div class="form-row"><div class="form-group full"><input type="text" id="ir-re" placeholder="e.g. Inspection of Kapili Grocery Store"></div></div>
+  <div class="form-section">Defects / Anomalies Found (one per line)</div>
+  <div class="form-row"><div class="form-group full"><textarea id="ir-defects" rows="6" placeholder="1. Poor waste disposal&#10;2. No handwashing facility&#10;3. Food stored on the floor..."></textarea></div></div>
+  <div class="form-section">Recommendations (one per line)</div>
+  <div class="form-row"><div class="form-group full"><textarea id="ir-recommendations" rows="6" placeholder="1. Construct an adequate waste pit&#10;2. Install a handwashing facility&#10;3. Store all food on shelves..."></textarea></div></div>
+  <div class="form-section">Conclusion</div>
+  <div class="form-row"><div class="form-group full"><textarea id="ir-conclusion" rows="3" placeholder="The owner/occupier is hereby required to address the above defects within 14 days..."></textarea></div></div>
+  <div class="form-section">Inspector Details</div>
+  <div class="form-row">
+   <div class="form-group"><label>Name of Inspector</label><input type="text" id="ir-inspector" placeholder="Full name"></div>
+   <div class="form-group"><label>Designation</label><input type="text" id="ir-designation" placeholder="e.g. Environmental Health Officer"></div>
+   <div class="form-group"><label>Date Signed</label><input type="date" id="ir-sign-date"></div>
+  </div>
+ </div>
+ <div class="modal-footer">
+  <button class="btn" onclick="closeModal('m-insp-report')">Cancel</button>
+  <button class="btn primary" onclick="saveInspReport()">&#128190; Save</button>
+ </div>
+</div></div>
+<div id="m-incident" class="modal-overlay"><div class="modal wide"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--red-l)">⚠️</div><h3 id="t-incident">Log Incident / Hazard</h3><button class="btn icon" onclick="closeModal('m-incident')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-inc-id"> <div class="form-row"><div class="form-group"><label class="required">Incident type</label><select id="f-inc-type"><option>Biological hazard</option><option>Chemical spill</option><option>Waste mismanagement</option><option>Water contamination</option><option>Structural hazard</option><option>Food safety breach</option><option>Other</option></select></div><div class="form-group"><label>Priority</label><select id="f-inc-priority"><option>High</option><option>Medium</option><option>Low</option></select></div></div> <div class="form-row" id="inc-other-row" style="display:none"><div class="form-group full"><label>Specify incident type</label><input type="text" id="f-inc-type-other" placeholder="Describe type..."></div></div> <div class="form-row"><div class="form-group"><label class="required">Location</label><input type="text" id="f-inc-location" placeholder="e.g. OPD Block"></div><div class="form-group"><label>Date reported</label><input type="date" placeholder="dd/mm/yyyy" id="f-inc-date"></div></div> <div class="form-group full" style="margin-bottom:12px"><label class="required">Description</label><textarea id="f-inc-desc" placeholder="Describe the incident..."></textarea></div> <div class="form-group" style="margin-bottom:12px"><label>Immediate action taken</label><textarea id="f-inc-action" placeholder="What was done immediately..."></textarea></div> <div class="form-row"><div class="form-group"><label>Status</label><select id="f-inc-status"><option>Open</option><option>In progress</option><option>Resolved</option></select></div><div class="form-group"><label>Reported by</label><input type="text" id="f-inc-reporter"></div></div> <div id="attach-m-incident"></div> </div> <div class="modal-footer"><button class="btn" onclick="closeModal('m-incident')">Cancel</button><button class="btn primary" onclick="saveRecord('incidents','m-incident',incFields,renderIncidents)">💾 Save</button></div>
 </div></div> <div id="m-water" class="modal-overlay"><div class="modal"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--blue-l)">💧</div><h3 id="t-water">Log Water Quality Test</h3><button class="btn icon" onclick="closeModal('m-water')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-water-id"> <div class="form-row"><div class="form-group"><label>Water source</label><select id="f-water-source" onchange="waterSourceOther(this)"><option>Borehole 1 (Main)</option><option>Borehole 2 (Wards)</option><option>Hand dug well</option><option>Rainwater tank</option><option>River/Stream</option><option>Protected spring</option><option>Other</option></select></div><div class="form-group"><label>Test date</label><input type="date" placeholder="dd/mm/yyyy" id="f-water-date"></div></div> <div id="water-other-row" style="display:none;margin-bottom:12px"><div class="form-group"><label>Specify water source</label><input type="text" id="f-water-source-other" placeholder="Describe source..."></div></div> <div class="form-row"><div class="form-group"><label>Location / Village</label><input type="text" id="f-water-location" placeholder="e.g. Kapili village, near clinic"></div><div class="form-group"><label>Owner / Contact person</label><input type="text" id="f-water-owner" placeholder="e.g. John Banda, WUC chairperson"></div></div> <div class="form-row"> <div class="form-group"><label class="required">Test Method</label><select id="f-water-method"><option value="">Select...</option><option>H2S Strip Test</option><option>Field Test Kit</option><option>Laboratory</option><option>Visual Inspection</option></select></div> <div class="form-group"><label>H2S Strip Result</label><select id="f-water-h2s"><option value="">Not Tested</option><option>Negative (Safe)</option><option>Positive (Unsafe)</option></select></div> </div> <div class="form-row"><div class="form-group"><label>pH <span style="font-size:10px;color:var(--txt2)">(if tested)</span></label><input type="number" step="0.1" id="f-water-ph" placeholder="6.5–8.5"></div><div class="form-group"><label>Turbidity NTU <span style="font-size:10px;color:var(--txt2)">(if tested)</span></label><input type="number" step="0.1" id="f-water-turb" placeholder="&lt;5"></div></div> <div class="form-row"><div class="form-group"><label>Chlorine mg/L <span style="font-size:10px;color:var(--txt2)">(if tested)</span></label><input type="number" step="0.1" id="f-water-cl" placeholder="0.2–0.5"></div><div class="form-group"><label>Nitrates mg/L <span style="font-size:10px;color:var(--txt2)">(if tested)</span></label><input type="number" step="0.1" id="f-water-no3" placeholder="&lt;50"></div></div> <div class="form-row"><div class="form-group"><label>E. coli <span style="font-size:10px;color:var(--txt2)">(if tested)</span></label><select id="f-water-ecoli"><option value="">Not Tested</option><option>Absent</option><option>Present</option></select></div><div class="form-group"><label>Tested by</label><input type="text" id="f-water-tester"></div></div> <div class="form-group"><label>Notes</label><textarea id="f-water-notes" placeholder="Observations..."></textarea></div> <div id="attach-m-water"></div> </div> <div class="modal-footer"><button class="btn" onclick="closeModal('m-water')">Cancel</button><button class="btn primary" onclick="saveWaterRecord()">💾 Save</button></div>
 </div></div> <div id="m-hia1" class="modal-overlay"><div class="modal wide"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--red-l)">📋</div><h3 id="hdr-m-hia1">New HIA 1 Report (Monthly)</h3><button class="btn icon" onclick="closeModal('m-hia1')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-hia1-id"> <div class="form-row"><div class="form-group"><label class="required">Reporting Month</label><input type="month" id="f-hia1-period" placeholder="YYYY-MM"></div><div class="form-group"><label>Prepared by</label><input type="text" id="f-hia1-preparer"></div></div> <div class="form-section">Attendance</div> <div class="form-row cols3"><div class="form-group"><label>OPD attendance</label><input type="number" id="f-hia1-opd" placeholder="0"></div><div class="form-group"><label>Inpatient admissions</label><input type="number" id="f-hia1-inpat" placeholder="0"></div><div class="form-group"><label>Deliveries</label><input type="number" id="f-hia1-deliveries" placeholder="0"></div></div> <div class="form-section">Mortality</div> <div class="form-row"><div class="form-group"><label>Total deaths</label><input type="number" id="f-hia1-deaths" placeholder="0"></div><div class="form-group"><label>Maternal deaths</label><input type="number" id="f-hia1-maternal" placeholder="0"></div></div> <div class="form-section">Top diseases</div> <div class="form-group"><label>Top 5 diagnoses (e.g. Malaria:45, Diarrhoea:22)</label><textarea id="f-hia1-diseases" placeholder="Malaria:45, Diarrhoea:22, ARI:18, UTI:12, Skin:8"></textarea></div> <div id="attach-m-hia1"></div> </div> <div class="modal-footer"><button class="btn" onclick="closeModal('m-hia1')">Cancel</button><button class="btn primary" onclick="saveRecord('hia1','m-hia1',hia1Fields,renderHIA)">💾 Save</button></div>
 </div></div> <div id="m-hia2" class="modal-overlay"><div class="modal wide"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--blue-l)">📋</div><h3 id="hdr-m-hia2">New HIA 2 Report (Monthly)</h3><button class="btn icon" onclick="closeModal('m-hia2')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-hia2-id"> <div class="form-row"><div class="form-group"><label class="required">Reporting Month</label><input type="month" id="f-hia2-period" placeholder="YYYY-MM"></div><div class="form-group"><label>Submitted by</label><input type="text" id="f-hia2-submitter"></div></div> <div class="form-section">Environmental Health Indicators</div> <div class="form-row"><div class="form-group"><label>HHs with latrines (%)</label><input type="number" id="f-hia2-latrines" placeholder="0"></div><div class="form-group"><label>HHs with safe water (%)</label><input type="number" id="f-hia2-water" placeholder="0"></div></div> <div class="form-row"><div class="form-group"><label>Food premises inspected</label><input type="number" id="f-hia2-premises" placeholder="0"></div><div class="form-group"><label>Villages triggered (CLTS)</label><input type="number" id="f-hia2-clts" placeholder="0"></div></div> <div class="form-row"><div class="form-group"><label>ODF verified villages</label><input type="number" id="f-hia2-odf" placeholder="0"></div><div class="form-group"><label>Vector control activities</label><input type="number" id="f-hia2-vector" placeholder="0"></div></div> <div class="form-group"><label>Remarks</label><textarea id="f-hia2-remarks" placeholder="Any notable EH issues this month..."></textarea></div> <div id="attach-m-hia2"></div> </div> <div class="modal-footer"><button class="btn" onclick="closeModal('m-hia2')">Cancel</button><button class="btn primary" onclick="saveRecord('hia2','m-hia2',hia2Fields,renderHIA)">💾 Save</button></div>
@@ -9447,120 +9443,133 @@ function toggleRptDrOther(){
 
 
 // ══ INSPECTION REPORT ══
-function saveInspReport(){
-  var data = {
-    to: (document.getElementById('ir-to')||{value:''}).value,
-    owner: (document.getElementById('ir-owner')||{value:''}).value,
-    ownerAddr: (document.getElementById('ir-owner-addr')||{value:''}).value,
-    occupier: (document.getElementById('ir-occupier')||{value:''}).value,
-    occupierAddr: (document.getElementById('ir-occupier-addr')||{value:''}).value,
-    business: (document.getElementById('ir-business')||{value:''}).value,
-    plot: (document.getElementById('ir-plot')||{value:''}).value,
-    area: (document.getElementById('ir-area')||{value:''}).value,
-    bizType: (document.getElementById('ir-biz-type')||{value:''}).value,
-    license: (document.getElementById('ir-license')||{value:''}).value,
-    licenseDate: (document.getElementById('ir-license-date')||{value:''}).value,
-    contact: (document.getElementById('ir-contact')||{value:''}).value,
-    male: (document.getElementById('ir-male')||{value:''}).value,
-    female: (document.getElementById('ir-female')||{value:''}).value,
-    toilets: (document.getElementById('ir-toilets')||{value:''}).value,
-    inspDate: (document.getElementById('ir-insp-date')||{value:''}).value,
-    inspTime: (document.getElementById('ir-insp-time')||{value:''}).value,
-    re: (document.getElementById('ir-re')||{value:''}).value,
-    defects: (document.getElementById('ir-defects')||{value:''}).value,
-    recommendations: (document.getElementById('ir-recommendations')||{value:''}).value,
-    conclusion: (document.getElementById('ir-conclusion')||{value:''}).value,
-    inspector: (document.getElementById('ir-inspector')||{value:''}).value,
-    designation: (document.getElementById('ir-designation')||{value:''}).value,
-    signDate: (document.getElementById('ir-sign-date')||{value:''}).value,
-    savedAt: new Date().toISOString()
+var _irEditing = null;
+
+function openInspReport(id){
+  _irEditing = id || null;
+  var recs = DB.get('insp_reports') || [];
+  var data = id ? recs.find(function(r){ return r.id === id; }) : null;
+  var elMap = {
+    'ir-to':'to','ir-owner':'owner','ir-owner-addr':'ownerAddr','ir-occupier':'occupier',
+    'ir-occupier-addr':'occupierAddr','ir-business':'business','ir-plot':'plot','ir-area':'area',
+    'ir-biz-type':'bizType','ir-license':'license','ir-license-date':'licenseDate',
+    'ir-contact':'contact','ir-male':'male','ir-female':'female','ir-toilets':'toilets',
+    'ir-insp-date':'inspDate','ir-insp-time':'inspTime','ir-re':'re','ir-defects':'defects',
+    'ir-recommendations':'recommendations','ir-conclusion':'conclusion',
+    'ir-inspector':'inspector','ir-designation':'designation','ir-sign-date':'signDate'
   };
-  _store['insp_report_draft'] = data;
-  idbPut('insp_report_draft', data);
-  sbSet('insp_report_draft', data);
-  toast('Inspection report saved','success');
-}
-
-function loadInspReport(){
-  var data = DB.get('insp_report_draft');
-  if(!data || typeof data !== 'object') return;
-  var fields = ['to','owner','ownerAddr','occupier','occupierAddr','business','plot','area',
-    'bizType','license','licenseDate','contact','male','female','toilets','inspDate','inspTime',
-    're','defects','recommendations','conclusion','inspector','designation','signDate'];
-  var map = {to:'ir-to',owner:'ir-owner',ownerAddr:'ir-owner-addr',occupier:'ir-occupier',
-    occupierAddr:'ir-occupier-addr',business:'ir-business',plot:'ir-plot',area:'ir-area',
-    bizType:'ir-biz-type',license:'ir-license',licenseDate:'ir-license-date',contact:'ir-contact',
-    male:'ir-male',female:'ir-female',toilets:'ir-toilets',inspDate:'ir-insp-date',
-    inspTime:'ir-insp-time',re:'ir-re',defects:'ir-defects',recommendations:'ir-recommendations',
-    conclusion:'ir-conclusion',inspector:'ir-inspector',designation:'ir-designation',signDate:'ir-sign-date'};
-  fields.forEach(function(k){
-    var el = document.getElementById(map[k]);
-    if(el && data[k]) el.value = data[k];
+  Object.keys(elMap).forEach(function(elId){
+    var el = document.getElementById(elId);
+    if(el) el.value = (data && data[elMap[elId]]) ? data[elMap[elId]] : '';
   });
+  openModal('m-insp-report');
 }
 
-function printInspReport(){
-  var s = DB.getObj('settings')||{};
-  var fmtDate = function(d){ if(!d) return '………………………………'; var p=d.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; };
-  var defects = ((document.getElementById('ir-defects')||{value:''}).value||'').split('\n').filter(function(l){return l.trim();});
-  var recs = ((document.getElementById('ir-recommendations')||{value:''}).value||'').split('\n').filter(function(l){return l.trim();});
+function saveInspReport(){
+  var elMap = {
+    'ir-to':'to','ir-owner':'owner','ir-owner-addr':'ownerAddr','ir-occupier':'occupier',
+    'ir-occupier-addr':'occupierAddr','ir-business':'business','ir-plot':'plot','ir-area':'area',
+    'ir-biz-type':'bizType','ir-license':'license','ir-license-date':'licenseDate',
+    'ir-contact':'contact','ir-male':'male','ir-female':'female','ir-toilets':'toilets',
+    'ir-insp-date':'inspDate','ir-insp-time':'inspTime','ir-re':'re','ir-defects':'defects',
+    'ir-recommendations':'recommendations','ir-conclusion':'conclusion',
+    'ir-inspector':'inspector','ir-designation':'designation','ir-sign-date':'signDate'
+  };
+  var rec = { id: _irEditing || genId('IR') };
+  Object.keys(elMap).forEach(function(elId){
+    var el = document.getElementById(elId);
+    rec[elMap[elId]] = el ? el.value.trim() : '';
+  });
+  if(!rec.business && !rec.owner){ toast('Enter at least business name or owner','error'); return; }
+  var data = DB.get('insp_reports') || [];
+  var idx = data.findIndex(function(r){ return r.id === rec.id; });
+  if(idx >= 0) data[idx] = rec; else data.unshift(rec);
+  _store['insp_reports'] = data;
+  idbPut('insp_reports', data);
+  sbSet('insp_reports', data);
+  closeModal('m-insp-report');
+  renderInspReports();
+  toast('Report saved','success');
+}
 
-  var defList = defects.length ? defects.map(function(d){ return '<li style="margin-bottom:5px">'+d+'</li>'; }).join('') : '<li>………………………………………………………………………………………………………………</li>'.repeat(10);
-  var recList = recs.length ? recs.map(function(r){ return '<li style="margin-bottom:5px">'+r+'</li>'; }).join('') : '<li>………………………………………………………………………………………………………………</li>'.repeat(10);
+function renderInspReports(){
+  var data = DB.get('insp_reports') || [];
+  var tbody = document.getElementById('tb-insp-reports');
+  if(!tbody) return;
+  if(!data.length){
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--txt2);padding:24px">No reports yet. Click + New Report to create one.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(function(r){
+    return '<tr>'
+      +'<td>'+fmtDate(r.inspDate)+'</td>'
+      +'<td style="font-weight:600">'+(r.business||r.owner||'—')+'</td>'
+      +'<td>'+(r.owner||'—')+'</td>'
+      +'<td>'+(r.area||'—')+'</td>'
+      +'<td>'+(r.inspector||'—')+'</td>'
+      +'<td style="white-space:nowrap">'
+        +'<button class="btn sm" onclick="openInspReport(\"'+r.id+'\")">&#9998;</button> '
+        +'<button class="btn sm" style="background:#0a5448;color:#fff;border:none" onclick="printInspReport(\"'+r.id+'\")">&#128424;</button> '
+        +'<button class="btn sm danger" onclick="deleteInspReport(\"'+r.id+'\")">&#128465;</button>'
+      +'</td>'
+      +'</tr>';
+  }).join('');
+}
 
-  var toText = ((document.getElementById('ir-to')||{value:''}).value||'').split('\n').map(function(l){ return '<div>'+l+'</div>'; }).join('');
+function deleteInspReport(id){
+  if(!confirm('Delete this inspection report?')) return;
+  var data = (DB.get('insp_reports')||[]).filter(function(r){ return r.id !== id; });
+  _store['insp_reports'] = data;
+  idbPut('insp_reports', data);
+  sbSet('insp_reports', data);
+  renderInspReports();
+  toast('Report deleted','info');
+}
 
+function printInspReport(id){
+  var recs = DB.get('insp_reports') || [];
+  var r = recs.find(function(x){ return x.id === id; });
+  if(!r){ toast('Report not found','error'); return; }
+  var fmtD = function(d){ if(!d) return '………………………'; var p=d.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; };
+  var defects = (r.defects||'').split('\n').filter(function(l){ return l.trim(); });
+  var recs2 = (r.recommendations||'').split('\n').filter(function(l){ return l.trim(); });
+  var defList = defects.length ? defects.map(function(d){ return '<li style="margin-bottom:5px">'+d+'</li>'; }).join('') : '<li>………………………………………………………………………………………………………………</li>'.repeat(8);
+  var recList = recs2.length ? recs2.map(function(x){ return '<li style="margin-bottom:5px">'+x+'</li>'; }).join('') : '<li>………………………………………………………………………………………………………………</li>'.repeat(8);
+  var toText = (r.to||'').split('\n').map(function(l){ return '<div>'+l+'</div>'; }).join('');
   var html = '<!DOCTYPE html><html><head><title>Inspection Report</title>'
     +'<style>body{font-family:Arial,sans-serif;font-size:12px;color:#111;padding:24px;max-width:800px;margin:0 auto}'
-    +'.hdr{text-align:center;margin-bottom:16px}.hdr .org{font-size:11px;color:#555}'
-    +'.hdr .title{font-size:16px;font-weight:800;text-transform:uppercase}'
-    +'table{width:100%;border-collapse:collapse;margin-bottom:10px}'
-    +'td{padding:4px 8px;vertical-align:top}'
-    +'.sig-row{display:flex;gap:48px;margin-top:24px}'
-    +'.sig-block{flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px}'
-    +'.cc{font-size:11px;margin-top:16px}'
+    +'table{width:100%;border-collapse:collapse;margin-bottom:10px}td{padding:4px 8px;vertical-align:top}'
+    +'.sig-row{display:flex;gap:48px;margin-top:24px}.sig-block{flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px}'
     +'@media print{button{display:none}}</style></head><body>'
-    // Letterhead
-    +'<div class="hdr">'
-    +'<div class="org">All communications should address to <b>District Health Director</b> and not individuals</div>'
-    +'<div class="org">Tel: (0974206810) &nbsp;|&nbsp; Email: chifunabulidho@gmail.com</div>'
-    +'<div style="margin-top:10px;font-weight:800;font-size:14px">REPUBLIC OF ZAMBIA</div>'
+    +'<div style="text-align:center;margin-bottom:16px">'
+    +'<div style="font-size:11px;color:#555">All communications should address to <b>District Health Director</b> and not individuals</div>'
+    +'<div style="font-size:11px;color:#555">Tel: (0974206810) &nbsp;|&nbsp; Email: chifunabulidho@gmail.com</div>'
+    +'<div style="font-weight:800;font-size:14px;margin-top:8px">REPUBLIC OF ZAMBIA</div>'
     +'<div style="font-weight:800;font-size:14px">CHIFUNABULI TOWN COUNCIL</div>'
     +'<div style="font-weight:800;font-size:13px">DEPARTMENT OF HEALTH SERVICES</div>'
-    +'<div style="margin-top:6px;font-size:11px;color:#555">Chifunabuli District Health Office &nbsp;·&nbsp; P.O. BOX 720071 &nbsp;·&nbsp; CHIFUNABULI</div>'
+    +'<div style="font-size:11px;color:#555;margin-top:4px">Chifunabuli District Health Office &nbsp;&#183;&nbsp; P.O. BOX 720071 &nbsp;&#183;&nbsp; CHIFUNABULI</div>'
     +'</div>'
-    // TO block
-    +'<div style="margin-bottom:14px"><b>TO:</b><br>'+( toText || '………………………………………………………….')+'</div>'
-    // Premises table
-    +'<table><tr><td style="width:50%"><b>Name of owner:</b> '+((document.getElementById('ir-owner')||{value:''}).value||'……………………………')+'</td>'
-    +'<td><b>Residential address:</b> '+((document.getElementById('ir-owner-addr')||{value:''}).value||'……………………………')+'</td></tr>'
-    +'<tr><td><b>Name of occupier:</b> '+((document.getElementById('ir-occupier')||{value:''}).value||'……………………………')+'</td>'
-    +'<td><b>Residential address:</b> '+((document.getElementById('ir-occupier-addr')||{value:''}).value||'……………………………')+'</td></tr>'
-    +'<tr><td><b>Business name:</b> '+((document.getElementById('ir-business')||{value:''}).value||'……………………')+'</td>'
-    +'<td><b>Plot #:</b> '+((document.getElementById('ir-plot')||{value:''}).value||'……………………')+'&nbsp;&nbsp;<b>Area:</b> '+((document.getElementById('ir-area')||{value:''}).value||'……………………')+'</td></tr>'
-    +'<tr><td><b>Type of business:</b> '+((document.getElementById('ir-biz-type')||{value:''}).value||'……………………')+'</td>'
-    +'<td><b>License #:</b> '+((document.getElementById('ir-license')||{value:''}).value||'…………………')+'&nbsp;&nbsp;<b>Date issued:</b> '+fmtDate((document.getElementById('ir-license-date')||{value:''}).value)+'</td></tr>'
-    +'<tr><td><b>Contact #:</b> '+((document.getElementById('ir-contact')||{value:''}).value||'……………………')+'</td>'
-    +'<td><b>Workers:</b> Male: '+((document.getElementById('ir-male')||{value:''}).value||'…')+'&nbsp;&nbsp;Female: '+((document.getElementById('ir-female')||{value:''}).value||'…')+'</td></tr>'
-    +'<tr><td><b>Number of toilets:</b> '+((document.getElementById('ir-toilets')||{value:''}).value||'……………')+'</td>'
-    +'<td><b>Date of inspection:</b> '+fmtDate((document.getElementById('ir-insp-date')||{value:''}).value)+'&nbsp;&nbsp;<b>Time:</b> '+((document.getElementById('ir-insp-time')||{value:''}).value||'………')+'</td></tr>'
+    +'<div style="margin-bottom:14px"><b>TO:</b><br>'+(toText||'…………………………………………………………………')+'</div>'
+    +'<table>'
+    +'<tr><td style="width:50%"><b>Name of owner:</b> '+(r.owner||'……………………………………')+'</td><td><b>Residential address:</b> '+(r.ownerAddr||'……………………………………')+'</td></tr>'
+    +'<tr><td><b>Name of occupier:</b> '+(r.occupier||'……………………………………')+'</td><td><b>Residential address:</b> '+(r.occupierAddr||'……………………………………')+'</td></tr>'
+    +'<tr><td><b>Business name:</b> '+(r.business||'……………………………………')+'</td><td><b>Plot #:</b> '+(r.plot||'……………')+'&nbsp;&nbsp;<b>Area:</b> '+(r.area||'……………………')+'</td></tr>'
+    +'<tr><td><b>Type of business:</b> '+(r.bizType||'……………………………………')+'</td><td><b>License #:</b> '+(r.license||'…………………')+'&nbsp;&nbsp;<b>Date issued:</b> '+fmtD(r.licenseDate)+'</td></tr>'
+    +'<tr><td><b>Contact #:</b> '+(r.contact||'……………………………………')+'</td><td><b>Workers:</b> Male: '+(r.male||'…')+'&nbsp;&nbsp;Female: '+(r.female||'…')+'</td></tr>'
+    +'<tr><td><b>Number of toilets:</b> '+(r.toilets||'…………')+'</td><td><b>Date of inspection:</b> '+fmtD(r.inspDate)+'&nbsp;&nbsp;<b>Time:</b> '+(r.inspTime||'…………')+'</td></tr>'
     +'</table>'
-    // RE line
     +'<div style="margin:12px 0"><b>Dear Sir/Madam</b></div>'
-    +'<div style="margin-bottom:10px"><b>RE: '+((document.getElementById('ir-re')||{value:''}).value||'…………………………………………………………………')+'</b></div>'
-    // Body
+    +'<div style="margin-bottom:10px"><b>RE: '+(r.re||'…………………………………………………………………………………………………')+'</b></div>'
     +'<p style="margin-bottom:10px">The mentioned premises has been inspected and the following are defects/anomalies were found which contravenes the public health act cap 295, food safety act cap, 303 of 2019 and or the liquor license act #20 of 2011 of the laws of Zambia:</p>'
     +'<ul style="margin:0 0 14px 18px">'+defList+'</ul>'
     +'<p style="margin-bottom:10px"><b>The following are the recommendations:</b></p>'
     +'<ul style="margin:0 0 14px 18px">'+recList+'</ul>'
-    +'<p style="margin-bottom:14px"><b>Conclusion:</b> '+((document.getElementById('ir-conclusion')||{value:''}).value||'………………………………………………………………………………………………………………………………………………………………………………………………………………')+'</p>'
-    // Signatures
+    +'<p style="margin-bottom:14px"><b>Conclusion:</b> '+(r.conclusion||'………………………………………………………………………………………………………………………………………………………………………………………………………………')+'</p>'
     +'<div class="sig-row">'
-    +'<div class="sig-block">Name of inspector: <b>'+((document.getElementById('ir-inspector')||{value:''}).value||'……………………………………………………')+'</b><br>Designation: '+((document.getElementById('ir-designation')||{value:''}).value||'……………………………')+'<br><br>Signature: ……………………………………… Date: '+fmtDate((document.getElementById('ir-sign-date')||{value:''}).value)+'</div>'
-    +'<div class="sig-block">Name of owner/occupier/agent: ………………………………<br>Designation: ………………………………<br><br>Signature: ……………………………………… Date: ………………………</div>'
+    +'<div class="sig-block">Name of inspector: <b>'+(r.inspector||'……………………………………………………')+'</b><br>Designation: '+(r.designation||'……………………………………')+'<br><br>Signature: ……………………………………… Date: '+fmtD(r.signDate)+'</div>'
+    +'<div class="sig-block">Name of owner/occupier/agent: ……………………………………<br>Designation: ………………………………<br><br>Signature: ……………………………………… Date: ………………………</div>'
     +'</div>'
-    // CC list
-    +'<div class="cc" style="margin-top:20px">'
+    +'<div style="margin-top:20px;font-size:11px">'
     +'<div>Cc: Chifunabuli District Health Director</div>'
     +'<div>Cc: District Commissioner</div>'
     +'<div>Cc: Magistrate In-charge (Samfya)</div>'
@@ -9568,9 +9577,9 @@ function printInspReport(){
     +'<div>Cc: Chifunabuli District Council Secretary</div>'
     +'<div>Cc: Chifunabuli District Police Officer in-Charge</div>'
     +'</div>'
-    +'<div style="text-align:center;margin-top:20px"><button onclick="window.print()" style="padding:10px 28px;background:#0a5448;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer">🖨 Print / Save PDF</button></div>'
+    +'<div style="text-align:center;margin-top:20px"><button onclick="window.print()" style="padding:10px 28px;background:#0a5448;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer">&#128424; Print / Save PDF</button></div>'
     +'</body></html>';
-  var w=window.open('','_blank'); w.document.write(html); w.document.close();
+  var w = window.open('','_blank'); w.document.write(html); w.document.close();
 }
 
 </script>
