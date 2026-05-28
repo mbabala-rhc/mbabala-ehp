@@ -9466,30 +9466,46 @@ function openInspReport(id){
 }
 
 function saveInspReport(){
-  var elMap = {
-    'ir-to':'to','ir-owner':'owner','ir-owner-addr':'ownerAddr','ir-occupier':'occupier',
-    'ir-occupier-addr':'occupierAddr','ir-business':'business','ir-plot':'plot','ir-area':'area',
-    'ir-biz-type':'bizType','ir-license':'license','ir-license-date':'licenseDate',
-    'ir-contact':'contact','ir-male':'male','ir-female':'female','ir-toilets':'toilets',
-    'ir-insp-date':'inspDate','ir-insp-time':'inspTime','ir-re':'re','ir-defects':'defects',
-    'ir-recommendations':'recommendations','ir-conclusion':'conclusion',
-    'ir-inspector':'inspector','ir-designation':'designation','ir-sign-date':'signDate'
+  var business = document.getElementById('ir-business').value.trim();
+  var owner = document.getElementById('ir-owner').value.trim();
+  if(!business && !owner){ toast('Enter at least business name or owner','error'); return; }
+  var id = _irEditing || genId('IR');
+  var rec = {
+    id: id,
+    to: document.getElementById('ir-to').value,
+    owner: owner,
+    ownerAddr: document.getElementById('ir-owner-addr').value,
+    occupier: document.getElementById('ir-occupier').value,
+    occupierAddr: document.getElementById('ir-occupier-addr').value,
+    business: business,
+    plot: document.getElementById('ir-plot').value,
+    area: document.getElementById('ir-area').value,
+    bizType: document.getElementById('ir-biz-type').value,
+    license: document.getElementById('ir-license').value,
+    licenseDate: document.getElementById('ir-license-date').value,
+    contact: document.getElementById('ir-contact').value,
+    male: document.getElementById('ir-male').value,
+    female: document.getElementById('ir-female').value,
+    toilets: document.getElementById('ir-toilets').value,
+    inspDate: document.getElementById('ir-insp-date').value,
+    inspTime: document.getElementById('ir-insp-time').value,
+    re: document.getElementById('ir-re').value,
+    defects: document.getElementById('ir-defects').value,
+    recommendations: document.getElementById('ir-recommendations').value,
+    conclusion: document.getElementById('ir-conclusion').value,
+    inspector: document.getElementById('ir-inspector').value,
+    designation: document.getElementById('ir-designation').value,
+    signDate: document.getElementById('ir-sign-date').value
   };
-  var rec = { id: _irEditing || genId('IR') };
-  Object.keys(elMap).forEach(function(elId){
-    var el = document.getElementById(elId);
-    rec[elMap[elId]] = el ? el.value.trim() : '';
-  });
-  if(!rec.business && !rec.owner){ toast('Enter at least business name or owner','error'); return; }
-  var data = DB.get('insp_reports') || [];
-  var idx = data.findIndex(function(r){ return r.id === rec.id; });
-  if(idx >= 0) data[idx] = rec; else data.unshift(rec);
+  var data = DB.get('insp_reports');
+  var i = data.findIndex(function(r){ return r.id === id; });
+  if(i >= 0) data[i] = rec; else data.unshift(rec);
   _store['insp_reports'] = data;
   idbPut('insp_reports', data);
-  sbSet('insp_reports', data);
   closeModal('m-insp-report');
   renderInspReports();
-  toast('Report saved','success');
+  toast('Inspection report saved','success');
+  sbSet('insp_reports', data);
 }
 
 function renderInspReports(){
