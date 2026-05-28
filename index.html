@@ -9508,9 +9508,9 @@ function renderInspReports(){
       +'<td>'+(r.area||'—')+'</td>'
       +'<td>'+(r.inspector||'—')+'</td>'
       +'<td style="white-space:nowrap">'
-        +'<button class="btn sm" onclick="openInspReport(\"'+r.id+'\")">&#9998;</button> '
-        +'<button class="btn sm" style="background:#0a5448;color:#fff;border:none" onclick="printInspReport(\"'+r.id+'\")">&#128424;</button> '
-        +'<button class="btn sm danger" onclick="deleteInspReport(\"'+r.id+'\")">&#128465;</button>'
+        +'<button class="btn sm" onclick="openInspReport(\'+r.id+\')">&#9998;</button> '
+        +'<button class="btn sm" style="background:#0a5448;color:#fff;border:none" onclick="printInspReport(\'+r.id+\')">&#128424;</button> '
+        +'<button class="btn sm danger" onclick="deleteInspReport(\'+r.id+\')">&#128465;</button>'
       +'</td>'
       +'</tr>';
   }).join('');
