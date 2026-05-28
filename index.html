@@ -1657,11 +1657,11 @@ async function saveIPCRecord(){
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
   _store['ipc']=data;
   idbPut('ipc',data);
+  saveAttachments('ipc',rec.id,'m-ipc');
   closeModal('m-ipc');
   renderIPC();
   toast('✅ IPC audit saved','success');
   sbSet('ipc',data);
-  saveAttachments('ipc',rec.id,'m-ipc');
 }
 
 function saveUser(){
@@ -5216,10 +5216,10 @@ async function saveMycinSession(){
   // Save to memory and Supabase
   _store['mycin_sess'] = data;
   idbPut('mycin_sess', data);
+  saveAttachments('mycin_sess',rec.id,'m-mycin-sess');
   closeModal('m-mycin-sess');
   renderMycin();
   sbSet('mycin_sess', data);
-  saveAttachments('mycin_sess',rec.id,'m-mycin-sess');
   // Uncheck all topics
   MYCIN_TOPICS.forEach(t=>{ const el=document.getElementById(t.id); if(el) el.checked=false; });
   broadcastUpdate();
