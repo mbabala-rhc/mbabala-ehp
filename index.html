@@ -2342,7 +2342,7 @@ function renderEPIAnalytics(){
   }).filter(Boolean).join('');
 
   el.innerHTML = `
-    <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start"> <div class="card"> <div class="card-title">📊 Total Doses by Vaccine (All Months)</div> <div class="tbl-wrap"> <table class="dt" style=";width:100%"> <thead><tr> <th>Vaccine</th> <th style="text-align:center">Total doses</th> <th style="text-align:center">Monthly avg</th> <th style="text-align:center">Best month</th> </tr></thead> <tbody>${summaryRows || '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--txt2)">No dose data recorded yet</td></tr>'}</tbody> </table> </div> </div> <div class="card"> <div class="card-title">📈 Coverage Summary</div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px"> <div style="background:var(--teal-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase">Months reported</div> <div style="font-size:28px;font-weight:700;color:var(--teal)">${data.length}</div> </div> <div style="background:var(--green-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase">Avg target</div> <div style="font-size:28px;font-weight:700;color:var(--green)">${data.length?Math.round(data.reduce((s,r)=>s+(parseInt(r.target)||0),0)/data.length):0}</div> </div> <div style="background:var(--blue-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase">Total BCG</div> <div style="font-size:28px;font-weight:700;color:var(--blue)">${data.reduce((s,r)=>s+(parseInt(r.bcg)||0),0)}</div> </div> <div style="background:var(--red-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--red);text-transform:uppercase">Total MR 1</div> <div style="font-size:28px;font-weight:700;color:var(--red)">${data.reduce((s,r)=>s+(parseInt(r.m1)||0),0)}</div> </div> </div> </div> </div> <div class="card" style="margin-top:24px"> <div class="card-title" style="display:flex;align-items:center;justify-content:space-between"> <span>📅 Monthly Trend — All Vaccines</span> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('EPI Monthly Trend — All Vaccines','tbl-epi-trend')">🖨 Print</button> </div> <div class="tbl-wrap"> <table class="dt" id="tbl-epi-trend" style="min-width:${Math.max(500, sorted.length*90+150)}px;width:100%"> <thead><tr><th>Vaccine</th>${trendHeaders}</tr></thead> <tbody>${trendRows || '<tr><td colspan="20" style="text-align:center;padding:20px;color:var(--txt2)">No data yet</td></tr>'}</tbody> </table> </div> </div>`;
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start"> <div class="card"> <div class="card-title">📊 Total Doses by Vaccine (All Months)</div> <div class="tbl-wrap"> <table class="dt" style=";width:100%"> <thead><tr> <th>Vaccine</th> <th style="text-align:center">Total doses</th> <th style="text-align:center">Monthly avg</th> <th style="text-align:center">Best month</th> </tr></thead> <tbody>${summaryRows || '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--txt2)">No dose data recorded yet</td></tr>'}</tbody> </table> </div> </div> <div class="card"> <div class="card-title">📈 Coverage Summary</div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px"> <div style="background:var(--teal-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase">Months reported</div> <div style="font-size:28px;font-weight:700;color:var(--teal)">${data.length}</div> </div> <div style="background:var(--green-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase">Avg target</div> <div style="font-size:28px;font-weight:700;color:var(--green)">${data.length?Math.round(data.reduce((s,r)=>s+(parseInt(r.target)||0),0)/data.length):0}</div> </div> <div style="background:var(--blue-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase">Total BCG</div> <div style="font-size:28px;font-weight:700;color:var(--blue)">${data.reduce((s,r)=>s+(parseInt(r.bcg)||0),0)}</div> </div> <div style="background:var(--red-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--red);text-transform:uppercase">Total MR 1</div> <div style="font-size:28px;font-weight:700;color:var(--red)">${data.reduce((s,r)=>s+(parseInt(r.m1)||0),0)}</div> </div> </div> </div> </div> <div class="card" style="margin-top:24px"> <div class="card-title" style="display:flex;align-items:center;justify-content:space-between"> <span>📅 Monthly Trend — All Vaccines</span> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printEPITrend()">🖨 Print</button> </div> <div class="tbl-wrap"> <table class="dt" id="tbl-epi-trend" style="min-width:${Math.max(500, sorted.length*90+150)}px;width:100%"> <thead><tr><th>Vaccine</th>${trendHeaders}</tr></thead> <tbody>${trendRows || '<tr><td colspan="20" style="text-align:center;padding:20px;color:var(--txt2)">No data yet</td></tr>'}</tbody> </table> </div> </div>`;
 }
 
 function renderEPI(){
@@ -9652,6 +9652,53 @@ function saveCHWActivity(){
   renderCHW();
   toast('CHW activity saved','success');
   sbSet('chw_activities',data);
+}
+
+
+
+function printEPITrend(){
+  var data = DB.get('epi');
+  if(!data.length){ toast('No EPI data to print','info'); return; }
+  var sorted = [...data].sort(function(a,b){ return (a.period||'').localeCompare(b.period||''); });
+  var s = DB.getObj('settings')||{};
+
+  var keyVaccines = [
+    {name:'BCG',key:'bcg'},{name:'OPV 0',key:'opv0'},
+    {name:'OPV 1',key:'opv1'},{name:'OPV 2',key:'opv2'},{name:'OPV 3',key:'opv3'},
+    {name:'Penta 1',key:'p1'},{name:'Penta 2',key:'p2'},{name:'Penta 3',key:'p3'},
+    {name:'PCV 1',key:'pcv1'},{name:'PCV 2',key:'pcv2'},{name:'PCV 3',key:'pcv3'},
+    {name:'Rota 1',key:'rota1'},{name:'Rota 2',key:'rota2'},{name:'Rota 3',key:'rota3'},
+    {name:'MR1',key:'m1'},{name:'MR2',key:'m2'},
+    {name:'IPV 1',key:'ipv1'},{name:'IPV 2',key:'ipv2'},
+    {name:'Vitamin A',key:'vita'},{name:'TT',key:'tt'}
+  ];
+
+  var headers = '<th style="padding:6px 10px;background:#0a5448;color:#fff;font-size:11px;white-space:nowrap">Vaccine</th>'
+    + sorted.map(function(r){ return '<th style="padding:6px 10px;background:#0a5448;color:#fff;font-size:11px;text-align:center;white-space:nowrap">'+(r.period||'?')+'</th>'; }).join('');
+
+  var rows = keyVaccines.map(function(v){
+    var hasData = data.some(function(r){ return parseInt(r[v.key])||0; });
+    if(!hasData) return '';
+    var cells = sorted.map(function(r){
+      var val = parseInt(r[v.key])||0;
+      return '<td style="padding:5px 8px;text-align:center;font-size:11px">'+(val||'—')+'</td>';
+    }).join('');
+    return '<tr><td style="padding:5px 10px;font-weight:600;font-size:11px;white-space:nowrap">'+v.name+'</td>'+cells+'</tr>';
+  }).filter(Boolean).join('');
+
+  var html = '<!DOCTYPE html><html><head><title>EPI Monthly Trend</title>'
+    +'<style>body{font-family:Arial,sans-serif;padding:16px;font-size:11px}'
+    +'table{width:100%;border-collapse:collapse}td,th{border:1px solid #e2e8f0}'
+    +'tr:nth-child(even) td{background:#f8fafc}'
+    +'@media print{button{display:none}}</style></head><body>'
+    +'<div style="text-align:center;margin-bottom:12px">'
+    +'<div style="font-weight:800;font-size:14px">'+(s.facility||'Mbabala RHC')+' — EPI Monthly Trend</div>'
+    +'<div style="font-size:11px;color:#6b7280">All Vaccines · Printed: '+new Date().toLocaleDateString()+'</div>'
+    +'</div>'
+    +'<table><thead><tr>'+headers+'</tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div style="text-align:center;margin-top:12px"><button onclick="window.print()" style="padding:8px 20px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer">🖨 Print</button></div>'
+    +'</body></html>';
+  var w = window.open('','_blank'); w.document.write(html); w.document.close();
 }
 
 </script>
