@@ -918,6 +918,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div></div> <div id="m-insp-report" class="modal-overlay"><div class="modal wide">
  <div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">&#128196;</div><h3 id="hdr-m-insp-report">Inspection Report</h3><button class="btn icon" onclick="closeModal('m-insp-report')">&#10005;</button></div>
  <div class="modal-body">
+  <input type="hidden" id="f-ir-id">
   <div class="form-section">TO: (Recipient Address)</div>
   <div class="form-row"><div class="form-group full"><textarea id="ir-to" rows="3" placeholder="Name and address of owner/occupier..."></textarea></div></div>
   <div class="form-section">Premises Details</div>
@@ -9449,63 +9450,64 @@ function toggleRptDrOther(){
 var _irEditing = null;
 
 function openInspReport(id){
-  _irEditing = id || null;
-  var recs = DB.get('insp_reports') || [];
-  var data = id ? recs.find(function(r){ return r.id === id; }) : null;
-  var elMap = {
-    'ir-to':'to','ir-owner':'owner','ir-owner-addr':'ownerAddr','ir-occupier':'occupier',
-    'ir-occupier-addr':'occupierAddr','ir-business':'business','ir-plot':'plot','ir-area':'area',
-    'ir-biz-type':'bizType','ir-license':'license','ir-license-date':'licenseDate',
-    'ir-contact':'contact','ir-male':'male','ir-female':'female','ir-toilets':'toilets',
-    'ir-insp-date':'inspDate','ir-insp-time':'inspTime','ir-re':'re','ir-defects':'defects',
-    'ir-recommendations':'recommendations','ir-conclusion':'conclusion',
-    'ir-inspector':'inspector','ir-designation':'designation','ir-sign-date':'signDate'
-  };
-  Object.keys(elMap).forEach(function(elId){
-    var el = document.getElementById(elId);
-    if(el) el.value = (data && data[elMap[elId]]) ? data[elMap[elId]] : '';
+  var recs = DB.get('insp_reports');
+  var r = id ? recs.find(function(x){ return x.id === id; }) : null;
+  document.getElementById('f-ir-id').value = id || '';
+  var fields = ['ir-to','ir-owner','ir-owner-addr','ir-occupier','ir-occupier-addr',
+    'ir-business','ir-plot','ir-area','ir-biz-type','ir-license','ir-license-date',
+    'ir-contact','ir-male','ir-female','ir-toilets','ir-insp-date','ir-insp-time',
+    'ir-re','ir-defects','ir-recommendations','ir-conclusion',
+    'ir-inspector','ir-designation','ir-sign-date'];
+  var keys = ['to','owner','ownerAddr','occupier','occupierAddr',
+    'business','plot','area','bizType','license','licenseDate',
+    'contact','male','female','toilets','inspDate','inspTime',
+    're','defects','recommendations','conclusion',
+    'inspector','designation','signDate'];
+  fields.forEach(function(fid, i){
+    var el = document.getElementById(fid);
+    if(el) el.value = (r && r[keys[i]]) ? r[keys[i]] : '';
   });
   openModal('m-insp-report');
 }
 
 function saveInspReport(){
-  var id = _irEditing || genId('IR');
+  var id = document.getElementById('f-ir-id').value || genId('IR');
   var rec = {
     id: id,
-    to: (document.getElementById('ir-to')||{value:''}).value,
-    owner: (document.getElementById('ir-owner')||{value:''}).value,
-    ownerAddr: (document.getElementById('ir-owner-addr')||{value:''}).value,
-    occupier: (document.getElementById('ir-occupier')||{value:''}).value,
-    occupierAddr: (document.getElementById('ir-occupier-addr')||{value:''}).value,
-    business: (document.getElementById('ir-business')||{value:''}).value,
-    plot: (document.getElementById('ir-plot')||{value:''}).value,
-    area: (document.getElementById('ir-area')||{value:''}).value,
-    bizType: (document.getElementById('ir-biz-type')||{value:''}).value,
-    license: (document.getElementById('ir-license')||{value:''}).value,
-    licenseDate: (document.getElementById('ir-license-date')||{value:''}).value,
-    contact: (document.getElementById('ir-contact')||{value:''}).value,
-    male: (document.getElementById('ir-male')||{value:''}).value,
-    female: (document.getElementById('ir-female')||{value:''}).value,
-    toilets: (document.getElementById('ir-toilets')||{value:''}).value,
-    inspDate: (document.getElementById('ir-insp-date')||{value:''}).value,
-    inspTime: (document.getElementById('ir-insp-time')||{value:''}).value,
-    re: (document.getElementById('ir-re')||{value:''}).value,
-    defects: (document.getElementById('ir-defects')||{value:''}).value,
-    recommendations: (document.getElementById('ir-recommendations')||{value:''}).value,
-    conclusion: (document.getElementById('ir-conclusion')||{value:''}).value,
-    inspector: (document.getElementById('ir-inspector')||{value:''}).value,
-    designation: (document.getElementById('ir-designation')||{value:''}).value,
-    signDate: (document.getElementById('ir-sign-date')||{value:''}).value
+    to: document.getElementById('ir-to').value,
+    owner: document.getElementById('ir-owner').value,
+    ownerAddr: document.getElementById('ir-owner-addr').value,
+    occupier: document.getElementById('ir-occupier').value,
+    occupierAddr: document.getElementById('ir-occupier-addr').value,
+    business: document.getElementById('ir-business').value,
+    plot: document.getElementById('ir-plot').value,
+    area: document.getElementById('ir-area').value,
+    bizType: document.getElementById('ir-biz-type').value,
+    license: document.getElementById('ir-license').value,
+    licenseDate: document.getElementById('ir-license-date').value,
+    contact: document.getElementById('ir-contact').value,
+    male: document.getElementById('ir-male').value,
+    female: document.getElementById('ir-female').value,
+    toilets: document.getElementById('ir-toilets').value,
+    inspDate: document.getElementById('ir-insp-date').value,
+    inspTime: document.getElementById('ir-insp-time').value,
+    re: document.getElementById('ir-re').value,
+    defects: document.getElementById('ir-defects').value,
+    recommendations: document.getElementById('ir-recommendations').value,
+    conclusion: document.getElementById('ir-conclusion').value,
+    inspector: document.getElementById('ir-inspector').value,
+    designation: document.getElementById('ir-designation').value,
+    signDate: document.getElementById('ir-sign-date').value
   };
   var data = DB.get('insp_reports');
   var i = data.findIndex(function(r){ return r.id === id; });
   if(i >= 0) data[i] = rec; else data.unshift(rec);
   _store['insp_reports'] = data;
   idbPut('insp_reports', data);
-  sbSet('insp_reports', data);
   closeModal('m-insp-report');
   renderInspReports();
   toast('Inspection report saved','success');
+  sbSet('insp_reports', data);
 }
 
 function renderInspReports(){
