@@ -9423,14 +9423,7 @@ function printWorkSchedule(){
   var rows = '';
   WS_WEEKS.forEach(function(week, wi){
     rows += '<tr><td colspan="4" style="background:#1e3a5f;color:#fff;font-weight:700;padding:8px 12px;font-size:12px">'+week+'</td></tr>';
-    rows += '<tr style="background:#2d5a8e">'
-      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase" rowspan="2">Days</th>'
-      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase;text-align:center" colspan="2">Activity</th>'
-      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase" rowspan="2">Location</th>'
-    +'</tr><tr>'
-      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Morning</th>'
-      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Afternoon</th>'
-    +'</tr>';
+
     WS_DAYS.forEach(function(day, di){
       var cellKey = wi+'_'+di;
       var val = saved[cellKey]||{morning:'',afternoon:'',location:''};
@@ -9454,7 +9447,7 @@ function printWorkSchedule(){
       +'<div style="font-weight:800;font-size:16px;text-transform:uppercase;margin-top:8px;text-decoration:underline">Environmental Health Work Schedule</div>'
       +'<div style="font-size:12px;margin-top:6px">Year: '+year+' &nbsp;·&nbsp; Officer: '+(currentUser&&currentUser.name||'—')+'</div>'
     +'</div>'
-    +'<table><tbody>'+rows+'</tbody></table>'
+    +'<table>'+thead+'<tbody>'+rows+'</tbody></table>'
     +'<div style="margin-top:12px;font-size:11px;font-style:italic"><b>NOTE:</b> This schedule is flexible to change due to demands from other facility duties.</div>'
     +'<div style="margin-top:24px;display:flex;gap:60px">'
       +'<div style="flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px">Officer Signature &amp; Date</div>'
