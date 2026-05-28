@@ -3039,6 +3039,7 @@ function switchOutbreakTab(btn, paneId, type){
   page.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById(paneId)?.classList.add('active');
+  if(type==='timeline') renderOutbreakTimeline();
   // Update alert
   const cfg = _outbreakAlerts[type] || _outbreakAlerts.investigation;
   const alertEl = document.getElementById('outbreak-alert');
@@ -9731,6 +9732,98 @@ function printEPITrend(){
     +'<div style="text-align:center;margin-top:12px"><button onclick="window.print()" style="padding:8px 20px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer">🖨 Print</button></div>'
     +'</body></html>';
   var w = window.open('','_blank'); w.document.write(html); w.document.close();
+}
+
+
+
+function renderOutbreakTimeline(){
+  var cont = document.getElementById('outbreak-timeline-content');
+  if(!cont) return;
+
+  var outbreaks = DB.get('outbreak');
+  var cases = DB.get('case_inv') || [];
+
+  if(!outbreaks.length){
+    cont.innerHTML = '<div style="text-align:center;padding:40px;color:var(--txt2)">No outbreak investigations recorded yet.</div>';
+    return;
+  }
+
+  var html = '';
+  outbreaks.forEach(function(ob, oi){
+    var obCases = cases.filter(function(c){ return c.outbreakRef === ob.ref || c.outbreakRef === ob.id; });
+
+    html += '<div class="card" style="margin-bottom:20px;overflow:hidden">'
+      // Outbreak header
+      +'<div style="background:linear-gradient(135deg,#dc2626,#b91c1c);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">'
+        +'<div>'
+          +'<div style="color:#fff;font-size:15px;font-weight:700">🦠 '+(ob.disease||'Unknown Disease')+'</div>'
+          +'<div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:2px">'+(ob.ref||ob.id)+' · '+(ob.area||'Unknown Area')+'</div>'
+        +'</div>'
+        +'<div style="background:rgba(255,255,255,.2);color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">'+(ob.status||'Active')+'</div>'
+      +'</div>'
+
+      // Summary stats
+      +'<div style="display:flex;gap:0;border-bottom:1px solid var(--bd)">'
+        +'<div style="flex:1;padding:12px 16px;border-right:1px solid var(--bd);text-align:center">'
+          +'<div style="font-size:20px;font-weight:800;color:#dc2626">'+(ob.cases||0)+'</div>'
+          +'<div style="font-size:11px;color:var(--txt2)">Total Cases</div>'
+        +'</div>'
+        +'<div style="flex:1;padding:12px 16px;border-right:1px solid var(--bd);text-align:center">'
+          +'<div style="font-size:20px;font-weight:800;color:#111">'+(ob.deaths||0)+'</div>'
+          +'<div style="font-size:11px;color:var(--txt2)">Deaths</div>'
+        +'</div>'
+        +'<div style="flex:1;padding:12px 16px;border-right:1px solid var(--bd);text-align:center">'
+          +'<div style="font-size:20px;font-weight:800;color:#0a5448">'+(ob.cfr||0)+'%</div>'
+          +'<div style="font-size:11px;color:var(--txt2)">CFR</div>'
+        +'</div>'
+        +'<div style="flex:1;padding:12px 16px;text-align:center">'
+          +'<div style="font-size:20px;font-weight:800;color:#0369a1">'+obCases.length+'</div>'
+          +'<div style="font-size:11px;color:var(--txt2)">Investigated</div>'
+        +'</div>'
+      +'</div>'
+
+      // Timeline
+      +'<div style="padding:16px">'
+        +'<div style="font-weight:700;font-size:13px;margin-bottom:14px;color:var(--txt)">📅 Event Timeline</div>'
+        +'<div style="position:relative;padding-left:24px">'
+          +'<div style="position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--bd)"></div>'
+
+          // Event 1: Outbreak started
+          +timelineEvent('#dc2626', '🔴', 'Outbreak Started / First Case', ob.start, ob.area)
+
+          // Event 2: Investigation initiated
+          +timelineEvent('#f59e0b', '🔬', 'Investigation Initiated', ob.start, 'Investigator: '+(ob.investigator||'—'))
+
+          // Event 3: DHO Notified
+          +timelineEvent('#0369a1', '📋', 'DHO Notified', ob.dho, ob.dho ? 'Notification sent' : 'Pending notification')
+
+          // Event 4: Control measures
+          +(ob.control ? timelineEvent('#0a5448', '🛡️', 'Control Measures Taken', ob.start, ob.control) : '')
+
+          // Event 5: Closure
+          +(ob.status==='Closed' ? timelineEvent('#6b7280', '✅', 'Outbreak Closed', ob.start, 'Status: Closed') : timelineEvent('#f59e0b', '⏳', 'Outbreak Status', null, ob.status||'Active — Under investigation'))
+
+        +'</div>'
+      +'</div>'
+
+      // Source info
+      +(ob.source ? '<div style="padding:8px 16px 12px;font-size:12px;color:var(--txt2);border-top:1px solid var(--bd)"><b>Source:</b> '+ob.source+'</div>' : '')
+
+    +'</div>';
+  });
+
+  cont.innerHTML = html;
+}
+
+function timelineEvent(color, icon, title, date, detail){
+  return '<div style="position:relative;margin-bottom:16px;padding-left:16px">'
+    +'<div style="position:absolute;left:-7px;top:2px;width:16px;height:16px;border-radius:50%;background:'+color+';display:flex;align-items:center;justify-content:center;font-size:10px;z-index:1">'+icon+'</div>'
+    +'<div style="background:var(--bg2);border-radius:8px;padding:8px 12px;border-left:3px solid '+color+'">'
+      +'<div style="font-weight:700;font-size:12px;color:var(--txt)">'+title+'</div>'
+      +(date ? '<div style="font-size:11px;color:var(--txt2);margin-top:2px">📅 '+fmtDate(date)+'</div>' : '')
+      +(detail ? '<div style="font-size:11px;color:var(--txt2);margin-top:2px">'+detail+'</div>' : '')
+    +'</div>'
+  +'</div>';
 }
 
 </script>
