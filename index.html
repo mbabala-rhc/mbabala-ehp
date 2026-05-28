@@ -9424,10 +9424,12 @@ function printWorkSchedule(){
   WS_WEEKS.forEach(function(week, wi){
     rows += '<tr><td colspan="4" style="background:#1e3a5f;color:#fff;font-weight:700;padding:8px 12px;font-size:12px">'+week+'</td></tr>';
     rows += '<tr style="background:#2d5a8e">'
-      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Days</th>'
+      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase" rowspan="2">Days</th>'
+      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase;text-align:center" colspan="2">Activity</th>'
+      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase" rowspan="2">Location</th>'
+    +'</tr><tr>'
       +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Morning</th>'
       +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Afternoon</th>'
-      +'<th style="color:#fff;padding:6px 10px;font-size:10px;text-transform:uppercase">Location</th>'
     +'</tr>';
     WS_DAYS.forEach(function(day, di){
       var cellKey = wi+'_'+di;
