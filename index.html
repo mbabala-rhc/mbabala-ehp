@@ -9577,13 +9577,23 @@ function renderInspReports(){
 }
 
 function deleteInspReport(id){
-  if(!confirm('Delete this inspection report?')) return;
-  var data = (DB.get('insp_reports')||[]).filter(function(r){ return r.id !== id; });
-  _store['insp_reports'] = data;
-  idbPut('insp_reports', data);
-  sbSet('insp_reports', data);
-  renderInspReports();
-  toast('Report deleted','info');
+  var rec = (DB.get('insp_reports')||[]).find(function(r){ return r.id === id; });
+  var label = rec ? (rec.business||rec.owner||'Inspection Report') : 'Inspection Report';
+  var msg = document.getElementById('confirm-delete-msg');
+  var btn = document.getElementById('confirm-delete-btn');
+  if(msg) msg.textContent = 'Delete "'+label+'"?';
+  if(btn){
+    btn.onclick = function(){
+      closeModal('m-confirm-delete');
+      var data = (DB.get('insp_reports')||[]).filter(function(r){ return r.id !== id; });
+      _store['insp_reports'] = data;
+      idbPut('insp_reports', data);
+      sbSet('insp_reports', data);
+      renderInspReports();
+      toast('Report deleted','info');
+    };
+  }
+  openModal('m-confirm-delete');
 }
 
 function printInspReport(id){
