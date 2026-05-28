@@ -9530,7 +9530,7 @@ function renderInspReports(){
       +'<td>'+(r.owner||'—')+'</td>'
       +'<td>'+(r.area||'—')+'</td>'
       +'<td>'+(r.inspector||'—')+'</td>'
-      +'<td>'+actionBtns("openInspReport('"+r.id+"')","printInspReport('"+r.id+"')","deleteInspReport('"+r.id+"')")+'</td>'
+      +"<td style='white-space:nowrap'><button class='btn sm' onclick='openInspReport(\""+r.id+"\")'>✏</button> <button class='btn sm' style='background:#0a5448;color:#fff;border:none' onclick='printInspReport(\""+r.id+"\")'>🖨</button> <button class='btn sm' style='background:#dc2626;color:#fff;border:none' onclick='deleteInspReport(\""+r.id+"\")'>🗑</button></td>"
       +'</tr>';
   }).join('');
 }
