@@ -6581,9 +6581,10 @@ async function saveSchoolInspection(){
   const idx=data.findIndex(r=>r.id===rec.id);
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
   _recentlySaved['school_inspections'] = Date.now() + 60000;
-  broadcastUpdate(); closeModal('m-school-insp'); renderSchools();
-  _store['school_inspections']=data; idbPut('school_inspections',data); sbSet('school_inspections',data);
+  _store['school_inspections']=data; idbPut('school_inspections',data);
   saveAttachments('school_inspections', rec.id, 'm-school-insp');
+  broadcastUpdate(); closeModal('m-school-insp'); renderSchools();
+  sbSet('school_inspections',data);
   toast('✅ School inspection saved','success');
 }
 
@@ -8352,8 +8353,9 @@ function renderDiseaseRegister(){
   var sel=document.getElementById('dr-filter-year');
   if(sel&&!sel.options.length){var cy=new Date().getFullYear();for(var y=cy-2;y<=cy+3;y++)sel.add(new Option(y,y,y===cy,y===cy));}
   var filterDisease=(document.getElementById('dr-filter-disease')||{value:''}).value;
+  var filterZoneDR=(document.getElementById('dr-filter-zone')||{value:''}).value.toLowerCase();
   var filterYear=(document.getElementById('dr-filter-year')||{value:String(new Date().getFullYear())}).value;
-  var data=DB.get('disease_register').filter(function(r){if(filterDisease&&r.disease!==filterDisease)return false;if(filterYear&&r.week&&!r.week.startsWith(filterYear))return false;return true;});
+  var data=DB.get('disease_register').filter(function(r){if(filterDisease&&r.disease!==filterDisease)return false;if(filterYear&&r.week&&!r.week.startsWith(filterYear))return false;if(filterZoneDR&&!r.hasOwnProperty(filterZoneDR))return false;return true;});
   var totalCases=data.reduce(function(a,r){return a+r.total;},0);
   var diseases=new Set(data.map(function(r){return r.disease;})).size;
   var zoneMap={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0};
