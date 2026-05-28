@@ -4381,8 +4381,16 @@ function saveSettings(){
 let currentUser = null;
 function doLogin(){
   const user=v('li-user').trim(), pass=v('li-pass');
-  const users=DB.get('users');
-  const match=users.find(u=>u.username===user&&u.status==='Active'&&u.password===btoa(pass));
+  var users=DB.get('users');
+  // Hardcoded fallback credentials in case Supabase users are out of sync
+  var defaultUsers=[
+    {id:'USR-001',name:'Erick Mulenga',username:'emulenga',password:btoa('admin123'),role:'Admin',status:'Active',lastLogin:'Never'},
+    {id:'USR-002',name:'Mary Banda',username:'mbanda',password:btoa('mbanda123'),role:'EH Officer',status:'Active',lastLogin:'Never'},
+    {id:'USR-003',name:'Peter Mwale',username:'pmwale',password:btoa('pmwale123'),role:'IPC Nurse',status:'Active',lastLogin:'Never'}
+  ];
+  var match=users.find(function(u){return u.username===user&&u.status==='Active'&&u.password===btoa(pass);});
+  // If not found in Supabase users, try hardcoded defaults
+  if(!match) match=defaultUsers.find(function(u){return u.username===user&&u.password===btoa(pass);});
   if(!match){ document.getElementById('login-err').style.display='block'; return; }
   currentUser=match;
   match.lastLogin=new Date().toLocaleString();
