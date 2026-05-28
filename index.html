@@ -4020,6 +4020,8 @@ function viewRoutineReport(id){
 function toggleDarkMode(){
   const isDark = document.body.classList.toggle('dark-mode');
   const user = currentUser?.username || 'default';
+  // Save under both default and username key so it persists across refreshes
+  localStorage.setItem('ehp_dark_mode_default', isDark ? '1' : '0');
   localStorage.setItem('ehp_dark_mode_' + user, isDark ? '1' : '0');
   const btn = document.getElementById('dark-mode-btn');
   if(btn){ btn.textContent = isDark ? '☀️' : '🌙'; btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode'; }
