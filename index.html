@@ -1524,7 +1524,29 @@ function readFields(fields){
   return rec;
 }
 function loadFields(fields, rec){
-  fields.forEach(f=>{ if(rec[f.key]!==undefined) sv(f.id, rec[f.key]); });
+  fields.forEach(f=>{
+    if(rec[f.key]===undefined) return;
+    var el = document.getElementById(f.id);
+    if(!el) return;
+    // Check if this is a select with Other option
+    if(el.tagName === 'SELECT'){
+      var optVals = Array.from(el.options).map(o => o.value||o.text);
+      if(optVals.includes(rec[f.key])){
+        sv(f.id, rec[f.key]);
+      } else if(optVals.some(o => o==='Other'||o==='Other (specify)')){
+        // Value not in options - it was an Other specify value
+        sv(f.id, 'Other');
+        var specifyEl = document.getElementById('other-'+f.id);
+        var wrapEl = document.getElementById('other-'+f.id+'-wrap');
+        if(specifyEl) specifyEl.value = rec[f.key];
+        if(wrapEl) wrapEl.style.display = 'block';
+      } else {
+        sv(f.id, rec[f.key]);
+      }
+    } else {
+      sv(f.id, rec[f.key]);
+    }
+  });
 }
 function clearFields(fields){ fields.forEach(f=>{ const e=document.getElementById(f.id); if(!e) return; if(e.readOnly) return; if(e.tagName==='SELECT') e.selectedIndex=0; else e.value=''; }); }
 
