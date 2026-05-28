@@ -5640,89 +5640,60 @@ function printCurrentPage(title, tableId){
   printSection(title, clone.outerHTML);
 }
 
+function obTlToggle(i){
+  var p = document.getElementById('ob-tl-pane-'+i);
+  var b = document.getElementById('ob-tl-btn-'+i);
+  if(!p) return;
+  var isOpen = p.style.display !== 'none';
+  p.style.display = isOpen ? 'none' : 'block';
+  if(b) b.textContent = isOpen ? 'Show' : 'Hide';
+}
+
 function renderOutbreakTimeline(){
   var cont = document.getElementById('outbreak-timeline-content');
   if(!cont) return;
   var outbreaks = DB.get('outbreak');
   var cases = DB.get('case_inv') || [];
-  cont.innerHTML = '';
   if(!outbreaks.length){
     cont.innerHTML = '<div style="text-align:center;padding:40px;color:var(--txt2)">No outbreak investigations recorded yet.</div>';
     return;
   }
-  cont.insertAdjacentHTML('beforeend','<div style="font-size:12px;color:var(--txt2);margin-bottom:12px">Click Show to expand an outbreak timeline.</div>');
+  var html = '';
   outbreaks.forEach(function(ob, oi){
     var obRef = ob.ref||ob.id;
     var obCases = cases.filter(function(c){ return c.outbreakRef === obRef; });
     var statusColor = ob.status==='Closed' ? '#6b7280' : '#dc2626';
-    var paneId = 'ob-tl-pane-'+oi;
-    var btnId = 'ob-tl-btn-'+oi;
-
-    // Build wrapper
-    var wrapper = document.createElement('div');
-    wrapper.style.cssText = 'margin-bottom:8px;border:1px solid var(--bd);border-radius:10px;overflow:hidden';
-
-    // Build header
-    var header = document.createElement('div');
-    header.style.cssText = 'background:var(--bg2);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px';
-
-    // Left side - disease info
-    var left = document.createElement('div');
-    left.style.cssText = 'display:flex;align-items:center;gap:10px;flex:1';
-    left.innerHTML = '<span style="font-size:18px">🦠</span>'
-      +'<div><div style="font-weight:700;font-size:13px">'+(ob.disease||'Unknown Disease')+'</div>'
-      +'<div style="font-size:11px;color:var(--txt2)">'+(obRef)+' · '+(ob.area||'—')+' · '+fmtDate(ob.start)+'</div></div>';
-
-    // Right side - status + button
-    var right = document.createElement('div');
-    right.style.cssText = 'display:flex;align-items:center;gap:8px;flex-shrink:0';
-
-    var statusBadge = document.createElement('span');
-    statusBadge.style.cssText = 'background:'+statusColor+';color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600';
-    statusBadge.textContent = ob.status||'Active';
-
-    var btn = document.createElement('button');
-    btn.id = btnId;
-    btn.textContent = '▼ Show';
-    btn.style.cssText = 'background:#0a5448;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap';
-
-    right.appendChild(statusBadge);
-    right.appendChild(btn);
-    header.appendChild(left);
-    header.appendChild(right);
-
-    // Build expandable pane
-    var pane = document.createElement('div');
-    pane.id = paneId;
-    pane.style.cssText = 'display:none;padding:16px;border-top:1px solid var(--bd)';
-    pane.innerHTML = '<div style="display:flex;gap:0;margin-bottom:16px;border:1px solid var(--bd);border-radius:8px;overflow:hidden">'
-      +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800;color:#dc2626">'+(ob.cases||0)+'</div><div style="font-size:10px;color:var(--txt2)">Cases</div></div>'
-      +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800">'+(ob.deaths||0)+'</div><div style="font-size:10px;color:var(--txt2)">Deaths</div></div>'
-      +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800;color:#0a5448">'+(ob.cfr||0)+'%</div><div style="font-size:10px;color:var(--txt2)">CFR</div></div>'
-      +'<div style="flex:1;padding:10px;text-align:center"><div style="font-size:18px;font-weight:800;color:#0369a1">'+obCases.length+'</div><div style="font-size:10px;color:var(--txt2)">Investigated</div></div>'
+    html += '<div style="margin-bottom:8px;border:1px solid var(--bd);border-radius:10px;overflow:hidden">'
+      +'<div style="background:var(--bg2);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px">'
+        +'<div style="display:flex;align-items:center;gap:10px;flex:1"><span style="font-size:18px">&#129440;</span>'
+          +'<div><div style="font-weight:700;font-size:13px">'+(ob.disease||'Unknown')+'</div>'
+          +'<div style="font-size:11px;color:var(--txt2)">'+(obRef)+' - '+(ob.area||'-')+' - '+fmtDate(ob.start)+'</div></div></div>'
+        +'<div style="display:flex;align-items:center;gap:8px;flex-shrink:0">'
+          +'<span style="background:'+statusColor+';color:#fff;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600">'+(ob.status||'Active')+'</span>'
+          +'<button id="ob-tl-btn-'+oi+'" onclick="obTlToggle('+oi+')" style="background:#0a5448;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer">Show</button>'
+        +'</div>'
       +'</div>'
-      +'<div style="font-weight:700;font-size:12px;margin-bottom:12px">📅 Event Timeline</div>'
-      +'<div style="position:relative;padding-left:24px">'
-        +'<div style="position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--bd)"></div>'
-        +timelineEvent('#dc2626','🔴','Outbreak Started / First Case',ob.start,ob.area)
-        +timelineEvent('#f59e0b','🔬','Investigation Initiated',ob.start,'Investigator: '+(ob.investigator||'—'))
-        +timelineEvent('#0369a1','📋','DHO Notified',ob.dho,ob.dho?'Notification sent':'Pending notification')
-        +(ob.control?timelineEvent('#0a5448','🛡️','Control Measures Taken',ob.start,ob.control):'')
-        +(ob.status==='Closed'?timelineEvent('#6b7280','✅','Outbreak Closed',ob.start,'Status: Closed'):timelineEvent('#f59e0b','⏳','Outbreak Status',null,ob.status||'Active'))
+      +'<div id="ob-tl-pane-'+oi+'" style="display:none;padding:16px;border-top:1px solid var(--bd)">'
+        +'<div style="display:flex;margin-bottom:16px;border:1px solid var(--bd);border-radius:8px;overflow:hidden">'
+          +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800;color:#dc2626">'+(ob.cases||0)+'</div><div style="font-size:10px;color:var(--txt2)">Cases</div></div>'
+          +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800">'+(ob.deaths||0)+'</div><div style="font-size:10px;color:var(--txt2)">Deaths</div></div>'
+          +'<div style="flex:1;padding:10px;text-align:center;border-right:1px solid var(--bd)"><div style="font-size:18px;font-weight:800;color:#0a5448">'+(ob.cfr||0)+'%</div><div style="font-size:10px;color:var(--txt2)">CFR</div></div>'
+          +'<div style="flex:1;padding:10px;text-align:center"><div style="font-size:18px;font-weight:800;color:#0369a1">'+obCases.length+'</div><div style="font-size:10px;color:var(--txt2)">Investigated</div></div>'
+        +'</div>'
+        +'<div style="font-weight:700;font-size:12px;margin-bottom:12px">Event Timeline</div>'
+        +'<div style="position:relative;padding-left:24px">'
+          +'<div style="position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--bd)"></div>'
+          +timelineEvent('#dc2626','','Outbreak Started',ob.start,ob.area)
+          +timelineEvent('#f59e0b','','Investigation Initiated',ob.start,'Investigator: '+(ob.investigator||'-'))
+          +timelineEvent('#0369a1','','DHO Notified',ob.dho,ob.dho?'Notified':'Pending')
+          +(ob.control?timelineEvent('#0a5448','','Control Measures',ob.start,ob.control):'')
+          +(ob.status==='Closed'?timelineEvent('#6b7280','','Outbreak Closed',ob.start,'Closed'):timelineEvent('#f59e0b','','Status',null,ob.status||'Active'))
+        +'</div>'
+        +(ob.source?'<div style="margin-top:10px;font-size:12px;color:var(--txt2)">Source: '+ob.source+'</div>':'')
       +'</div>'
-      +(ob.source?'<div style="margin-top:10px;font-size:12px;color:var(--txt2)"><b>Source:</b> '+ob.source+'</div>':'');
-
-    // Wire up button click
-    btn.addEventListener('click', function(){
-      var isOpen = pane.style.display !== 'none';
-      pane.style.display = isOpen ? 'none' : 'block';
-      btn.textContent = isOpen ? '▼ Show' : '▲ Hide';
-    });
-
-    wrapper.appendChild(header);
-    wrapper.appendChild(pane);
-    cont.appendChild(wrapper);
+    +'</div>';
   });
+  cont.innerHTML = html;
 }
 
 function toggleObTimeline(paneId, btnId){
