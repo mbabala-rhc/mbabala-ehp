@@ -6188,7 +6188,7 @@ function renderStock(){
     const statusLabel = isExp?'Expired':isLow?'Low stock':'OK';
     const statusColor = isExp?'red':isLow?'amber':'green';
     return `<tr> <td><b>${r.name||'—'}</b></td><td>${r.category||'—'}</td> <td style="font-weight:700;color:${isLow?'var(--red)':'var(--txt)'};font-size:16px">${r.qty||0}</td> <td>${r.unit||'—'}</td><td>${r.minLevel||0}</td> <td>${stTag(statusLabel)}</td><td>${fmtDate(r.updatedAt)||'—'}</td> <td>${rowBtns('stock',r.id,`viewRecord('stock','${r.id}',stockFields)`,`editRecord('stock','${r.id}',stockFields,'m-stock','t-stock','Edit Stock Item')`,`deleteRecord('stock','${r.id}',renderStock)`)}</td> </tr>`;
-  }).join('')||emptyRow(8);
+  }).join('')||emptyRow(7);
 
   // Movements table
   const movesEl = document.getElementById('tb-stock-move');
@@ -6882,7 +6882,7 @@ function renderCHW(){
   // CHW register table
   const _el_tb_chw=document.getElementById('tb-chw'); if(_el_tb_chw) _el_tb_chw.innerHTML=chws.map(r=>{
     const isOverdue=!r.lastSup||r.lastSup<new Date(Date.now()-90*24*60*60*1000).toISOString().split('T')[0];
-    return `<tr> <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.phone||''}</span></td> <td>${r.type||'—'}</td><td>${r.village||'—'}</td><td>${r.phone||'—'}</td> <td>${r.training?r.training.substring(0,30)+'...':'—'}</td> <td style="color:${isOverdue?'var(--red)':'var(--txt)'}">${fmtDate(r.lastSup)||'Never'}</td> <td>${stTag(r.status||'Active')}</td> <td>${rowBtns('chw',r.id,`viewRecord('chw','${r.id}',chwFields)`,`editRecord('chw','${r.id}',chwFields,'m-chw','t-chw','Edit CHW')`,`deleteRecord('chw','${r.id}',renderCHW)`)}</td> </tr>`;
+    return `<tr> <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.phone||''}</span></td> <td>${r.type||'—'}</td><td>${r.village||'—'}</td><td>${r.phone||'—'}</td> <td>${r.training?r.training.substring(0,30)+'...':'—'}</td> <td>${stTag(r.status||'Active')}</td> <td>${rowBtns('chw',r.id,`viewRecord('chw','${r.id}',chwFields)`,`editRecord('chw','${r.id}',chwFields,'m-chw','t-chw','Edit CHW')`,`deleteRecord('chw','${r.id}',renderCHW)`)}</td> </tr>`;
   }).join('')||emptyRow(8);
 
   // Activities table
