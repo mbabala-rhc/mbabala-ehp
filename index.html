@@ -8803,22 +8803,24 @@ function renderCommunityWaste(){
     var compColor=r.compliance==='Compliant'?'var(--green)':r.compliance==='Non-Compliant'?'var(--red)':'#1d4ed8';
     var compBg=r.compliance==='Compliant'?'#dcfce7':r.compliance==='Non-Compliant'?'#fee2e2':'#dbeafe';
     var attCount=(Array.isArray(DB.get('att_community_waste_'+r.id))?DB.get('att_community_waste_'+r.id):[]).length;
+    var b='width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;';
+    var actions='<div style="display:flex;gap:3px;align-items:center;flex-wrap:nowrap">'
+      +'<button onclick="editCommunityWaste(\''+r.id+'\')" style="'+b+'background:#0a5448;color:#fff" title="Edit">&#9998;</button>'
+      +'<button onclick="viewAttachments(\'community_waste\',\''+r.id+'\')" style="'+b+'background:#dbeafe;color:#0369a1" title="'+attCount+' attachment(s)">&#128206;'+(attCount>0?'<span style="position:absolute;top:-3px;right:-3px;background:#dc2626;color:#fff;border-radius:50%;width:13px;height:13px;font-size:9px;font-weight:700;line-height:13px;text-align:center">'+attCount+'</span>':'')+'</button>'
+      +'<button onclick="printRecord(\'community_waste\',\''+r.id+'\')" style="'+b+'background:#0d7a5f;color:#fff" title="Print">&#128424;</button>'
+      +'<button onclick="deleteRecord(\'community_waste\',\''+r.id+'\',renderCommunityWaste)" style="'+b+'background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button>'
+      +'</div>';
     return '<tr>'
       +'<td>'+fmtDate(r.date)+'</td>'
-      +'<td>'+( r.village||'—')+'</td>'
-      +'<td>'+( r.zone||'—')+'</td>'
-      +'<td>'+( r.disposal||'—')+'</td>'
-      +'<td>'+( r.illegalDump||'—')+'</td>'
-      +'<td>'+( r.hhLatrine||'0')+'</td>'
-      +'<td>'+( r.openBurning||'0')+'</td>'
+      +'<td>'+(r.village||'—')+'</td>'
+      +'<td>'+(r.zone||'—')+'</td>'
+      +'<td>'+(r.disposal||'—')+'</td>'
+      +'<td>'+(r.illegalDump||'—')+'</td>'
+      +'<td>'+(r.hhLatrine||'0')+'</td>'
+      +'<td>'+(r.openBurning||'0')+'</td>'
       +'<td><span style="background:'+compBg+';color:'+compColor+';padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600">'+(r.compliance||'—')+'</span></td>'
-      +'<td><div class="actions" style="gap:4px;flex-wrap:nowrap">'
-        +'<button class="btn sm primary" onclick="editCommunityWaste(\''+r.id+'\')" style="white-space:nowrap">&#9998; Edit</button>'
-        +'<button class="btn sm" onclick="viewAttachments(\'community_waste\',\''+r.id+'\')" style="color:var(--blue);white-space:nowrap">&#128206;'+(attCount>0?'<b style=\'color:var(--red)\'>'+attCount+'</b>':'')+'</button>'
-        +'<button class="btn sm" onclick="printRecord(\'community_waste\',\''+r.id+'\')" style="background:#0a5448;color:#fff;border:none;white-space:nowrap">&#128424;</button>'
-        +'<button class="btn sm danger" onclick="deleteRecord(\'community_waste\',\''+r.id+'\',renderCommunityWaste)" style="white-space:nowrap">&#128465;</button>'
-      +'</div></td>'
-    +'</tr>';
+      +'<td>'+actions+'</td>'
+      +'</tr>';
   }).join('')||'<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)">No community waste reports yet</td></tr>';
 }
 
