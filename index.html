@@ -6226,7 +6226,7 @@ function renderVillages(){
 
   const _el_tb_villages=document.getElementById('tb-villages'); if(_el_tb_villages) _el_tb_villages.innerHTML=data.map(r=>{
     const isOverdue = !r.visited||r.visited<new Date(Date.now()-90*24*60*60*1000).toISOString().split('T')[0];
-    return `<tr> <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.zone||''}</span></td> <td>${(r.pop||0).toLocaleString()}</td> <td>${r.u5||0}</td> <td>${(r.hh||0).toLocaleString()}</td> <td>${r.chw||'—'}</td> <td>${r.dist?r.dist+' km':'—'}</td> <td>${stTag(r.odf||'Not started')}</td> <td>${rowBtns('villages',r.id,`viewRecord('villages','${r.id}',villageFields)`,`editRecord('villages','${r.id}',villageFields,'m-village','t-village','Edit Village')`,`deleteRecord('villages','${r.id}',renderVillages)`)}</td> </tr>`;
+    return `<tr> <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.zone||''}</span></td> <td>${(r.pop||0).toLocaleString()}</td> <td>${r.u5||0}</td> <td>${(r.hh||0).toLocaleString()}</td> <td>${r.dist?r.dist+' km':'—'}</td> <td>${stTag(r.odf||'Not started')}</td> <td>${rowBtns('villages',r.id,`viewRecord('villages','${r.id}',villageFields)`,`editRecord('villages','${r.id}',villageFields,'m-village','t-village','Edit Village')`,`deleteRecord('villages','${r.id}',renderVillages)`)}</td> </tr>`;
   }).join('')||emptyRow(9);
 }
 
