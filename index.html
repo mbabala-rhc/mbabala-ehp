@@ -8743,19 +8743,24 @@ function renderCommunityWaste(){
   tb.innerHTML=data.map(function(r){
     var compColor=r.compliance==='Compliant'?'var(--green)':r.compliance==='Non-Compliant'?'var(--red)':'#1d4ed8';
     var compBg=r.compliance==='Compliant'?'#dcfce7':r.compliance==='Non-Compliant'?'#fee2e2':'#dbeafe';
-    var cwFields=[{id:'f-cw-id',key:'id',hidden:true},{id:'f-cw-date',key:'date'},{id:'f-cw-village',key:'village'},{id:'f-cw-zone',key:'zone'},{id:'f-cw-officer',key:'officer'},{id:'f-cw-disposal',key:'disposal'},{id:'f-cw-dumpsite',key:'dumpsite'},{id:'f-cw-hh-visited',key:'hhVisited'},{id:'f-cw-hh-pit',key:'hhPit'},{id:'f-cw-hh-burning',key:'hhBurning'},{id:'f-cw-hh-dumping',key:'hhDumping'},{id:'f-cw-compliance',key:'compliance'},{id:'f-cw-action',key:'action'},{id:'f-cw-notes',key:'notes'}];
+    var attCount=(Array.isArray(DB.get('att_community_waste_'+r.id))?DB.get('att_community_waste_'+r.id):[]).length;
     return '<tr>'
       +'<td>'+fmtDate(r.date)+'</td>'
-      +'<td><b>'+r.village+'</b></td>'
-      +'<td>'+r.zone+'</td>'
-      +'<td>'+(r.disposal||'—')+'</td>'
-      +'<td style="text-align:center">'+(r.dumpsite==='Yes'?'<span style="color:#dc2626;font-weight:700">⚠ Yes</span>':'No')+'</td>'
-      +'<td style="text-align:center">'+(r.hhPit||0)+' / '+(r.hhVisited||0)+'</td>'
-      +'<td style="text-align:center">'+(r.hhBurning||0)+'</td>'
-      +'<td><span style="padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;background:'+compBg+';color:'+compColor+'">'+(r.compliance||'—')+'</span></td>'
-      +'<td>'+rowBtns('community_waste',r.id,"viewRecord('community_waste','"+r.id+"',[])", "editCommunityWaste('"+r.id+"')","deleteRecord('community_waste','"+r.id+"',renderCommunityWaste)")+'</td>'
+      +'<td>'+( r.village||'—')+'</td>'
+      +'<td>'+( r.zone||'—')+'</td>'
+      +'<td>'+( r.disposal||'—')+'</td>'
+      +'<td>'+( r.illegalDump||'—')+'</td>'
+      +'<td>'+( r.hhLatrine||'0')+'</td>'
+      +'<td>'+( r.openBurning||'0')+'</td>'
+      +'<td><span style="background:'+compBg+';color:'+compColor+';padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600">'+(r.compliance||'—')+'</span></td>'
+      +'<td><div class="actions" style="gap:4px;flex-wrap:nowrap">'
+        +'<button class="btn sm primary" onclick="editCommunityWaste(\''+r.id+'\')" style="white-space:nowrap">&#9998; Edit</button>'
+        +'<button class="btn sm" onclick="viewAttachments(\'community_waste\',\''+r.id+'\')" style="color:var(--blue);white-space:nowrap">&#128206;'+(attCount>0?'<b style=\'color:var(--red)\'>'+attCount+'</b>':'')+'</button>'
+        +'<button class="btn sm" onclick="printRecord(\'community_waste\',\''+r.id+'\')" style="background:#0a5448;color:#fff;border:none;white-space:nowrap">&#128424;</button>'
+        +'<button class="btn sm danger" onclick="deleteRecord(\'community_waste\',\''+r.id+'\',renderCommunityWaste)" style="white-space:nowrap">&#128465;</button>'
+      +'</div></td>'
     +'</tr>';
-  }).join('');
+  }).join('')||'<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)">No community waste reports yet</td></tr>';
 }
 
 function editCommunityWaste(id){
