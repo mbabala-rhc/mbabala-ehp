@@ -9135,9 +9135,10 @@ function printDRTrends(){
     +'</div>'
     +'</body></html>';
 
-  var w = window.open('','_blank');
+  var w = window.open('','_blank','width=800,height=600');
   w.document.write(html);
   w.document.close();
+  w.onload = function(){ w.print(); };
 }
 
 function autoInspStatus(score){
