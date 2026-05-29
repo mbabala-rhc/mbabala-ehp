@@ -9907,39 +9907,70 @@ function printRecord(store, id){
   var facilityName = s.name || 'Mbabala Rural Health Centre';
   var district = s.district || 'Chifunabuli';
   var province = s.province || 'Luapula';
-  var fields = (STORE_FIELDS_MAP[store] ? STORE_FIELDS_MAP[store]() : []).filter(function(f){
+
+  // Get fields from STORE_FIELDS_MAP if available
+  var fieldDefs = STORE_FIELDS_MAP[store] ? STORE_FIELDS_MAP[store]().filter(function(f){
     return !f.hidden && rec[f.key] !== undefined && rec[f.key] !== '' && rec[f.key] !== null;
-  });
+  }) : [];
+
+  var rows = '';
+
+  if(fieldDefs.length > 0){
+    // Use defined fields
+    rows = fieldDefs.map(function(f){
+      var val = rec[f.key];
+      if(Array.isArray(val)) val = val.join(', ');
+      else if(typeof val === 'object' && val !== null) val = JSON.stringify(val);
+      return '<tr>'
+        +'<td style="padding:8px 14px;font-weight:600;color:#374151;width:38%;border-bottom:1px solid #f1f5f9;font-size:11px;vertical-align:top">'+f.label+'</td>'
+        +'<td style="padding:8px 14px;border-bottom:1px solid #f1f5f9;font-size:11px;vertical-align:top;color:#1e293b">'+val+'</td>'
+        +'</tr>';
+    }).join('');
+  } else {
+    // Fallback: print all keys from the record directly
+    var skipKeys = ['id'];
+    rows = Object.keys(rec).filter(function(k){ return skipKeys.indexOf(k) === -1 && rec[k] !== '' && rec[k] !== null && rec[k] !== undefined; })
+      .map(function(k){
+        var val = rec[k];
+        if(Array.isArray(val)) val = val.join(', ');
+        else if(typeof val === 'object' && val !== null) val = JSON.stringify(val);
+        // Format key as label
+        var label = k.replace(/([A-Z])/g,' $1').replace(/_/g,' ').replace(/\w/g,function(c){return c.toUpperCase();}).trim();
+        return '<tr>'
+          +'<td style="padding:8px 14px;font-weight:600;color:#374151;width:38%;border-bottom:1px solid #f1f5f9;font-size:11px;vertical-align:top">'+label+'</td>'
+          +'<td style="padding:8px 14px;border-bottom:1px solid #f1f5f9;font-size:11px;vertical-align:top;color:#1e293b">'+val+'</td>'
+          +'</tr>';
+      }).join('');
+  }
+
   var storeLabel = {
     inspections:'Inspection Report', incidents:'Incident / Hazard Report',
     water:'Water Quality Report', hia1:'HIA 1 Report', hia2:'HIA 2 Report',
     ebs:'EBS/EMS Report', ipc:'IPC Audit Report', ecd:'ECD Activities Report',
     nutrition:'Nutrition Report', waste:'Waste Management Report',
-    vector:'Vector Control Report', sanitation:'Sanitation Report',
-    epi:'EPI Report', surveillance:'Surveillance Report',
-    health_promo:'Health Promotion Report', facilities:'Facility Record',
-    households:'Household Record', premises:'Premises Record',
-    cbv:'CBV Register Record', chw:'CHW Register Record',
-    chw_activities:'CHW Monthly Activities Report', meetings:'Meeting / Training Record',
-    foodhandlers:'Food Handler Record', waterpoints:'Water Point Record',
-    schools:'School Record', school_inspections:'School Inspection Report',
-    stock:'Stock Record', complaint:'Complaint Record',
-    case_inv:'Case Investigation Report', outbreak:'Outbreak Investigation Report',
-    contact_tracing:'Contact Tracing Record', rapid_response:'Rapid Response Record',
-    risk_assessment:'Risk Assessment Report', mycin_reg:'MYCIN Register Record',
+    vector:'Vector Control Report', sanitation:'Sanitation (ODF/CLTS) Report',
+    gen_sanitation:'General Sanitation Assessment', epi:'EPI Report',
+    surveillance:'Surveillance (IDSR) Report', health_promo:'Health Promotion Report',
+    facilities:'Facility Record', households:'Household Record',
+    premises:'Premises Record', cbv:'CBV Register Record',
+    chw:'CHW Register Record', chw_activities:'CHW Monthly Activities Report',
+    chw_supervision:'CHW Supervision Report', meetings:'Meeting / Training Record',
+    attendance:'Attendance Record', foodhandlers:'Food Handler Record',
+    waterpoints:'Water Point Record', schools:'School Record',
+    school_inspections:'School Inspection Report', villages:'Village Record',
+    stock:'Stock Record', stock_movements:'Stock Movement Record',
+    case_inv:'Case Investigation Report', contact_tracing:'Contact Tracing Record',
+    outbreak:'Outbreak Investigation Report', rapid_response:'Rapid Response Record',
+    risk_assessment:'Risk Assessment Report', mycin_reg:'MYCIN Caregiver Register',
     mycin_sess:'MYCIN Counselling Session Report', under5:'Under-5 Coverage Record',
-    mal_outcomes:'Malnutrition Outcome Record'
+    mal_outcomes:'Malnutrition Outcome Record', legal:'Legal / Enforcement Record',
+    routine_monthly:'Routine Monthly Report', routine_activity:'Routine Activity Report',
+    routine_sanit:'Routine Sanitation Report', routine_supervision:'Routine Supervision Report',
+    complaints:'Complaint Register Record', disease_register:'Disease Register Report',
+    work_planner:'Work Planner Record', targets:'Target & Achievement Record',
+    village_visit:'Village Visit Record', insp_followup:'Inspection Follow-up Report',
+    insp_reports:'Inspection Report Letter'
   }[store] || store.replace(/_/g,' ').replace(/\w/g,function(c){return c.toUpperCase();}) + ' Report';
-
-  var rows = fields.map(function(f){
-    var val = rec[f.key];
-    if(Array.isArray(val)) val = val.join(', ');
-    else if(typeof val === 'object') val = JSON.stringify(val);
-    return '<tr>'
-      +'<td style="padding:8px 14px;font-weight:600;color:#374151;width:38%;border-bottom:1px solid #f1f5f9;font-size:11px;vertical-align:top">'+(f.label||f.key)+'</td>'
-      +'<td style="padding:8px 14px;border-bottom:1px solid #f1f5f9;font-size:11px;vertical-align:top;color:#1e293b">'+val+'</td>'
-      +'</tr>';
-  }).join('');
 
   var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+storeLabel+'</title>'
     +'<style>'
@@ -9953,7 +9984,7 @@ function printRecord(store, id){
     +'.doc-title { margin: 18px 0 14px; }'
     +'.doc-title h2 { font-size: 14px; font-weight: 700; color: #0a5448; text-transform: uppercase; letter-spacing: 0.5px; border-left: 4px solid #0a5448; padding-left: 10px; }'
     +'.doc-title .ref { font-size: 10px; color: #94a3b8; margin-top: 3px; padding-left: 14px; }'
-    +'table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 24px; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; }'
+    +'table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 24px; border: 1px solid #e2e8f0; }'
     +'tr:nth-child(even) td { background: #f8fafc; }'
     +'.sig-section { margin-top: 32px; padding-top: 16px; border-top: 1px solid #e2e8f0; }'
     +'.sig-section h3 { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }'
