@@ -5421,7 +5421,7 @@ function renderMycin(){
              </button> <div style="font-size:10px;color:var(--txt2);margin-top:2px">Last: ${fmtDate(lastS.date)}</div>`
           : `<span style="color:var(--txt2);font-size:12px;font-style:italic">No sessions yet</span>`}
       </td> <td><div class="actions"> <button class="btn sm primary" onclick="editMycinReg('${r.id}')">✏ Edit</button> <button class="btn sm" onclick="printRecord('mycin_reg','${r.id}')" style="background:#0a5448;color:#fff;border:none" title="Print">🖨</button> <button class="btn sm danger" onclick="deleteRecord('mycin_reg','${r.id}',renderMycin)">🗑</button> </div></td> </tr>`;
-  }).join('')||emptyRow(9);
+  }).join('')||emptyRow(7);
 
   // ── Sessions table ──
   // Populate caregiver filter dropdown
@@ -6913,7 +6913,7 @@ function renderCHW(){
 
   // Activities table
   const actEl=document.getElementById('tb-chw-act');
-  if(actEl) actEl.innerHTML=activities.map(r=>`<tr> <td>${r.month||'—'}</td><td><b>${r.chw||'—'}</b></td><td>${r.village||'—'}</td> <td>${r.hhVisits||0}</td><td>${r.referrals||0}</td><td>${r.hpSessions||0}</td> <td>${r.anc||0}</td><td>${r.recorder||'—'}</td> <td>${rowBtns('chw_activities',r.id,`viewRecord('chw_activities','${r.id}',chwActivityFields)`,`editRecord('chw_activities','${r.id}',chwActivityFields,'m-chw-activity','t-chw-activity','Edit Activity')`,`deleteRecord('chw_activities','${r.id}',renderCHW)`)}</td> </tr>`).join('')||emptyRow(9);
+  if(actEl) actEl.innerHTML=activities.map(r=>`<tr> <td>${r.month||'—'}</td><td><b>${r.chw||'—'}</b></td><td>${r.village||'—'}</td> <td>${r.hhVisits||0}</td><td>${r.referrals||0}</td><td>${r.recorder||'—'}</td> <td>${rowBtns('chw_activities',r.id,`viewRecord('chw_activities','${r.id}',chwActivityFields)`,`editRecord('chw_activities','${r.id}',chwActivityFields,'m-chw-activity','t-chw-activity','Edit Activity')`,`deleteRecord('chw_activities','${r.id}',renderCHW)`)}</td> </tr>`).join('')||emptyRow(9);
 
   // Supervision table
   const supEl=document.getElementById('tb-chw-sup');
