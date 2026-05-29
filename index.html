@@ -2035,16 +2035,19 @@ function stTag(s){
 }
 
 function rowBtns(store,id,viewFn,editFn,delfn,attStore){
-  const aStore=attStore||store;
-  const attCount=(Array.isArray(DB.get('att_'+aStore+'_'+id))?DB.get('att_'+aStore+'_'+id):[]).length;
-  const btnStyle='width:28px;height:28px;border-radius:6px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:14px;padding:0;flex-shrink:0';
-  return `<div style="display:flex;gap:3px;align-items:center;flex-wrap:nowrap">
-    <button onclick="${viewFn}" style="${btnStyle}background:#f1f5f9;color:#0a5448" title="View">&#128065;</button>
-    <button onclick="${editFn}" style="${btnStyle}background:#0a5448;color:#fff" title="Edit">&#9998;</button>
-    <button onclick="viewAttachments('${aStore}','${id}')" style="${btnStyle}background:#dbeafe;color:#0369a1;position:relative" title="${attCount} attachment(s)">&#128206;${attCount>0?`<span style='position:absolute;top:-4px;right:-4px;background:#dc2626;color:#fff;border-radius:50%;width:14px;height:14px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700'>${attCount}</span>`:''}</button>
-    <button onclick="printRecord('${store}','${id}')" style="${btnStyle}background:#0d7a5f;color:#fff" title="Print">&#128424;</button>
-    <button onclick="${delfn}" style="${btnStyle}background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button>
-  </div>`;
+  var aStore=attStore||store;
+  var attCount=(Array.isArray(DB.get('att_'+aStore+'_'+id))?DB.get('att_'+aStore+'_'+id):[]).length;
+  var b='width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;';
+  var d='<div style="display:flex;gap:3px;align-items:center;flex-wrap:nowrap">';
+  d+='<button onclick="'+viewFn+'" style="'+b+'background:#e2f0ee;color:#0a5448" title="View">&#128065;</button>';
+  d+='<button onclick="'+editFn+'" style="'+b+'background:#0a5448;color:#ffffff" title="Edit">&#9998;</button>';
+  var atStyle=b+'background:#dbeafe;color:#0369a1;position:relative';
+  var atBadge=attCount>0?'<span style="position:absolute;top:-3px;right:-3px;background:#dc2626;color:#fff;border-radius:50%;width:13px;height:13px;font-size:9px;font-weight:700;line-height:13px;text-align:center">'+attCount+'</span>':'';
+  d+='<button onclick="viewAttachments(\'' +aStore+ '\',\'' +id+ '\')" style="'+atStyle+'" title="'+attCount+' attachment(s)">&#128206;'+atBadge+'</button>';
+  d+='<button onclick="printRecord(\'' +store+ '\',\'' +id+ '\')" style="'+b+'background:#0d7a5f;color:#ffffff" title="Print">&#128424;</button>';
+  d+='<button onclick="'+delfn+'" style="'+b+'background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button>';
+  d+='</div>';
+  return d;
 }
 
 // ============================================================
