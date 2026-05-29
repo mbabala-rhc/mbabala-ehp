@@ -6882,7 +6882,12 @@ function renderCHW(){
   // CHW register table
   const _el_tb_chw=document.getElementById('tb-chw'); if(_el_tb_chw) _el_tb_chw.innerHTML=chws.map(r=>{
     const isOverdue=!r.lastSup||r.lastSup<new Date(Date.now()-90*24*60*60*1000).toISOString().split('T')[0];
-    return `<tr> <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.phone||''}</span></td> <td>${r.type||'—'}</td><td>${r.village||'—'}</td><td>${r.phone||'—'}</td> <td>${r.training?r.training.substring(0,30)+'...':'—'}</td> <td>${stTag(r.status||'Active')}</td> <td>${rowBtns('chw',r.id,`viewRecord('chw','${r.id}',chwFields)`,`editRecord('chw','${r.id}',chwFields,'m-chw','t-chw','Edit CHW')`,`deleteRecord('chw','${r.id}',renderCHW)`)}</td> </tr>`;
+    return `<tr> <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.phone||''}</span></td> <td>${r.type||'—'}</td><td>${r.village||'—'}</td><td>${r.phone||'—'}</td> <td>${r.training?r.training.substring(0,30)+'...':'—'}</td> <td>${stTag(r.status||'Active')}</td> <td>${'<div class="actions" style="gap:4px;flex-wrap:nowrap">'
+        +' <button class="btn sm primary" onclick="editRecord(\'chw\',\''+r.id+'\',chwFields,\'m-chw\',\'t-chw\',\'Edit CHW\')" style="white-space:nowrap">&#9998; Edit</button>'
+        +' <button class="btn sm" onclick="viewAttachments(\'chw\',\''+r.id+'\''+')" style="color:var(--blue);white-space:nowrap">&#128206;</button>'
+        +' <button class="btn sm" onclick="printRecord(\'chw\',\''+r.id+'\''+')" style="background:#0a5448;color:#fff;border:none;white-space:nowrap">&#128424;</button>'
+        +' <button class="btn sm danger" onclick="deleteRecord(\'chw\',\''+r.id+'\',renderCHW)" style="white-space:nowrap">&#128465;</button>'
+        +'</div>'}</td> </tr>`;
   }).join('')||emptyRow(8);
 
   // Activities table
