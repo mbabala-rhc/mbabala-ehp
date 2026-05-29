@@ -811,8 +811,9 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 #print-overlay-inner{ background:#fff; border-radius:12px; width:100%; max-width:620px; max-height:90vh; overflow-y:auto; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,0.3); margin:0; }
 @media print{
   body > *:not(#print-overlay){ display:none !important; }
-  #print-overlay{ display:block !important; position:static; padding:0; background:none; }
-  #print-overlay-inner{ box-shadow:none; border-radius:0; max-height:none; overflow:visible; padding:0; }
+  html, body{ background:#fff !important; }
+  #print-overlay{ display:block !important; position:fixed !important; inset:0 !important; background:#fff !important; padding:20px !important; overflow:visible !important; }
+  #print-overlay-inner{ box-shadow:none !important; border-radius:0 !important; max-height:none !important; overflow:visible !important; padding:0 !important; background:#fff !important; }
   #print-overlay .no-print{ display:none !important; }
 }
 </style>
