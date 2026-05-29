@@ -6542,7 +6542,7 @@ function renderFoodHandlers(){
     const isExp = r.expiry&&r.expiry<today_str;
     const isSoon = r.expiry&&r.expiry>=today_str&&r.expiry<=soonStr;
     const status = isExp?'Expired':isSoon?'Expiring soon':'Valid';
-    return `<tr> <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.nrc||''}</span></td> <td>${r.premises||'—'}<br><span style="font-size:11px;color:var(--txt2)">${r.type||''}</span></td> <td>${r.village||'—'}</td> <td>${fmtDate(r.issued)}</td> <td style="color:${isExp?'var(--red)':isSoon?'var(--amber)':'var(--txt)'};font-weight:${isExp||isSoon?'700':'400'}">${fmtDate(r.expiry)}</td> <td>${stTag(status)}</td> <td>${r.examiner||'—'}</td> <td>${rowBtns('foodhandlers',r.id,`viewRecord('foodhandlers','${r.id}',fhFields)`,`editRecord('foodhandlers','${r.id}',fhFields,'m-foodhandler','t-foodhandler','Edit Food Handler')`,`deleteRecord('foodhandlers','${r.id}',renderFoodHandlers)`)}</td> </tr>`;
+    return `<tr> <td><b>${r.name||'—'}</b><br><span style="font-size:11px;color:var(--txt2)">${r.nrc||''}</span></td> <td>${r.premises||'—'}<br><span style="font-size:11px;color:var(--txt2)">${r.type||''}</span></td> <td>${r.village||'—'}</td> <td style="color:${isExp?'var(--red)':isSoon?'var(--amber)':'var(--txt)'};font-weight:${isExp||isSoon?'700':'400'}">${fmtDate(r.expiry)}</td> <td>${stTag(status)}</td> <td>${rowBtns('foodhandlers',r.id,`viewRecord('foodhandlers','${r.id}',fhFields)`,`editRecord('foodhandlers','${r.id}',fhFields,'m-foodhandler','t-foodhandler','Edit Food Handler')`,`deleteRecord('foodhandlers','${r.id}',renderFoodHandlers)`)}</td> </tr>`;
   }).join('')||emptyRow(8);
 }
 
