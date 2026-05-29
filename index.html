@@ -8804,12 +8804,6 @@ function renderCommunityWaste(){
     var compBg=r.compliance==='Compliant'?'#dcfce7':r.compliance==='Non-Compliant'?'#fee2e2':'#dbeafe';
     var attCount=(Array.isArray(DB.get('att_community_waste_'+r.id))?DB.get('att_community_waste_'+r.id):[]).length;
     var b='width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;';
-    var actions='<div style="display:flex;gap:3px;align-items:center;flex-wrap:nowrap">'
-      +'<button onclick="editCommunityWaste(\''+r.id+'\')" style="'+b+'background:#0a5448;color:#fff" title="Edit">&#9998;</button>'
-      +'<button onclick="viewAttachments(\'community_waste\',\''+r.id+'\')" style="'+b+'background:#dbeafe;color:#0369a1" title="'+attCount+' attachment(s)">&#128206;'+(attCount>0?'<span style="position:absolute;top:-3px;right:-3px;background:#dc2626;color:#fff;border-radius:50%;width:13px;height:13px;font-size:9px;font-weight:700;line-height:13px;text-align:center">'+attCount+'</span>':'')+'</button>'
-      +'<button onclick="printRecord(\'community_waste\',\''+r.id+'\')" style="'+b+'background:#0d7a5f;color:#fff" title="Print">&#128424;</button>'
-      +'<button onclick="deleteRecord(\'community_waste\',\''+r.id+'\',renderCommunityWaste)" style="'+b+'background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button>'
-      +'</div>';
     return '<tr>'
       +'<td>'+fmtDate(r.date)+'</td>'
       +'<td>'+(r.village||'—')+'</td>'
@@ -8819,9 +8813,27 @@ function renderCommunityWaste(){
       +'<td>'+(r.hhLatrine||'0')+'</td>'
       +'<td>'+(r.openBurning||'0')+'</td>'
       +'<td><span style="background:'+compBg+';color:'+compColor+';padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600">'+(r.compliance||'—')+'</span></td>'
-      +'<td>'+actions+'</td>'
+      +'<td><div style="display:flex;gap:3px">'
+        +'<button data-store="community_waste" data-id="'+r.id+'" data-action="edit" style="'+b+'background:#0a5448;color:#fff" title="Edit">&#9998;</button>'
+        +'<button data-store="community_waste" data-id="'+r.id+'" data-action="attach" style="'+b+'background:#dbeafe;color:#0369a1" title="'+attCount+' attachment(s)">&#128206;</button>'
+        +'<button data-store="community_waste" data-id="'+r.id+'" data-action="print" style="'+b+'background:#0d7a5f;color:#fff" title="Print">&#128424;</button>'
+        +'<button data-store="community_waste" data-id="'+r.id+'" data-action="delete" style="'+b+'background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button>'
+      +'</div></td>'
       +'</tr>';
   }).join('')||'<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)">No community waste reports yet</td></tr>';
+
+  // Use event delegation to handle button clicks
+  tb.onclick = function(e){
+    var btn = e.target.closest('button[data-action]');
+    if(!btn) return;
+    var store = btn.dataset.store;
+    var id = btn.dataset.id;
+    var action = btn.dataset.action;
+    if(action==='edit') editCommunityWaste(id);
+    else if(action==='attach') viewAttachments(store, id);
+    else if(action==='print') printRecord(store, id);
+    else if(action==='delete') deleteRecord(store, id, renderCommunityWaste);
+  };
 }
 
 function editCommunityWaste(id){
