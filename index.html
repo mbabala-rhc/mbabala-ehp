@@ -8643,7 +8643,7 @@ function viewSurveillanceReport(id){
   var r=DB.get('surveillance').find(function(x){return x.id===id;});if(!r)return;
   var diseases=r.diseases||{};
   var rows=IDSR_DISEASES.map(function(d,i){
-    var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
+var key=d.name.replace(/[^a-zA-Z0-9]/g,'_').toLowerCase();
     var dr=diseases[key]||{};
     var susp=(dr.s04||0)+(dr.s514||0)+(dr.s15||0);var conf=(dr.c04||0)+(dr.c514||0)+(dr.c15||0);var dths=(dr.d04||0)+(dr.d514||0)+(dr.d15||0);var lab=dr.lab||0;
     // Show row only if disease data exists in the saved record (key exists)
@@ -8671,14 +8671,52 @@ function viewSurveillanceReport(id){
         +'<td style="padding:7px 8px;text-align:center;font-size:12px">'+(opd.lab||0)+'</td></tr>';
     }
   };
-  var html='<!DOCTYPE html><html><head><title>IDSR '+r.week+'</title><style>body{font-family:Arial,sans-serif;padding:24px;color:#111;max-width:1000px;margin:0 auto}table{width:100%;border-collapse:collapse}th{background:#1e3a5f;color:#fff;padding:7px 8px;text-align:center;font-size:11px}th:first-child{text-align:left}@media print{button{display:none}}</style></head><body>'
-    +'<div style="text-align:center;border-bottom:2px solid #1e3a5f;padding-bottom:12px;margin-bottom:16px"><div style="font-size:11px;color:#6b7280;text-transform:uppercase">Ministry of Health · Zambia</div><div style="font-size:20px;font-weight:800;margin:6px 0">IDSR Weekly Surveillance Report</div><div style="font-size:13px;color:#374151">Mbabala RHC · Chifunabuli · Luapula</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Epi Week: <b>'+r.week+'</b> · Date: <b>'+fmtDate(r.date)+'</b> · Reporter: <b>'+(r.reporter||'—')+'</b></div></div>'
-    +'<table><thead><tr><th style="text-align:left;min-width:150px">Disease</th><th colspan="3">Suspected</th><th colspan="3" style="background:#0e7490">Confirmed</th><th colspan="3" style="background:#991b1b">Deaths</th><th>Lab</th></tr>'
-    +'<tr style="background:#2d5a8e"><th></th><th>0-4</th><th>5-14</th><th>15+</th><th style="background:#0e7490">0-4</th><th style="background:#0e7490">5-14</th><th style="background:#0e7490">15+</th><th style="background:#991b1b">0-4</th><th style="background:#991b1b">5-14</th><th style="background:#991b1b">15+</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'
-    +'<div style="margin-top:16px;font-size:12px"><b>Actions:</b> '+(r.action||'None')+'</div>'
-    +'<div style="text-align:center;margin-top:16px"><button onclick="window.print()" style="padding:10px 24px;background:#1e3a5f;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer">🖨 Print / Save PDF</button></div>'
-    +'</body></html>';
-  var w=window.open('','_blank');w.document.write(html);w.document.close();
+    var s=DB.getObj('settings')||{};
+  var html='<div style="font-family:Arial,sans-serif;padding:20px;color:#111;max-width:960px;margin:0 auto">'
+    +'<div style="text-align:center;border-bottom:2px solid #1e3a5f;padding-bottom:12px;margin-bottom:16px">'
+      +'<div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:1px">Ministry of Health &bull; Republic of Zambia</div>'
+      +'<div style="font-size:20px;font-weight:800;color:#1e3a5f;margin:6px 0">IDSR Weekly Surveillance Report</div>'
+      +'<div style="font-size:12px;color:#374151">'+(s.name||'Mbabala RHC')+' &bull; '+(s.district||'Chifunabuli')+' &bull; '+(s.province||'Luapula')+'</div>'
+      +'<div style="font-size:11px;color:#6b7280;margin-top:4px">Epi Week: <b>'+r.week+'</b> &bull; Date: <b>'+r.date+'</b> &bull; Reporter: <b>'+(r.reporter||'—')+'</b></div>'
+    +'</div>'
+    +'<table style="width:100%;border-collapse:collapse;margin-bottom:16px">'
+      +'<thead>'
+        +'<tr>'
+          +'<th rowspan="2" style="background:#1e3a5f;color:#fff;padding:8px 10px;text-align:left;font-size:11px;border:1px solid #334155;vertical-align:middle">Disease</th>'
+          +'<th colspan="3" style="background:#2d5a8e;color:#fff;padding:6px;text-align:center;font-size:11px;border:1px solid #334155">Suspected</th>'
+          +'<th colspan="3" style="background:#0369a1;color:#fff;padding:6px;text-align:center;font-size:11px;border:1px solid #334155">Confirmed</th>'
+          +'<th colspan="3" style="background:#991b1b;color:#fff;padding:6px;text-align:center;font-size:11px;border:1px solid #334155">Deaths</th>'
+          +'<th rowspan="2" style="background:#1e3a5f;color:#fff;padding:8px 6px;text-align:center;font-size:11px;border:1px solid #334155;vertical-align:middle">Lab</th>'
+        +'</tr>'
+        +'<tr>'
+          +'<th style="background:#3b6fa0;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">0-4</th>'
+          +'<th style="background:#3b6fa0;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">5-14</th>'
+          +'<th style="background:#3b6fa0;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">15+</th>'
+          +'<th style="background:#1e6fa0;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">0-4</th>'
+          +'<th style="background:#1e6fa0;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">5-14</th>'
+          +'<th style="background:#1e6fa0;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">15+</th>'
+          +'<th style="background:#b91c1c;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">0-4</th>'
+          +'<th style="background:#b91c1c;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">5-14</th>'
+          +'<th style="background:#b91c1c;color:#fff;padding:5px 6px;text-align:center;font-size:10px;border:1px solid #334155">15+</th>'
+        +'</tr>'
+      +'</thead>'
+      +'<tbody>'+rows+'</tbody>'
+    +'</table>'
+    +'<div style="margin-top:16px"><b>Actions:</b> '+(r.actions||'None')+'</div>'
+    +'<div style="margin-top:32px;display:flex;gap:40px">'
+      +'<div style="flex:1;border-top:1px solid #000;padding-top:4px;font-size:10px">Reported by (Name &amp; Signature)</div>'
+      +'<div style="flex:1;border-top:1px solid #000;padding-top:4px;font-size:10px">Designation &amp; Date</div>'
+      +'<div style="flex:1;border-top:1px solid #000;padding-top:4px;font-size:10px">Verified by</div>'
+    +'</div>'
+    +'<div class="no-print" style="text-align:center;margin-top:20px">'
+      +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
+      +'<button onclick="window.print()" style="padding:8px 28px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
+    +'</div>'
+  +'</div>';
+  var overlay=document.getElementById('print-overlay');
+  overlay.innerHTML='<div id="print-overlay-inner">'+html+'</div>';
+  overlay.classList.add('open');
+  overlay.onclick=function(e){if(e.target===overlay)closePrintOverlay();};
 }
 
 function printIDSRReport(){
