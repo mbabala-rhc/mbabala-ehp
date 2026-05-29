@@ -2037,7 +2037,7 @@ function stTag(s){
 function rowBtns(store,id,viewFn,editFn,delfn,attStore){
   const aStore=attStore||store;
   const attCount=(Array.isArray(DB.get('att_'+aStore+'_'+id))?DB.get('att_'+aStore+'_'+id):[]).length;
-  return `<div class="actions" style="gap:6px;flex-wrap:nowrap"> <button class="btn sm" onclick="${viewFn}" style="white-space:nowrap">👁 View</button> <button class="btn sm primary" onclick="${editFn}" style="white-space:nowrap">✏ Edit</button> <button class="btn sm" onclick="viewAttachments('${aStore}','${id}')" style="color:var(--blue);white-space:nowrap" title="${attCount} attachment(s)">📎${attCount>0?` <b style='color:var(--red)'>${attCount}</b>`:''}</button> <button class="btn sm" onclick="printRecord('${store}','${id}')" style="background:#0a5448;color:#fff;border:none;white-space:nowrap" title="Print record">🖨</button> <button class="btn sm danger" onclick="${delfn}" style="white-space:nowrap">🗑</button> </div>`;
+  return `<div class="actions" style="gap:4px;flex-wrap:wrap"> <button class="btn sm" onclick="${viewFn}" style="white-space:nowrap">👁 View</button> <button class="btn sm primary" onclick="${editFn}" style="white-space:nowrap">✏ Edit</button> <button class="btn sm" onclick="viewAttachments('${aStore}','${id}')" style="color:var(--blue);white-space:nowrap" title="${attCount} attachment(s)">📎${attCount>0?` <b style='color:var(--red)'>${attCount}</b>`:''}</button> <button class="btn sm" onclick="printRecord('${store}','${id}')" style="background:#0a5448;color:#fff;border:none;white-space:nowrap" title="Print record">🖨</button> <button class="btn sm danger" onclick="${delfn}" style="white-space:nowrap">🗑</button> </div>`;
 }
 
 // ============================================================
