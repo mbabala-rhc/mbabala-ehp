@@ -9894,41 +9894,83 @@ function printRecord(store, id){
   var district = s.district || 'Chifunabuli';
   var province = s.province || 'Luapula';
   var fields = (STORE_FIELDS_MAP[store] ? STORE_FIELDS_MAP[store]() : []).filter(function(f){
-    return !f.hidden && rec[f.key] !== undefined && rec[f.key] !== '' && rec[f.key] !== 0 && rec[f.key] !== null;
+    return !f.hidden && rec[f.key] !== undefined && rec[f.key] !== '' && rec[f.key] !== null;
   });
-  var storeLabel = store.replace(/_/g,' ').replace(/\w/g,function(c){return c.toUpperCase();});
+  var storeLabel = {
+    inspections:'Inspection Report', incidents:'Incident / Hazard Report',
+    water:'Water Quality Report', hia1:'HIA 1 Report', hia2:'HIA 2 Report',
+    ebs:'EBS/EMS Report', ipc:'IPC Audit Report', ecd:'ECD Activities Report',
+    nutrition:'Nutrition Report', waste:'Waste Management Report',
+    vector:'Vector Control Report', sanitation:'Sanitation Report',
+    epi:'EPI Report', surveillance:'Surveillance Report',
+    health_promo:'Health Promotion Report', facilities:'Facility Record',
+    households:'Household Record', premises:'Premises Record',
+    cbv:'CBV Register Record', chw:'CHW Register Record',
+    chw_activities:'CHW Monthly Activities Report', meetings:'Meeting / Training Record',
+    foodhandlers:'Food Handler Record', waterpoints:'Water Point Record',
+    schools:'School Record', school_inspections:'School Inspection Report',
+    stock:'Stock Record', complaint:'Complaint Record',
+    case_inv:'Case Investigation Report', outbreak:'Outbreak Investigation Report',
+    contact_tracing:'Contact Tracing Record', rapid_response:'Rapid Response Record',
+    risk_assessment:'Risk Assessment Report', mycin_reg:'MYCIN Register Record',
+    mycin_sess:'MYCIN Counselling Session Report', under5:'Under-5 Coverage Record',
+    mal_outcomes:'Malnutrition Outcome Record'
+  }[store] || store.replace(/_/g,' ').replace(/\w/g,function(c){return c.toUpperCase();}) + ' Report';
+
   var rows = fields.map(function(f){
     var val = rec[f.key];
-    if(typeof val === 'object') val = JSON.stringify(val);
-    return '<tr><td style="padding:7px 12px;font-weight:600;color:#0a5448;width:35%;border-bottom:1px solid #e2e8f0;vertical-align:top">'+(f.label||f.key)+'</td>'
-      +'<td style="padding:7px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top">'+val+'</td></tr>';
+    if(Array.isArray(val)) val = val.join(', ');
+    else if(typeof val === 'object') val = JSON.stringify(val);
+    return '<tr>'
+      +'<td style="padding:8px 14px;font-weight:600;color:#374151;width:38%;border-bottom:1px solid #f1f5f9;font-size:11px;vertical-align:top">'+(f.label||f.key)+'</td>'
+      +'<td style="padding:8px 14px;border-bottom:1px solid #f1f5f9;font-size:11px;vertical-align:top;color:#1e293b">'+val+'</td>'
+      +'</tr>';
   }).join('');
 
-  var html = '<!DOCTYPE html><html><head><title>'+storeLabel+' Record</title>'
-    +'<style>body{font-family:Arial,sans-serif;font-size:12px;color:#1e293b;padding:0;margin:0}'
-    +'.header{background:#0a5448;color:#fff;padding:14px 20px}'
-    +'.header h1{margin:0;font-size:15px;font-weight:800}'
-    +'.header p{margin:3px 0 0;font-size:10px;opacity:.85}'
-    +'.body{padding:20px}'
-    +'.title{font-size:13px;font-weight:700;color:#0a5448;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #0a5448}'
-    +'table{width:100%;border-collapse:collapse;margin-bottom:20px}'
-    +'.sig{display:flex;gap:40px;margin-top:30px}'
-    +'.sig-block{flex:1;border-top:1px solid #1e293b;padding-top:6px;font-size:11px}'
-    +'@media print{button{display:none}}</style></head><body>'
-    +'<div class="header">'
-      +'<h1>'+facilityName+'</h1>'
-      +'<p>'+district+' District &nbsp;·&nbsp; '+province+' Province &nbsp;·&nbsp; Republic of Zambia</p>'
-    +'</div>'
-    +'<div class="body">'
-      +'<div class="title">'+storeLabel+' Report</div>'
-      +'<table>'+rows+'</table>'
-      +'<div class="sig">'
-        +'<div class="sig-block">Prepared by: ___________________________<br>Name &amp; Designation</div>'
-        +'<div class="sig-block">Signature: ___________________________<br>Date: ___________________</div>'
-        +'<div class="sig-block">Verified by: ___________________________<br>Name &amp; Designation</div>'
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+storeLabel+'</title>'
+    +'<style>'
+    +'* { box-sizing: border-box; margin: 0; padding: 0; }'
+    +'body { font-family: Arial, sans-serif; font-size: 11px; color: #1e293b; background: #fff; }'
+    +'.page { padding: 28px 32px; max-width: 800px; margin: 0 auto; }'
+    +'.letterhead { text-align: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 3px double #0a5448; }'
+    +'.letterhead .country { font-size: 10px; font-weight: 600; color: #64748b; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }'
+    +'.letterhead .facility { font-size: 17px; font-weight: 800; color: #0a5448; margin-bottom: 2px; }'
+    +'.letterhead .sub { font-size: 11px; color: #64748b; }'
+    +'.doc-title { margin: 18px 0 14px; }'
+    +'.doc-title h2 { font-size: 14px; font-weight: 700; color: #0a5448; text-transform: uppercase; letter-spacing: 0.5px; border-left: 4px solid #0a5448; padding-left: 10px; }'
+    +'.doc-title .ref { font-size: 10px; color: #94a3b8; margin-top: 3px; padding-left: 14px; }'
+    +'table { width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 24px; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; }'
+    +'tr:nth-child(even) td { background: #f8fafc; }'
+    +'.sig-section { margin-top: 32px; padding-top: 16px; border-top: 1px solid #e2e8f0; }'
+    +'.sig-section h3 { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }'
+    +'.sig-row { display: flex; gap: 32px; }'
+    +'.sig-block { flex: 1; }'
+    +'.sig-line { border-top: 1px solid #1e293b; padding-top: 5px; font-size: 10px; color: #374151; margin-top: 28px; }'
+    +'.footer { margin-top: 24px; padding-top: 10px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 9px; color: #94a3b8; }'
+    +'@media print { button { display: none; } .page { padding: 16px; } }'
+    +'</style></head><body>'
+    +'<div class="page">'
+      +'<div class="letterhead">'
+        +'<div class="country">Republic of Zambia &nbsp;&bull;&nbsp; Ministry of Health</div>'
+        +'<div class="facility">'+facilityName+'</div>'
+        +'<div class="sub">'+district+' District &nbsp;&bull;&nbsp; '+province+' Province</div>'
       +'</div>'
+      +'<div class="doc-title">'
+        +'<h2>'+storeLabel+'</h2>'
+        +'<div class="ref">Record ID: '+(rec.id||'—')+'&nbsp;&nbsp;&bull;&nbsp;&nbsp;Date Printed: '+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})+'</div>'
+      +'</div>'
+      +'<table>'+rows+'</table>'
+      +'<div class="sig-section">'
+        +'<h3>Authorisation</h3>'
+        +'<div class="sig-row">'
+          +'<div class="sig-block"><div class="sig-line">Prepared by (Name &amp; Signature)</div></div>'
+          +'<div class="sig-block"><div class="sig-line">Designation &amp; Date</div></div>'
+          +'<div class="sig-block"><div class="sig-line">Verified / Approved by</div></div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="footer">This document was generated from the EH Management Platform &bull; Mbabala Rural Health Centre &bull; For official use only</div>'
     +'</div>'
-    +'<div style="text-align:center;padding:16px"><button onclick="window.print()" style="padding:8px 24px;background:#0a5448;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer">🖨 Print / Save PDF</button></div>'
+    +'<div style="text-align:center;padding:14px"><button onclick="window.print()" style="padding:8px 28px;background:#0a5448;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-weight:600">&#128424; Print / Save PDF</button></div>'
     +'</body></html>';
 
   var w = window.open('','_blank');
