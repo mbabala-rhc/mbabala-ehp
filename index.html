@@ -9992,6 +9992,33 @@ function printRecord(store, id){
   w.document.close();
 }
 
+
+var compFields = [
+  {id:'f-comp-id',key:'id',hidden:true},
+  {id:'f-comp-date',key:'date',label:'Date Received'},
+  {id:'f-comp-name',key:'name',label:'Complainant Name'},
+  {id:'f-comp-contact',key:'contact',label:'Contact Number'},
+  {id:'f-comp-village',key:'village',label:'Village'},
+  {id:'f-comp-zone',key:'zone',label:'Zone'},
+  {id:'f-comp-nature',key:'nature',label:'Nature of Complaint'},
+  {id:'f-comp-details',key:'details',label:'Complaint Details'},
+  {id:'f-comp-action',key:'action',label:'Action Taken'},
+  {id:'f-comp-status',key:'status',label:'Status'},
+  {id:'f-comp-resolved',key:'resolved',label:'Date Resolved'},
+  {id:'f-comp-officer',key:'officer',label:'Responsible Officer'},
+];
+
+var drFields = [
+  {id:'f-dr-id',key:'id',hidden:true},
+  {id:'f-dr-disease',key:'disease',label:'Disease'},
+  {id:'f-dr-week',key:'week',label:'Epi Week'},
+  {id:'f-dr-kapili',key:'kapili',label:'Kapili Zone',type:'num'},
+  {id:'f-dr-kauni',key:'kauni',label:'Kauni Zone',type:'num'},
+  {id:'f-dr-kasenga',key:'kasenga',label:'Kasenga Zone',type:'num'},
+  {id:'f-dr-central',key:'central',label:'Central Zone',type:'num'},
+  {id:'f-dr-isenga',key:'isenga',label:'Isenga Zone',type:'num'},
+  {id:'f-dr-notes',key:'notes',label:'Notes'},
+];
 </script>
 </body>
 </html>
