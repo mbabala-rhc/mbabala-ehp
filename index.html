@@ -5660,28 +5660,28 @@ function renderRoutine(){
 // PRINT SECTION - Clean print stylesheet
 // ══════════════════════════════════════════════
 function printSection(title, contentHtml){
-  var s = DB.getObj('settings')||{};
-  var html = '<div style="font-family:Arial,sans-serif;padding:20px;color:#000">'
-    +'<div style="border-bottom:2px solid #0d6f5b;padding-bottom:12px;margin-bottom:16px">'
-      +'<div style="font-size:13px;font-weight:600">'+(s.name||'Mbabala Rural Health Centre')+'</div>'
-      +'<div style="font-size:11px;color:#666;margin-top:2px">'+(s.district||'Chifunabuli District')+' &bull; '+(s.province||'Luapula Province')+'</div>'
-      +'<h1 style="font-size:16px;color:#0d6f5b;margin:8px 0 0">'+title+'</h1>'
-      +'<div style="font-size:11px;color:#666">Printed: '+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})+'</div>'
-    +'</div>'
-    +contentHtml
-    +'<div style="margin-top:20px;padding-top:10px;border-top:1px solid #e5e7eb;font-size:10px;color:#666;display:flex;justify-content:space-between">'
-      +'<span>'+(s.name||'Mbabala RHC')+' &bull; EH Management Platform</span>'
-      +'<span>Printed by: '+(currentUser&&currentUser.name||'Unknown')+'</span>'
-    +'</div>'
-    +'<div class="no-print" style="text-align:center;margin-top:20px">'
-      +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
-      +'<button onclick="window.print()" style="padding:8px 28px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
-    +'</div>'
-  +'</div>';
-  var overlay = document.getElementById('print-overlay');
-  overlay.innerHTML = '<div id="print-overlay-inner">'+html+'</div>';
-  overlay.classList.add('open');
-  overlay.onclick = function(e){ if(e.target===overlay) closePrintOverlay(); };
+  const win = window.open('', '_blank', 'width=800,height=600');
+  const s = DB.getObj('settings')||{};
+  win.document.write(`<!DOCTYPE html><html lang="en-GB"><head> <meta charset="UTF-8"> <title>${title} - ${s.name||'Mbabala RHC'}</title> <style>
+      * { box-sizing:border-box; margin:0; padding:0; font-family:Arial,sans-serif; }
+      body { padding:20px; font-size:12px; color:#000; }
+      h1 { font-size:18px; color:#0d6f5b; margin-bottom:4px; }
+      h2 { font-size:14px; color:#333; margin-bottom:12px; }
+      .header { border-bottom:2px solid #0d6f5b; padding-bottom:12px; margin-bottom:16px; }
+      .facility { font-size:13px; font-weight:600; }
+      .subtitle { font-size:11px; color:#666; margin-top:2px; }
+      table { width:100%; border-collapse:collapse; margin-bottom:16px; }
+      th { background:#0d6f5b; color:#fff; padding:7px 10px; text-align:left; font-size:11px; }
+      td { padding:6px 10px; border-bottom:1px solid #e5e7eb; font-size:11px; }
+      tr:nth-child(even) td { background:#f9fafb; }
+      .footer { margin-top:20px; padding-top:10px; border-top:1px solid #e5e7eb; font-size:10px; color:#666; display:flex; justify-content:space-between; }
+      @media print { body { padding:10px; } }
+      th:last-child, td:last-child { display:none !important; }
+    </style> </head><body> <div class="header"> <div class="facility">${s.name||'Mbabala Rural Health Centre'}</div> <div class="subtitle">${s.district||'Chifunabuli District'} · ${s.province||'Luapula Province'}</div> <h1 style="margin-top:8px">${title}</h1> <h2>Printed: ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})}</h2> </div>
+    ${contentHtml}
+    <div class="footer"> <span>${s.name||'Mbabala RHC'} · EH Management Platform</span> <span>Printed by: ${currentUser?.name||'Unknown'}</span> </div> </body></html>`);
+  win.document.close();
+  win.onload = () => { win.print(); };
 }
 
 // Print current page table
