@@ -810,12 +810,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 #print-overlay.open{ display:flex !important; }
 #print-overlay-inner{ background:#fff; border-radius:12px; width:100%; max-width:620px; max-height:90vh; overflow-y:auto; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,0.3); margin:0; }
 @media print{
-  html, body { background:#fff !important; }
-  body > *:not(#print-overlay){ visibility:hidden !important; }
-  #print-overlay{ display:flex !important; position:fixed !important; inset:0 !important; background:#fff !important; padding:0 !important; overflow:visible !important; visibility:visible !important; }
-  #print-overlay * { visibility:visible !important; }
-  #print-overlay-inner{ box-shadow:none !important; border-radius:0 !important; max-height:none !important; overflow:visible !important; padding:20px !important; max-width:100% !important; background:#fff !important; }
-  #print-overlay .no-print{ display:none !important; visibility:hidden !important; }
+  #print-overlay .no-print{ display:none !important; }
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
@@ -10067,7 +10062,7 @@ function printRecord(store, id){
     +'<div style="margin-top:24px;padding-top:10px;border-top:1px solid #e2e8f0;text-align:center;font-size:9px;color:#94a3b8">This document was generated from the EH Management Platform &bull; Mbabala Rural Health Centre &bull; For official use only</div>'
     +'<div class="no-print" style="text-align:center;margin-top:20px">'
       +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
-      +'<button onclick="window.print()" style="padding:8px 28px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
+      +'<button onclick="printOverlayContent()" style="padding:8px 28px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
     +'</div>'
   +'</div>';
 
@@ -10143,6 +10138,22 @@ var cwFields = [
   {id:'f-cw-compliance',key:'compliance',label:'Compliance Status'},
   {id:'f-cw-notes',key:'notes',label:'Notes'},
 ];
+
+function printOverlayContent(){
+  var inner = document.getElementById('print-overlay-inner');
+  if(!inner) return;
+  var win = window.open('','_blank','width=800,height=600');
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'
+    +'*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}'
+    +'body{background:#fff;color:#000;padding:20px}'
+    +'.no-print{display:none}'
+    +'@media print{.no-print{display:none}}'
+    +'</style></head><body>'
+    +inner.innerHTML
+    +'</body></html>');
+  win.document.close();
+  win.onload = function(){ win.print(); };
+}
 </script>
 </body>
 </html>
