@@ -5399,7 +5399,7 @@ function renderMycin(){
                💬 ${sCnt} session${sCnt>1?'s':''}
              </button> <div style="font-size:10px;color:var(--txt2);margin-top:2px">Last: ${fmtDate(lastS.date)}</div>`
           : `<span style="color:var(--txt2);font-size:12px;font-style:italic">No sessions yet</span>`}
-      </td> <td><div class="actions"> <button class="btn sm primary" onclick="editMycinReg('${r.id}')">✏ Edit</button> <button class="btn sm danger" onclick="deleteRecord('mycin_reg','${r.id}',renderMycin)">🗑</button> </div></td> </tr>`;
+      </td> <td><div class="actions"> <button class="btn sm primary" onclick="editMycinReg('${r.id}')">✏ Edit</button> <button class="btn sm" onclick="printRecord('mycin_reg','${r.id}')" style="background:#0a5448;color:#fff;border:none" title="Print">🖨</button> <button class="btn sm danger" onclick="deleteRecord('mycin_reg','${r.id}',renderMycin)">🗑</button> </div></td> </tr>`;
   }).join('')||emptyRow(9);
 
   // ── Sessions table ──
@@ -5416,7 +5416,7 @@ function renderMycin(){
   if(clearBtn2) clearBtn2.style.display = activeCG ? '' : 'none';
   const filteredSess = activeCG ? sess.filter(s=>s.caregiver===activeCG) : sess;
   const sessEl=document.getElementById('tb-mycin-sess');
-  if(sessEl) sessEl.innerHTML=filteredSess.map(r=>`<tr> <td>${fmtDate(r.date)}</td><td><span style="font-weight:600;color:var(--teal)">${r.caregiver||'—'}</span></td><td>${r.child||'—'}</td> <td>${r.village||'—'}</td><td>${r.childAge||'—'}m</td> <td>${(r.topics||[]).join(', ')||'—'}</td><td>${r.worker||'—'}</td><td>${fmtDate(r.followup)||'—'}</td> <td><div class="actions"> <button class="btn sm" onclick="viewMycinSession('${r.id}')">👁 View</button> <button class="btn sm primary" onclick="editRecord('mycin_sess','${r.id}',mycinSessFields,'m-mycin-sess','t-mycin-sess','Edit Counselling Session')">✏ Edit</button> <button class="btn sm danger" onclick="deleteRecord('mycin_sess','${r.id}',renderMycin)">🗑</button> </div></td> </tr>`).join('')||emptyRow(9);
+  if(sessEl) sessEl.innerHTML=filteredSess.map(r=>`<tr> <td>${fmtDate(r.date)}</td><td><span style="font-weight:600;color:var(--teal)">${r.caregiver||'—'}</span></td><td>${r.child||'—'}</td> <td>${r.village||'—'}</td><td>${r.childAge||'—'}m</td> <td>${(r.topics||[]).join(', ')||'—'}</td><td>${r.worker||'—'}</td><td>${fmtDate(r.followup)||'—'}</td> <td><div class="actions"> <button class="btn sm" onclick="viewMycinSession('${r.id}')">👁 View</button> <button class="btn sm primary" onclick="editRecord('mycin_sess','${r.id}',mycinSessFields,'m-mycin-sess','t-mycin-sess','Edit Counselling Session')">✏ Edit</button> <button class="btn sm" onclick="printRecord('mycin_sess','${r.id}')" style="background:#0a5448;color:#fff;border:none" title="Print">🖨</button> <button class="btn sm danger" onclick="deleteRecord('mycin_sess','${r.id}',renderMycin)">🗑</button> </div></td> </tr>`).join('')||emptyRow(9);
 }
 
 function editMycinReg(id){
