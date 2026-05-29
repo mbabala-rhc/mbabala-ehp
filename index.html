@@ -2023,7 +2023,7 @@ function stTag(s){
 function rowBtns(store,id,viewFn,editFn,delfn,attStore){
   const aStore=attStore||store;
   const attCount=(Array.isArray(DB.get('att_'+aStore+'_'+id))?DB.get('att_'+aStore+'_'+id):[]).length;
-  return `<div class="actions" style="gap:6px;flex-wrap:nowrap"> <button class="btn sm" onclick="${viewFn}" style="white-space:nowrap">👁 View</button> <button class="btn sm primary" onclick="${editFn}" style="white-space:nowrap">✏ Edit</button> <button class="btn sm" onclick="viewAttachments('${aStore}','${id}')" style="color:var(--blue);white-space:nowrap" title="${attCount} attachment(s)">📎${attCount>0?` <b style='color:var(--red)'>${attCount}</b>`:''}</button> <button class="btn sm danger" onclick="${delfn}" style="white-space:nowrap">🗑</button> </div>`;
+  return `<div class="actions" style="gap:6px;flex-wrap:nowrap"> <button class="btn sm" onclick="${viewFn}" style="white-space:nowrap">👁 View</button> <button class="btn sm primary" onclick="${editFn}" style="white-space:nowrap">✏ Edit</button> <button class="btn sm" onclick="viewAttachments('${aStore}','${id}')" style="color:var(--blue);white-space:nowrap" title="${attCount} attachment(s)">📎${attCount>0?` <b style='color:var(--red)'>${attCount}</b>`:''}</button> <button class="btn sm" onclick="printRecord('${store}','${id}')" style="background:#0a5448;color:#fff;border:none;white-space:nowrap" title="Print record">🖨</button> <button class="btn sm danger" onclick="${delfn}" style="white-space:nowrap">🗑</button> </div>`;
 }
 
 // ============================================================
@@ -9884,6 +9884,58 @@ function buildTimeline(){
   });
   c.innerHTML = html;
 }
+
+
+function printRecord(store, id){
+  var rec = DB.get(store).find(function(r){ return r.id === id; });
+  if(!rec){ toast('Record not found','error'); return; }
+  var s = DB.getObj('settings') || {};
+  var facilityName = s.name || 'Mbabala Rural Health Centre';
+  var district = s.district || 'Chifunabuli';
+  var province = s.province || 'Luapula';
+  var fields = (STORE_FIELDS_MAP[store] ? STORE_FIELDS_MAP[store]() : []).filter(function(f){
+    return !f.hidden && rec[f.key] !== undefined && rec[f.key] !== '' && rec[f.key] !== 0 && rec[f.key] !== null;
+  });
+  var storeLabel = store.replace(/_/g,' ').replace(/\w/g,function(c){return c.toUpperCase();});
+  var rows = fields.map(function(f){
+    var val = rec[f.key];
+    if(typeof val === 'object') val = JSON.stringify(val);
+    return '<tr><td style="padding:7px 12px;font-weight:600;color:#0a5448;width:35%;border-bottom:1px solid #e2e8f0;vertical-align:top">'+(f.label||f.key)+'</td>'
+      +'<td style="padding:7px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top">'+val+'</td></tr>';
+  }).join('');
+
+  var html = '<!DOCTYPE html><html><head><title>'+storeLabel+' Record</title>'
+    +'<style>body{font-family:Arial,sans-serif;font-size:12px;color:#1e293b;padding:0;margin:0}'
+    +'.header{background:#0a5448;color:#fff;padding:14px 20px}'
+    +'.header h1{margin:0;font-size:15px;font-weight:800}'
+    +'.header p{margin:3px 0 0;font-size:10px;opacity:.85}'
+    +'.body{padding:20px}'
+    +'.title{font-size:13px;font-weight:700;color:#0a5448;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #0a5448}'
+    +'table{width:100%;border-collapse:collapse;margin-bottom:20px}'
+    +'.sig{display:flex;gap:40px;margin-top:30px}'
+    +'.sig-block{flex:1;border-top:1px solid #1e293b;padding-top:6px;font-size:11px}'
+    +'@media print{button{display:none}}</style></head><body>'
+    +'<div class="header">'
+      +'<h1>'+facilityName+'</h1>'
+      +'<p>'+district+' District &nbsp;·&nbsp; '+province+' Province &nbsp;·&nbsp; Republic of Zambia</p>'
+    +'</div>'
+    +'<div class="body">'
+      +'<div class="title">'+storeLabel+' Report</div>'
+      +'<table>'+rows+'</table>'
+      +'<div class="sig">'
+        +'<div class="sig-block">Prepared by: ___________________________<br>Name &amp; Designation</div>'
+        +'<div class="sig-block">Signature: ___________________________<br>Date: ___________________</div>'
+        +'<div class="sig-block">Verified by: ___________________________<br>Name &amp; Designation</div>'
+      +'</div>'
+    +'</div>'
+    +'<div style="text-align:center;padding:16px"><button onclick="window.print()" style="padding:8px 24px;background:#0a5448;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer">🖨 Print / Save PDF</button></div>'
+    +'</body></html>';
+
+  var w = window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+}
+
 </script>
 </body>
 </html>
