@@ -8822,13 +8822,15 @@ function renderCommunityWaste(){
       +'</tr>';
   }).join('')||'<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)">No community waste reports yet</td></tr>';
 
-  // Use event delegation to handle button clicks
-  tb.onclick = function(e){
-    var btn = e.target.closest('button[data-action]');
+  // Use event delegation on the table wrapper
+  var tbl = document.getElementById('tbl-community-waste');
+  if(tbl) tbl.onclick = function(e){
+    var btn = e.target.closest ? e.target.closest('button[data-action]') : null;
+    if(!btn && e.target.dataset && e.target.dataset.action) btn = e.target;
     if(!btn) return;
-    var store = btn.dataset.store;
-    var id = btn.dataset.id;
-    var action = btn.dataset.action;
+    var store = btn.getAttribute('data-store');
+    var id = btn.getAttribute('data-id');
+    var action = btn.getAttribute('data-action');
     if(action==='edit') editCommunityWaste(id);
     else if(action==='attach') viewAttachments(store, id);
     else if(action==='print') printRecord(store, id);
