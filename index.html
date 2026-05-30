@@ -1727,7 +1727,7 @@ function saveUser(){
   const id = v('f-user-id');
   const users = DB.get('users');
   const pwd = v('f-user-pwd');
-  let rec = {id:id||genId('USR'), name:v('f-user-name'), username:v('f-user-uname'), role:v('f-user-role'), status:v('f-user-status'), lastLogin:'Never'};
+  let rec = {id:id||genId('USR'), name:v('f-user-name'), username:v('f-user-uname'), role:(v('f-user-role')==='Other (specify)'?(document.getElementById('f-user-role-other').value.trim()||'Other'):v('f-user-role')), status:v('f-user-status'), lastLogin:'Never'};
   if(pwd) rec.password = btoa(pwd);
   else if(id){ const ex=users.find(u=>u.id===id); if(ex) rec.password=ex.password; }
   const idx = users.findIndex(u=>u.id===rec.id);
@@ -4469,8 +4469,21 @@ function doLogin(){
 document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none') doLogin(); });
 function editUser(id){
   const u=DB.get('users').find(r=>r.id===id); if(!u) return;
-  sv('f-user-id',u.id);sv('f-user-name',u.name);sv('f-user-uname',u.username);sv('f-user-role',u.role);sv('f-user-status',u.status);
+  sv('f-user-id',u.id);sv('f-user-name',u.name);sv('f-user-uname',u.username);sv('f-user-status',u.status);
   document.getElementById('f-user-pwd').value='';
+  // Handle custom roles
+  var stdRoles=['EH Officer','IPC Nurse','Lab Technician','Data Entry','Admin','Viewer'];
+  var roleEl=document.getElementById('f-user-role');
+  var roleOtherWrap=document.getElementById('user-role-other-wrap');
+  var roleOtherEl=document.getElementById('f-user-role-other');
+  if(stdRoles.indexOf(u.role)>=0){
+    roleEl.value=u.role;
+    if(roleOtherWrap) roleOtherWrap.style.display='none';
+  } else {
+    roleEl.value='Other (specify)';
+    if(roleOtherEl) roleOtherEl.value=u.role;
+    if(roleOtherWrap) roleOtherWrap.style.display='block';
+  }
   openModal('m-user');
 }
 
