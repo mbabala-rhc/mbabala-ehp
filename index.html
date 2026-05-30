@@ -5027,11 +5027,11 @@ window.onload = function(){
         if(freshDbUser) currentUser = freshDbUser;
         // Refresh both storage mechanisms
         const sessData = JSON.stringify({id:currentUser.id,name:currentUser.name,username:currentUser.username,role:currentUser.role,status:currentUser.status});
-        localStorage.setItem('ehp_session', currentUser.id);
-        localStorage.setItem('ehp_session_user', sessData);
+        sessionStorage.setItem('ehp_session', currentUser.id);
+        sessionStorage.setItem('ehp_session_user', sessData);
         const expires = new Date(Date.now()+30*24*60*60*1000).toUTCString();
-        document.cookie = 'ehp_session='+currentUser.id+'; expires='+expires+'; path=/; SameSite=Lax';
-        document.cookie = 'ehp_session_user='+encodeURIComponent(sessData)+'; expires='+expires+'; path=/; SameSite=Lax';
+        document.cookie = 'ehp_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'ehp_session_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.getElementById('login-screen').style.display='none';
         document.getElementById('app').classList.add('visible');
         auditLog('LOGIN', 'system', currentUser.id, 'User logged in: '+currentUser.username);
@@ -5056,11 +5056,11 @@ window.onload = function(){
 window.addEventListener('beforeunload',()=>{
   if(currentUser){
     const sessData = JSON.stringify({id:currentUser.id,name:currentUser.name,username:currentUser.username,role:currentUser.role,status:currentUser.status});
-    localStorage.setItem('ehp_session',currentUser.id);
-    localStorage.setItem('ehp_session_user',sessData);
+    sessionStorage.setItem('ehp_session',currentUser.id);
+    sessionStorage.setItem('ehp_session_user',sessData);
     const expires = new Date(Date.now()+30*24*60*60*1000).toUTCString();
-    document.cookie='ehp_session='+currentUser.id+'; expires='+expires+'; path=/; SameSite=Lax';
-    document.cookie='ehp_session_user='+encodeURIComponent(sessData)+'; expires='+expires+'; path=/; SameSite=Lax';
+    document.cookie='ehp_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie='ehp_session_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   }
 });
 
@@ -5092,6 +5092,8 @@ function confirmLogout(){
   currentUser = null;
   localStorage.removeItem('ehp_session');
   localStorage.removeItem('ehp_session_user');
+  sessionStorage.removeItem('ehp_session');
+  sessionStorage.removeItem('ehp_session_user');
   document.cookie = 'ehp_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   document.cookie = 'ehp_session_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   Object.keys(_recentlySaved).forEach(function(k){delete _recentlySaved[k];});
