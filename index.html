@@ -9724,7 +9724,7 @@ function printInspReport(id){
   var recList = recs2.length ? recs2.map(function(x,i){ return '<li style="margin-bottom:5px">'+x+'</li>'; }).join('') : '<li style="list-style:decimal">………………………………………………………………………………………………………………</li>'.repeat(8);
   var toText = (r.to||'').split('\n').map(function(l){ return '<div>'+l+'</div>'; }).join('');
   var html = '<!DOCTYPE html><html><head><title>Inspection Report</title>'
-    +'<style>body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:24px;max-width:800px;margin:0 auto}'
+    +'<style>body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:14px 18px;}'
     +'table{width:100%;border-collapse:collapse;margin-bottom:10px}td{padding:4px 8px;vertical-align:top}'
     +'.sig-row{display:flex;gap:48px;margin-top:24px}.sig-block{flex:1;border-top:1px solid #111;padding-top:4px;font-size:13px}'
     +'@media print{button{display:none}}</style></head><body>'
