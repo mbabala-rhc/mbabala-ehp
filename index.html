@@ -5700,7 +5700,7 @@ function printSection(title, contentHtml){
       tr:nth-child(even) td { background:#f9fafb; }
       .footer { margin-top:20px; padding-top:10px; border-top:1px solid #e5e7eb; font-size:10px; color:#666; display:flex; justify-content:space-between; }
       @media print { body { padding:10px; } }
-      th:last-child, td:last-child { display:none !important; }
+      
     </style> </head><body> <div class="header"> <div class="facility">${s.name||'Mbabala Rural Health Centre'}</div> <div class="subtitle">${s.district||'Chifunabuli District'} · ${s.province||'Luapula Province'}</div> <h1 style="margin-top:8px">${title}</h1> <h2>Printed: ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})}</h2> </div>
     ${contentHtml}
     <div class="footer"> <span>${s.name||'Mbabala RHC'} · EH Management Platform</span> <span>Printed by: ${currentUser?.name||'Unknown'}</span> </div> </body></html>`);
