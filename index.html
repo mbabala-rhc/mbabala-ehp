@@ -895,7 +895,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="card-title">&#128274; PIN Lock</div>
   <p style="font-size:13px;color:var(--txt2);margin-bottom:12px">A PIN lock adds an extra layer of security. You will be asked for your PIN every time you open the platform app.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap">
-    <button class="btn primary" onclick="showPinSetup()" style="background:#0a5448">&#128274; Change PIN</button>
+    <button class="btn primary" onclick="document.getElementById('pin-setup-screen').className='show';_pinSetupEntry='';_pinSetupFirst='';updatePinDots('pin-setup-dots',0);document.getElementById('pin-setup-title').textContent='Set Your PIN';document.getElementById('pin-setup-sub').textContent='Choose a 4-digit PIN for quick access';document.getElementById('pin-setup-error').textContent='';" style="background:#0a5448">&#128274; Change PIN</button>
     <button class="btn danger" onclick="confirmRemovePin()">&#10005; Remove PIN</button>
   </div>
   <div id="pin-status" style="margin-top:8px;font-size:12px;color:var(--txt2)"></div>
@@ -10392,13 +10392,20 @@ function resetPin(){
 }
 
 function confirmRemovePin(){
-  if(confirm('Are you sure you want to remove the PIN lock? Anyone who opens the platform will not need a PIN.')){
-    localStorage.removeItem('ehp_pin');
-    localStorage.removeItem('ehp_pin_skipped');
-    var status = document.getElementById('pin-status');
-    if(status) status.textContent = 'PIN removed successfully.';
-    toast('PIN lock removed','info');
+  var msg = document.getElementById('confirm-delete-msg');
+  var btn = document.getElementById('confirm-delete-btn');
+  if(msg) msg.textContent = 'Remove PIN lock? Anyone who opens the platform will not need a PIN.';
+  if(btn){
+    btn.onclick = function(){
+      closeModal('m-confirm-delete');
+      localStorage.removeItem('ehp_pin');
+      localStorage.removeItem('ehp_pin_skipped');
+      var status = document.getElementById('pin-status');
+      if(status) status.textContent = 'No PIN set.';
+      toast('PIN lock removed','info');
+    };
   }
+  openModal('m-confirm-delete');
 }
 
 function updatePinStatus(){
