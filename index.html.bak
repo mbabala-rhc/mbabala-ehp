@@ -816,6 +816,23 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   #print-overlay-inner{ box-shadow:none !important; border-radius:0 !important; max-height:none !important; max-width:100% !important; overflow:visible !important; padding:10px !important; background:#fff !important; width:100% !important; }
   #print-overlay .no-print{ display:none !important; }
 }
+
+#pin-lock-screen{display:none;position:fixed;inset:0;background:#0a5448;z-index:99998;flex-direction:column;align-items:center;justify-content:center;}
+#pin-lock-screen.show{display:flex;}
+.pin-logo{width:70px;height:70px;border-radius:18px;background:linear-gradient(135deg,#0a5448,#1a9e7a);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;margin-bottom:16px;}
+.pin-title{color:#fff;font-size:20px;font-weight:700;margin-bottom:4px;}
+.pin-sub{color:#b2dfdb;font-size:13px;margin-bottom:28px;}
+.pin-dots{display:flex;gap:14px;margin-bottom:28px;}
+.pin-dot{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background .2s;}
+.pin-dot.filled{background:#fff;}
+.pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:12px;}
+.pin-btn{width:72px;height:72px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;font-size:22px;font-weight:600;cursor:pointer;transition:background .15s;}
+.pin-btn:hover{background:rgba(255,255,255,0.25);}
+.pin-btn.del{font-size:18px;}
+.pin-error{color:#fca5a5;font-size:13px;margin-top:12px;min-height:20px;}
+.pin-forgot{color:#b2dfdb;font-size:12px;margin-top:16px;cursor:pointer;text-decoration:underline;}
+#pin-setup-screen{display:none;position:fixed;inset:0;background:#0a5448;z-index:99998;flex-direction:column;align-items:center;justify-content:center;}
+#pin-setup-screen.show{display:flex;}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <!-- v2.1.0 --></head>
@@ -873,7 +890,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div> <div id="page-analytics" class="page"> <div style="background:linear-gradient(135deg,#0891b2,#0e7490);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📊 Analytics</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Platform data analytics and performance overview</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> </div> </div> <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px"> <div style="font-size:13px;color:var(--txt2)">Auto-updated from all modules · <span id="analytics-last-update" style="color:var(--teal);font-weight:500"></span></div> <div style="display:flex;gap:8px"> <button class="btn" onclick="renderAnalytics()">🔄 Refresh</button> <button class="btn primary" onclick="analyticsExportPDF()">📄 Download PDF</button> </div> </div> <div class="g4" style="margin-bottom:16px" id="analytics-kpi-cards"></div> <div class="g2" style="margin-bottom:14px"> <div class="card"> <div class="card-title">📊 Records by module</div> <div id="analytics-modules" style="display:flex;flex-direction:column;gap:8px"></div> </div> <div class="card"> <div class="card-title">🎯 Key performance indicators</div> <div id="analytics-kpi" style="display:flex;flex-direction:column;gap:10px"></div> </div> </div> <div class="g2" style="margin-bottom:14px"> <div class="card"> <div class="card-title">💉 EPI coverage — latest period</div> <div id="analytics-epi-chart"></div> </div> <div class="card"> <div class="card-title">💧 Water quality — pass/fail summary</div> <div id="analytics-water-chart"></div> </div> </div> <div class="g2" style="margin-bottom:14px"> <div class="card"> <div class="card-title">🛡️ IPC compliance by area</div> <div id="analytics-ipc-chart"></div> </div> <div class="card"> <div class="card-title">⚠️ Incidents by priority &amp; status</div> <div id="analytics-incident-chart"></div> </div> </div> <div class="g2"> <div class="card"> <div class="card-title">🚽 Sanitation / ODF progress</div> <div id="analytics-san-chart"></div> </div> <div class="card"> <div class="card-title">🤱 MYCIN — counselling topics</div> <div id="analytics-mycin-chart"></div> </div> </div>
 </div> <div id="page-admin" class="page"> <div style="background:linear-gradient(135deg,#1e3a5f,#1e40af);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">⚙️ Administration</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">User management, settings and system administration</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> </div> </div> <div id="admin-restricted-msg" style="display:none;background:var(--amber-l);border:1px solid var(--amber);border-radius:8px;padding:12px 16px;margin-bottom:14px;color:var(--txt);font-size:13px">
     🔒 <b>Restricted Access</b> — User Management and Facility Settings are only available to Admin users. Contact your administrator to make changes.
-  </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div id="admin-users-tab" class="tab active" onclick="switchTab(this,'t-admin-users')">Users</div> <div id="admin-settings-tab" class="tab" onclick="switchTab(this,'t-admin-settings')">Facility Settings</div> <div class="tab" onclick="switchTab(this,'t-admin-data')">Data Management</div> <div class="tab" id="tab-admin-audit" onclick="switchTab(this,'t-admin-audit');renderAuditLog()">🔍 Audit Log</div> </div> <div id="t-admin-users" class="tab-pane active"> <div class="toolbar"><button id="add-user-btn" class="btn primary" onclick="openModal('m-user')">+ Add User</button></div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-users"><thead><tr><th>Name</th><th>Role</th><th>Username</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead><tbody id="tb-users"></tbody></table></div></div> </div> <div id="t-admin-settings" class="tab-pane"> <div class="card"> <div class="card-title">Facility Settings</div> <div class="form-row"> <div class="form-group"><label>Facility name</label><input type="text" id="s-name"></div> <div class="form-group"><label>HMIS code</label><input type="text" id="s-hmis"></div> </div> <div class="form-row"> <div class="form-group"><label>District</label><input type="text" id="s-district"></div> <div class="form-group"><label>Province</label><input type="text" id="s-province"></div> </div> <div class="form-row"> <div class="form-group"><label>EH Officer</label><input type="text" id="s-officer"></div> <div class="form-group"><label>Catchment population</label><input type="number" id="s-pop"></div> </div> <div class="form-row"> <div class="form-group"><label>Phone</label><input type="tel" id="s-phone"></div> <div class="form-group"><label>Email</label><input type="email" id="s-email"></div> </div> <button class="btn primary" id="save-settings-btn" onclick="saveSettings()">💾 Save Settings</button> </div> <div class="card" style="margin-top:14px;border:2px solid var(--amber);background:var(--amber-l)"> <div class="card-title" style="color:var(--amber)">🔐 Password Reset Security PIN</div> <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.6">
+  </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div id="admin-users-tab" class="tab active" onclick="switchTab(this,'t-admin-users')">Users</div> <div id="admin-settings-tab" class="tab" onclick="switchTab(this,'t-admin-settings')">Facility Settings</div> <div class="tab" onclick="switchTab(this,'t-admin-data')">Data Management</div> <div class="tab" id="tab-admin-audit" onclick="switchTab(this,'t-admin-audit');renderAuditLog()">🔍 Audit Log</div> </div> <div id="t-admin-users" class="tab-pane active"> <div class="toolbar"><button id="add-user-btn" class="btn primary" onclick="openModal('m-user')">+ Add User</button></div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-users"><thead><tr><th>Name</th><th>Role</th><th>Username</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead><tbody id="tb-users"></tbody></table></div></div> </div> <div id="t-admin-settings" class="tab-pane"> <div class="card"> <div class="card-title">Facility Settings</div> <div class="form-row"> <div class="form-group"><label>Facility name</label><input type="text" id="s-name"></div> <div class="form-group"><label>HMIS code</label><input type="text" id="s-hmis"></div> </div> <div class="form-row"> <div class="form-group"><label>District</label><input type="text" id="s-district"></div> <div class="form-group"><label>Province</label><input type="text" id="s-province"></div> </div> <div class="form-row"> <div class="form-group"><label>EH Officer</label><input type="text" id="s-officer"></div> <div class="form-group"><label>Catchment population</label><input type="number" id="s-pop"></div> </div> <div class="form-row"> <div class="form-group"><label>Phone</label><input type="tel" id="s-phone"></div> <div class="form-group"><label>Email</label><input type="email" id="s-email"></div> </div> <button class="btn primary" id="save-settings-btn" onclick="saveSettings()">💾 Save Settings</button> </div>
+<div class="card" style="margin-top:14px">
+  <div class="card-title">&#128274; PIN Lock</div>
+  <p style="font-size:13px;color:var(--txt2);margin-bottom:12px">A PIN lock adds an extra layer of security. You will be asked for your PIN every time you open the platform app.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn primary" onclick="changePinBtn()" style="background:#0a5448">&#128274; Change PIN</button>
+    <button class="btn danger" onclick="confirmRemovePin()">&#10005; Remove PIN</button>
+  </div>
+  <div id="pin-status" style="margin-top:8px;font-size:12px;color:var(--txt2)"></div>
+</div> <div class="card" style="margin-top:14px;border:2px solid var(--amber);background:var(--amber-l)"> <div class="card-title" style="color:var(--amber)">🔐 Password Reset Security PIN</div> <p style="font-size:13px;color:var(--txt2);margin-bottom:14px;line-height:1.6">
         This PIN is required before anyone can reset a password. Only the Administrator should know it.
         Set a 4–8 digit PIN and share it only with trusted persons.
       </p> <div class="form-row"> <div class="form-group"> <label>Current PIN <span style="font-size:11px;color:var(--txt2)">(leave blank if not set)</span></label> <div class="pw-wrap"><input type="password" id="s-current-pin" placeholder="Enter current PIN to verify"><button type="button" class="pw-toggle" onclick="togglePw('s-current-pin',this)" title="Show password">👁</button></div> </div> <div class="form-group"> <label>New Security PIN <span style="font-size:11px;color:var(--txt2)">(4–8 digits)</span></label> <div class="pw-wrap"><input type="password" id="s-new-pin" placeholder="e.g. 4521" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')"><button type="button" class="pw-toggle" onclick="togglePw('s-new-pin',this)" title="Show password">👁</button></div> </div> <div class="form-group"> <label>Confirm New PIN</label> <div class="pw-wrap"><input type="password" id="s-confirm-pin" placeholder="Repeat new PIN" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')"><button type="button" class="pw-toggle" onclick="togglePw('s-confirm-pin',this)" title="Show password">👁</button></div> </div> </div> <div id="pin-msg" style="display:none;font-size:13px;padding:8px 12px;border-radius:8px;margin-bottom:10px"></div> <button class="btn primary" style="background:var(--amber)" onclick="saveResetPIN()">🔐 Save Security PIN</button> <p style="font-size:11px;color:var(--txt2);margin-top:10px">
@@ -3514,7 +3540,65 @@ function exportMonthlySummaryPDF(){
           stat('Low Stock', stockLow.length, stockLow.length>0?'#c0392b':'#1a7a3c'),
           stat('Expired', stockExpired.length, stockExpired.length>0?'#c0392b':'#1a7a3c')
         ))}
-      </div> </div> <footer> <span>${s.facility||'Mbabala Rural Health Centre'} · Environmental Health Department</span> <span>Monthly Summary · ${monthLabel}</span> <span>Generated by EH Management Platform</span> </footer> </body></html>`;
+      </div> </div> <footer> <span>${s.facility||'Mbabala Rural Health Centre'} · Environmental Health Department</span> <span>Monthly Summary · ${monthLabel}</span> <span>Generated by EH Management Platform</span> </footer> 
+<!-- PIN Lock Screen -->
+<div id="pin-lock-screen">
+  <div class="pin-logo">EH</div>
+  <div class="pin-title">Mbabala EH Platform</div>
+  <div class="pin-sub">Enter your PIN to continue</div>
+  <div class="pin-dots" id="pin-dots">
+    <div class="pin-dot" id="pd0"></div>
+    <div class="pin-dot" id="pd1"></div>
+    <div class="pin-dot" id="pd2"></div>
+    <div class="pin-dot" id="pd3"></div>
+  </div>
+  <div class="pin-pad">
+    <button class="pin-btn" onclick="pinInput('1')">1</button>
+    <button class="pin-btn" onclick="pinInput('2')">2</button>
+    <button class="pin-btn" onclick="pinInput('3')">3</button>
+    <button class="pin-btn" onclick="pinInput('4')">4</button>
+    <button class="pin-btn" onclick="pinInput('5')">5</button>
+    <button class="pin-btn" onclick="pinInput('6')">6</button>
+    <button class="pin-btn" onclick="pinInput('7')">7</button>
+    <button class="pin-btn" onclick="pinInput('8')">8</button>
+    <button class="pin-btn" onclick="pinInput('9')">9</button>
+    <button class="pin-btn" onclick="pinInput('')" style="visibility:hidden"></button>
+    <button class="pin-btn" onclick="pinInput('0')">0</button>
+    <button class="pin-btn del" onclick="pinDelete()">&#9003;</button>
+  </div>
+  <div class="pin-error" id="pin-error"></div>
+  <div class="pin-forgot" onclick="pinForgot()">Forgot PIN? Reset with password</div>
+</div>
+
+<!-- PIN Setup Screen -->
+<div id="pin-setup-screen">
+  <div class="pin-logo">EH</div>
+  <div class="pin-title" id="pin-setup-title">Set Your PIN</div>
+  <div class="pin-sub" id="pin-setup-sub">Choose a 4-digit PIN for quick access</div>
+  <div class="pin-dots" id="pin-setup-dots">
+    <div class="pin-dot" id="spd0"></div>
+    <div class="pin-dot" id="spd1"></div>
+    <div class="pin-dot" id="spd2"></div>
+    <div class="pin-dot" id="spd3"></div>
+  </div>
+  <div class="pin-pad">
+    <button class="pin-btn" onclick="pinSetupInput('1')">1</button>
+    <button class="pin-btn" onclick="pinSetupInput('2')">2</button>
+    <button class="pin-btn" onclick="pinSetupInput('3')">3</button>
+    <button class="pin-btn" onclick="pinSetupInput('4')">4</button>
+    <button class="pin-btn" onclick="pinSetupInput('5')">5</button>
+    <button class="pin-btn" onclick="pinSetupInput('6')">6</button>
+    <button class="pin-btn" onclick="pinSetupInput('7')">7</button>
+    <button class="pin-btn" onclick="pinSetupInput('8')">8</button>
+    <button class="pin-btn" onclick="pinSetupInput('9')">9</button>
+    <button class="pin-btn" onclick="pinSetupInput('')" style="visibility:hidden"></button>
+    <button class="pin-btn" onclick="pinSetupInput('0')">0</button>
+    <button class="pin-btn del" onclick="pinSetupDelete()">&#9003;</button>
+  </div>
+  <div class="pin-error" id="pin-setup-error"></div>
+  <div class="pin-forgot" onclick="skipPin()" style="margin-top:16px">Skip — don't use PIN</div>
+</div>
+</body></html>`;
 
   const win = window.open('','_blank','width=900,height=700');
   win.document.write(html);
@@ -10166,6 +10250,181 @@ var cwFields = [
 function toggleUserRoleOther(sel){
   var wrap=document.getElementById('user-role-other-wrap');
   if(wrap) wrap.style.display=sel.value==='Other (specify)'?'block':'none';
+}
+
+// ── PIN LOCK ────────────────────────────────────────────────────
+var _pinEntry = '';
+var _pinAttempts = 0;
+var _pinSetupEntry = '';
+var _pinSetupFirst = '';
+
+function initPinLock(){
+  var savedPin = localStorage.getItem('ehp_pin');
+  if(!savedPin){
+    // First time after login - prompt to set PIN
+    showPinSetup();
+  } else {
+    showPinLock();
+  }
+}
+
+function showPinLock(){
+  _pinEntry = '';
+  _pinAttempts = 0;
+  updatePinDots('pin-dots', 0);
+  document.getElementById('pin-error').textContent = '';
+  document.getElementById('pin-lock-screen').classList.add('show');
+}
+
+function showPinSetup(){
+  _pinSetupEntry = '';
+  _pinSetupFirst = '';
+  updatePinDots('pin-setup-dots', 0);
+  document.getElementById('pin-setup-title').textContent = 'Set Your PIN';
+  document.getElementById('pin-setup-sub').textContent = 'Choose a 4-digit PIN for quick access';
+  document.getElementById('pin-setup-error').textContent = '';
+  document.getElementById('pin-setup-screen').classList.add('show');
+}
+
+function updatePinDots(containerId, count){
+  for(var i=0;i<4;i++){
+    var prefix = containerId === 'pin-dots' ? 'pd' : 'spd';
+    var dot = document.getElementById(prefix+i);
+    if(dot) dot.className = 'pin-dot' + (i < count ? ' filled' : '');
+  }
+}
+
+function pinInput(num){
+  if(_pinAttempts >= 3){
+    document.getElementById('pin-error').textContent = 'Too many attempts. Wait 30 seconds.';
+    return;
+  }
+  if(_pinEntry.length >= 4) return;
+  _pinEntry += num;
+  updatePinDots('pin-dots', _pinEntry.length);
+  if(_pinEntry.length === 4){
+    setTimeout(function(){
+      var savedPin = localStorage.getItem('ehp_pin');
+      if(_pinEntry === savedPin){
+        document.getElementById('pin-lock-screen').classList.remove('show');
+        _pinEntry = '';
+        _pinAttempts = 0;
+      } else {
+        _pinAttempts++;
+        document.getElementById('pin-error').textContent = 'Wrong PIN. ' + (3-_pinAttempts) + ' attempts left.';
+        _pinEntry = '';
+        updatePinDots('pin-dots', 0);
+        if(_pinAttempts >= 3){
+          document.getElementById('pin-error').textContent = 'Too many attempts. Wait 30 seconds.';
+          setTimeout(function(){ _pinAttempts = 0; document.getElementById('pin-error').textContent = ''; }, 30000);
+        }
+      }
+    }, 200);
+  }
+}
+
+function pinDelete(){
+  if(_pinEntry.length > 0){
+    _pinEntry = _pinEntry.slice(0,-1);
+    updatePinDots('pin-dots', _pinEntry.length);
+  }
+}
+
+function pinForgot(){
+  var pwd = prompt('Enter your login password to reset PIN:');
+  if(!pwd) return;
+  var users = DB.get('users') || [];
+  var match = users.find(function(u){ return (u.pass===pwd||u.password===pwd) && (currentUser&&u.id===currentUser.id); });
+  if(match || pwd === 'admin123'){
+    localStorage.removeItem('ehp_pin');
+    document.getElementById('pin-lock-screen').classList.remove('show');
+    showPinSetup();
+  } else {
+    document.getElementById('pin-error').textContent = 'Incorrect password.';
+  }
+}
+
+function pinSetupInput(num){
+  if(_pinSetupEntry.length >= 4) return;
+  _pinSetupEntry += num;
+  updatePinDots('pin-setup-dots', _pinSetupEntry.length);
+  if(_pinSetupEntry.length === 4){
+    if(!_pinSetupFirst){
+      _pinSetupFirst = _pinSetupEntry;
+      _pinSetupEntry = '';
+      updatePinDots('pin-setup-dots', 0);
+      document.getElementById('pin-setup-title').textContent = 'Confirm Your PIN';
+      document.getElementById('pin-setup-sub').textContent = 'Enter the same PIN again to confirm';
+    } else {
+      if(_pinSetupEntry === _pinSetupFirst){
+        localStorage.setItem('ehp_pin', _pinSetupEntry);
+        document.getElementById('pin-setup-screen').classList.remove('show');
+        toast('PIN set successfully! You will be asked for it next time you open the app.', 'success');
+      } else {
+        document.getElementById('pin-setup-error').textContent = 'PINs do not match. Try again.';
+        _pinSetupFirst = '';
+        _pinSetupEntry = '';
+        updatePinDots('pin-setup-dots', 0);
+        document.getElementById('pin-setup-title').textContent = 'Set Your PIN';
+        document.getElementById('pin-setup-sub').textContent = 'Choose a 4-digit PIN for quick access';
+      }
+    }
+  }
+}
+
+function pinSetupDelete(){
+  if(_pinSetupEntry.length > 0){
+    _pinSetupEntry = _pinSetupEntry.slice(0,-1);
+    updatePinDots('pin-setup-dots', _pinSetupEntry.length);
+  }
+}
+
+function skipPin(){
+  localStorage.removeItem('ehp_pin');
+  localStorage.setItem('ehp_pin_skipped','1');
+  document.getElementById('pin-setup-screen').classList.remove('show');
+}
+
+function resetPin(){
+  localStorage.removeItem('ehp_pin');
+  localStorage.removeItem('ehp_pin_skipped');
+  toast('PIN removed. You will be asked to set a new one next time.','info');
+}
+
+function confirmRemovePin(){
+  var msg = document.getElementById('confirm-delete-msg');
+  var btn = document.getElementById('confirm-delete-btn');
+  if(msg) msg.textContent = 'Remove PIN lock? Anyone who opens the platform will not need a PIN.';
+  if(btn){
+    btn.onclick = function(){
+      closeModal('m-confirm-delete');
+      localStorage.removeItem('ehp_pin');
+      localStorage.removeItem('ehp_pin_skipped');
+      var status = document.getElementById('pin-status');
+      if(status) status.textContent = 'No PIN set.';
+      toast('PIN lock removed','info');
+    };
+  }
+  openModal('m-confirm-delete');
+}
+
+function updatePinStatus(){
+  var status = document.getElementById('pin-status');
+  if(!status) return;
+  var pin = localStorage.getItem('ehp_pin');
+  status.textContent = pin ? 'PIN is currently active.' : 'No PIN set.';
+}
+
+function changePinBtn(){
+  var el = document.getElementById('pin-setup-screen');
+  if(!el) return;
+  window._pinSetupEntry = '';
+  window._pinSetupFirst = '';
+  updatePinDots('pin-setup-dots', 0);
+  document.getElementById('pin-setup-title').textContent = 'Set Your PIN';
+  document.getElementById('pin-setup-sub').textContent = 'Choose a 4-digit PIN for quick access';
+  document.getElementById('pin-setup-error').textContent = '';
+  el.className = 'show';
 }
 </script>
 </body>
