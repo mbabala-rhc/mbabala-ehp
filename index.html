@@ -3239,12 +3239,20 @@ function auditLog(action, store, recordId, details){
 }
 
 function clearAuditLog(){
-  if(!confirm('Clear all audit log entries? This cannot be undone.')) return;
-  _store['audit_log'] = [];
-  idbPut('audit_log', []);
-  sbSet('audit_log', []);
-  renderAuditLog();
-  toast('Audit log cleared','info');
+  var msg = document.getElementById('confirm-delete-msg');
+  var btn = document.getElementById('confirm-delete-btn');
+  if(msg) msg.textContent = 'Clear all audit log entries? This cannot be undone.';
+  if(btn){
+    btn.onclick = function(){
+      closeModal('m-confirm-delete');
+      _store['audit_log'] = [];
+      idbPut('audit_log', []);
+      sbSet('audit_log', []);
+      renderAuditLog();
+      toast('Audit log cleared','info');
+    };
+  }
+  openModal('m-confirm-delete');
 }
 
 function renderAuditLog(){
