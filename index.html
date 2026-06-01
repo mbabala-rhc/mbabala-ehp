@@ -2339,18 +2339,20 @@ function renderDashboard(){
       var failed = insp.filter(function(r){ return r.status==='Fail'; }).length;
       var noResult = insp.length - passed - failed;
       inspCtx._chartInst = new Chart(inspCtx, {
-        type: 'doughnut',
+        type: 'bar',
         data: {
           labels: ['Pass','Fail','No Result'],
           datasets: [{
+            label: 'Inspections',
             data: [passed, failed, noResult],
             backgroundColor: ['#0a5448','#dc2626','#94a3b8'],
-            borderWidth: 2, borderColor: '#fff'
+            borderRadius: 6
           }]
         },
         options: {
           responsive: true, maintainAspectRatio: true,
-          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { font: { size: 10 }, stepSize: 1 } }, x: { ticks: { font: { size: 11 } } } }
         }
       });
     }
@@ -2362,18 +2364,20 @@ function renderDashboard(){
       var wPass = water.filter(function(r){ return r.result==='Pass'; }).length;
       var wFail = water.filter(function(r){ return r.result==='Fail'; }).length;
       waterCtx._chartInst = new Chart(waterCtx, {
-        type: 'doughnut',
+        type: 'bar',
         data: {
           labels: ['Pass','Fail'],
           datasets: [{
+            label: 'Water Tests',
             data: [wPass, wFail],
             backgroundColor: ['#0369a1','#dc2626'],
-            borderWidth: 2, borderColor: '#fff'
+            borderRadius: 6
           }]
         },
         options: {
           responsive: true, maintainAspectRatio: true,
-          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { font: { size: 10 }, stepSize: 1 } }, x: { ticks: { font: { size: 11 } } } }
         }
       });
     }
@@ -2418,18 +2422,20 @@ function renderDashboard(){
       var nMAM  = nutr.filter(function(r){ return r.status==='MAM'; }).length;
       var nSAM  = nutr.filter(function(r){ return r.status==='SAM'; }).length;
       nutrCtx._chartInst = new Chart(nutrCtx, {
-        type: 'doughnut',
+        type: 'bar',
         data: {
           labels: ['Normal','MAM','SAM'],
           datasets: [{
+            label: 'Children',
             data: [nNorm, nMAM, nSAM],
             backgroundColor: ['#0a5448','#f59e0b','#dc2626'],
-            borderWidth: 2, borderColor: '#fff'
+            borderRadius: 6
           }]
         },
         options: {
           responsive: true, maintainAspectRatio: true,
-          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { font: { size: 10 }, stepSize: 1 } }, x: { ticks: { font: { size: 11 } } } }
         }
       });
     }
