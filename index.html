@@ -9724,7 +9724,7 @@ function printInspReport(id){
   var recList = recs2.length ? recs2.map(function(x,i){ return '<li style="margin-bottom:5px">'+x+'</li>'; }).join('') : '<li style="list-style:decimal">………………………………………………………………………………………………………………</li>'.repeat(8);
   var toText = (r.to||'').split('\n').map(function(l){ return '<div>'+l+'</div>'; }).join('');
   var html = '<!DOCTYPE html><html><head><title>Inspection Report</title>'
-    +'<style>body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:14px 18px;}'
+    +'<style>body{font-family:Arial,sans-serif;font-size:13px;color:#111;padding:14px 18px;word-wrap:break-word;overflow-wrap:break-word;}'
     +'table{width:100%;border-collapse:collapse;margin-bottom:10px}td{padding:4px 8px;vertical-align:top}'
     +'.sig-row{display:flex;gap:48px;margin-top:24px}.sig-block{flex:1;border-top:1px solid #111;padding-top:4px;font-size:13px}'
     +'@media print{button{display:none}}</style></head><body>'
@@ -9751,7 +9751,7 @@ function printInspReport(id){
     +'<ol style="margin:0 0 14px 18px">'+defList+'</ol>'
     +'<p style="margin-bottom:10px"><b>The following are the recommendations:</b></p>'
     +'<ol style="margin:0 0 14px 18px">'+recList+'</ol>'
-    +'<p style="margin-bottom:14px"><b>Conclusion:</b> '+(r.conclusion||'………………………………………………………………………………………………………………………………………………………………………………………………………………')+'</p>'
+    +'<p style="margin-bottom:14px;word-wrap:break-word;overflow-wrap:break-word"><b>Conclusion:</b> '+(r.conclusion||'………………………………………………………………………………………………………………………………………………………………………………………………………………')+'</p>'
     +'<div class="sig-row">'
     +'<div class="sig-block">Name of inspector: <b>'+(r.inspector||'……………………………………………………')+'</b><br>Designation: '+(r.designation||'……………………………………')+'<br><br>Signature: ……………………………………… Date: '+fmtD(r.signDate)+'</div>'
     +'<div class="sig-block">Name of owner/occupier/agent: ……………………………………<br>Designation: ………………………………<br><br>Signature: ……………………………………… Date: ………………………</div>'
