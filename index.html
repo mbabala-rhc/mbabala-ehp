@@ -1148,7 +1148,60 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div></div> <div id="m-confirm-delete" class="modal-overlay" style="background:rgba(0,0,0,.6)"> <div style="background:var(--bg);border-radius:16px;width:90%;max-width:320px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.3)"> <div style="background:var(--red);padding:16px;display:flex;align-items:center;gap:10px"> <span style="font-size:20px">🗑</span> <span style="color:#fff;font-weight:700;font-size:15px">Delete Record</span> </div> <div style="padding:20px"> <div id="confirm-delete-msg" style="font-size:14px;font-weight:600;color:var(--txt);margin-bottom:6px">Delete this record?</div> <div style="font-size:12px;color:var(--txt2)">This cannot be undone. Attachments will also be removed.</div> </div> <div style="padding:0 16px 16px;display:flex;gap:10px;justify-content:flex-end"> <button onclick="closeModal('m-confirm-delete')" style="padding:8px 18px;background:var(--bg2);border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;font-size:13px;color:var(--txt);font-weight:600">Cancel</button> <button id="confirm-delete-btn" style="padding:8px 18px;background:var(--red);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700">Delete</button> </div> </div>
 </div> <div id="m-disease-trend" class="modal-overlay"><div class="modal xl" style="max-width:860px"> <div class="modal-header"> <div class="modal-header-icon" style="background:var(--red-l)">📈</div> <h3>Disease Trend — HIA 1 Top Diagnoses</h3> <button class="btn icon" onclick="closeModal('m-disease-trend')">✕</button> </div> <div class="modal-body"> <div class="toolbar" style="margin-bottom:14px"> <label style="font-size:13px;color:var(--txt2)">Filter months:</label> <select id="disease-trend-months" onchange="renderDiseaseTrend()" style="padding:6px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px"> <option value="6">Last 6 months</option> <option value="12">Last 12 months</option> <option value="all">All time</option> </select> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printDiseaseTrend()">🖨 Print</button> </div> <div id="disease-trend-content"></div> </div> <div class="modal-footer"> <button class="btn" onclick="closeModal('m-disease-trend')">Close</button> </div>
 </div></div>
-<div id="m-mrr" class="modal-overlay"><div class="modal wide"><div class="modal-header"><div class="modal-header-icon" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">🦟</div><div><div class="modal-title" id="hdr-m-mrr">New Weekly MRR Report</div><div class="modal-sub">Malaria Weekly Report</div></div><button class="modal-close" onclick="closeModal('m-mrr')">&#10005;</button></div><div class="modal-body"><input type="hidden" id="f-mrr-id"><div class="form-grid"><div class="form-group"><label>Week Period</label><input type="text" id="f-mrr-period" placeholder="e.g. 05 - 11 Jan 26"></div><div class="form-group"><label>Week #</label><input type="number" id="f-mrr-week" min="1" max="53"></div><div class="form-group"><label>Year</label><input type="number" id="f-mrr-year" value="2026"></div><div class="form-group"><label>Reporter</label><input type="text" id="f-mrr-reporter"></div></div><div class="form-section">&#128202; Malaria Burden</div><div class="form-grid"><div class="form-group"><label>Total OPD 1st Attendance</label><input type="number" id="f-mrr-opd" min="0" value="0"></div><div class="form-group"><label>Clinical Malaria Cases</label><input type="number" id="f-mrr-clinical" min="0" value="0"></div><div class="form-group"><label>RDT Tested</label><input type="number" id="f-mrr-rdt-tested" min="0" value="0"></div><div class="form-group"><label>RDT Positive</label><input type="number" id="f-mrr-rdt-pos" min="0" value="0"></div><div class="form-group"><label>Microscopy Tested</label><input type="number" id="f-mrr-micro-tested" min="0" value="0"></div><div class="form-group"><label>Microscopy Positive</label><input type="number" id="f-mrr-micro-pos" min="0" value="0"></div><div class="form-group"><label>Positive &lt; 5 Years</label><input type="number" id="f-mrr-pos-u5" min="0" value="0"></div><div class="form-group"><label>Positive &#8805; 5 Years</label><input type="number" id="f-mrr-pos-o5" min="0" value="0"></div><div class="form-group"><label>Positive (Travelled)</label><input type="number" id="f-mrr-travelled" min="0" value="0"></div></div><div class="form-section">&#128138; ACT &amp; RDT Stocks</div><div class="form-grid"><div class="form-group"><label>ACT 6s Dispensed</label><input type="number" id="f-mrr-act6-disp" min="0" value="0"></div><div class="form-group"><label>ACT 6s Balance</label><input type="number" id="f-mrr-act6-bal" min="0" value="0"></div><div class="form-group"><label>ACT 12s Dispensed</label><input type="number" id="f-mrr-act12-disp" min="0" value="0"></div><div class="form-group"><label>ACT 12s Balance</label><input type="number" id="f-mrr-act12-bal" min="0" value="0"></div><div class="form-group"><label>ACT 18s Dispensed</label><input type="number" id="f-mrr-act18-disp" min="0" value="0"></div><div class="form-group"><label>ACT 18s Balance</label><input type="number" id="f-mrr-act18-bal" min="0" value="0"></div><div class="form-group"><label>ACT 24s Dispensed</label><input type="number" id="f-mrr-act24-disp" min="0" value="0"></div><div class="form-group"><label>ACT 24s Balance</label><input type="number" id="f-mrr-act24-bal" min="0" value="0"></div><div class="form-group"><label>RDT Balance on Hand</label><input type="number" id="f-mrr-rdt-bal" min="0" value="0"></div></div><div id="attach-m-mrr" style="margin:12px 8px"></div></div><div class="modal-footer"><button class="btn" onclick="closeModal('m-mrr')">Cancel</button><button class="btn primary" onclick="saveMRR()">&#128190; Save</button></div></div></div>
+<div id="m-mrr" class="modal-overlay"><div class="modal wide">
+  <div class="modal-header">
+    <div class="modal-header-icon" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">🦟</div>
+    <div><div class="modal-title" id="hdr-m-mrr">New Weekly MRR Report</div><div class="modal-sub">Malaria Weekly Report</div></div>
+    <button class="modal-close" onclick="closeModal('m-mrr')">&#10005;</button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="f-mrr-id">
+    <div class="form-row">
+      <div class="form-group"><label>Week Period *</label><input type="text" id="f-mrr-period" placeholder="e.g. 05 - 11 Jan 26"></div>
+      <div class="form-group"><label>Week # *</label><input type="number" id="f-mrr-week" min="1" max="53" placeholder="1-52"></div>
+      <div class="form-group"><label>Year</label><input type="number" id="f-mrr-year" value="2026"></div>
+      <div class="form-group"><label>Reporter</label><input type="text" id="f-mrr-reporter"></div>
+    </div>
+    <div class="form-section">&#128202; Malaria Burden</div>
+    <div class="form-row">
+      <div class="form-group"><label>Total OPD 1st Attendance</label><input type="number" id="f-mrr-opd" min="0" value="0"></div>
+      <div class="form-group"><label>Clinical Malaria Cases</label><input type="number" id="f-mrr-clinical" min="0" value="0"></div>
+      <div class="form-group"><label>RDT Tested Cases</label><input type="number" id="f-mrr-rdt-tested" min="0" value="0"></div>
+      <div class="form-group"><label>RDT Positive Cases</label><input type="number" id="f-mrr-rdt-pos" min="0" value="0"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Microscopy Tested</label><input type="number" id="f-mrr-micro-tested" min="0" value="0"></div>
+      <div class="form-group"><label>Microscopy Positive</label><input type="number" id="f-mrr-micro-pos" min="0" value="0"></div>
+      <div class="form-group"><label>Positive &lt; 5 Years</label><input type="number" id="f-mrr-pos-u5" min="0" value="0"></div>
+      <div class="form-group"><label>Positive &#8805; 5 Years</label><input type="number" id="f-mrr-pos-o5" min="0" value="0"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Positive (Travelled)</label><input type="number" id="f-mrr-travelled" min="0" value="0"></div>
+    </div>
+    <div class="form-section">&#128138; ACT Stocks</div>
+    <div class="form-row">
+      <div class="form-group"><label>ACT 6s Dispensed</label><input type="number" id="f-mrr-act6-disp" min="0" value="0"></div>
+      <div class="form-group"><label>ACT 6s Balance</label><input type="number" id="f-mrr-act6-bal" min="0" value="0"></div>
+      <div class="form-group"><label>ACT 12s Dispensed</label><input type="number" id="f-mrr-act12-disp" min="0" value="0"></div>
+      <div class="form-group"><label>ACT 12s Balance</label><input type="number" id="f-mrr-act12-bal" min="0" value="0"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>ACT 18s Dispensed</label><input type="number" id="f-mrr-act18-disp" min="0" value="0"></div>
+      <div class="form-group"><label>ACT 18s Balance</label><input type="number" id="f-mrr-act18-bal" min="0" value="0"></div>
+      <div class="form-group"><label>ACT 24s Dispensed</label><input type="number" id="f-mrr-act24-disp" min="0" value="0"></div>
+      <div class="form-group"><label>ACT 24s Balance</label><input type="number" id="f-mrr-act24-bal" min="0" value="0"></div>
+    </div>
+    <div class="form-section">&#128203; RDT Stocks</div>
+    <div class="form-row">
+      <div class="form-group"><label>RDT Balance on Hand</label><input type="number" id="f-mrr-rdt-bal" min="0" value="0"></div>
+    </div>
+    <div id="attach-m-mrr" style="margin:12px 8px"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" onclick="closeModal('m-mrr')">Cancel</button>
+    <button class="btn primary" onclick="saveMRR()">&#128190; Save</button>
+  </div>
+</div></div>
  <script>
 // ============================================================
 // DATA LAYER — Supabase (shared real-time database)
@@ -10381,7 +10434,7 @@ function saveMRR(){
   function n(id){return parseInt(document.getElementById(id).value)||0;}
   var id=document.getElementById('f-mrr-id').value||genId('MRR');
   DB.upsert('mrr',{id:id,period:p,week:parseInt(w)||0,year:parseInt(document.getElementById('f-mrr-year').value)||2026,reporter:document.getElementById('f-mrr-reporter').value,opd:n('f-mrr-opd'),clinical:n('f-mrr-clinical'),rdtTested:n('f-mrr-rdt-tested'),rdtPos:n('f-mrr-rdt-pos'),microTested:n('f-mrr-micro-tested'),microPos:n('f-mrr-micro-pos'),posU5:n('f-mrr-pos-u5'),posO5:n('f-mrr-pos-o5'),travelled:n('f-mrr-travelled'),act6Disp:n('f-mrr-act6-disp'),act6Bal:n('f-mrr-act6-bal'),act12Disp:n('f-mrr-act12-disp'),act12Bal:n('f-mrr-act12-bal'),act18Disp:n('f-mrr-act18-disp'),act18Bal:n('f-mrr-act18-bal'),act24Disp:n('f-mrr-act24-disp'),act24Bal:n('f-mrr-act24-bal'),rdtBal:n('f-mrr-rdt-bal')});
-  saveAttachmentsFromBox('attach-m-mrr','mrr',id);
+  saveAttachments('mrr',id,'m-mrr');
   closeModal('m-mrr');renderMRR();logAction('Save','MRR',id);toast('MRR report saved','success');
 }
 function editMRR(id){
@@ -10391,7 +10444,7 @@ function editMRR(id){
   sv('f-mrr-opd',r.opd||0);sv('f-mrr-clinical',r.clinical||0);sv('f-mrr-rdt-tested',r.rdtTested||0);sv('f-mrr-rdt-pos',r.rdtPos||0);sv('f-mrr-micro-tested',r.microTested||0);sv('f-mrr-micro-pos',r.microPos||0);sv('f-mrr-pos-u5',r.posU5||0);sv('f-mrr-pos-o5',r.posO5||0);sv('f-mrr-travelled',r.travelled||0);
   sv('f-mrr-act6-disp',r.act6Disp||0);sv('f-mrr-act6-bal',r.act6Bal||0);sv('f-mrr-act12-disp',r.act12Disp||0);sv('f-mrr-act12-bal',r.act12Bal||0);sv('f-mrr-act18-disp',r.act18Disp||0);sv('f-mrr-act18-bal',r.act18Bal||0);sv('f-mrr-act24-disp',r.act24Disp||0);sv('f-mrr-act24-bal',r.act24Bal||0);sv('f-mrr-rdt-bal',r.rdtBal||0);
   var hdr=document.getElementById('hdr-m-mrr');if(hdr)hdr.textContent='Edit MRR Report';
-  loadAttachmentsToBox('attach-m-mrr','mrr',id);
+  loadAttachments('mrr',id,'m-mrr');
   openModal('m-mrr');
 }
 </script>
