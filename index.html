@@ -10249,6 +10249,46 @@ function printU5Report(id){
       +rows+'</div>';
   }
 
+  // Developmental Milestones
+  var msGroups = [
+    {label:'0 – 2 months', key:'0_2_months'},
+    {label:'2 – 4 months', key:'2_4_months'},
+    {label:'4 – 6 months', key:'4_6_months'},
+    {label:'6 – 9 months', key:'6_9_months'},
+    {label:'9 – 12 months', key:'9_12_months'},
+    {label:'12 – 18 months', key:'12_18_months'},
+    {label:'18 – 24 months', key:'18_24_months'},
+    {label:'24+ months', key:'24__months'},
+  ];
+  var dmAttained = r.dmAttained||{};
+  var dmDelayed = r.dmDelayed||{};
+  var dmReferred = r.dmReferred||{};
+  var msRows = msGroups.map(function(g,i){
+    var att = parseInt(dmAttained[g.key])||0;
+    var del = parseInt(dmDelayed[g.key])||0;
+    var ref = parseInt(dmReferred[g.key])||0;
+    var bg = i%2===1 ? 'background:#f8fafc' : '';
+    return '<tr style="'+bg+'">'
+      +'<td style="padding:5px 10px;font-size:10px;border-bottom:1px solid #e2e8f0">'+g.label+'</td>'
+      +'<td style="padding:5px 10px;font-size:10px;text-align:center;border-bottom:1px solid #e2e8f0;color:#16a34a;font-weight:600">'+att+'</td>'
+      +'<td style="padding:5px 10px;font-size:10px;text-align:center;border-bottom:1px solid #e2e8f0;color:#f59e0b;font-weight:600">'+del+'</td>'
+      +'<td style="padding:5px 10px;font-size:10px;text-align:center;border-bottom:1px solid #e2e8f0;color:#dc2626;font-weight:600">'+ref+'</td>'
+      +'</tr>';
+  }).join('');
+
+  var milestonesSection = '<div style="background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:12px;break-inside:avoid">'
+    +'<div style="font-weight:800;color:#7c3aed;margin-bottom:10px;font-size:11px;text-transform:uppercase;letter-spacing:0.5px">🧠 Developmental Milestones</div>'
+    +'<table style="width:100%;border-collapse:collapse">'
+      +'<thead><tr style="background:#7c3aed">'
+        +'<th style="padding:6px 10px;font-size:10px;color:#fff;text-align:left;font-weight:700">Age Group</th>'
+        +'<th style="padding:6px 10px;font-size:10px;color:#fff;text-align:center;font-weight:700">Attained</th>'
+        +'<th style="padding:6px 10px;font-size:10px;color:#fff;text-align:center;font-weight:700">Delayed</th>'
+        +'<th style="padding:6px 10px;font-size:10px;color:#fff;text-align:center;font-weight:700">Referred</th>'
+      +'</tr></thead>'
+      +'<tbody>'+msRows+'</tbody>'
+    +'</table>'
+  +'</div>';
+
   var html = '<div style="font-family:Arial,sans-serif;padding:16px;color:#1e293b;max-width:900px;margin:0 auto">'
     +'<div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid #000">'
       +'<div style="font-size:10px;font-weight:700;color:#000;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Republic of Zambia &bull; Ministry of Health</div>'
@@ -10280,13 +10320,12 @@ function printU5Report(id){
         row('Mod 0–23m',r.waMod0to23||0)+row('Mod 24–59m',r.waMod24to59||0)+row('Sev 0–23m',r.waSev0to23||0,'#dc2626')+row('Sev 24–59m',r.waSev24to59||0,'#dc2626'))
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">'
-      +section('MUAC Results','#0a5448',
-        row('Green 0–23m',r.muacGreen0to23||0,'#16a34a')+row('Green 24–59m',r.muacGreen24to59||0,'#16a34a')
-        +row('Yellow 0–23m',r.muacYellow0to23||0,'#f59e0b')+row('Yellow 24–59m',r.muacYellow24to59||0,'#f59e0b')
-        +row('Red 0–23m',r.muacRed0to23||0,'#dc2626')+row('Red 24–59m',r.muacRed24to59||0,'#dc2626'))
-      +section('Double Weight','#0a5448',
-        row('0–23 months',r.dw0to23||0)+row('24–59 months',r.dw24to59||0))
+      +section('MUAC Screening 6–23 months','#0a5448',
+        row('Green',r.muacGreen0to23||0,'#16a34a')+row('Yellow',r.muacYellow0to23||0,'#f59e0b')+row('Red',r.muacRed0to23||0,'#dc2626'))
+      +section('MUAC Screening 24–59 months','#0a5448',
+        row('Green',r.muacGreen24to59||0,'#16a34a')+row('Yellow',r.muacYellow24to59||0,'#f59e0b')+row('Red',r.muacRed24to59||0,'#dc2626'))
     +'</div>'
+    +milestonesSection
     +'<div style="margin-top:24px;padding-top:12px;border-top:1px solid #000">'
       +'<div style="font-size:10px;font-weight:700;color:#000;text-transform:uppercase;margin-bottom:18px">Authorisation</div>'
       +'<div style="display:flex;gap:24px">'
