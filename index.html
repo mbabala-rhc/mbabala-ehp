@@ -1149,17 +1149,16 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div> <div id="m-disease-trend" class="modal-overlay"><div class="modal xl" style="max-width:860px"> <div class="modal-header"> <div class="modal-header-icon" style="background:var(--red-l)">📈</div> <h3>Disease Trend — HIA 1 Top Diagnoses</h3> <button class="btn icon" onclick="closeModal('m-disease-trend')">✕</button> </div> <div class="modal-body"> <div class="toolbar" style="margin-bottom:14px"> <label style="font-size:13px;color:var(--txt2)">Filter months:</label> <select id="disease-trend-months" onchange="renderDiseaseTrend()" style="padding:6px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px"> <option value="6">Last 6 months</option> <option value="12">Last 12 months</option> <option value="all">All time</option> </select> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printDiseaseTrend()">🖨 Print</button> </div> <div id="disease-trend-content"></div> </div> <div class="modal-footer"> <button class="btn" onclick="closeModal('m-disease-trend')">Close</button> </div>
 </div></div>
 <div id="m-mrr" class="modal-overlay"><div class="modal wide">
-  <div class="modal-header">
-    <div class="modal-header-icon" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">🦟</div>
-    <div style="flex:1;min-width:0"><div class="modal-title" id="hdr-m-mrr">New Weekly MRR Report</div><div class="modal-sub">Malaria Weekly Report</div></div>
-    <button class="modal-close" onclick="closeModal('m-mrr')">&#10005;</button>
-  </div>
+  <div class="modal-header"><div class="modal-header-icon" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">🦟</div><h3 id="hdr-m-mrr" data-orig="New Weekly MRR Report">New Weekly MRR Report</h3><button class="btn icon" onclick="closeModal('m-mrr')">✕</button></div>
   <div class="modal-body">
     <input type="hidden" id="f-mrr-id">
     <div class="form-row">
-      <div class="form-group"><label>Week Period *</label><input type="text" id="f-mrr-period" placeholder="e.g. 05 - 11 Jan 26"></div>
-      <div class="form-group"><label>Week # *</label><input type="number" id="f-mrr-week" min="1" max="53" placeholder="1-52"></div>
-      <div class="form-group"><label>Year</label><input type="number" id="f-mrr-year" value="2026"></div>
+      <div class="form-group"><label>Week Start Date (Monday) *</label><input type="date" id="f-mrr-start-date" onchange="mrrAutoWeek(this.value)"></div>
+      <div class="form-group"><label>Week Period</label><input type="text" id="f-mrr-period" placeholder="Auto-filled from date" readonly style="background:var(--bg2)"></div>
+      <div class="form-group"><label>Week #</label><input type="number" id="f-mrr-week" min="1" max="53" readonly style="background:var(--bg2)"></div>
+      <div class="form-group"><label>Year</label><input type="number" id="f-mrr-year" value="2026" readonly style="background:var(--bg2)"></div>
+    </div>
+    <div class="form-row">
       <div class="form-group"><label>Reporter</label><input type="text" id="f-mrr-reporter"></div>
     </div>
     <div class="form-section">&#128202; Malaria Burden</div>
@@ -10430,10 +10429,11 @@ function renderMRR(){
 function saveMRR(){
   var p=document.getElementById('f-mrr-period').value.trim();
   var w=document.getElementById('f-mrr-week').value;
-  if(!p||!w){toast('Please fill Week Period and Week Number','error');return;}
+  var startDate=document.getElementById('f-mrr-start-date')?document.getElementById('f-mrr-start-date').value:'';
+  if(!startDate){toast('Please select the Week Start Date','error');return;}
   function n(id){return parseInt(document.getElementById(id).value)||0;}
   var id=document.getElementById('f-mrr-id').value||genId('MRR');
-  var rec={id:id,period:p,week:parseInt(w)||0,year:parseInt(document.getElementById('f-mrr-year').value)||2026,reporter:document.getElementById('f-mrr-reporter').value,opd:n('f-mrr-opd'),clinical:n('f-mrr-clinical'),rdtTested:n('f-mrr-rdt-tested'),rdtPos:n('f-mrr-rdt-pos'),microTested:n('f-mrr-micro-tested'),microPos:n('f-mrr-micro-pos'),posU5:n('f-mrr-pos-u5'),posO5:n('f-mrr-pos-o5'),travelled:n('f-mrr-travelled'),act6Disp:n('f-mrr-act6-disp'),act6Bal:n('f-mrr-act6-bal'),act12Disp:n('f-mrr-act12-disp'),act12Bal:n('f-mrr-act12-bal'),act18Disp:n('f-mrr-act18-disp'),act18Bal:n('f-mrr-act18-bal'),act24Disp:n('f-mrr-act24-disp'),act24Bal:n('f-mrr-act24-bal'),rdtBal:n('f-mrr-rdt-bal')};
+  var rec={id:id,startDate:startDate,period:p,week:parseInt(w)||0,year:parseInt(document.getElementById('f-mrr-year').value)||2026,reporter:document.getElementById('f-mrr-reporter').value,opd:n('f-mrr-opd'),clinical:n('f-mrr-clinical'),rdtTested:n('f-mrr-rdt-tested'),rdtPos:n('f-mrr-rdt-pos'),microTested:n('f-mrr-micro-tested'),microPos:n('f-mrr-micro-pos'),posU5:n('f-mrr-pos-u5'),posO5:n('f-mrr-pos-o5'),travelled:n('f-mrr-travelled'),act6Disp:n('f-mrr-act6-disp'),act6Bal:n('f-mrr-act6-bal'),act12Disp:n('f-mrr-act12-disp'),act12Bal:n('f-mrr-act12-bal'),act18Disp:n('f-mrr-act18-disp'),act18Bal:n('f-mrr-act18-bal'),act24Disp:n('f-mrr-act24-disp'),act24Bal:n('f-mrr-act24-bal'),rdtBal:n('f-mrr-rdt-bal')};
   var data=DB.get('mrr');
   var idx=data.findIndex(function(r){return r.id===id;});
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
@@ -10444,12 +10444,33 @@ function saveMRR(){
 function editMRR(id){
   var r=DB.get('mrr').find(function(x){return x.id===id;});if(!r)return;
   function sv(eid,val){var el=document.getElementById(eid);if(el)el.value=val!==undefined?val:'';}
-  sv('f-mrr-id',r.id);sv('f-mrr-period',r.period);sv('f-mrr-week',r.week);sv('f-mrr-year',r.year||2026);sv('f-mrr-reporter',r.reporter);
+  sv('f-mrr-id',r.id);sv('f-mrr-start-date',r.startDate||'');sv('f-mrr-period',r.period);sv('f-mrr-week',r.week);sv('f-mrr-year',r.year||2026);sv('f-mrr-reporter',r.reporter);
   sv('f-mrr-opd',r.opd||0);sv('f-mrr-clinical',r.clinical||0);sv('f-mrr-rdt-tested',r.rdtTested||0);sv('f-mrr-rdt-pos',r.rdtPos||0);sv('f-mrr-micro-tested',r.microTested||0);sv('f-mrr-micro-pos',r.microPos||0);sv('f-mrr-pos-u5',r.posU5||0);sv('f-mrr-pos-o5',r.posO5||0);sv('f-mrr-travelled',r.travelled||0);
   sv('f-mrr-act6-disp',r.act6Disp||0);sv('f-mrr-act6-bal',r.act6Bal||0);sv('f-mrr-act12-disp',r.act12Disp||0);sv('f-mrr-act12-bal',r.act12Bal||0);sv('f-mrr-act18-disp',r.act18Disp||0);sv('f-mrr-act18-bal',r.act18Bal||0);sv('f-mrr-act24-disp',r.act24Disp||0);sv('f-mrr-act24-bal',r.act24Bal||0);sv('f-mrr-rdt-bal',r.rdtBal||0);
   var hdr=document.getElementById('hdr-m-mrr');if(hdr)hdr.textContent='Edit MRR Report';
   loadAttachments('mrr',id,'m-mrr');
   openModal('m-mrr');
+}
+
+function mrrAutoWeek(dateVal){
+  if(!dateVal) return;
+  var d = new Date(dateVal);
+  // Get week end (Sunday = start + 6 days)
+  var end = new Date(d); end.setDate(d.getDate()+6);
+  // Format: "05 - 11 Jan 26"
+  var opts = {day:'2-digit',month:'short'}; var yr = String(d.getFullYear()).slice(2);
+  var startStr = d.toLocaleDateString('en-GB',opts);
+  var endStr = end.toLocaleDateString('en-GB',opts);
+  var period = startStr + ' - ' + endStr + ' ' + yr;
+  // Calculate ISO week number
+  var tmp = new Date(d.valueOf()); tmp.setHours(0,0,0,0);
+  tmp.setDate(tmp.getDate()+4-(tmp.getDay()||7));
+  var yearStart = new Date(tmp.getFullYear(),0,1);
+  var weekNo = Math.ceil((((tmp-yearStart)/86400000)+1)/7);
+  // Set fields
+  var pEl=document.getElementById('f-mrr-period'); if(pEl) pEl.value=period;
+  var wEl=document.getElementById('f-mrr-week'); if(wEl) wEl.value=weekNo;
+  var yEl=document.getElementById('f-mrr-year'); if(yEl) yEl.value=d.getFullYear();
 }
 </script>
 </body>
