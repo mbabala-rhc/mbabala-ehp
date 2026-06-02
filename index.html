@@ -10319,11 +10319,13 @@ function printU5Report(id){
       +section('Wasting','#ef4444',
         row('Mod 0–23m',r.waMod0to23||0)+row('Mod 24–59m',r.waMod24to59||0)+row('Sev 0–23m',r.waSev0to23||0,'#dc2626')+row('Sev 24–59m',r.waSev24to59||0,'#dc2626'))
     +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">'
       +section('MUAC Screening 6–23 months','#0a5448',
         row('Green',r.muacGreen0to23||0,'#16a34a')+row('Yellow',r.muacYellow0to23||0,'#f59e0b')+row('Red',r.muacRed0to23||0,'#dc2626'))
       +section('MUAC Screening 24–59 months','#0a5448',
         row('Green',r.muacGreen24to59||0,'#16a34a')+row('Yellow',r.muacYellow24to59||0,'#f59e0b')+row('Red',r.muacRed24to59||0,'#dc2626'))
+      +section('Overweight','#ef4444',
+        row('0–23 months',r.ow0to23||0,'#ef4444')+row('24–59 months',r.ow24to59||0,'#ef4444'))
     +'</div>'
     +milestonesSection
     +'<div style="margin-top:24px;padding-top:12px;border-top:1px solid #000">'
