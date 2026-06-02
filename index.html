@@ -10096,12 +10096,13 @@ function printRecord(store, id){
     +'<div style="margin-top:16px;padding-top:8px;border-top:1px solid #ccc;text-align:center;font-size:9px;color:#000">This document was generated from the EH Management Platform &bull; Mbabala Rural Health Centre &bull; For official use only</div>'
     +'<div class="no-print" style="text-align:center;margin-top:16px">'
       +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
-      +'<button onclick="window.print()" style="padding:8px 28px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
+      +'<button onclick="printWithTitle()" style="padding:8px 28px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
     +'</div>'
   +'</div>';
 
   var overlay = document.getElementById('print-overlay');
   overlay.innerHTML = '<div id="print-overlay-inner">'+html+'</div>';
+  overlay.setAttribute('data-title', storeLabel+' — Mbabala RHC');
   overlay.classList.add('open');
   overlay.onclick = function(e){ if(e.target===overlay) closePrintOverlay(); };
 }
@@ -10176,6 +10177,15 @@ var cwFields = [
 function toggleUserRoleOther(sel){
   var wrap=document.getElementById('user-role-other-wrap');
   if(wrap) wrap.style.display=sel.value==='Other (specify)'?'block':'none';
+}
+
+function printWithTitle(){
+  var ov = document.getElementById('print-overlay');
+  var t = ov ? ov.getAttribute('data-title') : 'EH Report';
+  var orig = document.title;
+  document.title = t || orig;
+  window.print();
+  setTimeout(function(){ document.title = orig; }, 3000);
 }
 </script>
 </body>
