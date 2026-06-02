@@ -7501,7 +7501,7 @@ function renderUnder5(filterMonth){
     container.innerHTML = filtered.map(r => {
       const totalAttR = (r.att0to5||0)+(r.att6to11||0)+(r.att12to23||0)+(r.att24to59||0);
       const monthLabel = r.month ? new Date(r.month+'-01').toLocaleDateString('en-GB',{month:'long',year:'numeric'}) : r.month;
-      return `<div data-u5-card="1" style="border:1px solid var(--bd);border-radius:var(--rl);margin-bottom:14px;overflow:hidden" class="card-collapsible collapsed"> <div style="background:linear-gradient(90deg,var(--blue),#2d8fd4);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"> <div style="display:flex;align-items:center;gap:10px"> <button class="minimize-btn" onclick="toggleCard(this)" style="color:rgba(255,255,255,.8)">＋</button> <span style="color:#fff;font-weight:700;font-size:15px">📅 ${monthLabel}</span> <span style="color:rgba(255,255,255,.7);font-size:12px;margin-left:12px">Total attendance: ${totalAttR}</span> </div> <div style="display:flex;gap:6px"> <button class="btn sm" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)" onclick="viewU5Report('${r.id}')">👁 View</button> <button onclick="viewRecord('under5','${r.id}',ifFields)" style="width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;background:#e2f0ee;color:#0a5448" title="View">&#128065;</button><button onclick="editU5Report('${r.id}')" style="width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;background:#0a5448;color:#fff" title="Edit">&#9998;</button><button onclick="printRecord('under5','${r.id}')" style="width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;background:#0d7a5f;color:#fff" title="Print">&#128424;</button><button onclick="deleteRecord('under5','${r.id}',renderUnder5)" style="width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button> </div> </div> <div class="card-body" style="padding:14px 16px"> <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px"> <div> <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:8px;border-bottom:2px solid var(--blue);padding-bottom:4px">📋 Attendance by Age</div>
+      return `<div data-u5-card="1" style="border:1px solid var(--bd);border-radius:var(--rl);margin-bottom:14px;overflow:hidden" class="card-collapsible collapsed"> <div style="background:linear-gradient(90deg,var(--blue),#2d8fd4);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px"> <div style="display:flex;align-items:center;gap:10px"> <button class="minimize-btn" onclick="toggleCard(this)" style="color:rgba(255,255,255,.8)">＋</button> <span style="color:#fff;font-weight:700;font-size:15px">📅 ${monthLabel}</span> <span style="color:rgba(255,255,255,.7);font-size:12px;margin-left:12px">Total attendance: ${totalAttR}</span> </div> <div style="display:flex;gap:6px"> <button class="btn sm" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)" onclick="viewU5Report('${r.id}')">👁 View</button> <button onclick="viewRecord('under5','${r.id}',under5Fields)" style="width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;background:#e2f0ee;color:#0a5448" title="View">&#128065;</button><button onclick="editU5Report('${r.id}')" style="width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;background:#0a5448;color:#fff" title="Edit">&#9998;</button><button onclick="printRecord('under5','${r.id}')" style="width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;background:#0d7a5f;color:#fff" title="Print">&#128424;</button><button onclick="deleteRecord('under5','${r.id}',renderUnder5)" style="width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;flex-shrink:0;background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button> </div> </div> <div class="card-body" style="padding:14px 16px"> <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px"> <div> <div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;margin-bottom:8px;border-bottom:2px solid var(--blue);padding-bottom:4px">📋 Attendance by Age</div>
               ${[['0–5 months',r.att0to5],['6–11 months',r.att6to11],['12–23 months',r.att12to23],['24–59 months',r.att24to59],['Total',totalAttR]].map(([l,v])=>
                 `<div style="display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid var(--bg2)"><span style="color:var(--txt2)">${l}</span><b>${v||0}</b></div>`
               ).join('')}
@@ -10086,7 +10086,7 @@ function printRecord(store, id){
       +'<div style="font-size:13px;font-weight:800;color:#0a5448;text-transform:uppercase;letter-spacing:0.5px;border-left:4px solid #0a5448;padding-left:10px">'+storeLabel+'</div>'
       +'<div style="font-size:10px;color:#94a3b8;margin-top:3px;padding-left:14px">Record ID: '+(rec.id||'—')+' &bull; Printed: '+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})+'</div>'
     +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">'+cards+'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">'+cards+'</div>'
     +'<div style="margin-top:28px;padding-top:14px;border-top:1px solid #000">'
       +'<div style="font-size:10px;font-weight:700;color:#000;text-transform:uppercase;letter-spacing:1px;margin-bottom:18px">Authorisation</div>'
       +'<div style="display:flex;gap:24px">'
@@ -10189,6 +10189,45 @@ function printWithTitle(){
   window.print();
   setTimeout(function(){ document.title = orig; }, 3000);
 }
+
+var under5Fields = [
+  {key:'id', hidden:true},
+  {key:'month', label:'Month / Period'},
+  {key:'preparer', label:'Prepared By'},
+  {key:'att0to5', label:'Attendance 0-5 Months'},
+  {key:'att6to11', label:'Attendance 6-11 Months'},
+  {key:'att12to23', label:'Attendance 12-23 Months'},
+  {key:'att24to59', label:'Attendance 24-59 Months'},
+  {key:'srcBelow5', label:'SRC Below 5'},
+  {key:'srcOver5', label:'SRC Over 5'},
+  {key:'srcOutside', label:'SRC Outside'},
+  {key:'weighed0to23', label:'Weighed 0-23 Months'},
+  {key:'weighed24to59', label:'Weighed 24-59 Months'},
+  {key:'weighedTotal', label:'Weighed Total'},
+  {key:'height0to23', label:'Height Measured 0-23 Months'},
+  {key:'height24to59', label:'Height Measured 24-59 Months'},
+  {key:'heightTotal', label:'Height Measured Total'},
+  {key:'uwMod0to23', label:'Underweight Moderate 0-23 Months'},
+  {key:'uwMod24to59', label:'Underweight Moderate 24-59 Months'},
+  {key:'uwSev0to23', label:'Underweight Severe 0-23 Months'},
+  {key:'uwSev24to59', label:'Underweight Severe 24-59 Months'},
+  {key:'stMod0to23', label:'Stunting Moderate 0-23 Months'},
+  {key:'stMod24to59', label:'Stunting Moderate 24-59 Months'},
+  {key:'stSev0to23', label:'Stunting Severe 0-23 Months'},
+  {key:'stSev24to59', label:'Stunting Severe 24-59 Months'},
+  {key:'waMod0to23', label:'Wasting Moderate 0-23 Months'},
+  {key:'waMod24to59', label:'Wasting Moderate 24-59 Months'},
+  {key:'waSev0to23', label:'Wasting Severe 0-23 Months'},
+  {key:'waSev24to59', label:'Wasting Severe 24-59 Months'},
+  {key:'dw0to23', label:'Double Weight 0-23 Months'},
+  {key:'dw24to59', label:'Double Weight 24-59 Months'},
+  {key:'muacGreen0to23', label:'MUAC Green 0-23 Months'},
+  {key:'muacGreen24to59', label:'MUAC Green 24-59 Months'},
+  {key:'muacYellow0to23', label:'MUAC Yellow 0-23 Months'},
+  {key:'muacYellow24to59', label:'MUAC Yellow 24-59 Months'},
+  {key:'muacRed0to23', label:'MUAC Red 0-23 Months'},
+  {key:'muacRed24to59', label:'MUAC Red 24-59 Months'},
+];
 </script>
 </body>
 </html>
