@@ -1151,7 +1151,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 <div id="m-mrr" class="modal-overlay"><div class="modal wide">
   <div class="modal-header">
     <div class="modal-header-icon" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">🦟</div>
-    <div><div class="modal-title" id="hdr-m-mrr">New Weekly MRR Report</div><div class="modal-sub">Malaria Weekly Report</div></div>
+    <div style="flex:1;min-width:0"><div class="modal-title" id="hdr-m-mrr">New Weekly MRR Report</div><div class="modal-sub">Malaria Weekly Report</div></div>
     <button class="modal-close" onclick="closeModal('m-mrr')">&#10005;</button>
   </div>
   <div class="modal-body">
@@ -10433,9 +10433,13 @@ function saveMRR(){
   if(!p||!w){toast('Please fill Week Period and Week Number','error');return;}
   function n(id){return parseInt(document.getElementById(id).value)||0;}
   var id=document.getElementById('f-mrr-id').value||genId('MRR');
-  DB.upsert('mrr',{id:id,period:p,week:parseInt(w)||0,year:parseInt(document.getElementById('f-mrr-year').value)||2026,reporter:document.getElementById('f-mrr-reporter').value,opd:n('f-mrr-opd'),clinical:n('f-mrr-clinical'),rdtTested:n('f-mrr-rdt-tested'),rdtPos:n('f-mrr-rdt-pos'),microTested:n('f-mrr-micro-tested'),microPos:n('f-mrr-micro-pos'),posU5:n('f-mrr-pos-u5'),posO5:n('f-mrr-pos-o5'),travelled:n('f-mrr-travelled'),act6Disp:n('f-mrr-act6-disp'),act6Bal:n('f-mrr-act6-bal'),act12Disp:n('f-mrr-act12-disp'),act12Bal:n('f-mrr-act12-bal'),act18Disp:n('f-mrr-act18-disp'),act18Bal:n('f-mrr-act18-bal'),act24Disp:n('f-mrr-act24-disp'),act24Bal:n('f-mrr-act24-bal'),rdtBal:n('f-mrr-rdt-bal')});
+  var rec={id:id,period:p,week:parseInt(w)||0,year:parseInt(document.getElementById('f-mrr-year').value)||2026,reporter:document.getElementById('f-mrr-reporter').value,opd:n('f-mrr-opd'),clinical:n('f-mrr-clinical'),rdtTested:n('f-mrr-rdt-tested'),rdtPos:n('f-mrr-rdt-pos'),microTested:n('f-mrr-micro-tested'),microPos:n('f-mrr-micro-pos'),posU5:n('f-mrr-pos-u5'),posO5:n('f-mrr-pos-o5'),travelled:n('f-mrr-travelled'),act6Disp:n('f-mrr-act6-disp'),act6Bal:n('f-mrr-act6-bal'),act12Disp:n('f-mrr-act12-disp'),act12Bal:n('f-mrr-act12-bal'),act18Disp:n('f-mrr-act18-disp'),act18Bal:n('f-mrr-act18-bal'),act24Disp:n('f-mrr-act24-disp'),act24Bal:n('f-mrr-act24-bal'),rdtBal:n('f-mrr-rdt-bal')};
+  var data=DB.get('mrr');
+  var idx=data.findIndex(function(r){return r.id===id;});
+  if(idx>=0) data[idx]=rec; else data.unshift(rec);
+  _store['mrr']=data; idbPut('mrr',data); sbSet('mrr',data);
   saveAttachments('mrr',id,'m-mrr');
-  closeModal('m-mrr');renderMRR();logAction('Save','MRR',id);toast('MRR report saved','success');
+  closeModal('m-mrr');renderMRR();toast('MRR report saved','success');
 }
 function editMRR(id){
   var r=DB.get('mrr').find(function(x){return x.id===id;});if(!r)return;
