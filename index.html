@@ -10437,7 +10437,7 @@ function saveMRR(){
   var data=DB.get('mrr');
   var idx=data.findIndex(function(r){return r.id===id;});
   if(idx>=0) data[idx]=rec; else data.unshift(rec);
-  _store['mrr']=data; idbPut('mrr',data); sbSet('mrr',data);
+  DB.set('mrr',data);
   saveAttachments('mrr',id,'m-mrr');
   closeModal('m-mrr');renderMRR();toast('MRR report saved','success');
 }
