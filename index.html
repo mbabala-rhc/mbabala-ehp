@@ -5072,14 +5072,7 @@ window.onload = function(){
     updateBadges();
     if(currentUser){ renderPage(currentPage); }
 
-    // Step 2: Load from Supabase in background and refresh
-    await loadFromSupabase();
-
-    // Step 3: Re-render with fresh Supabase data
-    seedData();
-    loadSettings();
-    updateBadges();
-
+    // Step 2: Check session and show UI IMMEDIATELY (don't wait for Supabase)
     // Step 3: Check session and show UI
     // Check localStorage first, then cookie
     let savedId = sessionStorage.getItem('ehp_session') || localStorage.getItem('ehp_session');
@@ -5124,6 +5117,8 @@ window.onload = function(){
         if(sbr) sbr.textContent=currentUser.role||'';
         if(sba) sba.textContent=initials;
         nav('dashboard');
+        // Load fresh data from Supabase in background after login
+        loadFromSupabase().then(function(){ seedData(); loadSettings(); updateBadges(); if(currentPage) renderPage(currentPage); });
         return;
       }
     }
