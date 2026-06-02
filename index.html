@@ -1539,7 +1539,7 @@ function subscribeToChanges(){
       }
       _lastPollTime = Date.now();
     } catch(e){ console.warn('Poll error:', e); }
-  }, 120000); // every 2 minutes
+  }, 30000); // every 2 minutes
 }
 
 // Reconnect when browser tab becomes visible again
