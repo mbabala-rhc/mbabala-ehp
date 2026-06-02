@@ -887,7 +887,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div><div style="color:rgba(255,255,255,.7);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">EH Reports</div>
     <div style="color:#fff;font-size:20px;font-weight:800">🦟 Malaria Weekly MRR</div></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn sm" onclick="openModal('m-mrr')" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)">+ New Weekly Report</button>
+      <button class="btn sm" onclick="document.getElementById('f-mrr-id').value='';document.getElementById('hdr-m-mrr').textContent='New Weekly MRR Report';openModal('m-mrr')" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)">+ New Weekly Report</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Malaria MRR Report','tbl-mrr')">🖨 Print</button>
     </div>
   </div>
