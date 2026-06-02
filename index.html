@@ -1353,9 +1353,13 @@ async function loadFromSupabase(){
 
   const fetchPromise = (async () => {
     try{
-      const { data, error } = await _supabase
-        .from('eh_data')
-        .select('store_key, value');
+      // On subsequent loads, only fetch rows updated since last sync
+      var lastSync = localStorage.getItem('_lastFullSync');
+      var query = _supabase.from('eh_data').select('store_key, value');
+      if(lastSync){
+        query = query.gt('updated_at', new Date(parseInt(lastSync) - 5000).toISOString());
+      }
+      const { data, error } = await query;
 
       if(error){
         console.warn('Supabase error:', error.message);
@@ -1388,7 +1392,8 @@ async function loadFromSupabase(){
         idbPut('_offlineSaved', {});
         console.log('✅ Loaded', data.length, 'stores from Supabase');
         _supabaseIsEmpty = false;
-      } else {
+        localStorage.setItem('_lastFullSync', Date.now().toString());
+      } else if(!lastSync) {
         _supabaseIsEmpty = true;
         console.log('Fresh database detected');
       }
