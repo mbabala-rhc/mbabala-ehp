@@ -10321,9 +10321,9 @@ function printU5Report(id){
     +'</div>'
     +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">'
       +section('MUAC Screening 6–23 months','#0a5448',
-        row('Green',r.muacGreen0to23||0,'#16a34a')+row('Yellow',r.muacYellow0to23||0,'#f59e0b')+row('Red',r.muacRed0to23||0,'#dc2626'))
+        row('Green (≥12.5cm)',r.muacGreen6to23||0,'#16a34a')+row('Yellow (11.5–12.4cm)',r.muacYellow6to23||0,'#f59e0b')+row('Red (<11.5cm)',r.muacRed6to23||0,'#dc2626'))
       +section('MUAC Screening 24–59 months','#0a5448',
-        row('Green',r.muacGreen24to59||0,'#16a34a')+row('Yellow',r.muacYellow24to59||0,'#f59e0b')+row('Red',r.muacRed24to59||0,'#dc2626'))
+        row('Green (≥12.5cm)',r.muacGreen24to59||0,'#16a34a')+row('Yellow (11.5–12.4cm)',r.muacYellow24to59||0,'#f59e0b')+row('Red (<11.5cm)',r.muacRed24to59||0,'#dc2626'))
       +section('Overweight','#ef4444',
         row('0–23 months',r.ow0to23||0,'#ef4444')+row('24–59 months',r.ow24to59||0,'#ef4444'))
     +'</div>'
