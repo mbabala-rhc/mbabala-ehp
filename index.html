@@ -872,9 +872,9 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div style="color:rgba(255,255,255,.75);font-size:12px;margin-top:3px">Health education sessions and HP Monthly Report</div></div>
   <div style="display:flex;gap:8px;flex-wrap:wrap" id="hp-toolbar"></div>
  </div>
- <div class="tabs" style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
-  <button class="tab-btn active" onclick="switchHPTab('hp-sessions',this)">📋 HP Sessions</button>
-  <button class="tab-btn" onclick="switchHPTab('hp-monthly',this)">📊 Monthly HP Report</button>
+ <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
+  <div class="tab active" onclick="switchHPTab('hp-sessions',this)">📋 HP Sessions</div>
+  <div class="tab" onclick="switchHPTab('hp-monthly',this)">📊 Monthly HP Report</div>
  </div>
  <!-- Tab 1: Sessions -->
  <div id="hp-sessions">
@@ -11046,7 +11046,7 @@ var HP_THEMES = ['HIV/AIDS','TB','Malaria','Nutrition','IRH','Child Health','Dia
 var HP_SECTIONS = ['sbcc','drama','fgd','comm','htalk','school'];
 
 function switchHPTab(tabId, btn){
-  document.querySelectorAll('#page-health_promo .tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('#page-health_promo .tab').forEach(function(b){ b.classList.remove('active'); });
   if(btn) btn.classList.add('active');
   ['hp-sessions','hp-monthly'].forEach(function(id){
     var el = document.getElementById(id);
