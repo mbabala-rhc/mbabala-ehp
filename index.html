@@ -10798,110 +10798,141 @@ function viewHPMonthly(id){
   var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var monthLabel=mn[(parseInt(r.month)||1)-1]+' '+r.year;
   var s=DB.getObj('settings')||{};
-  var TH='style="background:#1d4ed8;color:#fff;padding:5px 6px;font-size:10px;text-align:center;border:1px solid #3b82f6"';
-  var THL='style="background:#1d4ed8;color:#fff;padding:5px 6px;font-size:10px;text-align:left;border:1px solid #3b82f6"';
-  var TH2='style="background:#2563eb;color:#fff;padding:4px 5px;font-size:9px;text-align:center;border:1px solid #3b82f6"';
-  var TD='style="padding:3px 6px;text-align:center;font-size:10px;border:1px solid #e2e8f0"';
-  var TDL='style="padding:3px 8px;font-size:10px;border:1px solid #e2e8f0"';
-  var THEMES=['HIV/AIDS','TB','Malaria','Nutrition','IRH','Child Health','Diarrhoea','NCD','NTD','Water & Sanitation','Cholera','Food Safety','Ebola','COVID-19','Other'];
 
-  function tbl(title, indicator, thead, rows){
-    return '<div style="margin-bottom:16px">'
-      +'<div style="font-weight:700;font-size:11px;color:#1d4ed8;background:#eff6ff;padding:6px 10px;border-radius:6px 6px 0 0;border:1px solid #bfdbfe">'+title+'</div>'
-      +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">'+thead+'<tbody>'+rows+'</tbody></table></div>'
-      +'<div style="font-size:10px;color:#0369a1;font-style:italic;padding:3px 0 6px">Indicator Target: '+indicator+'</div>'
+  // Print uses fixed light colors regardless of dark mode
+  var TH='style="background:#1d4ed8;color:#fff;padding:5px 6px;font-size:10px;text-align:center;border:1px solid #3b82f6;white-space:nowrap"';
+  var THL='style="background:#1d4ed8;color:#fff;padding:5px 8px;font-size:10px;text-align:left;border:1px solid #3b82f6"';
+  var TH2='style="background:#2563eb;color:#fff;padding:4px 5px;font-size:9px;text-align:center;border:1px solid #3b82f6;white-space:nowrap"';
+  var TD='style="padding:3px 5px;text-align:center;font-size:10px;border:1px solid #dde;color:#111;width:40px"';
+  var TDL='style="padding:3px 8px;font-size:10px;border:1px solid #dde;color:#111"';
+  var TDC='style="padding:3px 5px;font-size:10px;border:1px solid #dde;color:#111;max-width:90px;word-wrap:break-word"';
+  var THEMES=['HIV/AIDS','TB','Malaria','Nutrition','IRH','Child Health','Diarrhoea','NCD','NTD','Water & Sanitation','Cholera','Food Safety','Ebola','COVID-19','Other'];
+  var COMMEM=['World Leprosy Day','World TB Day','World Health Day','Africa Malaria Day','World Nurses Day','World No Tobacco Day','World Blood Donor Day','Child Health Week','HTCT Day','Breast Feeding Week','National Epilepsy Day','African Traditional Medicine','World Heart Day','World Mental Health Day','World Hospice & Palliative Care Day','SADC Malaria Day','World Diabetes Day','Child Health Week','World AIDS Day','National Health Week','Others (Specify)'];
+
+  function v(x){return (x===undefined||x===null)?0:x;}
+
+  function wrapTbl(title, indicator, theadHtml, rowsHtml){
+    return '<div style="margin-bottom:14px;page-break-inside:avoid">'
+      +'<div style="font-weight:700;font-size:11px;color:#fff;background:#1d4ed8;padding:6px 10px;border-radius:4px 4px 0 0">'+title+'</div>'
+      +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;background:#fff">'+theadHtml+'<tbody>'+rowsHtml+'</tbody></table></div>'
+      +(indicator?'<div style="font-size:9px;color:#1d4ed8;font-style:italic;padding:2px 4px">Indicator Target: '+indicator+'</div>':'')
       +'</div>';
   }
-  function v(x){return x||0;}
 
   // Section 1: SBCC
-  var sbcc_rows='';
+  var s1rows='';
   (r.sbcc||[]).forEach(function(x,i){
-    var bg=i%2===0?'background:#f8fafc':'';
-    sbcc_rows+='<tr><td '+TDL+' style="'+bg+'">'+THEMES[i]+'</td><td '+TD+' style="'+bg+'">'+v(x.p)+'</td><td '+TD+' style="'+bg+'">'+v(x.l)+'</td><td '+TD+' style="'+bg+'">'+v(x.b)+'</td><td '+TD+' style="'+bg+'">'+v(x.o)+'</td><td '+TD+' style="'+bg+'">'+((x.p||0)+(x.l||0)+(x.b||0)+(x.o||0))+'</td></tr>';
+    var bg=i%2===0?'#f8fafc':'#fff';
+    s1rows+='<tr style="background:'+bg+'"><td '+TDL+'>'+THEMES[i]+'</td><td '+TD+'>'+v(x.p)+'</td><td '+TD+'>'+v(x.l)+'</td><td '+TD+'>'+v(x.b)+'</td><td '+TD+'>'+v(x.o)+'</td><td '+TD+'>'+(v(x.p)+v(x.l)+v(x.b)+v(x.o))+'</td><td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
-  var sec1=tbl('1. SBCC Materials','90% of SBCC materials received distributed to the lower level.',
-    '<thead><tr><th '+THL+'>Thematic Area</th><th '+TH+'>Posters</th><th '+TH+'>Leaflets</th><th '+TH+'>Billboards</th><th '+TH+'>Others</th><th '+TH+'>Total</th></tr></thead>',sbcc_rows);
+  var sec1=wrapTbl('1. SBCC Materials Distributed','90% of SBCC materials received distributed to the lower level.',
+    '<thead><tr><th '+THL+'>Thematic Area</th><th '+TH+'>Posters</th><th '+TH+'>Leaflets</th><th '+TH+'>Billboards</th><th '+TH+'>Others</th><th '+TH+'>Total</th><th '+TH+'>Comments</th></tr></thead>',s1rows);
 
-  // Section 2: Drama
-  function sec_8col(title,ind,data,grp1,grp2,grp3,grp4,keys){
+  // Generic 8-col grouped section
+  function sec8col(title,ind,data,g1,g2,g3,g4,keys){
     var rows='';
     (data||[]).forEach(function(x,i){
-      var bg=i%2===0?'background:#f8fafc':'';
-      rows+='<tr><td '+TDL+' style="'+bg+'">'+THEMES[i]+'</td>'+keys.map(function(k){return '<td '+TD+' style="'+bg+'">'+v(x[k])+'</td>';}).join('')+'</tr>';
+      var bg=i%2===0?'#f8fafc':'#fff';
+      rows+='<tr style="background:'+bg+'"><td '+TDL+'>'+THEMES[i]+'</td>'+keys.map(function(k){return '<td '+TD+'>'+v(x[k])+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
     });
-    return tbl(title,ind,
-      '<thead><tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2">'+grp1+'</th><th '+TH+' colspan="2">'+grp2+'</th><th '+TH+' colspan="2">'+grp3+'</th><th '+TH+' colspan="2">'+grp4+'</th></tr>'
+    return wrapTbl(title,ind,
+      '<thead><tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2">'+g1+'</th><th '+TH+' colspan="2">'+g2+'</th><th '+TH+' colspan="2">'+g3+'</th><th '+TH+' colspan="2">'+g4+'</th><th '+TH+' rowspan="2">Comments</th></tr>'
       +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr></thead>',rows);
   }
-  var sec2=sec_8col('2. Drama Performances','90% of planned drama performances conducted.',r.drama,'Reached Adults','Reached Youth','Head Men/Chiefs','Others Specify',['af','am','yf','ym','cf','cm','of','om']);
-  var sec3=sec_8col('3. Focus Group Discussions (FGDs)','90% of the planned FGDs conducted.',r.fgd,'Adults','Youth','Head Men/Chiefs','Others Specify',['af','am','yf','ym','cf','cm','of','om']);
+
+  var sec2=sec8col('2. Drama Performances','90% of planned drama performances conducted.',r.drama,'Reached Adults','Reached Youth','Head Men/Chiefs','Others Specify',['af','am','yf','ym','cf','cm','of','om']);
+  var sec3=sec8col('3. Focus Group Discussions (FGDs)','90% of the planned FGDs conducted.',r.fgd,'Adults','Youth','Head Men/Chiefs','Others Specify',['af','am','yf','ym','cf','cm','of','om']);
 
   // Section 4: Community Engagements
-  var comm_rows='';
+  var s4rows='';
   (r.comm||[]).forEach(function(x,i){
-    var bg=i%2===0?'background:#f8fafc':'';
-    comm_rows+='<tr><td '+TDL+' style="'+bg+'">'+THEMES[i]+'</td>'+['cf','cm','rf','rm','pf','pm','tf','tm','thf','thm'].map(function(k){return '<td '+TD+' style="'+bg+'">'+v(x[k])+'</td>';}).join('')+'</tr>';
+    var bg=i%2===0?'#f8fafc':'#fff';
+    s4rows+='<tr style="background:'+bg+'"><td '+TDL+'>'+THEMES[i]+'</td>'+['cf','cm','rf','rm','pf','pm','tf','tm','thf','thm'].map(function(k){return '<td '+TD+'>'+v(x[k])+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
-  var sec4=tbl('4. Community Engagements / Health Education Sessions','90% of planned community engagement meetings conducted.',
-    '<thead><tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2">Community</th><th '+TH+' colspan="2">Religious</th><th '+TH+' colspan="2">Political/Civic</th><th '+TH+' colspan="2">Traditional</th><th '+TH+' colspan="2">THPAZ</th></tr>'
-    +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr></thead>',comm_rows);
+  var sec4=wrapTbl('4. Community Engagements / Health Education Sessions','90% of planned community engagement meetings conducted.',
+    '<thead><tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2">Community</th><th '+TH+' colspan="2">Religious</th><th '+TH+' colspan="2">Political/Civic</th><th '+TH+' colspan="2">Traditional</th><th '+TH+' colspan="2">THPAZ</th><th '+TH+' rowspan="2">Comments</th></tr>'
+    +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr></thead>',s4rows);
 
   // Section 5: Radio/TV
-  var rtv_rows='';
+  var s5rows='';
   (r.rtv||[]).forEach(function(x,i){
-    var bg=i%2===0?'background:#f8fafc':'';
-    rtv_rows+='<tr><td '+TDL+' style="'+bg+'">'+THEMES[i]+'</td>'+['tvls','tvr','tvd','tva','rls','rr','ra','rd'].map(function(k){return '<td '+TD+' style="'+bg+'">'+v(x[k])+'</td>';}).join('')+'</tr>';
+    var bg=i%2===0?'#f8fafc':'#fff';
+    s5rows+='<tr style="background:'+bg+'"><td '+TDL+'>'+THEMES[i]+'</td>'+['tvls','tvr','tvd','tva','rls','rr','ra','rd'].map(function(k){return '<td '+TD+'>'+v(x[k])+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
-  var sec5=tbl('5. Radio / Television Programmes','80% of planned Radio and TV programmes conducted.',
-    '<thead><tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="4">TV</th><th '+TH+' colspan="4">Radio</th></tr>'
-    +'<tr><th '+TH2+'>Live Studio</th><th '+TH2+'>Recorded</th><th '+TH2+'>Documentary</th><th '+TH2+'>Adverts</th><th '+TH2+'>Live Studio</th><th '+TH2+'>Recorded</th><th '+TH2+'>Adverts</th><th '+TH2+'>Drama</th></tr></thead>',rtv_rows);
+  var sec5=wrapTbl('5. Radio / Television Programmes','80% of planned Radio and TV programmes conducted.',
+    '<thead><tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="4">TV</th><th '+TH+' colspan="4">Radio</th><th '+TH+' rowspan="2">Comments</th></tr>'
+    +'<tr><th '+TH2+'>Live Studio</th><th '+TH2+'>Recorded</th><th '+TH2+'>Documentary</th><th '+TH2+'>Adverts</th><th '+TH2+'>Live Studio</th><th '+TH2+'>Recorded</th><th '+TH2+'>Adverts</th><th '+TH2+'>Drama</th></tr></thead>',s5rows);
 
   // Section 7: Commemorations
-  var COMMEM=['World Leprosy Day','World TB Day','World Health Day','Africa Malaria Day','World Nurses Day','World No Tobacco Day','World Blood Donor Day','Child Health Week','HTCT Day','Breast Feeding Week','National Epilepsy Day','African Traditional Medicine','World Heart Day','World Mental Health Day','World Hospice & Palliative Care Day','SADC Malaria Day','World Diabetes Day','Child Health Week','World AIDS Day','National Health Week','Others (Specify)'];
-  var commem_rows='';
+  var s7rows='';
   (r.commem||[]).forEach(function(x,i){
-    var bg=i%2===0?'background:#f8fafc':'';
-    var lbl=i<COMMEM.length?COMMEM[i]:'Other';
-    commem_rows+='<tr><td '+TDL+' style="'+bg+'">'+lbl+'</td>'+['af','am','yf','ym','tf','tm','pf','pm'].map(function(k){return '<td '+TD+' style="'+bg+'">'+v(x[k])+'</td>';}).join('')+'</tr>';
+    var bg=i%2===0?'#f8fafc':'#fff';
+    var lbl=i<COMMEM.length?COMMEM[i]:('Other '+(i-COMMEM.length+22));
+    s7rows+='<tr style="background:'+bg+'"><td '+TDL+'>'+lbl+'</td>'+['af','am','yf','ym','tf','tm','pf','pm'].map(function(k){return '<td '+TD+'>'+v(x[k])+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
-  var sec7=tbl('7. International / National Days Commemorations','90% of planned commemorations conducted.',
-    '<thead><tr><th '+THL+' rowspan="2">Programme</th><th '+TH+' colspan="2">Adults</th><th '+TH+' colspan="2">Youths</th><th '+TH+' colspan="2">Traditional Leaders</th><th '+TH+' colspan="2">Political/Civic</th></tr>'
-    +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr></thead>',commem_rows);
+  var sec7=wrapTbl('7. International / National Days Commemorations','90% of planned commemorations conducted.',
+    '<thead><tr><th '+THL+' rowspan="2">Programme</th><th '+TH+' colspan="2">Adults</th><th '+TH+' colspan="2">Youths</th><th '+TH+' colspan="2">Traditional Leaders</th><th '+TH+' colspan="2">Political/Civic</th><th '+TH+' rowspan="2">Comments</th></tr>'
+    +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr></thead>',s7rows);
 
-  // Section 8: School Health
-  var school_rows='';
+  // Section 8a: School Health Education
+  var s8a_themes=['HIV/AIDS','TB','Malaria','Nutrition','IRH','Child Health','Diarrhoea','NCD','NTD','Water & Sanitation','Cholera','COVID-19'];
+  var s8arows='';
   (r.school||[]).forEach(function(x,i){
-    var bg=i%2===0?'background:#f8fafc':'';
-    school_rows+='<tr><td '+TDL+' style="'+bg+'">'+THEMES[i]+'</td>'+['pf','pm','tf','tm','hf','hm'].map(function(k){return '<td '+TD+' style="'+bg+'">'+v(x[k])+'</td>';}).join('')+'</tr>';
+    var bg=i%2===0?'#f8fafc':'#fff';
+    s8arows+='<tr style="background:'+bg+'"><td '+TDL+'>'+(s8a_themes[i]||'')+'</td>'+['pf','pm','tf','tm','hf','hm'].map(function(k){return '<td '+TD+'>'+v(x[k])+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
-  var sec8='<div style="margin-bottom:16px"><div style="font-weight:700;font-size:11px;color:#1d4ed8;background:#eff6ff;padding:6px 10px;border-radius:6px 6px 0 0;border:1px solid #bfdbfe">8. School Health Programme</div>'
-    +'<div style="font-weight:600;font-size:10px;padding:5px 10px;background:#f0f9ff;border:1px solid #bfdbfe;border-top:none">(a) School Health Education</div>'
-    +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">'
-    +'<thead><tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2"># Pupils</th><th '+TH+' colspan="2"># Teachers</th><th '+TH+' colspan="2">Head Masters</th></tr>'
+  var sec8='<div style="margin-bottom:14px">'
+    +'<div style="font-weight:700;font-size:11px;color:#fff;background:#1d4ed8;padding:6px 10px;border-radius:4px 4px 0 0">8. School Health Programme</div>'
+    +'<div style="font-weight:600;font-size:10px;color:#1d4ed8;background:#eff6ff;padding:4px 10px;border:1px solid #bfdbfe;border-top:none">(a) School Health Education</div>'
+    +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;background:#fff">'
+    +'<thead><tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2"># Pupils</th><th '+TH+' colspan="2"># Teachers</th><th '+TH+' colspan="2">Head Masters</th><th '+TH+' rowspan="2">Comments</th></tr>'
     +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr></thead>'
-    +'<tbody>'+school_rows+'</tbody></table></div>'
-    +'<div style="font-size:10px;color:#0369a1;font-style:italic;padding:3px 0 6px">Indicator Target: 90% of planned school health services conducted.</div></div>';
+    +'<tbody>'+s8arows+'</tbody></table></div>'
+    // 8b: Other Services Provided
+    +'<div style="font-weight:600;font-size:10px;color:#1d4ed8;background:#eff6ff;padding:4px 10px;border:1px solid #bfdbfe;margin-top:8px">(b) Other Services Provided</div>'
+    +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;background:#fff">'
+    +'<thead><tr><th '+THL+' rowspan="2">Service</th><th '+TH+' colspan="2"># Pupils</th><th '+TH+' colspan="2"># Teachers</th><th '+TH+' colspan="2">Head Masters</th><th '+TH+' rowspan="2">Comments</th></tr>'
+    +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr></thead>'
+    +'<tbody>'
+    +['Screening','MDA (Specify)','Immunization','Water and Sanitation','Inspections','Other (Specify)'].map(function(svc,i){
+      var bg=i%2===0?'#f8fafc':'#fff';
+      var x=(r.osvc&&r.osvc[i])||{};
+      return '<tr style="background:'+bg+'"><td '+TDL+'>'+svc+'</td>'+['pf','pm','tf','tm','hf','hm'].map(function(k){return '<td '+TD+'>'+v(x[k])+'</td>';}).join('')+'<td '+TDC+'></td></tr>';
+    }).join('')
+    +'</tbody></table></div>'
+    +'<div style="font-size:9px;color:#1d4ed8;font-style:italic;padding:2px 4px">Indicator Target: 90% of planned school health services conducted.</div>'
+    +'</div>';
 
-  var html='<div style="font-family:Arial,sans-serif;padding:16px;max-width:960px;margin:0 auto">'
+  // Section 9: SBCC Survey/Research
+  var s9rows='';
+  (r.survey||[{issue:'',findings:'',recs:'',comments:''}]).forEach(function(x,i){
+    var bg=i%2===0?'#f8fafc':'#fff';
+    s9rows+='<tr style="background:'+bg+'"><td style="padding:4px 6px;font-size:10px;border:1px solid #dde;color:#111;text-align:center">'+(i+1)+'</td><td style="padding:4px 6px;font-size:10px;border:1px solid #dde;color:#111">'+(x.issue||'')+'</td><td style="padding:4px 6px;font-size:10px;border:1px solid #dde;color:#111">'+(x.findings||'')+'</td><td style="padding:4px 6px;font-size:10px;border:1px solid #dde;color:#111">'+(x.recs||'')+'</td><td style="padding:4px 6px;font-size:10px;border:1px solid #dde;color:#111">'+(x.comments||'')+'</td></tr>';
+  });
+  var sec9=wrapTbl('9. SBCC Survey / Research','At least one (01) planned research conducted in year.',
+    '<thead><tr style="background:#1d4ed8;color:#fff"><th style="padding:6px 8px;font-size:10px;width:30px;border:1px solid #3b82f6">No.</th><th style="padding:6px 8px;font-size:10px;border:1px solid #3b82f6">Problem/Issue</th><th style="padding:6px 8px;font-size:10px;border:1px solid #3b82f6">Key Findings</th><th style="padding:6px 8px;font-size:10px;border:1px solid #3b82f6">Recommendations</th><th style="padding:6px 8px;font-size:10px;border:1px solid #3b82f6">Comments</th></tr></thead>',s9rows);
+
+  var html='<div style="font-family:Arial,sans-serif;padding:16px;max-width:960px;margin:0 auto;color:#111;background:#fff">'
     +'<div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid #1d4ed8">'
-      +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Republic of Zambia &bull; Ministry of Health</div>'
-      +'<div style="font-size:16px;font-weight:900;margin:4px 0">'+(s.name||'Mbabala Rural Health Centre')+'</div>'
+      +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#111">Republic of Zambia &bull; Ministry of Health</div>'
+      +'<div style="font-size:16px;font-weight:900;margin:4px 0;color:#111">'+(s.name||'Mbabala Rural Health Centre')+'</div>'
       +'<div style="font-size:11px;color:#555">'+(s.district||'Chifunabuli')+' District &bull; '+(s.province||'Luapula')+' Province</div>'
       +'<div style="font-size:14px;font-weight:700;color:#1d4ed8;margin-top:6px">Health Promotion Monthly Report</div>'
       +'<div style="font-size:11px;color:#555">'+monthLabel+' &bull; Prepared by: '+(r.preparer||'—')+'</div>'
     +'</div>'
-    +sec1+sec2+sec3+sec4+sec5+sec7+sec8
-    +(r.successes?'<div style="margin-bottom:6px"><b>Successes:</b> '+r.successes+'</div>':'')
-    +(r.constraints?'<div style="margin-bottom:6px"><b>Constraints:</b> '+r.constraints+'</div>':'')
-    +(r.solutions?'<div style="margin-bottom:6px"><b>Proposed Solutions:</b> '+r.solutions+'</div>':'')
+    +sec1+sec2+sec3+sec4+sec5+sec7+sec8+sec9
+    +(r.successes||r.constraints||r.solutions?'<div style="margin-top:12px;padding:10px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;font-size:11px;color:#111">'
+      +(r.successes?'<div style="margin-bottom:6px"><b>Successes:</b> '+r.successes+'</div>':'')
+      +(r.constraints?'<div style="margin-bottom:6px"><b>Constraints:</b> '+r.constraints+'</div>':'')
+      +(r.solutions?'<div><b>Proposed Solutions:</b> '+r.solutions+'</div>':'')
+      +'</div>':'')
     +'<div class="no-print" style="text-align:center;margin-top:16px">'
       +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
       +'<button onclick="printWithTitle()" style="padding:8px 28px;background:#1d4ed8;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
     +'</div></div>';
 
   var overlay=document.getElementById('print-overlay');
-  overlay.innerHTML='<div id="print-overlay-inner" style="max-width:960px">'+html+'</div>';
+  overlay.innerHTML='<div id="print-overlay-inner" style="max-width:960px;background:#fff">'+html+'</div>';
   overlay.setAttribute('data-title','HP Monthly Report — '+monthLabel);
   overlay.classList.add('open');
   overlay.onclick=function(e){if(e.target===overlay)closePrintOverlay();};
