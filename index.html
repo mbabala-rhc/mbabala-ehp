@@ -865,7 +865,40 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div></div> <div id="page-vector" class="page"> <div style="background:linear-gradient(135deg,#4d7c0f,#3f6212);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🦟 Vector Control</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Vector surveillance and control activities</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-vector')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Activity</button> </div> </div> <div id="vector-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search..." oninput="filterTbl(this,'tbl-vector')"> <button class="btn primary" onclick="openModal('m-vector')">+ Log Activity</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Vector Control Reports','tbl-vector')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-vector"><thead><tr><th>Date</th><th>Activity</th><th>Area</th><th>HHs</th><th>Chemical</th><th>Officer</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-vector"></tbody></table></div></div>
 </div> <div id="page-sanitation" class="page"> <div style="background:linear-gradient(135deg,#92400e,#b45309);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🚽 Sanitation</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">ODF/CLTS tracking and General Village Sanitation assessments</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" id="san-banner-btn" onclick="openModal('m-sanitation')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log ODF Village</button> </div> </div> <div style="display:flex;gap:4px;margin-bottom:14px;border-bottom:2px solid var(--bd);padding-bottom:0"> <button id="san-tab-odf" onclick="switchSanTab('odf')" style="padding:9px 18px;border:none;border-bottom:2px solid var(--teal-d);margin-bottom:-2px;background:transparent;color:var(--teal-d);font-weight:700;font-size:13px;cursor:pointer">🚽 ODF / CLTS</button> <button id="san-tab-general" onclick="switchSanTab('general')" style="padding:9px 18px;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;background:transparent;color:var(--txt2);font-weight:600;font-size:13px;cursor:pointer">🏘️ General Sanitation</button> </div> <div id="san-section-odf"> <div id="san-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search villages..." oninput="filterTbl(this,'tbl-san')"> <button class="btn primary" onclick="openModal('m-sanitation')">+ Log Village</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Sanitation Reports','tbl-san')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-san"><thead><tr><th>Village</th><th>HHs</th><th>Latrines</th><th>Coverage%</th><th>CLTS Status</th><th>ODF Date</th><th>Actions</th></tr></thead><tbody id="tb-san"></tbody></table></div></div> </div> <div id="san-section-general" style="display:none"> <div id="gen-san-stats" style="margin-bottom:14px"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search by village/zone..." oninput="filterTbl(this,'tbl-gen-san')"> <select id="gen-san-filter-zone" onchange="renderGeneralSanitation()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"> <option value="">All Zones</option> <option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option> </select> <button class="btn primary" onclick="openModal('m-gen-sanitation')">+ New Assessment</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('General Sanitation','tbl-gen-san')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"> <table class="dt" id="tbl-gen-san"> <thead><tr> <th>Date</th><th>Village</th><th>Zone</th> <th>Total HHs</th><th>Improved Latrine</th><th>Open Defecation</th> <th>Safe Water</th><th>Waste Pit</th><th>Overall</th><th>Actions</th> </tr></thead> <tbody id="tb-gen-san"></tbody> </table> </div></div> </div>
 </div> <div id="page-surveillance" class="page"> <div style="background:linear-gradient(135deg,#1e3a5f,#2d5a8e);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🔬 IDSR Surveillance Report</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Integrated Disease Surveillance and Response</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openSurveillanceModal()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Weekly Report</button> <button class="btn" onclick="printIDSRReport()" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">🖨 Print IDSR</button> </div> </div> <div class="card" style="padding:12px 16px;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"> <select id="surv-filter-year" onchange="renderSurveillance()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select> <input type="text" id="surv-search" placeholder="🔍 Search disease..." oninput="renderSurveillance()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt);flex:1;max-width:220px"> </div> <div id="surv-stats" style="margin-bottom:14px"></div> <div id="surv-reports-list"></div>
-</div> <div id="page-health_promo" class="page"> <div style="background:linear-gradient(135deg,#1d4ed8,#1e40af);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📢 Health Promotion</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Health education sessions and community outreach activities</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-hp')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Log Activity</button> </div> </div> <div id="hp-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search activities..." oninput="filterTbl(this,'tbl-hp')"> <button class="btn primary" onclick="openModal('m-hp')">+ Log Activity</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Health Promotion Reports','tbl-hp')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-hp"><thead><tr><th>Date</th><th>Activity</th><th>Venue</th><th>Audience</th><th>Attendance</th><th>Topic</th><th>Actions</th></tr></thead><tbody id="tb-hp"></tbody></table></div></div>
+</div> <div id="page-health_promo" class="page">
+ <div style="background:linear-gradient(135deg,#1d4ed8,#1e40af);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+  <div><div style="color:rgba(255,255,255,.7);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">EH Reports</div>
+  <div style="color:#fff;font-size:20px;font-weight:800">📢 Health Promotion</div>
+  <div style="color:rgba(255,255,255,.75);font-size:12px;margin-top:3px">Health education sessions and HP Monthly Report</div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap" id="hp-toolbar"></div>
+ </div>
+ <div class="tabs" style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+  <button class="tab-btn active" onclick="switchHPTab('hp-sessions',this)">📋 HP Sessions</button>
+  <button class="tab-btn" onclick="switchHPTab('hp-monthly',this)">📊 Monthly HP Report</button>
+ </div>
+ <!-- Tab 1: Sessions -->
+ <div id="hp-sessions">
+  <div class="card"><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+   <button class="btn sm primary" onclick="openModal('m-hp')">+ Log HP Session</button>
+   <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Health Promotion Sessions','tbl-hp')">🖨 Print</button>
+  </div>
+  <div class="tbl-wrap"><table class="dt" id="tbl-hp"><thead><tr><th>Date</th><th>Activity</th><th>Venue</th><th>Audience</th><th>Attendance</th><th>Topic</th><th>Actions</th></tr></thead><tbody id="tb-hp"></tbody></table></div>
+  </div>
+ </div>
+ <!-- Tab 2: Monthly HP Report -->
+ <div id="hp-monthly" style="display:none">
+  <div class="card">
+   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
+    <button class="btn sm primary" onclick="openModal('m-hp-monthly')">+ New Monthly Report</button>
+    <select id="hp-monthly-year" onchange="renderHPMonthly()" style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);font-size:12px;background:var(--bg2)"></select>
+    <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('HP Monthly Reports','tbl-hp-monthly')">🖨 Print</button>
+   </div>
+   <div class="tbl-wrap"><table class="dt" id="tbl-hp-monthly">
+    <thead><tr><th>Month</th><th>Year</th><th>SBCC Materials</th><th>Drama Perf.</th><th>FGDs</th><th>Community Eng.</th><th>Health Talks</th><th>School Health</th><th>Prepared By</th><th>Actions</th></tr></thead>
+    <tbody id="tb-hp-monthly"></tbody>
+   </table></div>
+  </div>
+ </div>
 </div> <div id="page-facilities" class="page"> <div style="background:linear-gradient(135deg,#0a5448,#0d7a5f);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🏥 Facilities</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Health facility registry and details</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-facility')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Facility</button> </div> </div> <div class="toolbar"> <input type="text" placeholder="🔍 Search facilities..." oninput="filterTbl(this,'tbl-fac')"> <select onchange="filterCol(this,'tbl-fac',2)"><option value="">All types</option><option>Health centre</option><option>School</option><option>Market</option><option>Borehole</option><option>Restaurant/Food outlet</option></select> <button class="btn primary" onclick="openModal('m-facility')">+ Add Facility</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Facilities Register','tbl-fac')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-fac"><thead><tr><th>Name</th><th>Village</th><th>Type</th><th>Contact</th><th>Last Inspected</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-fac"></tbody></table></div></div>
 </div> <div id="page-households" class="page"> <div style="background:linear-gradient(135deg,#0369a1,#0284c7);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🏠 Households</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Household registration and health data</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-household')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Household</button> </div> </div> <div id="hh-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search households..." oninput="filterTbl(this,'tbl-hh')"> <button class="btn primary" onclick="openModal('m-household')">+ Register Household</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Household Register','tbl-hh')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-hh"><thead><tr><th>HH ID</th><th>Head of HH</th><th>Village</th><th>Members</th><th>Under-5</th><th>Latrine</th><th>Safe Water</th><th>Actions</th></tr></thead><tbody id="tb-hh"></tbody></table></div></div>
 </div> <div id="page-premises" class="page"> <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🏪 Premises</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Business and public premises registration</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-premises')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add Premises</button> </div> </div> <div class="toolbar"> <input type="text" placeholder="🔍 Search premises..." oninput="filterTbl(this,'tbl-prem')"> <select onchange="filterCol(this,'tbl-prem',1)"><option value="">All types</option><option>Food outlet</option><option>Butchery</option><option>Tuck shop</option><option>Bar/Lodge</option><option>School canteen</option><option>Barbershop</option></select> <button class="btn primary" onclick="openModal('m-premises')">+ Register Premises</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Premises Register','tbl-prem')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-prem"><thead><tr><th>Name</th><th>Type</th><th>Owner</th><th>Village</th><th>Licence Exp.</th><th>Last Inspected</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-prem"></tbody></table></div></div>
@@ -3585,7 +3618,512 @@ function exportMonthlySummaryPDF(){
           stat('Low Stock', stockLow.length, stockLow.length>0?'#c0392b':'#1a7a3c'),
           stat('Expired', stockExpired.length, stockExpired.length>0?'#c0392b':'#1a7a3c')
         ))}
-      </div> </div> <footer> <span>${s.facility||'Mbabala Rural Health Centre'} · Environmental Health Department</span> <span>Monthly Summary · ${monthLabel}</span> <span>Generated by EH Management Platform</span> </footer> </body></html>`;
+      </div> </div> <footer> <span>${s.facility||'Mbabala Rural Health Centre'} · Environmental Health Department</span> <span>Monthly Summary · ${monthLabel}</span> <span>Generated by EH Management Platform</span> </footer> 
+<div id="m-hp-monthly" class="modal-overlay"><div class="modal wide" style="max-width:900px">
+ <div class="modal-header"><div class="modal-header-icon" style="background:linear-gradient(135deg,#1d4ed8,#1e40af)">📊</div>
+  <h3 id="hdr-m-hp-monthly" data-orig="New HP Monthly Report">New HP Monthly Report</h3>
+  <button class="btn icon" onclick="closeModal('m-hp-monthly')">✕</button></div>
+ <div class="modal-body">
+  <input type="hidden" id="f-hpm-id">
+  <div class="form-row">
+   <div class="form-group"><label>Month *</label><select id="f-hpm-month"><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
+   <div class="form-group"><label>Year *</label><input type="number" id="f-hpm-year" value="2026"></div>
+   <div class="form-group"><label>Prepared By</label><input type="text" id="f-hpm-preparer"></div>
+  </div>
+  <!-- Section 1: SBCC Materials -->
+  <div class="form-section">1. SBCC Materials Distributed</div>
+  <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">
+   <thead><tr style="background:#1d4ed8;color:#fff"><th style="padding:6px 8px;text-align:left">Thematic Area</th><th style="padding:6px 8px">Posters</th><th style="padding:6px 8px">Leaflets/Flyers</th><th style="padding:6px 8px">Billboards</th><th style="padding:6px 8px">Others</th></tr></thead>
+   <tbody><tr style="background:var(--bg2)"><td style="padding:4px 8px">1. HIV/AIDS</td>
+    <td style="padding:2px"><input type="number" id="sbcc-0-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-0-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-0-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-0-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">2. TB</td>
+    <td style="padding:2px"><input type="number" id="sbcc-1-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-1-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-1-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-1-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">3. Malaria</td>
+    <td style="padding:2px"><input type="number" id="sbcc-2-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-2-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-2-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-2-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">4. Nutrition</td>
+    <td style="padding:2px"><input type="number" id="sbcc-3-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-3-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-3-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-3-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">5. IRH</td>
+    <td style="padding:2px"><input type="number" id="sbcc-4-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-4-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-4-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-4-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">6. Child Health</td>
+    <td style="padding:2px"><input type="number" id="sbcc-5-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-5-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-5-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-5-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">7. Diarrhoea</td>
+    <td style="padding:2px"><input type="number" id="sbcc-6-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-6-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-6-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-6-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">8. NCD</td>
+    <td style="padding:2px"><input type="number" id="sbcc-7-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-7-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-7-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-7-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">9. NTD</td>
+    <td style="padding:2px"><input type="number" id="sbcc-8-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-8-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-8-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-8-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">10. Water & Sanitation</td>
+    <td style="padding:2px"><input type="number" id="sbcc-9-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-9-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-9-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-9-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">11. Cholera</td>
+    <td style="padding:2px"><input type="number" id="sbcc-10-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-10-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-10-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-10-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">12. Food Safety</td>
+    <td style="padding:2px"><input type="number" id="sbcc-11-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-11-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-11-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-11-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">13. COVID-19</td>
+    <td style="padding:2px"><input type="number" id="sbcc-12-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-12-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-12-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-12-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">14. Ebola</td>
+    <td style="padding:2px"><input type="number" id="sbcc-13-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-13-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-13-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-13-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">15. Other</td>
+    <td style="padding:2px"><input type="number" id="sbcc-14-p" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-14-l" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-14-b" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="sbcc-14-o" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr></tbody></table></div>
+  <!-- Section 2: Drama Performances -->
+  <div class="form-section">2. Drama Performances</div>
+  <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">
+   <thead><tr style="background:#1d4ed8;color:#fff"><th style="padding:6px 8px;text-align:left">Thematic Area</th><th style="padding:6px 8px">Adults F</th><th style="padding:6px 8px">Adults M</th><th style="padding:6px 8px">Youth F</th><th style="padding:6px 8px">Youth M</th></tr></thead>
+   <tbody><tr style="background:var(--bg2)"><td style="padding:4px 8px">1. HIV/AIDS</td>
+    <td style="padding:2px"><input type="number" id="drama-0-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-0-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-0-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-0-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">2. TB</td>
+    <td style="padding:2px"><input type="number" id="drama-1-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-1-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-1-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-1-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">3. Malaria</td>
+    <td style="padding:2px"><input type="number" id="drama-2-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-2-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-2-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-2-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">4. Nutrition</td>
+    <td style="padding:2px"><input type="number" id="drama-3-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-3-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-3-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-3-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">5. IRH</td>
+    <td style="padding:2px"><input type="number" id="drama-4-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-4-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-4-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-4-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">6. Child Health</td>
+    <td style="padding:2px"><input type="number" id="drama-5-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-5-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-5-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-5-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">7. Diarrhoea</td>
+    <td style="padding:2px"><input type="number" id="drama-6-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-6-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-6-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-6-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">8. NCD</td>
+    <td style="padding:2px"><input type="number" id="drama-7-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-7-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-7-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-7-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">9. NTD</td>
+    <td style="padding:2px"><input type="number" id="drama-8-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-8-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-8-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-8-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">10. Water & Sanitation</td>
+    <td style="padding:2px"><input type="number" id="drama-9-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-9-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-9-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-9-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">11. Cholera</td>
+    <td style="padding:2px"><input type="number" id="drama-10-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-10-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-10-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-10-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">12. Food Safety</td>
+    <td style="padding:2px"><input type="number" id="drama-11-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-11-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-11-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-11-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">13. COVID-19</td>
+    <td style="padding:2px"><input type="number" id="drama-12-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-12-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-12-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-12-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">14. Ebola</td>
+    <td style="padding:2px"><input type="number" id="drama-13-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-13-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-13-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-13-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">15. Other</td>
+    <td style="padding:2px"><input type="number" id="drama-14-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-14-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-14-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="drama-14-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr></tbody></table></div>
+  <!-- Section 3: FGDs -->
+  <div class="form-section">3. Focus Group Discussions (FGDs)</div>
+  <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">
+   <thead><tr style="background:#1d4ed8;color:#fff"><th style="padding:6px 8px;text-align:left">Thematic Area</th><th style="padding:6px 8px">Adults F</th><th style="padding:6px 8px">Adults M</th><th style="padding:6px 8px">Youth F</th><th style="padding:6px 8px">Youth M</th></tr></thead>
+   <tbody><tr style="background:var(--bg2)"><td style="padding:4px 8px">1. HIV/AIDS</td>
+    <td style="padding:2px"><input type="number" id="fgd-0-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-0-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-0-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-0-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">2. TB</td>
+    <td style="padding:2px"><input type="number" id="fgd-1-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-1-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-1-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-1-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">3. Malaria</td>
+    <td style="padding:2px"><input type="number" id="fgd-2-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-2-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-2-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-2-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">4. Nutrition</td>
+    <td style="padding:2px"><input type="number" id="fgd-3-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-3-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-3-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-3-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">5. IRH</td>
+    <td style="padding:2px"><input type="number" id="fgd-4-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-4-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-4-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-4-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">6. Child Health</td>
+    <td style="padding:2px"><input type="number" id="fgd-5-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-5-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-5-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-5-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">7. Diarrhoea</td>
+    <td style="padding:2px"><input type="number" id="fgd-6-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-6-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-6-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-6-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">8. NCD</td>
+    <td style="padding:2px"><input type="number" id="fgd-7-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-7-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-7-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-7-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">9. NTD</td>
+    <td style="padding:2px"><input type="number" id="fgd-8-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-8-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-8-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-8-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">10. Water & Sanitation</td>
+    <td style="padding:2px"><input type="number" id="fgd-9-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-9-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-9-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-9-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">11. Cholera</td>
+    <td style="padding:2px"><input type="number" id="fgd-10-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-10-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-10-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-10-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">12. Food Safety</td>
+    <td style="padding:2px"><input type="number" id="fgd-11-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-11-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-11-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-11-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">13. COVID-19</td>
+    <td style="padding:2px"><input type="number" id="fgd-12-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-12-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-12-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-12-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">14. Ebola</td>
+    <td style="padding:2px"><input type="number" id="fgd-13-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-13-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-13-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-13-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">15. Other</td>
+    <td style="padding:2px"><input type="number" id="fgd-14-af" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-14-am" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-14-yf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="fgd-14-ym" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr></tbody></table></div>
+  <!-- Section 4: Community Engagements -->
+  <div class="form-section">4. Community Engagements / Health Education Sessions</div>
+  <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">
+   <thead><tr style="background:#1d4ed8;color:#fff"><th style="padding:6px 8px;text-align:left">Thematic Area</th><th style="padding:6px 8px">Comm F</th><th style="padding:6px 8px">Comm M</th><th style="padding:6px 8px">Religious F</th><th style="padding:6px 8px">Religious M</th><th style="padding:6px 8px">Political F</th><th style="padding:6px 8px">Political M</th></tr></thead>
+   <tbody><tr style="background:var(--bg2)"><td style="padding:4px 8px">1. HIV/AIDS</td>
+    <td style="padding:2px"><input type="number" id="comm-0-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-0-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-0-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-0-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-0-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-0-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">2. TB</td>
+    <td style="padding:2px"><input type="number" id="comm-1-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-1-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-1-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-1-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-1-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-1-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">3. Malaria</td>
+    <td style="padding:2px"><input type="number" id="comm-2-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-2-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-2-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-2-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-2-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-2-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">4. Nutrition</td>
+    <td style="padding:2px"><input type="number" id="comm-3-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-3-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-3-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-3-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-3-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-3-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">5. IRH</td>
+    <td style="padding:2px"><input type="number" id="comm-4-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-4-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-4-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-4-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-4-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-4-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">6. Child Health</td>
+    <td style="padding:2px"><input type="number" id="comm-5-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-5-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-5-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-5-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-5-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-5-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">7. Diarrhoea</td>
+    <td style="padding:2px"><input type="number" id="comm-6-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-6-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-6-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-6-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-6-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-6-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">8. NCD</td>
+    <td style="padding:2px"><input type="number" id="comm-7-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-7-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-7-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-7-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-7-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-7-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">9. NTD</td>
+    <td style="padding:2px"><input type="number" id="comm-8-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-8-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-8-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-8-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-8-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-8-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">10. Water & Sanitation</td>
+    <td style="padding:2px"><input type="number" id="comm-9-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-9-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-9-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-9-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-9-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-9-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">11. Cholera</td>
+    <td style="padding:2px"><input type="number" id="comm-10-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-10-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-10-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-10-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-10-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-10-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">12. Food Safety</td>
+    <td style="padding:2px"><input type="number" id="comm-11-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-11-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-11-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-11-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-11-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-11-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">13. COVID-19</td>
+    <td style="padding:2px"><input type="number" id="comm-12-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-12-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-12-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-12-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-12-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-12-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">14. Ebola</td>
+    <td style="padding:2px"><input type="number" id="comm-13-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-13-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-13-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-13-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-13-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-13-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">15. Other</td>
+    <td style="padding:2px"><input type="number" id="comm-14-cf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-14-cm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-14-rf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-14-rm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-14-pf" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="comm-14-pm" min="0" value="0" style="width:45px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr></tbody></table></div>
+  <!-- Section 5: Health Talks -->
+  <div class="form-section">5. Health Talks (IPC)</div>
+  <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">
+   <thead><tr style="background:#1d4ed8;color:#fff"><th style="padding:6px 8px;text-align:left">Thematic Area</th><th style="padding:6px 8px">Female</th><th style="padding:6px 8px">Male</th></tr></thead>
+   <tbody><tr style="background:var(--bg2)"><td style="padding:4px 8px">1. HIV/AIDS</td>
+    <td style="padding:2px"><input type="number" id="htalk-0-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-0-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">2. TB</td>
+    <td style="padding:2px"><input type="number" id="htalk-1-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-1-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">3. Malaria</td>
+    <td style="padding:2px"><input type="number" id="htalk-2-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-2-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">4. Nutrition</td>
+    <td style="padding:2px"><input type="number" id="htalk-3-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-3-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">5. IRH</td>
+    <td style="padding:2px"><input type="number" id="htalk-4-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-4-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">6. Child Health</td>
+    <td style="padding:2px"><input type="number" id="htalk-5-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-5-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">7. Diarrhoea</td>
+    <td style="padding:2px"><input type="number" id="htalk-6-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-6-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">8. NCD</td>
+    <td style="padding:2px"><input type="number" id="htalk-7-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-7-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">9. NTD</td>
+    <td style="padding:2px"><input type="number" id="htalk-8-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-8-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">10. Water & Sanitation</td>
+    <td style="padding:2px"><input type="number" id="htalk-9-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-9-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">11. Cholera</td>
+    <td style="padding:2px"><input type="number" id="htalk-10-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-10-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">12. Food Safety</td>
+    <td style="padding:2px"><input type="number" id="htalk-11-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-11-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">13. COVID-19</td>
+    <td style="padding:2px"><input type="number" id="htalk-12-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-12-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">14. Ebola</td>
+    <td style="padding:2px"><input type="number" id="htalk-13-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-13-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">15. Other</td>
+    <td style="padding:2px"><input type="number" id="htalk-14-f" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="htalk-14-m" min="0" value="0" style="width:55px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr></tbody></table></div>
+  <!-- Section 6: School Health -->
+  <div class="form-section">6. School Health Education</div>
+  <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">
+   <thead><tr style="background:#1d4ed8;color:#fff"><th style="padding:6px 8px;text-align:left">Thematic Area</th><th style="padding:6px 8px">Pupils F</th><th style="padding:6px 8px">Pupils M</th><th style="padding:6px 8px">Teachers F</th><th style="padding:6px 8px">Teachers M</th></tr></thead>
+   <tbody><tr style="background:var(--bg2)"><td style="padding:4px 8px">1. HIV/AIDS</td>
+    <td style="padding:2px"><input type="number" id="school-0-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-0-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-0-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-0-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">2. TB</td>
+    <td style="padding:2px"><input type="number" id="school-1-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-1-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-1-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-1-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">3. Malaria</td>
+    <td style="padding:2px"><input type="number" id="school-2-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-2-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-2-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-2-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">4. Nutrition</td>
+    <td style="padding:2px"><input type="number" id="school-3-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-3-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-3-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-3-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">5. IRH</td>
+    <td style="padding:2px"><input type="number" id="school-4-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-4-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-4-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-4-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">6. Child Health</td>
+    <td style="padding:2px"><input type="number" id="school-5-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-5-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-5-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-5-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">7. Diarrhoea</td>
+    <td style="padding:2px"><input type="number" id="school-6-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-6-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-6-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-6-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">8. NCD</td>
+    <td style="padding:2px"><input type="number" id="school-7-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-7-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-7-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-7-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">9. NTD</td>
+    <td style="padding:2px"><input type="number" id="school-8-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-8-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-8-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-8-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">10. Water & Sanitation</td>
+    <td style="padding:2px"><input type="number" id="school-9-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-9-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-9-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-9-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">11. Cholera</td>
+    <td style="padding:2px"><input type="number" id="school-10-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-10-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-10-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-10-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">12. Food Safety</td>
+    <td style="padding:2px"><input type="number" id="school-11-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-11-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-11-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-11-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">13. COVID-19</td>
+    <td style="padding:2px"><input type="number" id="school-12-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-12-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-12-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-12-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style=""><td style="padding:4px 8px">14. Ebola</td>
+    <td style="padding:2px"><input type="number" id="school-13-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-13-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-13-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-13-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr><tr style="background:var(--bg2)"><td style="padding:4px 8px">15. Other</td>
+    <td style="padding:2px"><input type="number" id="school-14-pf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-14-pm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-14-tf" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+    <td style="padding:2px"><input type="number" id="school-14-tm" min="0" value="0" style="width:50px;padding:2px 4px;text-align:center;border:1px solid var(--bd);border-radius:4px;background:var(--bg)"></td>
+   </tr></tbody></table></div>
+  <div class="form-section">General Comments</div>
+  <div class="form-row">
+   <div class="form-group" style="grid-column:1/-1"><label>Successes</label><textarea id="f-hpm-successes" rows="2" style="width:100%;padding:8px;border:1.5px solid var(--bd);border-radius:var(--r);background:var(--bg2)"></textarea></div>
+   <div class="form-group" style="grid-column:1/-1"><label>Constraints</label><textarea id="f-hpm-constraints" rows="2" style="width:100%;padding:8px;border:1.5px solid var(--bd);border-radius:var(--r);background:var(--bg2)"></textarea></div>
+   <div class="form-group" style="grid-column:1/-1"><label>Proposed Solutions</label><textarea id="f-hpm-solutions" rows="2" style="width:100%;padding:8px;border:1.5px solid var(--bd);border-radius:var(--r);background:var(--bg2)"></textarea></div>
+  </div>
+  <div id="attach-m-hp-monthly" style="margin:12px 8px"></div>
+ </div>
+ <div class="modal-footer">
+  <button class="btn" onclick="closeModal('m-hp-monthly')">Cancel</button>
+  <button class="btn primary" onclick="saveHPMonthly()">&#128190; Save</button>
+ </div>
+</div></div>
+</body></html>`;
 
   const win = window.open('','_blank','width=900,height=700');
   win.document.write(html);
@@ -10501,6 +11039,189 @@ function mrrAutoWeek(dateVal){
   var wEl=document.getElementById('f-mrr-week'); if(wEl) wEl.value=weekNo;
   var yEl=document.getElementById('f-mrr-year'); if(yEl) yEl.value=d.getFullYear();
 }
+
+// ══ HEALTH PROMOTION MONTHLY REPORT ══
+var HP_THEMES = ['HIV/AIDS','TB','Malaria','Nutrition','IRH','Child Health','Diarrhoea','NCD','NTD','Water & Sanitation','Cholera','Food Safety','COVID-19','Ebola','Other (Specify)'];
+var HP_SECTIONS = ['sbcc','drama','fgd','comm','htalk','school'];
+
+function switchHPTab(tabId, btn){
+  document.querySelectorAll('#page-health_promo .tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  if(btn) btn.classList.add('active');
+  ['hp-sessions','hp-monthly'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = id===tabId ? '' : 'none';
+  });
+  if(tabId==='hp-monthly') renderHPMonthly();
+}
+
+function renderHPMonthly(){
+  var yrSel = document.getElementById('hp-monthly-year');
+  if(yrSel && yrSel.options.length===0){
+    var cy = new Date().getFullYear();
+    yrSel.innerHTML = '<option value="">All Years</option>';
+    for(var y=cy;y>=2020;y--){ var o=document.createElement('option'); o.value=y; o.textContent=y; if(y===cy) o.selected=true; yrSel.appendChild(o); }
+  }
+  var yr = yrSel ? yrSel.value : '';
+  var mn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var data = DB.get('hp_monthly').filter(function(r){ return !yr || String(r.year)===yr; })
+    .sort(function(a,b){ return (parseInt(a.month)||0)-(parseInt(b.month)||0); });
+  var tb = document.getElementById('tb-hp-monthly'); if(!tb) return;
+  var b = 'width:30px;height:30px;border-radius:6px;border:none;cursor:pointer;font-size:15px;padding:0;';
+  tb.innerHTML = data.map(function(r){
+    var monthLabel = mn[(parseInt(r.month)||1)-1] + ' ' + (r.year||'');
+    var sbccTotal = r.sbcc ? r.sbcc.reduce(function(s,x){return s+(x.p||0)+(x.l||0)+(x.b||0)+(x.o||0);},0) : 0;
+    var dramaTotal = r.drama ? r.drama.reduce(function(s,x){return s+(x.af||0)+(x.am||0)+(x.yf||0)+(x.ym||0);},0) : 0;
+    var fgdTotal = r.fgd ? r.fgd.reduce(function(s,x){return s+(x.af||0)+(x.am||0)+(x.yf||0)+(x.ym||0);},0) : 0;
+    var commTotal = r.comm ? r.comm.reduce(function(s,x){return s+(x.cf||0)+(x.cm||0)+(x.rf||0)+(x.rm||0)+(x.pf||0)+(x.pm||0);},0) : 0;
+    var htalkTotal = r.htalk ? r.htalk.reduce(function(s,x){return s+(x.f||0)+(x.m||0);},0) : 0;
+    var schoolTotal = r.school ? r.school.reduce(function(s,x){return s+(x.pf||0)+(x.pm||0)+(x.tf||0)+(x.tm||0);},0) : 0;
+    return '<tr>'
+      +'<td style="font-weight:600">'+monthLabel+'</td>'
+      +'<td style="text-align:center">'+r.year+'</td>'
+      +'<td style="text-align:center">'+sbccTotal+'</td>'
+      +'<td style="text-align:center">'+dramaTotal+'</td>'
+      +'<td style="text-align:center">'+fgdTotal+'</td>'
+      +'<td style="text-align:center">'+commTotal+'</td>'
+      +'<td style="text-align:center">'+htalkTotal+'</td>'
+      +'<td style="text-align:center">'+schoolTotal+'</td>'
+      +'<td>'+(r.preparer||'—')+'</td>'
+      +'<td><div style="display:flex;gap:3px">'
+        +'<button data-a="view" data-i="'+r.id+'" style="'+b+'background:#e2f0ee;color:#0a5448" title="View">&#128065;</button>'
+        +'<button data-a="edit" data-i="'+r.id+'" style="'+b+'background:#0a5448;color:#fff" title="Edit">&#9998;</button>'
+        +'<button data-a="print" data-i="'+r.id+'" style="'+b+'background:#0d7a5f;color:#fff" title="Print">&#128424;</button>'
+        +'<button data-a="del" data-i="'+r.id+'" style="'+b+'background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button>'
+      +'</div></td>'
+      +'</tr>';
+  }).join('')||'<tr><td colspan="10" style="text-align:center;padding:32px;color:var(--txt2)">No monthly HP reports yet</td></tr>';
+  var tbl = document.getElementById('tbl-hp-monthly');
+  if(tbl) tbl.onclick = function(e){
+    var btn = e.target.closest('button[data-a]'); if(!btn) return;
+    var id=btn.getAttribute('data-i'), a=btn.getAttribute('data-a');
+    if(a==='view') viewHPMonthly(id);
+    else if(a==='edit') editHPMonthly(id);
+    else if(a==='print') printHPMonthly(id);
+    else if(a==='del') deleteRecord('hp_monthly',id,renderHPMonthly);
+  };
+}
+
+function n_(id){ var el=document.getElementById(id); return parseInt(el?el.value:0)||0; }
+
+function saveHPMonthly(){
+  var month = document.getElementById('f-hpm-month').value;
+  var year = document.getElementById('f-hpm-year').value;
+  if(!month||!year){ toast('Please fill Month and Year','error'); return; }
+  var id = document.getElementById('f-hpm-id').value || genId('HPM');
+  var nt = HP_THEMES.length;
+  var sbcc=[],drama=[],fgd=[],comm=[],htalk=[],school=[];
+  for(var i=0;i<nt;i++){
+    sbcc.push({p:n_('sbcc-'+i+'-p'),l:n_('sbcc-'+i+'-l'),b:n_('sbcc-'+i+'-b'),o:n_('sbcc-'+i+'-o')});
+    drama.push({af:n_('drama-'+i+'-af'),am:n_('drama-'+i+'-am'),yf:n_('drama-'+i+'-yf'),ym:n_('drama-'+i+'-ym')});
+    fgd.push({af:n_('fgd-'+i+'-af'),am:n_('fgd-'+i+'-am'),yf:n_('fgd-'+i+'-yf'),ym:n_('fgd-'+i+'-ym')});
+    comm.push({cf:n_('comm-'+i+'-cf'),cm:n_('comm-'+i+'-cm'),rf:n_('comm-'+i+'-rf'),rm:n_('comm-'+i+'-rm'),pf:n_('comm-'+i+'-pf'),pm:n_('comm-'+i+'-pm')});
+    htalk.push({f:n_('htalk-'+i+'-f'),m:n_('htalk-'+i+'-m')});
+    school.push({pf:n_('school-'+i+'-pf'),pm:n_('school-'+i+'-pm'),tf:n_('school-'+i+'-tf'),tm:n_('school-'+i+'-tm')});
+  }
+  var rec = {
+    id:id, month:month, year:parseInt(year),
+    preparer:document.getElementById('f-hpm-preparer').value||'',
+    successes:document.getElementById('f-hpm-successes').value||'',
+    constraints:document.getElementById('f-hpm-constraints').value||'',
+    solutions:document.getElementById('f-hpm-solutions').value||'',
+    sbcc:sbcc, drama:drama, fgd:fgd, comm:comm, htalk:htalk, school:school
+  };
+  var data = DB.get('hp_monthly');
+  var idx = data.findIndex(function(r){ return r.id===id; });
+  if(idx>=0) data[idx]=rec; else data.unshift(rec);
+  DB.set('hp_monthly',data);
+  saveAttachments('hp_monthly',id,'m-hp-monthly');
+  closeModal('m-hp-monthly');
+  renderHPMonthly();
+  toast('HP Monthly Report saved','success');
+}
+
+function editHPMonthly(id){
+  var r = DB.get('hp_monthly').find(function(x){ return x.id===id; }); if(!r) return;
+  document.getElementById('f-hpm-id').value=r.id||'';
+  document.getElementById('f-hpm-month').value=r.month||'01';
+  document.getElementById('f-hpm-year').value=r.year||2026;
+  document.getElementById('f-hpm-preparer').value=r.preparer||'';
+  document.getElementById('f-hpm-successes').value=r.successes||'';
+  document.getElementById('f-hpm-constraints').value=r.constraints||'';
+  document.getElementById('f-hpm-solutions').value=r.solutions||'';
+  var nt = HP_THEMES.length;
+  for(var i=0;i<nt;i++){
+    var s=r.sbcc&&r.sbcc[i]?r.sbcc[i]:{};
+    var sv=function(eid,val){ var el=document.getElementById(eid); if(el) el.value=val||0; };
+    sv('sbcc-'+i+'-p',s.p); sv('sbcc-'+i+'-l',s.l); sv('sbcc-'+i+'-b',s.b); sv('sbcc-'+i+'-o',s.o);
+    var dr=r.drama&&r.drama[i]?r.drama[i]:{};
+    sv('drama-'+i+'-af',dr.af); sv('drama-'+i+'-am',dr.am); sv('drama-'+i+'-yf',dr.yf); sv('drama-'+i+'-ym',dr.ym);
+    var fg=r.fgd&&r.fgd[i]?r.fgd[i]:{};
+    sv('fgd-'+i+'-af',fg.af); sv('fgd-'+i+'-am',fg.am); sv('fgd-'+i+'-yf',fg.yf); sv('fgd-'+i+'-ym',fg.ym);
+    var cm=r.comm&&r.comm[i]?r.comm[i]:{};
+    sv('comm-'+i+'-cf',cm.cf); sv('comm-'+i+'-cm',cm.cm); sv('comm-'+i+'-rf',cm.rf); sv('comm-'+i+'-rm',cm.rm); sv('comm-'+i+'-pf',cm.pf); sv('comm-'+i+'-pm',cm.pm);
+    var ht=r.htalk&&r.htalk[i]?r.htalk[i]:{};
+    sv('htalk-'+i+'-f',ht.f); sv('htalk-'+i+'-m',ht.m);
+    var sc=r.school&&r.school[i]?r.school[i]:{};
+    sv('school-'+i+'-pf',sc.pf); sv('school-'+i+'-pm',sc.pm); sv('school-'+i+'-tf',sc.tf); sv('school-'+i+'-tm',sc.tm);
+  }
+  document.getElementById('hdr-m-hp-monthly').textContent='Edit HP Monthly Report';
+  loadAttachments('hp_monthly',id,'m-hp-monthly');
+  openModal('m-hp-monthly');
+}
+
+function viewHPMonthly(id){
+  var r = DB.get('hp_monthly').find(function(x){ return x.id===id; }); if(!r) return;
+  var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var monthLabel = mn[(parseInt(r.month)||1)-1]+' '+r.year;
+  var s=DB.getObj('settings')||{};
+  function secTable(title, data, cols, keyFn){
+    if(!data) return '';
+    var total = Array(cols.length).fill(0);
+    var rows = HP_THEMES.map(function(t,i){
+      var vals = keyFn(data[i]||{});
+      vals.forEach(function(v,j){ total[j]+=(v||0); });
+      return '<tr><td style="padding:4px 8px;font-size:11px">'+t+'</td>'
+        +vals.map(function(v){ return '<td style="padding:4px 8px;text-align:center;font-size:11px">'+(v||0)+'</td>'; }).join('')
+        +'</tr>';
+    }).join('');
+    return '<div style="margin-bottom:16px"><div style="font-weight:700;font-size:12px;color:#1d4ed8;background:#eff6ff;padding:8px 12px;border-radius:6px 6px 0 0;border:1px solid #bfdbfe">'+title+'</div>'
+      +'<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;border:1px solid #bfdbfe">'
+      +'<thead><tr style="background:#1d4ed8;color:#fff"><th style="padding:6px 8px;text-align:left;font-size:10px">Thematic Area</th>'
+      +cols.map(function(c){ return '<th style="padding:6px 8px;font-size:10px">'+c+'</th>'; }).join('')
+      +'</tr></thead><tbody>'+rows
+      +'<tr style="background:#eff6ff;font-weight:700"><td style="padding:4px 8px;font-size:11px">TOTAL</td>'
+      +total.map(function(v){ return '<td style="padding:4px 8px;text-align:center;font-size:11px">'+v+'</td>'; }).join('')
+      +'</tr></tbody></table></div></div>';
+  }
+  var html = '<div style="font-family:Arial,sans-serif;padding:16px;max-width:900px;margin:0 auto">'
+    +'<div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid #1d4ed8">'
+      +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Republic of Zambia &bull; Ministry of Health</div>'
+      +'<div style="font-size:16px;font-weight:900;margin:4px 0">'+(s.name||'Mbabala Rural Health Centre')+'</div>'
+      +'<div style="font-size:11px;color:#555">'+(s.district||'Chifunabuli')+' District &bull; '+(s.province||'Luapula')+' Province</div>'
+      +'<div style="font-size:14px;font-weight:700;color:#1d4ed8;margin-top:8px">Health Promotion Monthly Report</div>'
+      +'<div style="font-size:12px;color:#555">'+monthLabel+' &bull; Prepared by: '+(r.preparer||'—')+'</div>'
+    +'</div>'
+    +secTable('1. SBCC Materials Distributed',r.sbcc,['Posters','Leaflets','Billboards','Others'],function(x){ return [x.p,x.l,x.b,x.o]; })
+    +secTable('2. Drama Performances',r.drama,['Adults F','Adults M','Youth F','Youth M'],function(x){ return [x.af,x.am,x.yf,x.ym]; })
+    +secTable('3. Focus Group Discussions (FGDs)',r.fgd,['Adults F','Adults M','Youth F','Youth M'],function(x){ return [x.af,x.am,x.yf,x.ym]; })
+    +secTable('4. Community Engagements',r.comm,['Comm F','Comm M','Religious F','Religious M','Political F','Political M'],function(x){ return [x.cf,x.cm,x.rf,x.rm,x.pf,x.pm]; })
+    +secTable('5. Health Talks (IPC)',r.htalk,['Female','Male'],function(x){ return [x.f,x.m]; })
+    +secTable('6. School Health Education',r.school,['Pupils F','Pupils M','Teachers F','Teachers M'],function(x){ return [x.pf,x.pm,x.tf,x.tm]; })
+    +(r.successes?'<div style="margin-bottom:8px"><b>Successes:</b> '+r.successes+'</div>':'')
+    +(r.constraints?'<div style="margin-bottom:8px"><b>Constraints:</b> '+r.constraints+'</div>':'')
+    +(r.solutions?'<div style="margin-bottom:8px"><b>Proposed Solutions:</b> '+r.solutions+'</div>':'')
+    +'<div class="no-print" style="text-align:center;margin-top:16px">'
+      +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
+      +'<button onclick="printWithTitle()" style="padding:8px 28px;background:#1d4ed8;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
+    +'</div></div>';
+  var overlay=document.getElementById('print-overlay');
+  overlay.innerHTML='<div id="print-overlay-inner" style="max-width:900px">'+html+'</div>';
+  overlay.setAttribute('data-title','HP Monthly Report — '+monthLabel);
+  overlay.classList.add('open');
+  overlay.onclick=function(e){ if(e.target===overlay) closePrintOverlay(); };
+}
+
+function printHPMonthly(id){ viewHPMonthly(id); }
 </script>
 </body>
 </html>
