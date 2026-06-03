@@ -10728,7 +10728,7 @@ function saveHPMonthly(){
     successes:document.getElementById('f-hpm-successes').value||'',
     constraints:document.getElementById('f-hpm-constraints').value||'',
     solutions:document.getElementById('f-hpm-solutions').value||'',
-    sbcc:sbcc,drama:drama,fgd:fgd,comm:comm,rtv:rtv,htalk:htalk,commem:commem,school:school,rtvStations:rtvStations,school9b:school9b,research:research};
+    sbcc:sbcc,drama:drama,fgd:fgd,comm:comm,rtv:rtv,htalk:htalk,commem:commem,school:school,rtvStations:rtvStations,school9b:school9b,research:research,sbccExtras:sbccExtras,dramaExtras:dramaExtras,fgdExtras:fgdExtras,commExtras:commExtras,rtvExtras:rtvExtras,htalkExtras:htalkExtras,schoolExtras:schoolExtras,commemExtras:commemExtras};
 
   // Save extra "Other" rows added dynamically
   function saveExtras(sec, keys){
@@ -10876,14 +10876,21 @@ function viewHPMonthly(id){
   );
 
   // Better approach - dedicated function per section
-  function sec(title, ind, thead, data, keys, labelFn){
+  function sec(title, ind, thead, data, keys, labelFn, extras){
     var totals=new Array(keys.length).fill(0);
     var rows=(data||[]).map(function(x,i){
       var vals=keys.map(function(k){var v=parseInt(v_(x[k]))||0;totals[keys.indexOf(k)]+=v;return v;});
       return '<tr><td '+TDL+'>'+labelFn(i,x)+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
     }).join('');
+    // Extra rows (added via + Add Other)
+    var extraRows='';
+    (extras||[]).forEach(function(x){
+      var vals=keys.map(function(k){var v=parseInt(v_(x[k]))||0;totals[keys.indexOf(k)]+=v;return v;});
+      var label=x.spec?'Other ('+x.spec+')':'Other';
+      extraRows+='<tr><td '+TDL+'>'+label+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
+    });
     var totalRow='<tr><td '+TDTL+'>TOTAL</td>'+totals.map(function(v){return '<td '+TDT+'>'+v+'</td>';}).join('')+'<td style="background:#dbeafe;border:1px solid #2563eb"></td></tr>';
-    return section(title,ind,'<thead>'+thead+'</thead>','<tbody>'+rows+totalRow+'</tbody>');
+    return section(title,ind,'<thead>'+thead+'</thead>','<tbody>'+rows+extraRows+totalRow+'</tbody>');
   }
 
   var thName=function(i,x){var base=THEMES[i]||'';return (x&&x.spec&&x.spec.trim())?base+' ('+x.spec.trim()+')':base;};
@@ -10896,26 +10903,26 @@ function viewHPMonthly(id){
   var s2=sec('2. Drama Performances','90% of planned drama performances conducted.',
     '<tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2">Reached Adults</th><th '+TH+' colspan="2">Reached Youth</th><th '+TH+' colspan="2">Head Men/Chiefs</th><th '+TH+' colspan="2">Others Specify</th><th '+TH+' rowspan="2">Comments</th></tr>'
     +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr>',
-    r.drama,['af','am','yf','ym','cf','cm','of','om'],thName);
+    r.drama,['af','am','yf','ym','cf','cm','of','om'],thName,r.dramaExtras);
 
   var s3=sec('3. Focus Group Discussions (FGDs)','90% of the planned FGDs conducted.',
     '<tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2">Adults</th><th '+TH+' colspan="2">Youth</th><th '+TH+' colspan="2">Head Men/Chiefs</th><th '+TH+' colspan="2">Others Specify</th><th '+TH+' rowspan="2">Comments</th></tr>'
     +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr>',
-    r.fgd,['af','am','yf','ym','cf','cm','of','om'],thName);
+    r.fgd,['af','am','yf','ym','cf','cm','of','om'],thName,r.fgdExtras);
 
   var s4=sec('4. Community Engagements / Health Education Sessions','90% of planned community engagement meetings conducted.',
     '<tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="2">Community</th><th '+TH+' colspan="2">Religious</th><th '+TH+' colspan="2">Political/Civic</th><th '+TH+' colspan="2">Traditional</th><th '+TH+' colspan="2">THPAZ</th><th '+TH+' rowspan="2">Comment</th></tr>'
     +'<tr><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th><th '+TH2+'>F</th><th '+TH2+'>M</th></tr>',
-    r.comm,['cf','cm','rf','rm','pf','pm','tf','tm','thf','thm'],thName);
+    r.comm,['cf','cm','rf','rm','pf','pm','tf','tm','thf','thm'],thName,r.commExtras);
 
   var s5=sec('5. Radio / Television Programmes','80% of planned Radio and TV programmes conducted.',
     '<tr><th '+THL+' rowspan="2">Thematic Area</th><th '+TH+' colspan="4">TV</th><th '+TH+' colspan="4">Radio</th><th '+TH+' rowspan="2">Comments</th></tr>'
     +'<tr><th '+TH2+'>Live Studio</th><th '+TH2+'>Recorded</th><th '+TH2+'>Documentary</th><th '+TH2+'>Adverts</th><th '+TH2+'>Live Studio</th><th '+TH2+'>Recorded</th><th '+TH2+'>Adverts</th><th '+TH2+'>Drama</th></tr>',
-    r.rtv,['tvls','tvr','tvd','tva','rls','rr','ra','rd'],thName);
+    r.rtv,['tvls','tvr','tvd','tva','rls','rr','ra','rd'],thName,r.rtvExtras);
 
   var s6=sec('6. Health Talks (IPC)','',
     '<tr><th '+THL+'>Thematic Area</th><th '+TH+'>Female</th><th '+TH+'>Male</th><th '+TH+'>Comments</th></tr>',
-    r.htalk,['f','m'],thName);
+    r.htalk,['f','m'],thName,r.htalkExtras);
 
   // Section 7: Commemorations
   var commemRows='';var commemTotals=new Array(8).fill(0);
@@ -10924,6 +10931,13 @@ function viewHPMonthly(id){
     var vals=keys.map(function(k){var v=parseInt(v_(x[k]))||0;commemTotals[keys.indexOf(k)]+=v;return v;});
     var lbl=i<COMMEM.length?COMMEM[i]:('Other '+(i-COMMEM.length+22));
     commemRows+='<tr><td '+TDL+'>'+lbl+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
+  });
+  // Commem extras
+  (r.commemExtras||[]).forEach(function(x){
+    var keys=['af','am','yf','ym','tf','tm','pf','pm'];
+    var vals=keys.map(function(k){var v=parseInt(v_(x[k]))||0;commemTotals[keys.indexOf(k)]+=v;return v;});
+    var label=x.spec?'Other ('+x.spec+')':'Other';
+    commemRows+='<tr><td '+TDL+'>'+label+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
   commemRows+='<tr><td '+TDTL+'>TOTAL</td>'+commemTotals.map(function(v){return '<td '+TDT+'>'+v+'</td>';}).join('')+'<td style="background:#dbeafe;border:1px solid #2563eb"></td></tr>';
   var s7=section('7. International / National Days Commemorations','90% of planned commemorations conducted.',
@@ -10938,6 +10952,13 @@ function viewHPMonthly(id){
     var keys=['pf','pm','tf','tm','hf','hm'];
     var vals=keys.map(function(k){var v=parseInt(v_(x[k]))||0;s8aTotals[keys.indexOf(k)]+=v;return v;});
     s8aRows+='<tr><td '+TDL+'>'+(s8Themes[i]||THEMES[i]||'')+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
+  });
+  // School extras
+  (r.schoolExtras||[]).forEach(function(x){
+    var keys=['pf','pm','tf','tm','hf','hm'];
+    var vals=keys.map(function(k){var v=parseInt(v_(x[k]))||0;s8aTotals[keys.indexOf(k)]+=v;return v;});
+    var label=x.spec?'Other ('+x.spec+')':'Other';
+    s8aRows+='<tr><td '+TDL+'>'+label+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
   s8aRows+='<tr><td '+TDTL+'>TOTAL</td>'+s8aTotals.map(function(v){return '<td '+TDT+'>'+v+'</td>';}).join('')+'<td style="background:#dbeafe;border:1px solid #2563eb"></td></tr>';
 
