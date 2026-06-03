@@ -8091,10 +8091,17 @@ function printMonthlyReport(){
   var facility=s.name||'Mbabala Rural Health Centre';
   var district=s.district||'Chifunabuli';
   var province=s.province||'Luapula';
-  var letterhead='<div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid #000">'
-    +'<div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px">Republic of Zambia &bull; Ministry of Health</div>'
-    +'<div style="font-size:18px;font-weight:900;margin-bottom:2px">'+facility+'</div>'
-    +'<div style="font-size:11px;color:#555">'+district+' District &bull; '+province+' Province</div>'
+  var monthEl=document.getElementById('mr-month');
+  var yearEl=document.getElementById('mr-year');
+  var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var monthLabel = monthEl&&yearEl ? mn[parseInt(monthEl.value)-1]+' '+yearEl.value : '';
+  var letterhead='<div style="margin-bottom:20px">'
+    +'<div style="font-weight:700;font-size:15px;color:#1e293b">'+facility+'</div>'
+    +'<div style="font-size:12px;color:#64748b">'+district+' &bull; '+province+'</div>'
+    +'<div style="font-size:18px;font-weight:800;color:#0a5448;margin:6px 0 2px">Monthly Report Card</div>'
+    +(monthLabel?'<div style="font-size:12px;color:#64748b">'+monthLabel+'</div>':'')
+    +'<div style="font-size:11px;color:#64748b">Printed: '+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})+'</div>'
+    +'<hr style="border:none;border-top:2px solid #0a5448;margin-top:10px">'
     +'</div>';
   var w=window.open('','_blank');
   w.document.write('<html><head><title>Monthly Report Card</title><style>body{font-family:sans-serif;padding:20px;color:#111}.card-sm{background:#f9fafb;border-radius:8px;padding:16px;border:1px solid #e5e7eb;display:inline-block;margin:6px}@media print{button{display:none}}</style></head><body>'+letterhead+el.innerHTML+'</body></html>');
