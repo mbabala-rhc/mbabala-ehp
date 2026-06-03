@@ -11070,7 +11070,9 @@ function addResearchRow(){
 }
 
 function addHPOtherRow2(sec){
-  var sentinel = document.getElementById(sec+'-0-af')||document.getElementById(sec+'-0-p')||document.getElementById(sec+'-0-f')||document.getElementById(sec+'-0-pf');
+  var sentinelKeys={'sbcc':'p','drama':'af','fgd':'af','comm':'cf','rtv':'tvls','htalk':'f','school':'pf','osvc':'pf'};
+  var sKey=sentinelKeys[sec]||'f';
+  var sentinel=document.getElementById(sec+'-0-'+sKey);
   if(!sentinel) return;
   var tbl = sentinel.closest('table'); if(!tbl) return;
   var tbody = tbl.querySelector('tbody'); if(!tbody) return;
