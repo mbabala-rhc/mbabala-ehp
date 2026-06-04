@@ -10930,7 +10930,6 @@ function saveHPMonthly(){
   ['Screening','MDA','Immunization','Water & Sanitation','Inspections','Other'].forEach(function(_,i){school9b.push({pf:n('s9b-'+i+'-pf'),pm:n('s9b-'+i+'-pm'),tf:n('s9b-'+i+'-tf'),tm:n('s9b-'+i+'-tm'),hf:n('s9b-'+i+'-hf'),hm:n('s9b-'+i+'-hm')});});
   // Save research rows
   var research=[];for(var ri=0;ri<20;ri++){var rIssue=document.getElementById('research-'+ri+'-issue');if(!rIssue)break;research.push({issue:rIssue.value||'',findings:(document.getElementById('research-'+ri+'-findings')||{}).value||'',recs:(document.getElementById('research-'+ri+'-recs')||{}).value||'',comments:(document.getElementById('research-'+ri+'-comments')||{}).value||''});}
-  var research=[];
   for(var r2=0;r2<20;r2++){var ri=document.getElementById('res-'+r2+'-issue');if(!ri)break;if(ri.value||document.getElementById('res-'+r2+'-findings')?.value)research.push({issue:ri.value,findings:(document.getElementById('res-'+r2+'-findings')||{value:''}).value,recom:(document.getElementById('res-'+r2+'-recom')||{value:''}).value,comment:(document.getElementById('res-'+r2+'-comment')||{value:''}).value});}
   var rec={id:id,month:month,year:parseInt(year),preparer:document.getElementById('f-hpm-preparer').value||'',
     successes:document.getElementById('f-hpm-successes').value||'',
