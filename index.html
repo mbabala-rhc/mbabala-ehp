@@ -10984,8 +10984,7 @@ function viewHPMonthly(id){
 
   // Section 9: Research
   var s9Rows='';
-  var researchData=(r.research||[]).filter(function(x){return x.issue||x.findings||x.recs||x.comments;});
-  if(!researchData.length) researchData=[{issue:'',findings:'',recs:'',comments:''}];
+  var researchData=r.research&&r.research.length?r.research:[{issue:'',findings:'',recs:'',comments:''}];
   researchData.forEach(function(x,i){
     var bg=i%2===0?'#f8fafc':'#fff';
     s9Rows+='<tr style="background:'+bg+'"><td style="padding:4px 6px;font-size:11px;border:1px solid #cbd5e1;color:#111;text-align:center;width:30px">'+(i+1)+'</td>'
