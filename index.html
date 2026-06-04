@@ -931,7 +931,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   <div id="comm-tab-epc" style="">
   
-  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-epc-meetings" onclick="switchCommSubTab('epc','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-epc-members" onclick="switchCommSubTab('epc','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:2px solid #0a5448;width:fit-content"><button id="subtab-epc-meetings" onclick="switchCommSubTab('epc','meetings',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#0a5448;color:#fff;border:none;cursor:pointer;transition:all .2s">📋 Meetings</button><button id="subtab-epc-members" onclick="switchCommSubTab('epc','members',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#fff;color:#0a5448;border:none;cursor:pointer;transition:all .2s">👥 Members Register</button></div>
   <div id="subpanel-epc-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('epc')">+ New Meeting</button>
@@ -944,11 +944,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   </div>
   <div id="subpanel-epc-members" style="display:none">
-    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('epc')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-epc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-epc"></tbody></table></div></div>
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('epc')">+ Add Member</button><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCommMembers('epc')">🖨 Print Register</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-epc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-epc"></tbody></table></div></div>
   </div>
 </div><div id="comm-tab-ipc" style="display:none">
   
-  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-ipc-meetings" onclick="switchCommSubTab('ipc','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-ipc-members" onclick="switchCommSubTab('ipc','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:2px solid #0a5448;width:fit-content"><button id="subtab-ipc-meetings" onclick="switchCommSubTab('ipc','meetings',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#0a5448;color:#fff;border:none;cursor:pointer;transition:all .2s">📋 Meetings</button><button id="subtab-ipc-members" onclick="switchCommSubTab('ipc','members',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#fff;color:#0a5448;border:none;cursor:pointer;transition:all .2s">👥 Members Register</button></div>
   <div id="subpanel-ipc-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('ipc')">+ New Meeting</button>
@@ -961,11 +961,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   </div>
   <div id="subpanel-ipc-members" style="display:none">
-    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('ipc')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-ipc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-ipc"></tbody></table></div></div>
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('ipc')">+ Add Member</button><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCommMembers('ipc')">🖨 Print Register</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-ipc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-ipc"></tbody></table></div></div>
   </div>
 </div><div id="comm-tab-ehc" style="display:none">
   
-  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-ehc-meetings" onclick="switchCommSubTab('ehc','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-ehc-members" onclick="switchCommSubTab('ehc','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:2px solid #0a5448;width:fit-content"><button id="subtab-ehc-meetings" onclick="switchCommSubTab('ehc','meetings',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#0a5448;color:#fff;border:none;cursor:pointer;transition:all .2s">📋 Meetings</button><button id="subtab-ehc-members" onclick="switchCommSubTab('ehc','members',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#fff;color:#0a5448;border:none;cursor:pointer;transition:all .2s">👥 Members Register</button></div>
   <div id="subpanel-ehc-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('ehc')">+ New Meeting</button>
@@ -978,11 +978,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   </div>
   <div id="subpanel-ehc-members" style="display:none">
-    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('ehc')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-ehc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-ehc"></tbody></table></div></div>
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('ehc')">+ Add Member</button><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCommMembers('ehc')">🖨 Print Register</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-ehc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-ehc"></tbody></table></div></div>
   </div>
 </div><div id="comm-tab-phc" style="display:none">
   
-  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-phc-meetings" onclick="switchCommSubTab('phc','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-phc-members" onclick="switchCommSubTab('phc','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:2px solid #0a5448;width:fit-content"><button id="subtab-phc-meetings" onclick="switchCommSubTab('phc','meetings',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#0a5448;color:#fff;border:none;cursor:pointer;transition:all .2s">📋 Meetings</button><button id="subtab-phc-members" onclick="switchCommSubTab('phc','members',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#fff;color:#0a5448;border:none;cursor:pointer;transition:all .2s">👥 Members Register</button></div>
   <div id="subpanel-phc-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('phc')">+ New Meeting</button>
@@ -995,11 +995,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   </div>
   <div id="subpanel-phc-members" style="display:none">
-    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('phc')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-phc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-phc"></tbody></table></div></div>
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('phc')">+ Add Member</button><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCommMembers('phc')">🖨 Print Register</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-phc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-phc"></tbody></table></div></div>
   </div>
 </div><div id="comm-tab-safe" style="display:none">
   
-  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-safe-meetings" onclick="switchCommSubTab('safe','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-safe-members" onclick="switchCommSubTab('safe','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:2px solid #0a5448;width:fit-content"><button id="subtab-safe-meetings" onclick="switchCommSubTab('safe','meetings',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#0a5448;color:#fff;border:none;cursor:pointer;transition:all .2s">📋 Meetings</button><button id="subtab-safe-members" onclick="switchCommSubTab('safe','members',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#fff;color:#0a5448;border:none;cursor:pointer;transition:all .2s">👥 Members Register</button></div>
   <div id="subpanel-safe-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('safe')">+ New Meeting</button>
@@ -1012,11 +1012,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   </div>
   <div id="subpanel-safe-members" style="display:none">
-    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('safe')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-safe"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-safe"></tbody></table></div></div>
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('safe')">+ Add Member</button><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCommMembers('safe')">🖨 Print Register</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-safe"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-safe"></tbody></table></div></div>
   </div>
 </div><div id="comm-tab-nut" style="display:none">
   
-  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-nut-meetings" onclick="switchCommSubTab('nut','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-nut-members" onclick="switchCommSubTab('nut','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:2px solid #0a5448;width:fit-content"><button id="subtab-nut-meetings" onclick="switchCommSubTab('nut','meetings',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#0a5448;color:#fff;border:none;cursor:pointer;transition:all .2s">📋 Meetings</button><button id="subtab-nut-members" onclick="switchCommSubTab('nut','members',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#fff;color:#0a5448;border:none;cursor:pointer;transition:all .2s">👥 Members Register</button></div>
   <div id="subpanel-nut-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('nut')">+ New Meeting</button>
@@ -1029,11 +1029,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   </div>
   <div id="subpanel-nut-members" style="display:none">
-    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('nut')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-nut"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-nut"></tbody></table></div></div>
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('nut')">+ Add Member</button><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCommMembers('nut')">🖨 Print Register</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-nut"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-nut"></tbody></table></div></div>
   </div>
 </div><div id="comm-tab-wash" style="display:none">
   
-  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-wash-meetings" onclick="switchCommSubTab('wash','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-wash-members" onclick="switchCommSubTab('wash','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div style="display:flex;gap:0;margin-bottom:14px;border-radius:10px;overflow:hidden;border:2px solid #0a5448;width:fit-content"><button id="subtab-wash-meetings" onclick="switchCommSubTab('wash','meetings',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#0a5448;color:#fff;border:none;cursor:pointer;transition:all .2s">📋 Meetings</button><button id="subtab-wash-members" onclick="switchCommSubTab('wash','members',this)" style="padding:8px 20px;font-size:12px;font-weight:700;background:#fff;color:#0a5448;border:none;cursor:pointer;transition:all .2s">👥 Members Register</button></div>
   <div id="subpanel-wash-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('wash')">+ New Meeting</button>
@@ -1046,7 +1046,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </div>
   </div>
   <div id="subpanel-wash-members" style="display:none">
-    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('wash')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-wash"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-wash"></tbody></table></div></div>
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('wash')">+ Add Member</button><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCommMembers('wash')">🖨 Print Register</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-wash"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-wash"></tbody></table></div></div>
   </div>
 </div>
 </div>
@@ -11540,7 +11540,13 @@ function switchCommSubTab(cid, tab, btn){
     var panel=document.getElementById('subpanel-'+cid+'-'+t);
     if(panel) panel.style.display=(t===tab?'':'none');
     var stab=document.getElementById('subtab-'+cid+'-'+t);
-    if(stab) stab.classList.toggle('active', t===tab);
+    if(stab){
+      if(t===tab){
+        stab.style.background='#0a5448'; stab.style.color='#fff';
+      } else {
+        stab.style.background='#fff'; stab.style.color='#0a5448';
+      }
+    }
   });
   if(tab==='members') renderCommMembers(cid);
 }
@@ -11625,6 +11631,61 @@ function editCommMember(cid,id){
   var hdr=document.getElementById('hdr-m-comm-member');
   if(hdr) hdr.textContent='Edit Member — '+(COMMITTEE_NAMES[cid]||cid);
   openModal('m-comm-member');
+}
+
+function printCommMembers(cid){
+  var data=DB.get('comm_members_'+cid);
+  var s=DB.getObj('settings')||{};
+  var cname=COMMITTEE_NAMES[cid]||cid;
+  var rows=data.map(function(r,i){
+    var bg=i%2===0?'#f8fafc':'#fff';
+    var statusColor=r.status==='Active'?'#16a34a':r.status==='Inactive'?'#d97706':'#dc2626';
+    return '<tr style="background:'+bg+'">'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0;text-align:center;font-weight:700">'+(i+1)+'</td>'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0;font-weight:600">'+r.name+'</td>'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0">'+r.position+'</td>'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0">'+(r.gender||'—')+'</td>'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0">'+(r.org||'—')+'</td>'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0">'+(r.phone||'—')+'</td>'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0">'+(r.date||'—')+'</td>'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0"><span style="color:'+statusColor+';font-weight:600">'+r.status+'</span></td>'
+      +'<td style="padding:6px 10px;border:1px solid #e2e8f0;width:80px"></td>'
+      +'</tr>';
+  }).join('')||'<tr><td colspan="9" style="text-align:center;padding:20px;color:#94a3b8">No members registered</td></tr>';
+
+  var html='<div style="font-family:Arial,sans-serif;padding:16px;max-width:960px;margin:0 auto;background:#fff;color:#111">'
+    +'<div style="text-align:center;margin-bottom:16px;padding-bottom:12px;border-bottom:3px solid #0a5448">'
+      +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Republic of Zambia &bull; Ministry of Health</div>'
+      +'<div style="font-size:17px;font-weight:900;margin:4px 0">'+(s.name||'Mbabala Rural Health Centre')+'</div>'
+      +'<div style="font-size:11px;color:#555">'+(s.district||'Chifunabuli')+' District &bull; '+(s.province||'Luapula')+' Province</div>'
+      +'<div style="font-size:14px;font-weight:700;color:#0a5448;margin-top:6px">'+cname+'</div>'
+      +'<div style="font-size:12px;color:#555">Members Register &bull; Printed: '+new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})+'</div>'
+    +'</div>'
+    +'<table style="width:100%;border-collapse:collapse;font-size:11px">'
+      +'<thead><tr style="background:#0a5448;color:#fff">'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:center;width:35px">#</th>'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:left">Full Name</th>'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:left">Position / Title</th>'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:left">Gender</th>'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:left">Organisation</th>'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:left">Phone</th>'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:left">Appointed</th>'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:left">Status</th>'
+        +'<th style="padding:7px 10px;border:1px solid #0d7a5f;text-align:left">Signature</th>'
+      +'</tr></thead>'
+      +'<tbody>'+rows+'</tbody>'
+    +'</table>'
+    +'<div style="margin-top:20px;font-size:10px;color:#64748b;text-align:center">Total Members: '+data.length+' &bull; Active: '+data.filter(function(r){return r.status==="Active";}).length+'</div>'
+    +'<div class="no-print" style="text-align:center;margin-top:16px">'
+      +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
+      +'<button onclick="printWithTitle()" style="padding:8px 28px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
+    +'</div></div>';
+
+  var overlay=document.getElementById('print-overlay');
+  overlay.innerHTML='<div id="print-overlay-inner" style="max-width:960px;background:#fff">'+html+'</div>';
+  overlay.setAttribute('data-title',cname+' Members Register');
+  overlay.classList.add('open');
+  overlay.onclick=function(e){if(e.target===overlay)closePrintOverlay();};
 }
 </script>
 </body>
