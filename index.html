@@ -2125,6 +2125,7 @@ function saveUser(){
   const idx = users.findIndex(u=>u.id===rec.id);
   if(idx>=0) users[idx]={...users[idx],...rec}; else users.push(rec);
   DB.set('users',users);
+  saveAttachments('users', rec.id, 'm-user');
   closeModal('m-user');
   renderAdmin();
   toast('✅ User saved','success');
@@ -7855,6 +7856,7 @@ async function saveUnder5Report(){
   if(idx >= 0) data[idx] = rec; else data.unshift(rec);
   _store['under5'] = data;
   idbPut('under5', data);
+  saveAttachments('under5', rec.id, 'm-under5');
   closeModal('m-under5');
   renderUnder5();
   sbSet('under5', data);
