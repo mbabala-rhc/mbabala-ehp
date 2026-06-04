@@ -930,7 +930,9 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <div class="tab active" onclick="switchCommitteeTab('epc',this)">🦠 Epidemic Preparedness Committee</div><div class="tab" onclick="switchCommitteeTab('ipc',this)">🧤 IPC Committee</div><div class="tab" onclick="switchCommitteeTab('ehc',this)">🌿 Environmental Health Committee</div><div class="tab" onclick="switchCommitteeTab('phc',this)">🏥 Primary Health Care Committee</div><div class="tab" onclick="switchCommitteeTab('safe',this)">👶 Safe Motherhood Action Group</div><div class="tab" onclick="switchCommitteeTab('nut',this)">🥗 Nutrition Committee</div><div class="tab" onclick="switchCommitteeTab('wash',this)">💧 WASH Committee</div>
   </div>
   <div id="comm-tab-epc" style="">
-  <div class="card">
+  
+  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-epc-meetings" onclick="switchCommSubTab('epc','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-epc-members" onclick="switchCommSubTab('epc','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div id="subpanel-epc-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('epc')">+ New Meeting</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Epidemic Preparedness Committee','tbl-comm-epc')">🖨 Print</button>
@@ -940,8 +942,14 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <tbody id="tb-comm-epc"></tbody>
     </table></div>
   </div>
+  </div>
+  <div id="subpanel-epc-members" style="display:none">
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('epc')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-epc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-epc"></tbody></table></div></div>
+  </div>
 </div><div id="comm-tab-ipc" style="display:none">
-  <div class="card">
+  
+  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-ipc-meetings" onclick="switchCommSubTab('ipc','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-ipc-members" onclick="switchCommSubTab('ipc','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div id="subpanel-ipc-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('ipc')">+ New Meeting</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('IPC Committee','tbl-comm-ipc')">🖨 Print</button>
@@ -951,8 +959,14 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <tbody id="tb-comm-ipc"></tbody>
     </table></div>
   </div>
+  </div>
+  <div id="subpanel-ipc-members" style="display:none">
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('ipc')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-ipc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-ipc"></tbody></table></div></div>
+  </div>
 </div><div id="comm-tab-ehc" style="display:none">
-  <div class="card">
+  
+  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-ehc-meetings" onclick="switchCommSubTab('ehc','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-ehc-members" onclick="switchCommSubTab('ehc','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div id="subpanel-ehc-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('ehc')">+ New Meeting</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Environmental Health Committee','tbl-comm-ehc')">🖨 Print</button>
@@ -962,8 +976,14 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <tbody id="tb-comm-ehc"></tbody>
     </table></div>
   </div>
+  </div>
+  <div id="subpanel-ehc-members" style="display:none">
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('ehc')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-ehc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-ehc"></tbody></table></div></div>
+  </div>
 </div><div id="comm-tab-phc" style="display:none">
-  <div class="card">
+  
+  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-phc-meetings" onclick="switchCommSubTab('phc','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-phc-members" onclick="switchCommSubTab('phc','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div id="subpanel-phc-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('phc')">+ New Meeting</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Primary Health Care Committee','tbl-comm-phc')">🖨 Print</button>
@@ -973,8 +993,14 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <tbody id="tb-comm-phc"></tbody>
     </table></div>
   </div>
+  </div>
+  <div id="subpanel-phc-members" style="display:none">
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('phc')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-phc"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-phc"></tbody></table></div></div>
+  </div>
 </div><div id="comm-tab-safe" style="display:none">
-  <div class="card">
+  
+  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-safe-meetings" onclick="switchCommSubTab('safe','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-safe-members" onclick="switchCommSubTab('safe','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div id="subpanel-safe-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('safe')">+ New Meeting</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Safe Motherhood Action Group','tbl-comm-safe')">🖨 Print</button>
@@ -984,8 +1010,14 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <tbody id="tb-comm-safe"></tbody>
     </table></div>
   </div>
+  </div>
+  <div id="subpanel-safe-members" style="display:none">
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('safe')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-safe"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-safe"></tbody></table></div></div>
+  </div>
 </div><div id="comm-tab-nut" style="display:none">
-  <div class="card">
+  
+  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-nut-meetings" onclick="switchCommSubTab('nut','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-nut-members" onclick="switchCommSubTab('nut','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div id="subpanel-nut-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('nut')">+ New Meeting</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Nutrition Committee','tbl-comm-nut')">🖨 Print</button>
@@ -995,8 +1027,14 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <tbody id="tb-comm-nut"></tbody>
     </table></div>
   </div>
+  </div>
+  <div id="subpanel-nut-members" style="display:none">
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('nut')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-nut"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-nut"></tbody></table></div></div>
+  </div>
 </div><div id="comm-tab-wash" style="display:none">
-  <div class="card">
+  
+  <div style="display:flex;gap:6px;margin-bottom:10px"><div class="tab active" id="subtab-wash-meetings" onclick="switchCommSubTab('wash','meetings',this)" style="font-size:12px">📋 Meetings</div><div class="tab" id="subtab-wash-members" onclick="switchCommSubTab('wash','members',this)" style="font-size:12px">👥 Members Register</div></div>
+  <div id="subpanel-wash-meetings"><div class="card">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
       <button class="btn sm primary" onclick="openCommModal('wash')">+ New Meeting</button>
       <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('WASH Committee','tbl-comm-wash')">🖨 Print</button>
@@ -1005,6 +1043,10 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <thead><tr><th>Date</th><th>Meeting Type</th><th>Venue</th><th>Attendance</th><th>Agenda</th><th>Actions Agreed</th><th>Next Meeting</th><th>Actions</th></tr></thead>
       <tbody id="tb-comm-wash"></tbody>
     </table></div>
+  </div>
+  </div>
+  <div id="subpanel-wash-members" style="display:none">
+    <div class="card"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><button class="btn sm primary" onclick="openCommMemberModal('wash')">+ Add Member</button></div><div class="tbl-wrap"><table class="dt" id="tbl-commm-wash"><thead><tr><th>#</th><th>Full Name</th><th>Position / Title</th><th>Organisation</th><th>Phone</th><th>Status</th><th>Date Appointed</th><th>Actions</th></tr></thead><tbody id="tb-commm-wash"></tbody></table></div></div>
   </div>
 </div>
 </div>
@@ -1449,6 +1491,37 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="modal-footer">
     <button class="btn" onclick="closeModal('m-committee')">Cancel</button>
     <button class="btn primary" onclick="saveCommittee()">💾 Save</button>
+  </div>
+</div></div>
+
+
+<div id="m-comm-member" class="modal-overlay"><div class="modal">
+  <div class="modal-header"><div class="modal-header-icon" style="background:linear-gradient(135deg,#0a5448,#0d7a5f)">👥</div>
+    <h3 id="hdr-m-comm-member">Add Committee Member</h3>
+    <button class="btn icon" onclick="closeModal('m-comm-member')">✕</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="f-commm-id">
+    <input type="hidden" id="f-commm-ctype">
+    <div class="form-row">
+      <div class="form-group"><label>Full Name *</label><input type="text" id="f-commm-name"></div>
+      <div class="form-group"><label>Position / Title *</label><input type="text" id="f-commm-position" placeholder="e.g. Chairperson, Secretary"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Organisation / Village</label><input type="text" id="f-commm-org"></div>
+      <div class="form-group"><label>Phone / Contact</label><input type="text" id="f-commm-phone"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Gender</label><select id="f-commm-gender"><option>Female</option><option>Male</option></select></div>
+      <div class="form-group"><label>Date Appointed</label><input type="date" id="f-commm-date"></div>
+      <div class="form-group"><label>Status</label><select id="f-commm-status"><option>Active</option><option>Inactive</option><option>Resigned</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1"><label>Notes</label><input type="text" id="f-commm-notes"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" onclick="closeModal('m-comm-member')">Cancel</button>
+    <button class="btn primary" onclick="saveCommMember()">💾 Save</button>
   </div>
 </div></div>
  <script>
@@ -11461,6 +11534,98 @@ function viewCommittee(cid,id){
 function printCommittee(cid,id){viewCommittee(cid,id);}
 
 function renderCommittees(){renderCommittee(_currentCommittee);}
+
+function switchCommSubTab(cid, tab, btn){
+  ['meetings','members'].forEach(function(t){
+    var panel=document.getElementById('subpanel-'+cid+'-'+t);
+    if(panel) panel.style.display=(t===tab?'':'none');
+    var stab=document.getElementById('subtab-'+cid+'-'+t);
+    if(stab) stab.classList.toggle('active', t===tab);
+  });
+  if(tab==='members') renderCommMembers(cid);
+}
+
+function openCommMemberModal(cid){
+  document.getElementById('f-commm-id').value='';
+  document.getElementById('f-commm-ctype').value=cid;
+  document.getElementById('f-commm-name').value='';
+  document.getElementById('f-commm-position').value='';
+  document.getElementById('f-commm-org').value='';
+  document.getElementById('f-commm-phone').value='';
+  document.getElementById('f-commm-gender').value='Female';
+  document.getElementById('f-commm-date').value='';
+  document.getElementById('f-commm-status').value='Active';
+  document.getElementById('f-commm-notes').value='';
+  var hdr=document.getElementById('hdr-m-comm-member');
+  if(hdr) hdr.textContent='Add Member — '+(COMMITTEE_NAMES[cid]||cid);
+  openModal('m-comm-member');
+}
+
+function saveCommMember(){
+  var name=document.getElementById('f-commm-name').value.trim();
+  var pos=document.getElementById('f-commm-position').value.trim();
+  if(!name||!pos){toast('Please fill Name and Position','error');return;}
+  var cid=document.getElementById('f-commm-ctype').value;
+  var id=document.getElementById('f-commm-id').value||genId('CMM');
+  var rec={
+    id:id,ctype:cid,name:name,position:pos,
+    org:document.getElementById('f-commm-org').value||'',
+    phone:document.getElementById('f-commm-phone').value||'',
+    gender:document.getElementById('f-commm-gender').value||'',
+    date:document.getElementById('f-commm-date').value||'',
+    status:document.getElementById('f-commm-status').value||'Active',
+    notes:document.getElementById('f-commm-notes').value||''
+  };
+  var data=DB.get('comm_members_'+cid);
+  var idx=data.findIndex(function(r){return r.id===id;});
+  if(idx>=0) data[idx]=rec; else data.push(rec);
+  DB.set('comm_members_'+cid,data);
+  closeModal('m-comm-member');
+  renderCommMembers(cid);
+  toast('Member saved','success');
+}
+
+function renderCommMembers(cid){
+  var data=DB.get('comm_members_'+cid);
+  var tb=document.getElementById('tb-commm-'+cid); if(!tb) return;
+  var b='width:28px;height:28px;border-radius:6px;border:none;cursor:pointer;font-size:13px;padding:0;';
+  tb.innerHTML=data.map(function(r,i){
+    var statusColor=r.status==='Active'?'#16a34a':r.status==='Inactive'?'#d97706':'#dc2626';
+    return '<tr>'
+      +'<td style="text-align:center;font-weight:700">'+(i+1)+'</td>'
+      +'<td><b>'+r.name+'</b><br><small style="color:var(--txt2)">'+r.gender+'</small></td>'
+      +'<td>'+r.position+'</td>'
+      +'<td>'+(r.org||'—')+'</td>'
+      +'<td>'+(r.phone||'—')+'</td>'
+      +'<td><span style="background:'+(r.status==='Active'?'#dcfce7':r.status==='Inactive'?'#fef3c7':'#fee2e2')+';color:'+statusColor+';padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600">'+r.status+'</span></td>'
+      +'<td>'+(r.date||'—')+'</td>'
+      +'<td><div style="display:flex;gap:3px">'
+        +'<button data-a="edit" data-i="'+r.id+'" data-c="'+cid+'" style="'+b+'background:#0a5448;color:#fff" title="Edit">&#9998;</button>'
+        +'<button data-a="del" data-i="'+r.id+'" data-c="'+cid+'" style="'+b+'background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button>'
+      +'</div></td>'
+      +'</tr>';
+  }).join('')||'<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--txt2)">No members registered yet</td></tr>';
+  var tbl=document.getElementById('tbl-commm-'+cid);
+  if(tbl) tbl.onclick=function(e){
+    var btn=e.target.closest('button[data-a]'); if(!btn) return;
+    var id=btn.getAttribute('data-i'),a=btn.getAttribute('data-a'),c=btn.getAttribute('data-c');
+    if(a==='edit') editCommMember(c,id);
+    else if(a==='del') deleteRecord('comm_members_'+c,id,function(){renderCommMembers(c);});
+  };
+}
+
+function editCommMember(cid,id){
+  var r=DB.get('comm_members_'+cid).find(function(x){return x.id===id;}); if(!r) return;
+  function sv(eid,val){var el=document.getElementById(eid);if(el)el.value=val||'';}
+  sv('f-commm-id',r.id); sv('f-commm-ctype',cid);
+  sv('f-commm-name',r.name); sv('f-commm-position',r.position);
+  sv('f-commm-org',r.org); sv('f-commm-phone',r.phone);
+  sv('f-commm-gender',r.gender); sv('f-commm-date',r.date);
+  sv('f-commm-status',r.status); sv('f-commm-notes',r.notes);
+  var hdr=document.getElementById('hdr-m-comm-member');
+  if(hdr) hdr.textContent='Edit Member — '+(COMMITTEE_NAMES[cid]||cid);
+  openModal('m-comm-member');
+}
 </script>
 </body>
 </html>
