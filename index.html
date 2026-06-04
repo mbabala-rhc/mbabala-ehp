@@ -926,8 +926,15 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
       <div style="color:rgba(255,255,255,.75);font-size:12px;margin-top:3px">Health committee meetings, minutes and action tracking</div>
     </div>
   </div>
-  <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:wrap !important;gap:4px;margin-bottom:12px">
-    <div class="tab active" onclick="switchCommitteeTab('epc',this)">🦠 Epidemic Preparedness Committee</div><div class="tab" onclick="switchCommitteeTab('ipc',this)">🧤 IPC Committee</div><div class="tab" onclick="switchCommitteeTab('ehc',this)">🌿 Environmental Health Committee</div><div class="tab" onclick="switchCommitteeTab('phc',this)">🏥 Primary Health Care Committee</div><div class="tab" onclick="switchCommitteeTab('safe',this)">👶 Safe Motherhood Action Group</div><div class="tab" onclick="switchCommitteeTab('nut',this)">🥗 Nutrition Committee</div><div class="tab" onclick="switchCommitteeTab('wash',this)">💧 WASH Committee</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+    <button id="comm-main-tab-epc" onclick="switchCommitteeTab('epc',this)" style="background:#0a5448;color:#fff;padding:8px 16px;font-size:12px;font-weight:700;border:2px solid #0a5448;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap">🦠 Epidemic Preparedness Committee</button>
+    <button id="comm-main-tab-ipc" onclick="switchCommitteeTab('ipc',this)" style="background:#f0fdf4;color:#0a5448;padding:8px 16px;font-size:12px;font-weight:700;border:2px solid #0a5448;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap">🧤 IPC Committee</button>
+    <button id="comm-main-tab-ehc" onclick="switchCommitteeTab('ehc',this)" style="background:#f0fdf4;color:#0a5448;padding:8px 16px;font-size:12px;font-weight:700;border:2px solid #0a5448;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap">🌿 Environmental Health Committee</button>
+    <button id="comm-main-tab-phc" onclick="switchCommitteeTab('phc',this)" style="background:#f0fdf4;color:#0a5448;padding:8px 16px;font-size:12px;font-weight:700;border:2px solid #0a5448;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap">🏥 Primary Health Care Committee</button>
+    <button id="comm-main-tab-safe" onclick="switchCommitteeTab('safe',this)" style="background:#f0fdf4;color:#0a5448;padding:8px 16px;font-size:12px;font-weight:700;border:2px solid #0a5448;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap">👶 Safe Motherhood Action Group</button>
+    <button id="comm-main-tab-nut" onclick="switchCommitteeTab('nut',this)" style="background:#f0fdf4;color:#0a5448;padding:8px 16px;font-size:12px;font-weight:700;border:2px solid #0a5448;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap">🥗 Nutrition Committee</button>
+    <button id="comm-main-tab-wash" onclick="switchCommitteeTab('wash',this)" style="background:#f0fdf4;color:#0a5448;padding:8px 16px;font-size:12px;font-weight:700;border:2px solid #0a5448;border-radius:20px;cursor:pointer;transition:all .2s;white-space:nowrap">💧 WASH Committee</button>
+  </div><div class="tab" onclick="switchCommitteeTab('ipc',this)">🧤 IPC Committee</div><div class="tab" onclick="switchCommitteeTab('ehc',this)">🌿 Environmental Health Committee</div><div class="tab" onclick="switchCommitteeTab('phc',this)">🏥 Primary Health Care Committee</div><div class="tab" onclick="switchCommitteeTab('safe',this)">👶 Safe Motherhood Action Group</div><div class="tab" onclick="switchCommitteeTab('nut',this)">🥗 Nutrition Committee</div><div class="tab" onclick="switchCommitteeTab('wash',this)">💧 WASH Committee</div>
   </div>
   <div id="comm-tab-epc" style="">
   
@@ -11385,9 +11392,12 @@ var _currentCommittee = 'epc';
 
 function switchCommitteeTab(cid, btn){
   _currentCommittee = cid;
-  document.querySelectorAll('#page-committees .tab').forEach(function(b){ b.classList.remove('active'); });
-  if(btn) btn.classList.add('active');
-  document.getElementById("comm-tab-epc").style.display="none";document.getElementById("comm-tab-ipc").style.display="none";document.getElementById("comm-tab-ehc").style.display="none";document.getElementById("comm-tab-phc").style.display="none";document.getElementById("comm-tab-safe").style.display="none";document.getElementById("comm-tab-nut").style.display="none";document.getElementById("comm-tab-wash").style.display="none";
+  // Reset all main tabs
+  var _tepc=document.getElementById('comm-main-tab-epc');if(_tepc){_tepc.style.background='#f0fdf4';_tepc.style.color='#0a5448';};var _tipc=document.getElementById('comm-main-tab-ipc');if(_tipc){_tipc.style.background='#f0fdf4';_tipc.style.color='#0a5448';};var _tehc=document.getElementById('comm-main-tab-ehc');if(_tehc){_tehc.style.background='#f0fdf4';_tehc.style.color='#0a5448';};var _tphc=document.getElementById('comm-main-tab-phc');if(_tphc){_tphc.style.background='#f0fdf4';_tphc.style.color='#0a5448';};var _tsafe=document.getElementById('comm-main-tab-safe');if(_tsafe){_tsafe.style.background='#f0fdf4';_tsafe.style.color='#0a5448';};var _tnut=document.getElementById('comm-main-tab-nut');if(_tnut){_tnut.style.background='#f0fdf4';_tnut.style.color='#0a5448';};var _twash=document.getElementById('comm-main-tab-wash');if(_twash){_twash.style.background='#f0fdf4';_twash.style.color='#0a5448';};
+  // Activate clicked tab
+  if(btn){btn.style.background='#0a5448';btn.style.color='#fff';}
+  // Show/hide panels
+  document.getElementById('comm-tab-epc').style.display='none';document.getElementById('comm-tab-ipc').style.display='none';document.getElementById('comm-tab-ehc').style.display='none';document.getElementById('comm-tab-phc').style.display='none';document.getElementById('comm-tab-safe').style.display='none';document.getElementById('comm-tab-nut').style.display='none';document.getElementById('comm-tab-wash').style.display='none';
   document.getElementById('comm-tab-'+cid).style.display='';
   renderCommittee(cid);
 }
