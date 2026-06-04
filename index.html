@@ -11617,6 +11617,7 @@ function renderCommMembers(cid){
       +'<td>'+(r.date||'—')+'</td>'
       +'<td><div style="display:flex;gap:3px">'
         +'<button data-a="edit" data-i="'+r.id+'" data-c="'+cid+'" style="'+b+'background:#0a5448;color:#fff" title="Edit">&#9998;</button>'
+        +'<button data-a="print" data-i="'+r.id+'" data-c="'+cid+'" style="'+b+'background:#0d7a5f;color:#fff" title="Print">&#128424;</button>'
         +'<button data-a="del" data-i="'+r.id+'" data-c="'+cid+'" style="'+b+'background:#fee2e2;color:#dc2626" title="Delete">&#128465;</button>'
       +'</div></td>'
       +'</tr>';
@@ -11626,6 +11627,7 @@ function renderCommMembers(cid){
     var btn=e.target.closest('button[data-a]'); if(!btn) return;
     var id=btn.getAttribute('data-i'),a=btn.getAttribute('data-a'),c=btn.getAttribute('data-c');
     if(a==='edit') editCommMember(c,id);
+    else if(a==='print') printCommMember(c,id);
     else if(a==='del') deleteRecord('comm_members_'+c,id,function(){renderCommMembers(c);});
   };
 }
@@ -11694,6 +11696,46 @@ function printCommMembers(cid){
   var overlay=document.getElementById('print-overlay');
   overlay.innerHTML='<div id="print-overlay-inner" style="max-width:960px;background:#fff">'+html+'</div>';
   overlay.setAttribute('data-title',cname+' Members Register');
+  overlay.classList.add('open');
+  overlay.onclick=function(e){if(e.target===overlay)closePrintOverlay();};
+}
+
+function printCommMember(cid, id){
+  var r=DB.get('comm_members_'+cid).find(function(x){return x.id===id;}); if(!r) return;
+  var s=DB.getObj('settings')||{};
+  var cname=COMMITTEE_NAMES[cid]||cid;
+  var html='<div style="font-family:Arial,sans-serif;padding:24px;max-width:600px;margin:0 auto;background:#fff;color:#111">'
+    +'<div style="text-align:center;margin-bottom:20px;padding-bottom:14px;border-bottom:3px solid #0a5448">'
+      +'<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Republic of Zambia &bull; Ministry of Health</div>'
+      +'<div style="font-size:17px;font-weight:900;margin:4px 0">'+(s.name||'Mbabala Rural Health Centre')+'</div>'
+      +'<div style="font-size:11px;color:#555">'+(s.district||'Chifunabuli')+' District &bull; '+(s.province||'Luapula')+' Province</div>'
+      +'<div style="font-size:13px;font-weight:700;color:#0a5448;margin-top:6px">'+cname+'</div>'
+      +'<div style="font-size:11px;color:#555">Member Profile</div>'
+    +'</div>'
+    +'<table style="width:100%;border-collapse:collapse;font-size:12px">'
+      +'<tr><td style="padding:8px 12px;font-weight:700;background:#f0fdf4;border:1px solid #d1fae5;width:40%">Full Name</td><td style="padding:8px 12px;border:1px solid #d1fae5;font-size:14px;font-weight:700">'+r.name+'</td></tr>'
+      +'<tr><td style="padding:8px 12px;font-weight:700;background:#f0fdf4;border:1px solid #d1fae5">Position / Title</td><td style="padding:8px 12px;border:1px solid #d1fae5">'+r.position+'</td></tr>'
+      +'<tr><td style="padding:8px 12px;font-weight:700;background:#f0fdf4;border:1px solid #d1fae5">Gender</td><td style="padding:8px 12px;border:1px solid #d1fae5">'+(r.gender||'—')+'</td></tr>'
+      +'<tr><td style="padding:8px 12px;font-weight:700;background:#f0fdf4;border:1px solid #d1fae5">Organisation / Village</td><td style="padding:8px 12px;border:1px solid #d1fae5">'+(r.org||'—')+'</td></tr>'
+      +'<tr><td style="padding:8px 12px;font-weight:700;background:#f0fdf4;border:1px solid #d1fae5">Phone / Contact</td><td style="padding:8px 12px;border:1px solid #d1fae5">'+(r.phone||'—')+'</td></tr>'
+      +'<tr><td style="padding:8px 12px;font-weight:700;background:#f0fdf4;border:1px solid #d1fae5">Date Appointed</td><td style="padding:8px 12px;border:1px solid #d1fae5">'+(r.date||'—')+'</td></tr>'
+      +'<tr><td style="padding:8px 12px;font-weight:700;background:#f0fdf4;border:1px solid #d1fae5">Status</td><td style="padding:8px 12px;border:1px solid #d1fae5">'+(r.status||'—')+'</td></tr>'
+      +(r.notes?'<tr><td style="padding:8px 12px;font-weight:700;background:#f0fdf4;border:1px solid #d1fae5">Notes</td><td style="padding:8px 12px;border:1px solid #d1fae5">'+r.notes+'</td></tr>':'')
+    +'</table>'
+    +'<div style="margin-top:30px;padding-top:14px;border-top:1px solid #000">'
+      +'<div style="display:flex;gap:24px">'
+        +'<div style="flex:1"><div style="border-top:1px solid #000;padding-top:4px;font-size:10px;margin-top:40px">Member Signature</div></div>'
+        +'<div style="flex:1"><div style="border-top:1px solid #000;padding-top:4px;font-size:10px;margin-top:40px">Chairperson Signature</div></div>'
+        +'<div style="flex:1"><div style="border-top:1px solid #000;padding-top:4px;font-size:10px;margin-top:40px">Date</div></div>'
+      +'</div>'
+    +'</div>'
+    +'<div class="no-print" style="text-align:center;margin-top:16px">'
+      +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
+      +'<button onclick="printWithTitle()" style="padding:8px 28px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
+    +'</div></div>';
+  var overlay=document.getElementById('print-overlay');
+  overlay.innerHTML='<div id="print-overlay-inner" style="max-width:600px;background:#fff">'+html+'</div>';
+  overlay.setAttribute('data-title',r.name+' — '+cname);
   overlay.classList.add('open');
   overlay.onclick=function(e){if(e.target===overlay)closePrintOverlay();};
 }
