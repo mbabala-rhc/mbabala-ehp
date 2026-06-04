@@ -11192,7 +11192,9 @@ function viewHPMonthly(id){
 
   // Section 9: Research
   var s9Rows='';
-  var researchData=r.research&&r.research.length?r.research:[{issue:'',findings:'',recs:'',comments:''}];
+  var researchData=r.research&&r.research.length?r.research:[];
+  var hasResearch=researchData.some(function(x){return x.issue||x.findings||x.recs||x.comments;});
+  if(!hasResearch) researchData=[];
   researchData.forEach(function(x,i){
     var bg=i%2===0?'#f8fafc':'#fff';
     s9Rows+='<tr style="background:'+bg+'">'
@@ -11214,7 +11216,7 @@ function viewHPMonthly(id){
     +'<th style="padding:6px 8px;font-size:11px;border:1px solid #2563eb;text-align:left">Recommendations</th>'
     +'<th style="padding:6px 8px;font-size:11px;border:1px solid #2563eb;text-align:left">Comments</th>'
     +'</tr></thead>'
-    +'<tbody>'+s9Rows+'</tbody>'
+    +'<tbody>'+(s9Rows||'<tr><td colspan="5" style="padding:12px;text-align:center;color:#94a3b8;font-size:11px">No research/survey recorded for this period</td></tr>')+'</tbody>'
     +'</table>'
     +'<div style="font-size:10px;color:#1d4ed8;font-style:italic;padding:3px 8px;background:#eff6ff;border:1px solid #bfdbfe;border-top:none">Indicator Target: At least one (01) planned research conducted in year.</div>'
     +'</div>';
