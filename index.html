@@ -7661,6 +7661,7 @@ async function saveOutcomeRecord(){
   if(idx >= 0) data[idx] = rec; else data.unshift(rec);
   _store['mal_outcomes'] = data;
   idbPut('mal_outcomes', data);
+  saveAttachments('mal_outcomes', rec.id, 'm-outcome');
   closeModal('m-outcome');
   renderDefaulters();
   sbSet('mal_outcomes', data);
