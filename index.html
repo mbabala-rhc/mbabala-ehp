@@ -1712,6 +1712,8 @@ async function loadFromSupabase(){
         // Load Supabase data - Supabase is the source of truth
         data.forEach(row => {
           try{
+            // Never overwrite users from Supabase — managed locally only
+            if(row.store_key === 'users') return;
             if(_recentlySaved[row.store_key] && Date.now() < _recentlySaved[row.store_key]) return;
             var sbVal = JSON.parse(row.value);
             // Only merge offline records if we have a pending offline flag
