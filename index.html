@@ -4951,23 +4951,7 @@ function viewInspection(id){
     html += '<div class="view-field"><div class="view-label">'+f.label+'</div><div class="view-value">'+String(rec[f.key]||'—')+'</div></div>';
   });
   html += '</div>';
-  // Checklist
-  if(rec.checklist){
-    try{
-      var state = JSON.parse(rec.checklist);
-      html += '<div class="form-section" style="margin-top:14px">✅ Inspection Checklist</div>';
-      html += '<table style="width:100%;border-collapse:collapse;margin-top:6px">';
-      CHECKLIST.forEach(function(item, i){
-        var checked = state[i];
-        html += '<tr style="border-bottom:1px solid var(--bd)">'
-          +'<td style="padding:5px 8px;width:30px;text-align:center">'+(checked?'<span style="color:#16a34a;font-size:16px">✓</span>':'<span style="color:#dc2626;font-size:16px">✗</span>')+'</td>'
-          +'<td style="padding:5px 8px;font-size:13px">'+item+'</td>'
-          +'<td style="padding:5px 8px;font-size:12px;color:'+(checked?'#16a34a':'#dc2626')+'">'+(checked?'Compliant':'Non-compliant')+'</td>'
-          +'</tr>';
-      });
-      html += '</table>';
-    }catch(e){}
-  }
+
   // Attachments
   if(atts.length){
     html += '<div class="form-section" style="margin-top:14px">📎 Attachments ('+atts.length+')</div>';
