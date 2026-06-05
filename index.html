@@ -4871,6 +4871,7 @@ function doLogin(){
   if(_sbr) _sbr.textContent=match.role||'';
   if(_sba) _sba.textContent=(match.name||'EH').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
   DB.set('users',users);
+  localStorage.setItem('ehp_session', JSON.stringify({username:match.username,role:match.role,name:match.name,id:match.id}));
   document.getElementById('login-screen').style.display='none';
   showLoadingScreen(match.name.split(' ')[0], function(){
     document.getElementById('app').classList.add('visible');
@@ -5465,6 +5466,32 @@ document.addEventListener('change', function(e){
 }, true);
 
 window.onload = function(){
+  // Restore session if previously logged in
+  var saved = localStorage.getItem('ehp_session');
+  if(saved){
+    try{
+      var sess = JSON.parse(saved);
+      var users = DB.get('users');
+      var defaultUsers=[
+        {id:'USR-001',name:'Erick Mulenga',username:'emulenga',password:btoa('admin123'),role:'Admin',status:'Active'},
+        {id:'USR-002',name:'Mary Banda',username:'mbanda',password:btoa('mbanda123'),role:'EH Officer',status:'Active'},
+        {id:'USR-003',name:'Peter Mwale',username:'pmwale',password:btoa('pmwale123'),role:'IPC Nurse',status:'Active'}
+      ];
+      var match = users.find(function(u){return u.username===sess.username&&u.status==='Active';});
+      if(!match) match = defaultUsers.find(function(u){return u.username===sess.username;});
+      if(match){
+        currentUser = match;
+        initDarkMode();
+        var _sbn=document.getElementById('sb-user-name');var _sbr=document.getElementById('sb-user-role');var _sba=document.getElementById('sb-avatar');
+        if(_sbn)_sbn.textContent=match.name||'';if(_sbr)_sbr.textContent=match.role||'';
+        if(_sba)_sba.textContent=(match.name||'EH').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+        var ua=document.getElementById('user-avatar');if(ua)ua.textContent=(match.name||'EH').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('app').classList.add('visible');
+        nav('dashboard');
+      }
+    }catch(e){ localStorage.removeItem('ehp_session'); }
+  }
   initDarkMode();
   populateYearDropdowns();
   populateCatchmentYears();
@@ -5556,6 +5583,7 @@ window.addEventListener('beforeunload',()=>{
 // ── Logout ────────────────────────────────────────────────
 function closeLogoutDlg(){var o=document.getElementById('lo-overlay');if(o)o.remove();}
 function doLogout(){
+  localStorage.removeItem('ehp_session');
   var ex=document.getElementById('lo-overlay');if(ex)ex.remove();
   var o=document.createElement('div');
   o.id='lo-overlay';
