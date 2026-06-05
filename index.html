@@ -11126,7 +11126,7 @@ function viewHPMonthly(id){
 
   var s1=sec('1. SBCC Materials Distributed','90% of SBCC materials received distributed to the lower level.',
     '<tr><th '+THL+'>Thematic Area</th><th '+TH+'>Posters</th><th '+TH+'>Leaflets/Flyers</th><th '+TH+'>Billboards</th><th '+TH+'>Others</th><th '+TH+'>Total Distributed</th><th '+TH+'>Comments</th></tr>',
-    (r.sbcc||[]).map(function(x,i){return {p:v_(x.p),l:v_(x.l),b:v_(x.b),o:v_(x.o),comment:x.comment,total:(parseInt(v_(x.p))+parseInt(v_(x.l))+parseInt(v_(x.b))+parseInt(v_(x.o)))};})
+    (r.sbcc||[]).map(function(x,i){return {p:v_(x.p),l:v_(x.l),b:v_(x.b),o:v_(x.o),comment:x.comment,spec:x.spec,total:(parseInt(v_(x.p))+parseInt(v_(x.l))+parseInt(v_(x.b))+parseInt(v_(x.o)))};})
     ,['p','l','b','o','total'],thName);
 
   var s2=sec('2. Drama Performances','90% of planned drama performances conducted.',
@@ -11158,7 +11158,7 @@ function viewHPMonthly(id){
   (r.commem||[]).forEach(function(x,i){
     var keys=['af','am','yf','ym','tf','tm','pf','pm'];
     var vals=keys.map(function(k){var v=parseInt(v_(x[k]))||0;commemTotals[keys.indexOf(k)]+=v;return v;});
-    var lbl=i<COMMEM.length?COMMEM[i]:('Other '+(i-COMMEM.length+22));
+    var lbl;if(i<COMMEM.length-1){lbl=COMMEM[i];}else if(i===COMMEM.length-1){lbl=x.spec&&x.spec.trim()?'Others ('+x.spec.trim()+')':COMMEM[i];}else{lbl='Other '+(i-COMMEM.length+22);}
     commemRows+='<tr><td '+TDL+'>'+lbl+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
   // Commem extras
@@ -11180,7 +11180,7 @@ function viewHPMonthly(id){
   (r.school||[]).forEach(function(x,i){
     var keys=['pf','pm','tf','tm','hf','hm'];
     var vals=keys.map(function(k){var v=parseInt(v_(x[k]))||0;s8aTotals[keys.indexOf(k)]+=v;return v;});
-    s8aRows+='<tr><td '+TDL+'>'+(s8Themes[i]||THEMES[i]||'')+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
+    var s8aLbl=(s8Themes[i]||THEMES[i]||'');if(x.spec&&x.spec.trim()&&i>=s8Themes.length-1)s8aLbl=s8aLbl+' ('+x.spec.trim()+')';s8aRows+='<tr><td '+TDL+'>'+s8aLbl+'</td>'+vals.map(function(v){return '<td '+TD+'>'+v+'</td>';}).join('')+'<td '+TDC+'>'+(x.comment||'')+'</td></tr>';
   });
   // School extras
   (r.schoolExtras||[]).forEach(function(x){
