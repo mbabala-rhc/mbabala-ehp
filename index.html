@@ -878,6 +878,8 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
  </div>
  <div class="toolbar">
   <input type="text" placeholder="🔍 Search reports..." oninput="filterTbl(this,'tbl-ecd-monthly')">
+  <button class="btn primary" onclick="openModal('m-ecd-monthly')">+ New Monthly Report</button>
+  <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('ECD Monthly Reports','tbl-ecd-monthly')">🖨 Print</button>
  </div>
  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-ecd-monthly">
   <thead><tr><th>Month</th><th>Facility</th><th>CBVs Active</th><th>HH Enrolled</th><th>HH Visited</th><th>Sessions</th><th>Prepared By</th><th>Actions</th></tr></thead>
