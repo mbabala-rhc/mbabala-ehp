@@ -8865,7 +8865,7 @@ function renderInspFollowup(){
   var data=DB.get('insp_followup');
   var failed=DB.get('inspections').filter(function(r){return r.status==='Fail'||r.status==='Failed';});
   var existingSrcIds=new Set(data.filter(function(r){return r.sourceId;}).map(function(r){return r.sourceId;}));
-  var autoItems=failed.filter(function(r){return !existingSrcIds.has(r.id);}).map(function(r){return{id:'AUTO-'+r.id,premises:r.premises||r.name||'Unknown',failedDate:r.date,reason:r.findings||r.notes||'Failed inspection',outcome:'',zone:r.zone||'',officer:r.officer||'',sourceId:r.id,auto:true};});
+  var autoItems=failed.filter(function(r){return !existingSrcIds.has(r.id);}).map(function(r){return{id:'AUTO-'+r.id,premises:r.premises||r.name||'Unknown',failedDate:r.date,reinspDate:r.followup||'',reason:r.findings||r.notes||'Failed inspection',outcome:'',zone:r.zone||'',officer:r.officer||'',sourceId:r.id,auto:true};});
   var displayData=data.concat(autoItems);
   var pending=displayData.filter(function(r){return !r.outcome||r.outcome==='';}).length;
   var passed=displayData.filter(function(r){return r.outcome==='Passed';}).length;
