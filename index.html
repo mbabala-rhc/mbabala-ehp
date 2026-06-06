@@ -2962,23 +2962,27 @@ function saveECDMonthly(){
   var rec=readFields(ecdMonthlyFields);
   if(!rec.period){toast('Please select reporting month','error');return;}
   if(!rec.id)rec.id=genId('ECM');
-  var data=DB.get('ecd_monthly');
+  // Get existing data and update
+  if(!_store['ecd_monthly']||!Array.isArray(_store['ecd_monthly'])) _store['ecd_monthly']=[];
+  var data=_store['ecd_monthly'];
   var ix=data.findIndex(function(r){return r.id===rec.id;});
   if(ix>=0)data[ix]=rec;else data.unshift(rec);
-  _store['ecd_monthly']=data;idbPut('ecd_monthly',data);sbSet('ecd_monthly',data);
-  _recentlySaved['ecd_monthly']=Date.now()+10000;
+  _store['ecd_monthly']=data;
+  idbPut('ecd_monthly',data);
+  sbSet('ecd_monthly',data);
+  _recentlySaved['ecd_monthly']=Date.now()+15000;
   closeModal('m-ecd-monthly');
-  setTimeout(renderECDMonthly, 50);
-  // Switch to Monthly Aggregation tab so record is visible
-  var pg = document.getElementById('page-ecd');
+  // Switch to Monthly tab first, then render
+  var pg=document.getElementById('page-ecd');
   if(pg){
     pg.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
     pg.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});
-    var monthlyTab = pg.querySelectorAll('.tab')[1];
-    var monthlyPane = document.getElementById('t-ecd-monthly');
-    if(monthlyTab) monthlyTab.classList.add('active');
-    if(monthlyPane) monthlyPane.classList.add('active');
+    var tabs=pg.querySelectorAll('.tab');
+    if(tabs[1])tabs[1].classList.add('active');
+    var pane=document.getElementById('t-ecd-monthly');
+    if(pane)pane.classList.add('active');
   }
+  renderECDMonthly();
   toast('ECD Monthly Report saved','success');
 }
 
