@@ -880,7 +880,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 <div id="ecd-monthly-agg" style="display:none">
   <div class="card">
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
-      <button class="btn sm primary" onclick="openModal('m-ecd-monthly')">+ New Monthly Report</button>
+      <button class="btn sm primary" id="ecd-monthly-new-btn">+ New Monthly Report</button>
       <input type="text" placeholder="🔍 Search reports..." oninput="filterTbl(this,'tbl-ecd-monthly')" style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);font-size:12px;background:var(--bg2);flex:1;max-width:240px">
     </div>
     <div class="tbl-wrap"><table class="dt" id="tbl-ecd-monthly"><thead><tr><th>Month</th><th>Facility</th><th>CBVs Active</th><th>HH Enrolled</th><th>HH Visited</th><th>Sessions</th><th>Prepared By</th><th>Actions</th></tr></thead><tbody id="tb-ecd-monthly"></tbody></table></div>
@@ -10963,6 +10963,9 @@ function switchECDTab(tabId, btn){
     var el = document.getElementById(id);
     if(el) el.style.display = id===tabId ? '' : 'none';
   });
+  // Attach button listener each time tab shows
+  var newBtn = document.getElementById('ecd-monthly-new-btn');
+  if(newBtn) newBtn.onclick = function(){ openModal('m-ecd-monthly'); };
   if(tabId==='ecd-monthly-agg') renderECDMonthly();
 }
 
