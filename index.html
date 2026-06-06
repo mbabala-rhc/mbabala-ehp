@@ -883,7 +883,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('ECD Monthly Reports','tbl-ecd-monthly')">🖨 Print</button>
  </div>
  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-ecd-monthly">
-  <thead><tr><th>Month</th><th>Facility</th><th>CBVs Active</th><th>HH Enrolled</th><th>HH Visited</th><th>Sessions</th><th>Total Children</th><th>Prepared By</th><th>Actions</th></tr></thead>
+  <thead><tr><th>Month</th><th>Facility</th><th>CBVs Active</th><th>HH Enrolled</th><th>HH Visited</th><th>Sessions</th><th>Total (M+F)</th><th>Prepared By</th><th>Actions</th></tr></thead>
   <tbody id="tb-ecd-monthly"></tbody>
  </table></div></div>
 </div>
@@ -12017,7 +12017,7 @@ function renderECDMonthly(){
   if(!tb)return;
   if(!data.length){tb.innerHTML=emptyRow(9);return;}
   tb.innerHTML=data.map(function(r){
-    var totalChildren=(r.childTotalM||0)+(r.childTotalF||0)+(r.childVisM||0)+(r.childVisF||0);return '<tr><td>'+fmtMonthYear(r.period)+'</td><td>'+(r.facility||'—')+'</td><td>'+((r.cbvActiveM||0)+(r.cbvActiveF||0))+'</td><td>'+(r.hhTotal||0)+'</td><td>'+(r.hhVisited||0)+'</td><td>'+(r.grpSess||0)+'</td><td>'+((r.childTotalM||0)+(r.childTotalF||0))+'</td><td>'+(r.preparer||'—')+'</td><td>'+rowBtns('ecd_monthly',r.id,"viewECDMonthly('"+r.id+"')","editRecord('ecd_monthly','"+r.id+"',ecdMonthlyFields,'m-ecd-monthly','hdr-m-ecd-monthly','Edit ECD Report')","deleteRecord('ecd_monthly','"+r.id+"',renderECDMonthly)")+'</td></tr>';
+    var grandTotal=(r.cbvNewM||0)+(r.cbvNewF||0)+(r.cbvRefM||0)+(r.cbvRefF||0)+(r.cbvActiveM||0)+(r.cbvActiveF||0)+(r.cbvDropM||0)+(r.cbvDropF||0)+(r.cbvRepM||0)+(r.cbvRepF||0)+(r.childTotalM||0)+(r.childTotalF||0)+(r.careM||0)+(r.careF||0)+(r.childVisM||0)+(r.childVisF||0)+(r.child7M||0)+(r.child7F||0)+(r.toysM||0)+(r.toysF||0)+(r.grpNewM||0)+(r.grpNewF||0)+(r.grpExistM||0)+(r.grpExistF||0)+(r.grpTotalM||0)+(r.grpTotalF||0)+(r.grp4M||0)+(r.grp4F||0)+(r.grpPregM||0)+(r.grpPregF||0)+(r.reflM||0)+(r.reflF||0);return '<tr><td>'+fmtMonthYear(r.period)+'</td><td>'+(r.facility||'—')+'</td><td>'+((r.cbvActiveM||0)+(r.cbvActiveF||0))+'</td><td>'+(r.hhTotal||0)+'</td><td>'+(r.hhVisited||0)+'</td><td>'+(r.grpSess||0)+'</td><td style="font-weight:700;color:var(--teal-d)">'+grandTotal+'</td><td>'+(r.preparer||'—')+'</td><td>'+rowBtns('ecd_monthly',r.id,"viewECDMonthly('"+r.id+"')","editRecord('ecd_monthly','"+r.id+"',ecdMonthlyFields,'m-ecd-monthly','hdr-m-ecd-monthly','Edit ECD Report')","deleteRecord('ecd_monthly','"+r.id+"',renderECDMonthly)")+'</td></tr>';
   }).join('');
 }
 
