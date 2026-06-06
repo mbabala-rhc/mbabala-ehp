@@ -3005,6 +3005,19 @@ const ecdMonthlyFields=[
 ];
 
 function renderECDMonthly(){
+  // Make sure Monthly Aggregation tab is active
+  var pg=document.getElementById('page-ecd');
+  if(pg){
+    var tabs=pg.querySelectorAll('.tab');
+    var panes=pg.querySelectorAll('.tab-pane');
+    if(tabs.length>=2 && !tabs[1].classList.contains('active')){
+      tabs.forEach(function(t){t.classList.remove('active');});
+      panes.forEach(function(p){p.classList.remove('active');});
+      tabs[1].classList.add('active');
+      var mp=document.getElementById('t-ecd-monthly');
+      if(mp)mp.classList.add('active');
+    }
+  }
   var data=DB.get('ecd_monthly');
   var tb=document.getElementById('tb-ecd-monthly');
   if(!tb)return;
