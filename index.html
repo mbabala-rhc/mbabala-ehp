@@ -2279,10 +2279,10 @@ function viewRecord(store, id, fields){
   if(!rec){ toast('Record not found','error'); return; }
   const atts = Array.isArray(DB.get('att_'+store+'_'+id))?DB.get('att_'+store+'_'+id):[];
   window._viewAttsGlobal = atts;
-  const visFields = (fields||STORE_FIELDS_MAP[store]&&STORE_FIELDS_MAP[store]()||[]).filter(f=>!f.hidden&&rec[f.key]!==undefined&&rec[f.key]!=='');
+  const visFields = (fields||STORE_FIELDS_MAP[store]&&STORE_FIELDS_MAP[store]()||[]).filter(f=>!f.hidden&&rec[f.key]!==undefined&&rec[f.key]!==null&&rec[f.key]!=='');
   let html='<div class="view-grid">';
   visFields.forEach(f=>{
-    html+=`<div class="view-field"><div class="view-label">${f.label}</div><div class="view-value">${String(rec[f.key]||'—')}</div></div>`;
+    var _val=(rec[f.key]!==undefined&&rec[f.key]!==null&&rec[f.key]!=='')?String(rec[f.key]):'—'; html+=`<div class="view-field"><div class="view-label">${f.label}</div><div class="view-value">${_val}</div></div>`;
   });
   html+='</div>';
   if(atts.length){
