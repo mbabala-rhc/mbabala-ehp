@@ -12015,7 +12015,7 @@ function renderECDMonthly(){
   var data=(_store['ecd_monthly']&&_store['ecd_monthly'].length)?_store['ecd_monthly']:DB.get('ecd_monthly');
   var tb=document.getElementById('tb-ecd-monthly');
   if(!tb)return;
-  if(!data.length){tb.innerHTML=emptyRow(8);return;}
+  if(!data.length){tb.innerHTML=emptyRow(9);return;}
   tb.innerHTML=data.map(function(r){
     var totalChildren=(r.childTotalM||0)+(r.childTotalF||0)+(r.childVisM||0)+(r.childVisF||0);return '<tr><td>'+fmtMonthYear(r.period)+'</td><td>'+(r.facility||'—')+'</td><td>'+((r.cbvActiveM||0)+(r.cbvActiveF||0))+'</td><td>'+(r.hhTotal||0)+'</td><td>'+(r.hhVisited||0)+'</td><td>'+(r.grpSess||0)+'</td><td>'+((r.childTotalM||0)+(r.childTotalF||0))+'</td><td>'+(r.preparer||'—')+'</td><td>'+rowBtns('ecd_monthly',r.id,"viewECDMonthly('"+r.id+"')","editRecord('ecd_monthly','"+r.id+"',ecdMonthlyFields,'m-ecd-monthly','hdr-m-ecd-monthly','Edit ECD Report')","deleteRecord('ecd_monthly','"+r.id+"',renderECDMonthly)")+'</td></tr>';
   }).join('');
