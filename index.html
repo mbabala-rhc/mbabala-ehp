@@ -10951,7 +10951,7 @@ function switchHPTab(tabId, btn){
   if(btn) btn.classList.add('active');
   ['hp-sessions','hp-monthly'].forEach(function(id){
     var el = document.getElementById(id);
-    if(el) el.style.display = id===tabId ? '' : 'none';
+    if(el) el.style.display = id===tabId ? 'block' : 'none';
   });
   if(tabId==='hp-monthly') renderHPMonthly();
 }
@@ -10959,11 +10959,10 @@ function switchHPTab(tabId, btn){
 function switchECDTab(tabId, btn){
   document.querySelectorAll('#page-ecd .tab').forEach(function(b){ b.classList.remove('active'); });
   if(btn) btn.classList.add('active');
-  ['ecd-activities','ecd-monthly-agg'].forEach(function(id){
-    var el = document.getElementById(id);
-    if(el) el.style.display = id===tabId ? '' : 'none';
-  });
-  // Attach button listener each time tab shows
+  var act = document.getElementById('ecd-activities');
+  var mon = document.getElementById('ecd-monthly-agg');
+  if(act) act.style.display = tabId==='ecd-activities' ? 'block' : 'none';
+  if(mon) mon.style.display = tabId==='ecd-monthly-agg' ? 'block' : 'none';
   var newBtn = document.getElementById('ecd-monthly-new-btn');
   if(newBtn) newBtn.onclick = function(){ openModal('m-ecd-monthly'); };
   if(tabId==='ecd-monthly-agg') renderECDMonthly();
