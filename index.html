@@ -2966,8 +2966,9 @@ function saveECDMonthly(){
   var ix=data.findIndex(function(r){return r.id===rec.id;});
   if(ix>=0)data[ix]=rec;else data.unshift(rec);
   _store['ecd_monthly']=data;idbPut('ecd_monthly',data);sbSet('ecd_monthly',data);
+  _recentlySaved['ecd_monthly']=Date.now()+10000;
   closeModal('m-ecd-monthly');
-  renderECDMonthly();
+  setTimeout(renderECDMonthly, 50);
   // Switch to Monthly Aggregation tab so record is visible
   var pg = document.getElementById('page-ecd');
   if(pg){
