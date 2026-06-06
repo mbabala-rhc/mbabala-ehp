@@ -819,7 +819,8 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-<!-- v2.1.0 --></head>
+<!-- v2.1.0 --><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
 <body> <div id="backup-reminder" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9998;background:var(--amber);color:#fff;border-radius:12px;padding:14px 20px;box-shadow:0 4px 20px rgba(0,0,0,.25);align-items:center;gap:14px;max-width:500px;width:90%"> <span style="font-size:24px">💾</span> <div style="flex:1"> <div style="font-weight:700;font-size:14px">Time for a data backup!</div> <div style="font-size:12px;opacity:.9;margin-top:2px">It has been 7+ days since your last backup. Export your data now to prevent loss.</div> </div> <div style="display:flex;gap:8px;flex-shrink:0"> <button onclick="dismissBackupReminder(true)" style="background:#fff;color:var(--amber);border:none;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-size:12px">💾 Backup Now</button> <button onclick="dismissBackupReminder(false)" style="background:rgba(255,255,255,.25);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:12px">Later</button> </div>
 </div> <div id="loading-screen" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:99998;flex-direction:column;align-items:center;justify-content:center;background:#0a5448"> <div style="position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.04)"></div> <div style="position:absolute;bottom:-80px;left:-40px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.03)"></div> <div style="position:absolute;top:30%;left:-80px;width:200px;height:200px;border-radius:50%;background:rgba(13,148,136,0.15)"></div> <div style="text-align:center;position:relative;z-index:1;padding:20px"> <div style="width:72px;height:72px;border-radius:18px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 32px rgba(0,0,0,0.2)"> <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px">EH</span> </div> <div style="color:#fff;font-size:22px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Mbabala Rural Health Centre</div> <div style="color:rgba(255,255,255,.55);font-size:12px;margin-bottom:6px;letter-spacing:.04em">CHIFUNABULI DISTRICT &nbsp;·&nbsp; LUAPULA PROVINCE</div> <div style="width:40px;height:2px;background:rgba(255,255,255,0.25);border-radius:2px;margin:14px auto 18px"></div> <div id="loading-welcome" style="color:rgba(255,255,255,.9);font-size:16px;font-weight:600;margin-bottom:28px">Welcome back!</div> <div style="width:200px;height:3px;background:rgba(255,255,255,0.15);border-radius:3px;margin:0 auto 16px;overflow:hidden"> <div id="loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,rgba(255,255,255,0.6),#fff);border-radius:3px;transition:width .5s ease"></div> </div> <div id="loading-text" style="color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.06em;text-transform:uppercase">Initialising...</div> <div style="margin-top:40px;color:rgba(255,255,255,.2);font-size:10px;letter-spacing:.08em;text-transform:uppercase">Ministry of Health · Zambia</div> </div>
 </div> <div id="login-screen"> <div class="login-card"> <div class="login-logo">EH</div> <div class="login-title" id="login-title">EH Management Platform</div> <div class="login-sub" id="login-sub">Mbabala Rural Health Centre · Chifunabuli District, Luapula Province</div> <div class="login-err" id="login-err">⚠ Incorrect username or password</div> <form id="login-form" onsubmit="event.preventDefault();doLogin();" style="margin:0"> <div class="login-group"> <label>Username</label> <input type="text" id="li-user" placeholder="Enter your username" autocomplete="username" name="username"> </div> <div class="login-group"> <label>Password</label> <div class="pw-wrap"><input type="password" id="li-pass" placeholder="Enter your password" autocomplete="current-password" name="password"><button type="button" class="pw-toggle" onclick="togglePw('li-pass',this)" title="Show password">👁</button></div> </div> <button type="button" class="login-btn" onclick="doLogin()">Sign In →</button> </form> <div style="text-align:center;margin-top:14px"> <button onclick="showForgotPassword()" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer;text-decoration:underline">Forgot Password?</button> </div> <div class="login-footer">🔒 Mbabala RHC · Environmental Health Dept. v3.0</div> </div>
@@ -11115,7 +11116,119 @@ function editHPMonthly(id){
   openModal('m-hp-monthly');
 }
 
+
+function exportHPMonthlyExcel(id){
+  var r=DB.get('hp_monthly').find(function(x){return x.id===id;});
+  if(!r){toast('Record not found','error');return;}
+  var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var monthLabel=mn[(parseInt(r.month)||1)-1]+' '+r.year;
+  var XLSX=window.XLSX;
+  if(!XLSX){toast('Excel library not loaded','error');return;}
+
+  var wb=XLSX.utils.book_new();
+  var HP_THEMES_LOCAL=['HIV/AIDS','TB','Malaria','Nutrition','IRH','Child Health','Diarrhoea','NCD','NTD','Water & Sanitation','Cholera','Food Safety','COVID-19','Ebola','Other (Specify)'];
+
+  function addSheet(name,headers,rows){
+    var data=[headers].concat(rows);
+    var ws=XLSX.utils.aoa_to_sheet(data);
+    // Style header row
+    var range=XLSX.utils.decode_range(ws['!ref']||'A1');
+    for(var c=range.s.c;c<=range.e.c;c++){
+      var cell=XLSX.utils.encode_cell({r:0,c:c});
+      if(!ws[cell])ws[cell]={v:'',t:'s'};
+      ws[cell].s={font:{bold:true},fill:{fgColor:{rgb:'0A5448'}},font:{color:{rgb:'FFFFFF'},bold:true}};
+    }
+    XLSX.utils.book_append_sheet(wb,ws,name);
+  }
+
+  // Section 1: SBCC Materials
+  var s1h=['Thematic Area','Posters','Leaflets','Billboards','Others','Total','Comments'];
+  var s1r=(r.sbcc||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?HP_THEMES_LOCAL[i]+' ('+x.spec.trim()+')':HP_THEMES_LOCAL[i]||('Row '+(i+1));
+    return[lbl,x.p||0,x.l||0,x.b||0,x.o||0,(x.p||0)+(x.l||0)+(x.b||0)+(x.o||0),x.comment||''];
+  });
+  addSheet('1.SBCC Materials',s1h,s1r);
+
+  // Section 2: Drama
+  var s2h=['Thematic Area','Adults F','Adults M','Youth F','Youth M','Head Men F','Head Men M','Others F','Others M','Comments'];
+  var s2r=(r.drama||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?HP_THEMES_LOCAL[i]+' ('+x.spec.trim()+')':HP_THEMES_LOCAL[i]||('Row '+(i+1));
+    return[lbl,x.af||0,x.am||0,x.yf||0,x.ym||0,x.cf||0,x.cm||0,x.of||0,x.om||0,x.comment||''];
+  });
+  addSheet('2.Drama',s2h,s2r);
+
+  // Section 3: FGDs
+  var s3h=['Thematic Area','Adults F','Adults M','Youth F','Youth M','Head Men F','Head Men M','Others F','Others M','Comments'];
+  var s3r=(r.fgd||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?HP_THEMES_LOCAL[i]+' ('+x.spec.trim()+')':HP_THEMES_LOCAL[i]||('Row '+(i+1));
+    return[lbl,x.af||0,x.am||0,x.yf||0,x.ym||0,x.cf||0,x.cm||0,x.of||0,x.om||0,x.comment||''];
+  });
+  addSheet('3.FGDs',s3h,s3r);
+
+  // Section 4: Community Engagements
+  var s4h=['Thematic Area','Community F','Community M','Religious F','Religious M','Political F','Political M','Trad Leaders F','Trad Leaders M','THPAZ F','THPAZ M','Comment'];
+  var s4r=(r.comm||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?HP_THEMES_LOCAL[i]+' ('+x.spec.trim()+')':HP_THEMES_LOCAL[i]||('Row '+(i+1));
+    return[lbl,x.cf||0,x.cm||0,x.rf||0,x.rm||0,x.pf||0,x.pm||0,x.tf||0,x.tm||0,x.thf||0,x.thm||0,x.comment||''];
+  });
+  addSheet('4.Community Engagements',s4h,s4r);
+
+  // Section 5: Radio/TV
+  var s5h=['Thematic Area','TV Live Studio','TV Recorded','TV Documentary','TV Adverts','Radio Live','Radio Recorded','Radio Adverts','Radio Drama','Comments'];
+  var s5r=(r.rtv||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?HP_THEMES_LOCAL[i]+' ('+x.spec.trim()+')':HP_THEMES_LOCAL[i]||('Row '+(i+1));
+    return[lbl,x.tvls||0,x.tvr||0,x.tvd||0,x.tva||0,x.rls||0,x.rr||0,x.ra||0,x.rd||0,x.comment||''];
+  });
+  addSheet('5.Radio-TV',s5h,s5r);
+
+  // Section 6: Health Talks
+  var s6h=['Thematic Area','Female','Male','Comments'];
+  var s6r=(r.htalk||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?HP_THEMES_LOCAL[i]+' ('+x.spec.trim()+')':HP_THEMES_LOCAL[i]||('Row '+(i+1));
+    return[lbl,x.f||0,x.m||0,x.comment||''];
+  });
+  addSheet('6.Health Talks',s6h,s6r);
+
+  // Section 7: Commemorations
+  var COMMEM=['World Leprosy Day','World Cancer Day','World Kidney Day','World Tuberculosis Day','World Health Day','World Malaria Day','World No Tobacco Day','Africa Day','World Blood Donor Day','World Food Safety Day','World Population Day','World Hepatitis Day','World Breastfeeding Week','World Suicide Prevention Day','World Heart Day','World Mental Health Day','World Diabetes Day','World AIDS Day','World Volunteer Day','International Migrants Day','National Health Week'];
+  var s7h=['Commemoration Day','Adults F','Adults M','Youth F','Youth M','Trad Leaders F','Trad Leaders M','Political F','Political M','Comments'];
+  var s7r=(r.commem||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?'Others ('+x.spec.trim()+')':COMMEM[i]||('Day '+(i+1));
+    return[lbl,x.af||0,x.am||0,x.yf||0,x.ym||0,x.tf||0,x.tm||0,x.pf||0,x.pm||0,x.comment||''];
+  });
+  addSheet('7.Commemorations',s7h,s7r);
+
+  // Section 8a: School Health
+  var s8ah=['Thematic Area','Pupils F','Pupils M','Teachers F','Teachers M','Head Masters F','Head Masters M','Comments'];
+  var s8ar=(r.school||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?HP_THEMES_LOCAL[i]+' ('+x.spec.trim()+')':HP_THEMES_LOCAL[i]||('Row '+(i+1));
+    return[lbl,x.pf||0,x.pm||0,x.tf||0,x.tm||0,x.hf||0,x.hm||0,x.comment||''];
+  });
+  addSheet('8a.School Health',s8ah,s8ar);
+
+  // Section 8b: Other Services
+  var S9B_SVCS=['Screening','MDA','Immunization','Water & Sanitation','Inspections','Other'];
+  var s8bh=['Service','Pupils F','Pupils M','Teachers F','Teachers M','Head Masters F','Head Masters M'];
+  var s8br=(r.school9b||[]).map(function(x,i){
+    var lbl=(x.spec&&x.spec.trim())?'Other ('+x.spec.trim()+')':S9B_SVCS[i]||('Row '+(i+1));
+    return[lbl,x.pf||0,x.pm||0,x.tf||0,x.tm||0,x.hf||0,x.hm||0];
+  });
+  addSheet('8b.Other Services',s8bh,s8br);
+
+  // Section 9: Research
+  var s9h=['No.','Problem/Issue','Key Findings','Recommendations','Comments'];
+  var s9r=(r.research||[]).map(function(x,i){
+    return[i+1,x.problem||'',x.findings||'',x.recommendations||'',x.comment||''];
+  });
+  addSheet('9.SBCC Research',s9h,s9r);
+
+  var fname='HP_Monthly_Report_'+monthLabel.replace(/ /g,'_')+'.xlsx';
+  XLSX.writeFile(wb,fname);
+  toast('✅ Excel exported: '+fname,'success');
+}
+
 function viewHPMonthly(id){
+  window.currentHPMonthlyId=id;
   var r=DB.get('hp_monthly').find(function(x){return x.id===id;});if(!r)return;
   var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var monthLabel=mn[(parseInt(r.month)||1)-1]+' '+r.year;
@@ -11329,6 +11442,7 @@ function viewHPMonthly(id){
     +'<div class="no-print" style="text-align:center;margin-top:16px">'
       +'<button onclick="closePrintOverlay()" style="padding:8px 20px;background:#64748b;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-right:8px;font-size:12px">&#10005; Close</button>'
       +'<button onclick="printWithTitle()" style="padding:8px 28px;background:#1d4ed8;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">&#128424; Print / Save PDF</button>'
+      +'<button onclick="exportHPMonthlyExcel(currentHPMonthlyId)" style="padding:8px 20px;background:#16a34a;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600;margin-left:8px">&#128202; Export Excel</button>'
     +'</div></div>';
 
   var overlay=document.getElementById('print-overlay');
