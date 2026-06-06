@@ -5524,6 +5524,7 @@ window.onload = function(){
         if(sbr) sbr.textContent=currentUser.role||'';
         if(sba) sba.textContent=initials;
         nav('dashboard');
+        startInactivityTimer();
         // Load fresh data from Supabase in background after login
         loadFromSupabase().then(function(){ seedData(); loadSettings(); updateBadges(); if(currentPage) renderPage(currentPage); });
         return;
@@ -5547,7 +5548,35 @@ window.addEventListener('beforeunload',()=>{
 
 // ── Logout ────────────────────────────────────────────────
 function closeLogoutDlg(){var o=document.getElementById('lo-overlay');if(o)o.remove();}
+// ── AUTO-LOGOUT AFTER INACTIVITY ─────────────────────────────────────────
+var _inactivityTimer = null;
+var INACTIVITY_LIMIT = 30 * 60 * 1000; // 30 minutes
+
+function resetInactivityTimer(){
+  if(!currentUser) return;
+  clearTimeout(_inactivityTimer);
+  _inactivityTimer = setTimeout(function(){
+    toast('⏱ Session expired — logged out due to inactivity', 'warning');
+    setTimeout(doLogout, 2000);
+  }, INACTIVITY_LIMIT);
+}
+
+function startInactivityTimer(){
+  ['mousemove','keydown','click','touchstart','scroll'].forEach(function(evt){
+    document.addEventListener(evt, resetInactivityTimer, {passive:true});
+  });
+  resetInactivityTimer();
+}
+
+function stopInactivityTimer(){
+  clearTimeout(_inactivityTimer);
+  ['mousemove','keydown','click','touchstart','scroll'].forEach(function(evt){
+    document.removeEventListener(evt, resetInactivityTimer);
+  });
+}
+
 function doLogout(){
+  stopInactivityTimer();
   localStorage.removeItem('ehp_session');
   localStorage.removeItem('ehp_session_user');
   sessionStorage.removeItem('ehp_session');
