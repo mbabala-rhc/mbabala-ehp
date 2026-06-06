@@ -11976,11 +11976,19 @@ function printCommMember(cid, id){
 
 const ecdMonthlyFields=[{id:'f-ecm-id',key:'id',hidden:true},{id:'f-ecm-period',key:'period',label:'Reporting Month',required:true},{id:'f-ecm-facility',key:'facility',label:'Facility'},{id:'f-ecm-cbv-new-m',key:'cbvNewM',label:'1.1 New CBVs (M)',type:'num'},{id:'f-ecm-cbv-new-f',key:'cbvNewF',label:'1.1 New CBVs (F)',type:'num'},{id:'f-ecm-cbv-ref-m',key:'cbvRefM',label:'1.2 Refresher (M)',type:'num'},{id:'f-ecm-cbv-ref-f',key:'cbvRefF',label:'1.2 Refresher (F)',type:'num'},{id:'f-ecm-cbv-active-m',key:'cbvActiveM',label:'1.3 Active CBVs (M)',type:'num'},{id:'f-ecm-cbv-active-f',key:'cbvActiveF',label:'1.3 Active CBVs (F)',type:'num'},{id:'f-ecm-cbv-drop-m',key:'cbvDropM',label:'1.4 Dropped out (M)',type:'num'},{id:'f-ecm-cbv-drop-f',key:'cbvDropF',label:'1.4 Dropped out (F)',type:'num'},{id:'f-ecm-cbv-rep-m',key:'cbvRepM',label:'1.5 Reported (M)',type:'num'},{id:'f-ecm-cbv-rep-f',key:'cbvRepF',label:'1.5 Reported (F)',type:'num'},{id:'f-ecm-hh-total',key:'hhTotal',label:'2.1 HH enrolled',type:'num'},{id:'f-ecm-hh-new',key:'hhNew',label:'2.2 New HH',type:'num'},{id:'f-ecm-child-total-m',key:'childTotalM',label:'2.3 Children (M)',type:'num'},{id:'f-ecm-child-total-f',key:'childTotalF',label:'2.3 Children (F)',type:'num'},{id:'f-ecm-child-ref',key:'childRef',label:'2.4 Referred',type:'num'},{id:'f-ecm-hh-visited',key:'hhVisited',label:'3.1 HH visited',type:'num'},{id:'f-ecm-care-m',key:'careM',label:'3.2 Caregivers (M)',type:'num'},{id:'f-ecm-care-f',key:'careF',label:'3.2 Caregivers (F)',type:'num'},{id:'f-ecm-child-vis-m',key:'childVisM',label:'3.3 Visited (M)',type:'num'},{id:'f-ecm-child-vis-f',key:'childVisF',label:'3.3 Visited (F)',type:'num'},{id:'f-ecm-child-7m',key:'child7M',label:'3.4 7+ times (M)',type:'num'},{id:'f-ecm-child-7f',key:'child7F',label:'3.4 7+ times (F)',type:'num'},{id:'f-ecm-toys-m',key:'toysM',label:'3.5 Toys (M)',type:'num'},{id:'f-ecm-toys-f',key:'toysF',label:'3.5 Toys (F)',type:'num'},{id:'f-ecm-preg-vis',key:'pregVis',label:'3.6 Pregnant visited',type:'num'},{id:'f-ecm-grp-sess',key:'grpSess',label:'4.1 Sessions',type:'num'},{id:'f-ecm-grp-new-m',key:'grpNewM',label:'4.2 New caregivers (M)',type:'num'},{id:'f-ecm-grp-new-f',key:'grpNewF',label:'4.2 New caregivers (F)',type:'num'},{id:'f-ecm-grp-exist-m',key:'grpExistM',label:'4.3 Existing (M)',type:'num'},{id:'f-ecm-grp-exist-f',key:'grpExistF',label:'4.3 Existing (F)',type:'num'},{id:'f-ecm-grp-total-m',key:'grpTotalM',label:'4.4 Total (M)',type:'num'},{id:'f-ecm-grp-total-f',key:'grpTotalF',label:'4.4 Total (F)',type:'num'},{id:'f-ecm-grp-4m',key:'grp4M',label:'4.5 4+ times (M)',type:'num'},{id:'f-ecm-grp-4f',key:'grp4F',label:'4.5 4+ times (F)',type:'num'},{id:'f-ecm-grp-preg-m',key:'grpPregM',label:'4.6 Pregnant (M)',type:'num'},{id:'f-ecm-grp-preg-f',key:'grpPregF',label:'4.6 Pregnant (F)',type:'num'},{id:'f-ecm-refl-sess',key:'reflSess',label:'5.1 Sessions',type:'num'},{id:'f-ecm-refl-m',key:'reflM',label:'5.2 CBVs (M)',type:'num'},{id:'f-ecm-refl-f',key:'reflF',label:'5.2 CBVs (F)',type:'num'},{id:'f-ecm-comments',key:'comments',label:'Comments'},{id:'f-ecm-preparer',key:'preparer',label:'Prepared By'},{id:'f-ecm-submitter',key:'submitter',label:'Submitted By'}];
 
+function fmtMonthYear(s){
+  if(!s) return '—';
+  var parts = s.split('-');
+  if(parts.length < 2) return s;
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var m = parseInt(parts[1]) - 1;
+  return (months[m] || parts[1]) + ' ' + parts[0];
+}
+
 function renderECDMonthly(){
-  var data=_store['ecd_monthly']||DB.get('ecd_monthly')||[];
+  var data=DB.get('ecd_monthly');
   var tb=document.getElementById('tb-ecd-monthly');
-  if(!tb){toast('tb-ecd-monthly not found','error');return;}
-  toast('Records: '+data.length,'info');
+  if(!tb)return;
   if(!data.length){tb.innerHTML=emptyRow(8);return;}
   tb.innerHTML=data.map(function(r){
     return '<tr><td>'+fmtMonthYear(r.period)+'</td><td>'+(r.facility||'—')+'</td><td>'+((r.cbvActiveM||0)+(r.cbvActiveF||0))+'</td><td>'+(r.hhTotal||0)+'</td><td>'+(r.hhVisited||0)+'</td><td>'+(r.grpSess||0)+'</td><td>'+(r.preparer||'—')+'</td><td>'+rowBtns('ecd_monthly',r.id,"viewECDMonthly('"+r.id+"')","editRecord('ecd_monthly','"+r.id+"',ecdMonthlyFields,'m-ecd-monthly','hdr-m-ecd-monthly','Edit ECD Report')","deleteRecord('ecd_monthly','"+r.id+"',renderECDMonthly)")+'</td></tr>';
