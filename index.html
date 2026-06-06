@@ -12100,7 +12100,7 @@ function viewECDMonthly(id){
   +'</div>';
 
   showViewModal('ECD Monthly Report', period, html, [
-    {label:'🖨 Print', cls:'primary', fn:"printSection('ECD Monthly Report - '+document.querySelector('#view-title').textContent, document.getElementById('view-body').innerHTML)"}
+    {label:'🖨 Print', cls:'primary', fn:"printSection('ECD Monthly Report',document.getElementById('view-body').innerHTML)"}
   ]);
 }
 </script>
