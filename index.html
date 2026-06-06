@@ -2966,7 +2966,18 @@ function saveECDMonthly(){
   var ix=data.findIndex(function(r){return r.id===rec.id;});
   if(ix>=0)data[ix]=rec;else data.unshift(rec);
   _store['ecd_monthly']=data;idbPut('ecd_monthly',data);sbSet('ecd_monthly',data);
-  closeModal('m-ecd-monthly');renderECDMonthly();
+  closeModal('m-ecd-monthly');
+  renderECDMonthly();
+  // Switch to Monthly Aggregation tab so record is visible
+  var pg = document.getElementById('page-ecd');
+  if(pg){
+    pg.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+    pg.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});
+    var monthlyTab = pg.querySelectorAll('.tab')[1];
+    var monthlyPane = document.getElementById('t-ecd-monthly');
+    if(monthlyTab) monthlyTab.classList.add('active');
+    if(monthlyPane) monthlyPane.classList.add('active');
+  }
   toast('ECD Monthly Report saved','success');
 }
 
