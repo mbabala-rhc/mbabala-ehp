@@ -4875,8 +4875,6 @@ function doLogin(){
   var sessData = JSON.stringify({id:match.id,name:match.name,username:match.username,role:match.role,status:match.status});
   sessionStorage.setItem('ehp_session', match.id);
   sessionStorage.setItem('ehp_session_user', sessData);
-  localStorage.setItem('ehp_session', match.id);
-  localStorage.setItem('ehp_session_user', sessData);
   document.getElementById('login-screen').style.display='none';
   showLoadingScreen(match.name.split(' ')[0], function(){
     document.getElementById('app').classList.add('visible');
@@ -5506,8 +5504,6 @@ window.onload = function(){
         const sessData = JSON.stringify({id:currentUser.id,name:currentUser.name,username:currentUser.username,role:currentUser.role,status:currentUser.status});
         sessionStorage.setItem('ehp_session', currentUser.id);
         sessionStorage.setItem('ehp_session_user', sessData);
-        localStorage.setItem('ehp_session', currentUser.id);
-        localStorage.setItem('ehp_session_user', sessData);
         const expires = new Date(Date.now()+30*24*60*60*1000).toUTCString();
         document.cookie = 'ehp_session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = 'ehp_session_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
@@ -5577,8 +5573,6 @@ function stopInactivityTimer(){
 
 function doLogout(){
   stopInactivityTimer();
-  localStorage.removeItem('ehp_session');
-  localStorage.removeItem('ehp_session_user');
   sessionStorage.removeItem('ehp_session');
   sessionStorage.removeItem('ehp_session_user');
   var ex=document.getElementById('lo-overlay');if(ex)ex.remove();
