@@ -874,12 +874,12 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
    <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Monthly Aggregation Reporting Tool</div>
   </div>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-   <button class="btn" onclick="var m=document.getElementById('m-ecd-monthly');if(m){m.style.display='flex';m.classList.add('open');}" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Monthly Report</button>
+   <button class="btn" onclick="openModal('m-ecd-monthly')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Monthly Report</button>
   </div>
  </div>
  <div class="toolbar">
   <input type="text" placeholder="🔍 Search reports..." oninput="filterTbl(this,'tbl-ecd-monthly')">
-  <button class="btn primary" onclick="var m=document.getElementById('m-ecd-monthly');if(m){m.style.display='flex';m.classList.add('open');}else{alert('Modal not found');}">+ New Monthly Report</button>
+  <button class="btn primary" onclick="openModal('m-ecd-monthly')">+ New Monthly Report</button>
   <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('ECD Monthly Reports','tbl-ecd-monthly')">🖨 Print</button>
  </div>
  <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-ecd-monthly">
@@ -2357,6 +2357,7 @@ function openModal(id){
 function closeModal(id){
   const el=document.getElementById(id); if(!el) return;
   el.classList.remove('open');
+  el.style.display='';
   const fid=el.querySelector('input[type=hidden]');
   if(fid) fid.value='';
   if(_pending[id]) _pending[id]=[];
