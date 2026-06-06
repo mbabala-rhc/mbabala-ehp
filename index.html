@@ -12030,110 +12030,77 @@ function viewECDMonthly(id){
   var dist=s.district||'Chifunabuli';
   var period=fmtMonthYear(r.period);
 
-  var thStyle='padding:7px 10px;background:#1a5c4f;color:#fff;font-size:11px;font-weight:700;text-align:center;border:1px solid #0d3d31';
-  var thLeft='padding:7px 10px;background:#1a5c4f;color:#fff;font-size:11px;font-weight:700;text-align:left;border:1px solid #0d3d31';
-  var secStyle='background:#e8f5f0;color:#0d3d31;font-weight:700;font-size:12px;padding:7px 10px;border:1px solid #b2d8cc;letter-spacing:0.03em';
-  var td='padding:6px 10px;font-size:11px;border:1px solid #ccc;vertical-align:middle';
-  var tdC='padding:6px 10px;font-size:11px;border:1px solid #ccc;text-align:center;font-weight:600;vertical-align:middle';
-  var altRow='background:#f7fffe';
+  var thL='padding:7px 10px;background:#1a5c4f;color:#fff;font-size:11px;font-weight:700;text-align:left;border:1px solid #0d3d31';
+  var thC='padding:7px 10px;background:#1a5c4f;color:#fff;font-size:11px;font-weight:700;text-align:center;border:1px solid #0d3d31;width:65px';
+  var thT='padding:7px 10px;background:#0d3d31;color:#fff;font-size:11px;font-weight:700;text-align:center;border:1px solid #0d3d31;width:55px';
+  var td='padding:5px 8px;font-size:11px;border:1px solid #ccc;vertical-align:middle';
+  var tdC='padding:5px 8px;font-size:11px;border:1px solid #ccc;text-align:center;font-weight:600';
+  var tdT='padding:5px 8px;font-size:11px;border:1px solid #ccc;text-align:center;font-weight:700;color:#1a5c4f';
+  var alt='background:#f7fffe;';
 
-  function hdr(){return '<thead><tr><th style="'+thLeft+'">Indicator</th><th style="'+thStyle+';width:70px">Male</th><th style="'+thStyle+';width:70px">Female</th></tr></thead>';}
-  function row(l,m,f,alt){var bg=alt?altRow:'';return '<tr style="'+bg+'"><td style="'+td+'">'+l+'</td><td style="'+tdC+'">'+m+'</td><td style="'+tdC+'">'+f+'</td></tr>';}
-  function row1(l,v,alt){var bg=alt?altRow:'';return '<tr style="'+bg+'"><td style="'+td+'" colspan="2">'+l+'</td><td style="'+tdC+'">'+v+'</td></tr>';}
-  function sec(t){return '<tr><td colspan="3" style="'+secStyle+'">'+t+'</td></tr>';}
+  var thead='<thead><tr><th style="'+thL+'">Indicator</th><th style="'+thC+'">Male</th><th style="'+thC+'">Female</th><th style="'+thT+'">Total</th></tr></thead>';
+  var thead1='<thead><tr><th style="'+thL+'" colspan="3">Indicator</th><th style="'+thC+'">Count</th></tr></thead>';
 
-  var html='<div style="font-family:Arial,sans-serif;max-width:800px;margin:0 auto;padding:8px">'
+  function row(l,m,f,a){var bg=a?alt:'';return '<tr style="'+bg+'border-bottom:1px solid #eee"><td style="'+td+'">'+l+'</td><td style="'+tdC+'">'+m+'</td><td style="'+tdC+'">'+f+'</td><td style="'+tdT+'">'+(m+f)+'</td></tr>';}
+  function row1(l,v,a){var bg=a?alt:'';return '<tr style="'+bg+'border-bottom:1px solid #eee"><td style="'+td+'" colspan="3">'+l+'</td><td style="'+tdC+'">'+v+'</td></tr>';}
+  function sec(t){return '<tr><td colspan="4" style="background:#e8f5f0;color:#0d3d31;font-weight:700;font-size:12px;padding:6px 10px;border:1px solid #b2d8cc">'+t+'</td></tr>';}
+  function tbl(rows,single){return '<table style="width:100%;border-collapse:collapse;margin-bottom:10px">'+(single?thead1:thead)+'<tbody>'+rows+'</tbody></table>';}
 
-  // Header
-  +'<div style="text-align:center;margin-bottom:14px;border-bottom:3px solid #1a5c4f;padding-bottom:10px">'
-  +'<div style="font-size:11px;color:#555;margin-bottom:2px">Republic of Zambia &bull; Ministry of Health &bull; Luapula Province</div>'
-  +'<div style="font-size:16px;font-weight:800;color:#1a5c4f;letter-spacing:0.03em">ECD MONTHLY INTEGRATED REPORTING TOOL</div>'
-  +'<div style="font-size:11px;color:#555;margin-top:4px">This form is used when aggregating data from all CBVs and Health Care Providers at site level</div>'
+  var html='<div style="font-family:Arial,sans-serif;max-width:800px;margin:0 auto">'
+  +'<div style="text-align:center;margin-bottom:12px;border-bottom:3px solid #1a5c4f;padding-bottom:8px">'
+  +'<div style="font-size:11px;color:#555">Republic of Zambia &bull; Ministry of Health &bull; Luapula Province</div>'
+  +'<div style="font-size:15px;font-weight:800;color:#1a5c4f">ECD MONTHLY INTEGRATED REPORTING TOOL</div>'
   +'</div>'
-
-  // Info row
-  +'<table style="width:100%;border-collapse:collapse;margin-bottom:12px;font-size:11px">'
-  +'<tr>'
+  +'<table style="width:100%;border-collapse:collapse;margin-bottom:10px;font-size:11px"><tr>'
   +'<td style="padding:5px 8px;border:1px solid #ccc;width:40%"><b>Health Facility:</b> '+fac+'</td>'
   +'<td style="padding:5px 8px;border:1px solid #ccc;width:30%"><b>District:</b> '+dist+'</td>'
   +'<td style="padding:5px 8px;border:1px solid #ccc;width:30%"><b>Reporting Month:</b> '+period+'</td>'
-  +'</tr>'
-  +'</table>'
+  +'</tr></table>'
 
-  // Section 1
-  +'<table style="width:100%;border-collapse:collapse;margin-bottom:10px">'
-  +hdr()
-  +'<tbody>'
-  +sec('1. CBV Trainings and Status')
-  +row('1.1 No. of NEW CBVs trained in ECD (first time)',r.cbvNewM||0,r.cbvNewF||0,false)
-  +row('1.2 No. of CBVs receiving refresher training in ECD',r.cbvRefM||0,r.cbvRefF||0,true)
-  +row('1.3 Total No. of CBVs providing ECD support (active)',r.cbvActiveM||0,r.cbvActiveF||0,false)
-  +row('1.4 Total No. of CBVs that have dropped out',r.cbvDropM||0,r.cbvDropF||0,true)
-  +row('1.5 Total No. of CBVs that have reported (this period)',r.cbvRepM||0,r.cbvRepF||0,false)
-  +'</tbody></table>'
+  +tbl(sec('1. CBV Trainings and Status')
+    +row('1.1 New CBVs trained in ECD',r.cbvNewM||0,r.cbvNewF||0)
+    +row('1.2 CBVs receiving refresher training',r.cbvRefM||0,r.cbvRefF||0,1)
+    +row('1.3 Total active CBVs providing ECD support',r.cbvActiveM||0,r.cbvActiveF||0)
+    +row('1.4 CBVs that have dropped out',r.cbvDropM||0,r.cbvDropF||0,1)
+    +row('1.5 CBVs that have reported (this period)',r.cbvRepM||0,r.cbvRepF||0))
 
-  // Section 2
-  +'<table style="width:100%;border-collapse:collapse;margin-bottom:10px">'
-  +hdr()
-  +'<tbody>'
-  +sec('2. Household Enrolment')
-  +row1('2.1 Number of households enrolled for ECD services',r.hhTotal||0,false)
-  +row1('2.2 New households enrolled this month',r.hhNew||0,true)
-  +row('2.3 Total number of children enrolled for ECD services',r.childTotalM||0,r.childTotalF||0,false)
-  +row1('2.4 Children referred for advanced ECD services',r.childRef||0,true)
-  +'</tbody></table>'
+  +tbl(sec('2. Household Enrolment')
+    +row1('2.1 Number of HH enrolled for ECD services',r.hhTotal||0)
+    +row1('2.2 New HH enrolled this month',r.hhNew||0,1)
+    +row('2.3 Total children enrolled for ECD services',r.childTotalM||0,r.childTotalF||0)
+    +row1('2.4 Children referred for advanced ECD services',r.childRef||0,1))
 
-  // Section 3
-  +'<table style="width:100%;border-collapse:collapse;margin-bottom:10px">'
-  +hdr()
-  +'<tbody>'
-  +sec('3. Household Visits')
-  +row1('3.1 Number of households visited',r.hhVisited||0,false)
-  +row('3.2 Number of caregivers/parents counselled on ECD',r.careM||0,r.careF||0,true)
-  +row('3.3 Children visited for ECD services this month',r.childVisM||0,r.childVisF||0,false)
-  +row('3.4 Children visited for ECD at least 7 times',r.child7M||0,r.child7F||0,true)
-  +row('3.5 HH with children having age-appropriate toys',r.toysM||0,r.toysF||0,false)
-  +row1('3.6 Pregnant women visited with ECD lessons (home visits)',r.pregVis||0,true)
-  +'</tbody></table>'
+  +tbl(sec('3. Household Visits')
+    +row1('3.1 Number of HH visited',r.hhVisited||0)
+    +row('3.2 Caregivers/parents counselled on ECD',r.careM||0,r.careF||0,1)
+    +row('3.3 Children visited for ECD this month',r.childVisM||0,r.childVisF||0)
+    +row('3.4 Children visited for ECD at least 7 times',r.child7M||0,r.child7F||0,1)
+    +row('3.5 HH with age-appropriate toys for stimulation',r.toysM||0,r.toysF||0)
+    +row1('3.6 Pregnant women visited with ECD lessons',r.pregVis||0,1))
 
-  // Section 4
-  +'<table style="width:100%;border-collapse:collapse;margin-bottom:10px">'
-  +hdr()
-  +'<tbody>'
-  +sec('4. Group Sessions')
-  +row1('4.1 Number of group sessions conducted',r.grpSess||0,false)
-  +row('4.2 Number of NEW caregivers reached through group counselling',r.grpNewM||0,r.grpNewF||0,true)
-  +row('4.3 Number of existing caregivers reached',r.grpExistM||0,r.grpExistF||0,false)
-  +row('4.4 Total caregivers reached through group sessions',r.grpTotalM||0,r.grpTotalF||0,true)
-  +row('4.5 Caregivers reached through group (at least 4 times)',r.grp4M||0,r.grp4F||0,false)
-  +row('4.6 Pregnant women reached with ECD through group',r.grpPregM||0,r.grpPregF||0,true)
-  +'</tbody></table>'
+  +tbl(sec('4. Group Sessions')
+    +row1('4.1 Number of group sessions conducted',r.grpSess||0)
+    +row('4.2 NEW caregivers reached through group counselling',r.grpNewM||0,r.grpNewF||0,1)
+    +row('4.3 Existing caregivers reached',r.grpExistM||0,r.grpExistF||0)
+    +row('4.4 Total caregivers reached through group sessions',r.grpTotalM||0,r.grpTotalF||0,1)
+    +row('4.5 Caregivers reached through group (at least 4 times)',r.grp4M||0,r.grp4F||0)
+    +row('4.6 Pregnant women reached with ECD through group',r.grpPregM||0,r.grpPregF||0,1))
 
-  // Section 5
-  +'<table style="width:100%;border-collapse:collapse;margin-bottom:10px">'
-  +hdr()
-  +'<tbody>'
-  +sec('5. Learning / Reflection Sessions')
-  +row1('5.1 Number of learning/reflective sessions conducted',r.reflSess||0,false)
-  +row('5.2 Number of CBVs attending learning/reflective sessions',r.reflM||0,r.reflF||0,true)
-  +'</tbody></table>'
+  +tbl(sec('5. Learning / Reflection Sessions')
+    +row1('5.1 Learning/reflective sessions conducted',r.reflSess||0)
+    +row('5.2 CBVs attending learning/reflective sessions',r.reflM||0,r.reflF||0,1))
 
-  // Comments
-  +(r.comments?'<div style="margin:10px 0;padding:8px 12px;border:1px solid #ccc;border-radius:4px;font-size:11px"><b>Comments on Program Performance:</b><br>'+r.comments+'</div>':'')
-
-  // Signatures
-  +'<table style="width:100%;border-collapse:collapse;margin-top:20px;font-size:11px">'
-  +'<tr>'
-  +'<td style="padding:8px;border:1px solid #ccc;width:33%"><b>Prepared by (Supervisor):</b><br><br>'+( r.preparer||'')+'<br><br>Signed: ___________________<br>Date: ___________________</td>'
+  +(r.comments?'<div style="margin:8px 0;padding:8px;border:1px solid #ccc;font-size:11px"><b>Comments:</b> '+r.comments+'</div>':'')
+  +'<table style="width:100%;border-collapse:collapse;margin-top:16px;font-size:11px"><tr>'
+  +'<td style="padding:8px;border:1px solid #ccc;width:33%"><b>Prepared by:</b><br><br>'+(r.preparer||'')+'<br><br>Signed: ___________________<br>Date: ___________________</td>'
   +'<td style="padding:8px;border:1px solid #ccc;width:33%"><b>Submitted by:</b><br><br>'+(r.submitter||'')+'<br><br>Signed: ___________________<br>Date: ___________________</td>'
   +'<td style="padding:8px;border:1px solid #ccc;width:34%"><b>Received at District by:</b><br><br>___________________<br><br>Designation: ___________________<br>Date: ___________________</td>'
-  +'</tr>'
-  +'</table>'
-  +'<div style="text-align:center;margin-top:10px;font-size:9px;color:#888">Generated by EH Management Platform &bull; Mbabala Rural Health Centre</div>'
+  +'</tr></table>'
+  +'<div style="text-align:center;margin-top:8px;font-size:9px;color:#888">Generated by EH Management Platform &bull; Mbabala Rural Health Centre</div>'
   +'</div>';
 
   showViewModal('ECD Monthly Report', period, html, [
-    {label:'🖨 Print', cls:'primary', fn:"printSection('ECD Monthly Report - '+period, document.getElementById('view-body').innerHTML)"}
+    {label:'🖨 Print', cls:'primary', fn:"printSection('ECD Monthly Report - '+document.querySelector('#view-title').textContent, document.getElementById('view-body').innerHTML)"}
   ]);
 }
 </script>
