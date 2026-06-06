@@ -3616,7 +3616,17 @@ function printLegalCurrent(){
   const tbl = active?.querySelector('table');
   if(!tbl) return;
   const tab = document.querySelector('#page-legal .tab.active');
-  printSection(tab?.textContent||'Legal Reports', active.innerHTML);
+  const clone = tbl.cloneNode(true);
+  // Remove Actions column
+  const headerCells = clone.querySelectorAll('thead th');
+  const lastHeader = headerCells[headerCells.length - 1];
+  if(lastHeader && lastHeader.textContent.trim().toLowerCase() === 'actions'){
+    clone.querySelectorAll('tr').forEach(function(row){
+      const cells = row.querySelectorAll('th, td');
+      if(cells.length > 0) cells[cells.length - 1].remove();
+    });
+  }
+  printSection(tab?.textContent||'Legal Reports', clone.outerHTML);
 }
 
 // ══════════════════════════════════════════════
