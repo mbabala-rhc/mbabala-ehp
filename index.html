@@ -2896,7 +2896,11 @@ function renderHIA(){
     }
   }
   const _el_tb_hia1=document.getElementById('tb-hia1'); if(_el_tb_hia1) _el_tb_hia1.innerHTML=d1.map(r=>`<tr> <td>${fmtDate(r.period)||'—'}</td><td>${r.opd||0}</td><td>${r.inpat||0}</td><td>${r.deaths||0}</td> <td>${r.submitted||today()}</td><td>${stTag('Submitted')}</td> <td>${rowBtns('hia1',r.id,`viewRecord('hia1','${r.id}',hia1Fields)`,`editRecord('hia1','${r.id}',hia1Fields,'m-hia1','hdr-m-hia1','Edit HIA 1')`,`deleteRecord('hia1','${r.id}',renderHIA)`)}</td> </tr>`).join('')||emptyRow(7);
-  const _el_tb_hia2=document.getElementById('tb-hia2'); if(_el_tb_hia2) _el_tb_hia2.innerHTML=d2.map(r=>`<tr> <td>${fmtDate(r.period)||'—'}</td><td>${r.latrines||0}%</td><td>${r.water||0}%</td><td>${r.premises||0}</td><td>${r.odf||0}</td> <td>${stTag('Submitted')}</td> <td>${rowBtns('hia2',r.id,`viewRecord('hia2','${r.id}',hia2Fields)`,`editRecord('hia2','${r.id}',hia2Fields,'m-hia2','hdr-m-hia2','Edit HIA 2')`,`deleteRecord('hia2','${r.id}',renderHIA)`)}</td> </tr>`).join('')||emptyRow(7);
+  const _el_tb_hia2=document.getElementById('tb-hia2'); if(_el_tb_hia2) _el_tb_hia2.innerHTML=d2.map(r=>{
+    var atts=DB.get('att_hia2_'+r.id)||[];
+    var attCell=atts.length?'<span style="color:var(--teal-d);font-weight:600">📎 '+atts.length+' file(s)</span>':'<span style="color:var(--txt2);font-style:italic">None</span>';
+    return '<tr><td>'+fmtMonthYear(r.period)+'</td><td>'+(r.submitter||'—')+'</td><td>'+attCell+'</td><td>'+rowBtns('hia2',r.id,"viewRecord('hia2','"+r.id+"',hia2Fields)","editRecord('hia2','"+r.id+"',hia2Fields,'m-hia2','hdr-m-hia2','Edit HIA 2')","deleteRecord('hia2','"+r.id+"',renderHIA)")+'</td></tr>';
+  }).join('')||emptyRow(4);
 }
 
 function renderWater(){
