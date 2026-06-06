@@ -4552,7 +4552,7 @@ function checkDuplicate(store, fields, currentId){
     stock:         { keys:['name'],             label:'A stock item with this name' },
     epi:           { keys:['period'],           label:'An EPI report for this period' },
     hia1:          { keys:['period'],           label:'A HIA 1 report for this period' },
-    hia2:          { keys:['period'],           label:'A HIA 2 report for this period' },
+    // hia2: removed - multiple scanned copies per month are allowed
     ipc:           { keys:['date','area'],      label:'An IPC audit for this area on this date' },
     inspections:   { keys:['premises','area','date'], label:'An inspection for this premises in this area on this date' },
     incidents:     { keys:['location','date'],  label:'An incident for this location on this date' },
