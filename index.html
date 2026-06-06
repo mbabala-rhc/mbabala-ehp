@@ -12075,7 +12075,7 @@ function viewECDMonthly(id){
     +row('3.2 Caregivers/parents counselled on ECD',r.careM||0,r.careF||0,1)
     +row('3.3 Children visited for ECD this month',r.childVisM||0,r.childVisF||0)
     +row('3.4 Children visited for ECD at least 7 times',r.child7M||0,r.child7F||0,1)
-    +row('3.5 HH with age-appropriate toys for stimulation',r.toysM||0,r.toysF||0)
+    +row1('3.5 HH with age-appropriate toys for stimulation',(r.toysM||0)+(r.toysF||0))
     +row1('3.6 Pregnant women visited with ECD lessons',r.pregVis||0,1))
 
   +tbl(sec('4. Group Sessions')
