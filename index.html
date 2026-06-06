@@ -8860,7 +8860,7 @@ async function saveInspFollowup(){
   closeModal('m-insp-followup');renderInspFollowup();
   toast('Follow-up saved','success');sbSet('insp_followup',data);
 }
-async function saveAutoFollowup(sourceId){var insp=DB.get('inspections').find(function(r){return r.id===sourceId;});if(!insp)return;var rec={id:genId('IF'),premises:insp.premises||insp.name||'Unknown',failedDate:insp.date,reason:insp.findings||insp.notes||'Failed inspection',outcome:'',zone:insp.zone||'',officer:insp.officer||'',sourceId:sourceId};var data=DB.get('insp_followup');data.unshift(rec);_store['insp_followup']=data;idbPut('insp_followup',data);sbSet('insp_followup',data);renderInspFollowup();toast('Added to follow-up list','success');}
+async function saveAutoFollowup(sourceId){var insp=DB.get('inspections').find(function(r){return r.id===sourceId;});if(!insp)return;var rec={id:genId('IF'),premises:insp.premises||insp.name||'Unknown',failedDate:insp.date,reinspDate:insp.followup||'',reason:insp.findings||insp.notes||'Failed inspection',outcome:'',zone:insp.zone||'',officer:insp.officer||'',sourceId:sourceId};var data=DB.get('insp_followup');data.unshift(rec);_store['insp_followup']=data;idbPut('insp_followup',data);sbSet('insp_followup',data);renderInspFollowup();toast('Added to follow-up list','success');}
 function renderInspFollowup(){
   var data=DB.get('insp_followup');
   var failed=DB.get('inspections').filter(function(r){return r.status==='Fail'||r.status==='Failed';});
