@@ -2019,6 +2019,8 @@ async function saveRecord(store, modalId, fields, renderFn){
   renderFn();
   updateBadges();
   toast('✅ Record saved','success');
+  // Extra re-render for stores that may have async issues
+  if(store==='hia2'||store==='hia1') setTimeout(renderHIA, 200);
   // Write to Supabase in background
   if(!navigator.onLine){
     if(!_offlineSaved) _offlineSaved={};
