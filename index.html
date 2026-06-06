@@ -865,22 +865,22 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div> <div id="page-ipc" class="page"> <div style="background:linear-gradient(135deg,#0f766e,#0d9488);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🧤 IPC Reports</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Infection Prevention and Control assessments</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-ipc')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New IPC Report</button> </div> </div> <div id="ipc-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search audits..." oninput="filterTbl(this,'tbl-ipc')"> <button class="btn primary" onclick="openModal('m-ipc')">+ New Audit</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('IPC Audit Reports','tbl-ipc')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-ipc"><thead><tr><th>Area</th><th>Auditor</th><th>Date</th><th>HH%</th><th>PPE%</th><th>Waste%</th><th>Overall</th><th>Actions</th></tr></thead><tbody id="tb-ipc"></tbody></table></div></div>
 </div> <div id="page-ecd" class="page"> <div style="background:linear-gradient(135deg,#9333ea,#7c3aed);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">👶 ECD Activities</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Early Childhood Development activities and reports</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> </div> </div> <div id="ecd-stats"></div>
 <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important">
-  <div class="tab active" onclick="switchTab(this,'t-ecd-activities');document.getElementById('ecd-act-toolbar').style.display='flex';document.getElementById('ecd-mon-toolbar').style.display='none'">ECD Activities</div>
-  <div class="tab" onclick="switchTab(this,'t-ecd-monthly');renderECDMonthly();document.getElementById('ecd-act-toolbar').style.display='none';document.getElementById('ecd-mon-toolbar').style.display='flex'">Monthly Aggregation</div>
-</div>
-<div id="ecd-act-toolbar" class="toolbar">
-  <input type="text" placeholder="🔍 Search ECD activities..." oninput="filterTbl(this,'tbl-ecd')">
-  <button class="btn primary" onclick="openModal('m-ecd')">+ Log Activity</button>
-  <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('ECD Activity Reports','tbl-ecd')">🖨 Print</button>
-</div>
-<div id="ecd-mon-toolbar" class="toolbar" style="display:none">
-  <input type="text" placeholder="🔍 Search monthly reports..." oninput="filterTbl(this,'tbl-ecd-monthly')">
-  <button class="btn primary" onclick="openModal('m-ecd-monthly')">+ New Monthly Report</button>
+  <div class="tab active" onclick="switchTab(this,'t-ecd-activities')">ECD Activities</div>
+  <div class="tab" onclick="switchTab(this,'t-ecd-monthly');renderECDMonthly()">Monthly Aggregation</div>
 </div>
 <div id="t-ecd-activities" class="tab-pane active">
+  <div class="toolbar">
+    <input type="text" placeholder="🔍 Search ECD activities..." oninput="filterTbl(this,'tbl-ecd')">
+    <button class="btn primary" onclick="openModal('m-ecd')">+ Log Activity</button>
+    <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('ECD Activity Reports','tbl-ecd')">🖨 Print</button>
+  </div>
   <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-ecd"><thead><tr><th>Date</th><th>Village</th><th>Activity</th><th>Children</th><th>Caregivers</th><th>Facilitator</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-ecd"></tbody></table></div></div>
 </div>
 <div id="t-ecd-monthly" class="tab-pane">
+  <div class="toolbar">
+    <input type="text" placeholder="🔍 Search monthly reports..." oninput="filterTbl(this,'tbl-ecd-monthly')">
+    <button class="btn primary" onclick="openModal('m-ecd-monthly')">+ New Monthly Report</button>
+  </div>
   <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-ecd-monthly"><thead><tr><th>Month</th><th>Facility</th><th>CBVs Active</th><th>HH Enrolled</th><th>HH Visited</th><th>Sessions</th><th>Prepared By</th><th>Actions</th></tr></thead><tbody id="tb-ecd-monthly"></tbody></table></div></div>
 </div>
 </div> <div id="page-nutrition" class="page"> <div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🥗 Nutrition (MUAC)</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Child nutrition screening and malnutrition management</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-nutrition')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button> </div> </div> <div id="nutr-stats"></div> <div class="toolbar"> <input type="text" id="nutr-search" placeholder="🔍 Search by name, village..." oninput="filterNutrition(this.value)"> <button class="btn primary" style="background:var(--green)" onclick="openModal('m-nutrition-normal')">✅ Normal Children</button> <button class="btn primary" style="background:var(--amber)" onclick="openModal('m-nutrition')">⚠️ MAM / SAM Child</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printNutritionReport()">🖨 Print</button> </div> <div id="nutr-cards"></div>
