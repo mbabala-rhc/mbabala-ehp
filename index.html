@@ -909,8 +909,9 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
  </div>
  <!-- Tab 1: Sessions -->
  <div id="hp-sessions">
-  <div class="card"><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+  <div class="card"><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
    <button class="btn sm primary" onclick="openModal('m-hp')">+ Log HP Session</button>
+   <input type="text" placeholder="🔍 Search HP sessions..." oninput="filterTbl(this,'tbl-hp')" style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);font-size:12px;background:var(--bg2);flex:1;min-width:140px">
    <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Health Promotion Sessions','tbl-hp')">🖨 Print</button>
   </div>
   <div class="tbl-wrap"><table class="dt" id="tbl-hp"><thead><tr><th>Date</th><th>Activity</th><th>Venue</th><th>Audience</th><th>Attendance</th><th>Topic</th><th>Actions</th></tr></thead><tbody id="tb-hp"></tbody></table></div>
@@ -921,6 +922,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="card">
    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
     <button class="btn sm primary" onclick="openModal('m-hp-monthly')">+ New Monthly Report</button>
+    <input type="text" placeholder="🔍 Search monthly reports..." oninput="filterTbl(this,'tbl-hp-monthly')" style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);font-size:12px;background:var(--bg2);flex:1;min-width:140px">
     <select id="hp-monthly-year" onchange="renderHPMonthly()" style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);font-size:12px;background:var(--bg2)"></select>
     <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('HP Monthly Reports','tbl-hp-monthly')">🖨 Print</button>
    </div>
