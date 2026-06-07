@@ -4953,6 +4953,7 @@ function doLogin(){
   showLoadingScreen(match.name.split(' ')[0], function(){
     document.getElementById('app').classList.add('visible');
     setTimeout(function(){var _rb=document.querySelector('.tip-ribbon');if(_rb){var _s=DB.getObj('settings')||{};if(_s.tipBarEnabled!==false)_rb.style.display='flex';}},500);
+    applyRoleRestrictions();
     var sbn=document.getElementById('sb-user-name');
     var sbr=document.getElementById('sb-user-role');
     var sba=document.getElementById('sb-avatar');
@@ -12209,6 +12210,47 @@ setInterval(function(){
   el.style.opacity='0';
   setTimeout(function(){_ti=(_ti+1)%_tips.length;el.textContent=_tips[_ti];el.style.opacity='1';},600);
 },8000);
+
+// ── ROLE-BASED ACCESS CONTROL ─────────────────────────────────────────────
+function isViewer(){
+  return currentUser && (currentUser.role==='Viewer'||currentUser.role==='viewer');
+}
+
+function applyRoleRestrictions(){
+  if(!isViewer()) return;
+  // Hide + New button in topbar
+  var nb = document.getElementById('topbar-new-btn');
+  if(nb) nb.style.display='none';
+  // Hide all + New, Edit, Delete, Save buttons across all pages
+  var style = document.getElementById('viewer-style');
+  if(!style){
+    style = document.createElement('style');
+    style.id = 'viewer-style';
+    style.textContent = [
+      '.btn.primary:not(.allow-viewer){display:none!important}',
+      'button[onclick*="openModal"]:not(.allow-viewer){display:none!important}',
+      'button[onclick*="saveRecord"]:not(.allow-viewer){display:none!important}',
+      'button[onclick*="editRecord"]:not(.allow-viewer){display:none!important}',
+      'button[onclick*="deleteRecord"]:not(.allow-viewer){display:none!important}',
+      'button[onclick*="New"]:not(.allow-viewer){display:none!important}',
+      '.btn.danger:not(.allow-viewer){display:none!important}',
+      '.btn.sm:not([onclick*="view"]):not([onclick*="View"]):not([onclick*="print"]):not([onclick*="Print"]):not(.allow-viewer){display:none!important}',
+    ].join('');
+    document.head.appendChild(style);
+  }
+  // Show a viewer badge in topbar
+  var vb = document.getElementById('viewer-badge');
+  if(!vb){
+    var tb = document.querySelector('.topbar-right');
+    if(tb){
+      vb = document.createElement('span');
+      vb.id = 'viewer-badge';
+      vb.textContent = '👁 View Only';
+      vb.style.cssText = 'font-size:11px;background:rgba(255,255,255,.15);color:#fff;padding:3px 10px;border-radius:12px;margin-right:8px';
+      tb.insertBefore(vb, tb.firstChild);
+    }
+  }
+}
 </script>
 
 <div id="m-ecd-monthly" class="modal-overlay"><div class="modal wide"><div class="modal-header"><div class="modal-header-icon" style="background:#f3e8ff">&#128118;</div><h3 id="hdr-m-ecd-monthly">ECD Monthly Aggregation Report</h3><button class="btn icon" onclick="closeModal('m-ecd-monthly')">&#10005;</button></div><div class="modal-body">
