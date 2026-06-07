@@ -12167,7 +12167,33 @@ function viewECDMonthly(id){
   ]);
 }
 
-var _tips=['💡 Tip: Export your data weekly using the ↓ Export button.','💡 Tip: Click 👁 View on any record to open a print-ready PDF.','💡 Tip: Records saved offline will sync when you reconnect.','💡 Tip: Use the Search bar to filter records instantly.','🔔 Reminder: Submit weekly MRR every Monday.','🔔 Reminder: ECD Monthly Report due at end of each month.','🔔 Reminder: EPI report due by 5th of each month.','🔔 Reminder: Do follow-up inspections within 30 days.','🔔 Reminder: Export a data backup at end of each month.','💡 Tip: Dark mode available — click 🌙 in the top bar.'];
+var _tips=[
+  '💡 Tip: Export your data weekly using the ↓ Export button to keep a safe backup.',
+  '💡 Tip: Click 👁 View on any record to open a print-ready PDF report.',
+  '💡 Tip: Records saved offline will auto-sync when you reconnect to the internet.',
+  '💡 Tip: Use the Search bar to filter records instantly in any module.',
+  '💡 Tip: Dark mode is available — click the 🌙 button in the top bar.',
+  '💡 Tip: Click the ✏ Edit button to update any existing record.',
+  '💡 Tip: The + New button in the top bar opens a new record form.',
+  '💡 Tip: All printed reports include the Mbabala RHC letterhead automatically.',
+  '🔔 Reminder: Submit the Malaria Weekly MRR report every Monday.',
+  '🔔 Reminder: ECD Monthly Aggregation Report is due at the end of each month.',
+  '🔔 Reminder: Monthly EPI report must be submitted by the 5th of each month.',
+  '🔔 Reminder: HIA 1 & 2 reports are due by the 5th of each month.',
+  '🔔 Reminder: Follow-up inspections must be done within 30 days of a failed inspection.',
+  '🔔 Reminder: Export a full data backup at the end of each month.',
+  '🔔 Reminder: Boreholes should be tested for water quality at least once every quarter.',
+  '🔔 Reminder: Update stock levels every time supplies are received or used.',
+  '🔔 Reminder: Record all community complaints — even verbal ones — in the Complaint Register.',
+  '🔔 Reminder: Log all ECD group sessions in the platform immediately after the activity.',
+  '🔔 Reminder: Submit disease surveillance report (Epi Week) every Monday.',
+  '🔔 Reminder: Food handler certificates expire annually — check the register regularly.',
+  '🔔 Reminder: ODF verification visits should be done before certifying any village.',
+  '🔔 Reminder: CBV monthly activity reports are due at the end of each month.',
+  '🔔 Reminder: CLTS follow-up visits should be recorded in Sanitation module.',
+  '🔔 Reminder: NHC meetings should be held monthly — record minutes in Meetings module.',
+  '🔔 Reminder: Update Catchment Profile data at the beginning of each year.',
+];
 var _ti=Math.floor(Math.random()*_tips.length);
 setTimeout(function(){
   var el=document.getElementById('tip-text');
