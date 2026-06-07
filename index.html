@@ -4514,11 +4514,9 @@ function viewRoutineReport(id){
       ${r.recommendations ? `<div style="background:var(--green-l);border-radius:8px;padding:12px"><div style="font-weight:700;color:var(--green);font-size:11px;margin-bottom:6px">RECOMMENDATIONS</div><div style="font-size:12px">${r.recommendations}</div></div>` : ''}
     </div>` : ''}`;
 
-  const titleEl = document.getElementById('view-title');
-  const bodyEl = document.getElementById('view-body');
-  if(titleEl) titleEl.textContent = 'Monthly EH Report — ' + monthLabel;
-  if(bodyEl) bodyEl.innerHTML = html;
-  openModal('m-view');
+  showViewModal('Monthly EH Report', monthLabel, html, [
+    {label:'🖨 Print', cls:'primary', fn:"printSection('Monthly EH Report',document.getElementById('view-body').innerHTML)"}
+  ]);
 }
 
 // ══════════════════════════════════════════════
