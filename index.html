@@ -8482,8 +8482,15 @@ function renderTargets(){var year=(document.getElementById('targets-year')||{val
 
 // ══════════════════ MONTHLY REPORT CARD ══════════════════
 function renderMonthlyReport(){
-  var month=(document.getElementById('mr-month')||{value:String(new Date().getMonth()+1).padStart(2,'0')}).value;
-  var year=(document.getElementById('mr-year')||{value:'2026'}).value;
+  var msel=document.getElementById('mr-month');
+  var ysel=document.getElementById('mr-year');
+  // Auto-populate year select on first load
+  if(ysel&&!ysel.options.length){var cy=new Date().getFullYear();for(var y=cy-2;y<=cy+2;y++)ysel.add(new Option(y,y,y===cy,y===cy));}
+  // Auto-select current month on first load
+  if(msel&&!msel.value){msel.value=String(new Date().getMonth()+1).padStart(2,'0');}
+  if(ysel&&!ysel.value){ysel.value=String(new Date().getFullYear());}
+  var month=(msel||{value:String(new Date().getMonth()+1).padStart(2,'0')}).value;
+  var year=(ysel||{value:String(new Date().getFullYear())}).value;
   var ym=year+'-'+month;
   var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var label=mn[parseInt(month)-1]+' '+year;
