@@ -12217,38 +12217,37 @@ function isViewer(){
 }
 
 function applyRoleRestrictions(){
-  if(!isViewer()) return;
-  // Hide + New button in topbar
-  var nb = document.getElementById('topbar-new-btn');
-  if(nb) nb.style.display='none';
-  // Hide all + New, Edit, Delete, Save buttons across all pages
-  var style = document.getElementById('viewer-style');
-  if(!style){
-    style = document.createElement('style');
-    style.id = 'viewer-style';
-    style.textContent = [
-      '.btn.primary:not(.allow-viewer){display:none!important}',
-      'button[onclick*="openModal"]:not(.allow-viewer){display:none!important}',
-      'button[onclick*="saveRecord"]:not(.allow-viewer){display:none!important}',
-      'button[onclick*="editRecord"]:not(.allow-viewer){display:none!important}',
-      'button[onclick*="deleteRecord"]:not(.allow-viewer){display:none!important}',
-      'button[onclick*="New"]:not(.allow-viewer){display:none!important}',
-      '.btn.danger:not(.allow-viewer){display:none!important}',
-      '.btn.sm:not([onclick*="view"]):not([onclick*="View"]):not([onclick*="print"]):not([onclick*="Print"]):not(.allow-viewer){display:none!important}',
-    ].join('');
-    document.head.appendChild(style);
-  }
-  // Show a viewer badge in topbar
-  var vb = document.getElementById('viewer-badge');
-  if(!vb){
-    var tb = document.querySelector('.topbar-right');
-    if(tb){
-      vb = document.createElement('span');
-      vb.id = 'viewer-badge';
-      vb.textContent = '👁 View Only';
-      vb.style.cssText = 'font-size:11px;background:rgba(255,255,255,.15);color:#fff;padding:3px 10px;border-radius:12px;margin-right:8px';
-      tb.insertBefore(vb, tb.firstChild);
-    }
+  // Remove any existing viewer style first
+  var existing = document.getElementById('viewer-style');
+  if(existing) existing.remove();
+  var existingBadge = document.getElementById('viewer-badge');
+  if(existingBadge) existingBadge.remove();
+
+  if(!currentUser || currentUser.role !== 'Viewer') return;
+
+  // Only apply restrictions if role is exactly 'Viewer'
+  var style = document.createElement('style');
+  style.id = 'viewer-style';
+  style.textContent = [
+    '.btn.primary:not(.allow-viewer){display:none!important}',
+    'button[onclick*="openModal"]:not(.allow-viewer){display:none!important}',
+    'button[onclick*="saveRecord"]:not(.allow-viewer){display:none!important}',
+    'button[onclick*="editRecord"]:not(.allow-viewer){display:none!important}',
+    'button[onclick*="deleteRecord"]:not(.allow-viewer){display:none!important}',
+    'button[onclick*="New"]:not(.allow-viewer){display:none!important}',
+    '.btn.danger:not(.allow-viewer){display:none!important}',
+    '.btn.sm:not([onclick*="view"]):not([onclick*="View"]):not([onclick*="print"]):not([onclick*="Print"]):not([onclick*="viewRecord"]):not(.allow-viewer){display:none!important}',
+  ].join('');
+  document.head.appendChild(style);
+
+  // Show viewer badge
+  var tb = document.querySelector('.topbar-right');
+  if(tb){
+    var vb = document.createElement('span');
+    vb.id = 'viewer-badge';
+    vb.textContent = '👁 View Only';
+    vb.style.cssText = 'font-size:11px;background:rgba(255,255,255,.15);color:#fff;padding:3px 10px;border-radius:12px;margin-right:8px';
+    tb.insertBefore(vb, tb.firstChild);
   }
 }
 </script>
