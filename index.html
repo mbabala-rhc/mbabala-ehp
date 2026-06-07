@@ -4907,7 +4907,7 @@ function loadSettings(){
   if(loginSub) loginSub.textContent=s.name+' · '+s.district+' District, '+s.province+' Province';
 
   // Update browser tab title
-  document.title='Mbabala EH Platform';
+  
 }
 function saveSettings(){
   const s={name:v('s-name'),hmis:v('s-hmis'),district:v('s-district'),province:v('s-province'),officer:v('s-officer'),pop:parseInt(v('s-pop'))||0,phone:v('s-phone'),email:v('s-email'),tipBarEnabled:document.getElementById('s-tipbar')?document.getElementById('s-tipbar').checked:true};
