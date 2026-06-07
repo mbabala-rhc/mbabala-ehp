@@ -4950,7 +4950,7 @@ function doLogin(){
   document.getElementById('login-screen').style.display='none';
   showLoadingScreen(match.name.split(' ')[0], function(){
     document.getElementById('app').classList.add('visible');
-    var _rb=document.querySelector('.tip-ribbon');if(_rb){var _s=DB.getObj('settings')||{};if(_s.tipBarEnabled!==false)_rb.style.display='flex';}
+    setTimeout(function(){var _rb=document.querySelector('.tip-ribbon');if(_rb){var _s=DB.getObj('settings')||{};if(_s.tipBarEnabled!==false)_rb.style.display='flex';}},500);
     var sbn=document.getElementById('sb-user-name');
     var sbr=document.getElementById('sb-user-role');
     var sba=document.getElementById('sb-avatar');
