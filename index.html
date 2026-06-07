@@ -5650,6 +5650,7 @@ function confirmLogout(){
   document.cookie = 'ehp_session_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   Object.keys(_recentlySaved).forEach(function(k){delete _recentlySaved[k];});
   document.getElementById('app').classList.remove('visible');
+  var _rb=document.querySelector('.tip-ribbon');if(_rb)_rb.style.display='none';
   document.getElementById('login-screen').style.display='';
   document.getElementById('login-err').style.display='none';
   var li=document.getElementById('li-user'); if(li) li.value='';
