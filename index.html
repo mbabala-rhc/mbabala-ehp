@@ -2315,6 +2315,7 @@ function viewRecord(store, id, fields){
   const visFields = (fields||STORE_FIELDS_MAP[store]&&STORE_FIELDS_MAP[store]()||[]).filter(f=>!f.hidden&&rec[f.key]!==undefined&&rec[f.key]!==null&&rec[f.key]!=='');
   let html='<div class="view-grid">';
   visFields.forEach(f=>{
+    if(f.showIf && !f.showIf(rec)) return;
     var _val=(rec[f.key]!==undefined&&rec[f.key]!==null&&rec[f.key]!=='')?String(rec[f.key]):'—'; html+=`<div class="view-field"><div class="view-label">${f.label}</div><div class="view-value">${_val}</div></div>`;
   });
   html+='</div>';
@@ -7525,8 +7526,8 @@ const meetingFields=[
   {id:'f-mt-agenda',key:'agenda',label:'Agenda'},
   {id:'f-mt-outcomes',key:'outcomes',label:'Outcomes'},
   {id:'f-mt-actions',key:'actions',label:'Action points'},
-  {id:'f-mt-aob',key:'aob',label:'Any Other Business'},
-  {id:'f-mt-next',key:'nextMeeting',label:'Next Meeting Date'},
+  {id:'f-mt-aob',key:'aob',label:'Any Other Business',showIf:(r)=>r.type==='Meeting'},
+  {id:'f-mt-next',key:'nextMeeting',label:'Next Meeting Date',showIf:(r)=>r.type==='Meeting'},
 ];
 
 const attendanceFields=[
