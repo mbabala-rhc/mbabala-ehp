@@ -1151,7 +1151,15 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 <div id="page-cbv" class="page"> <div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🤲 CBV Register</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Community Based Volunteer registration and activities</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-cbv')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add CBV</button> </div> </div> <div class="alert info"><span class="alert-icon">🤝</span>Register all Community Based Volunteers (CBVs) in your catchment area including their NHC position and training details.</div> <div id="cbv-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search CBVs..." oninput="filterTbl(this,'tbl-cbv')"> <select onchange="filterCol(this,'tbl-cbv',5)"><option value="">All status</option><option>Active</option><option>Inactive</option></select> <select id="cbv-zone-filter" onchange="filterCBVByZone(this.value)" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"><option value="">All zones</option><option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option></select> <button class="btn primary" onclick="openModal('m-cbv')">+ Register CBV</button> <button class="btn sm" onclick="cbvPDF()">📄 PDF</button> <button class="btn sm" onclick="exportToExcel('cbv','CBV_Register')">📊 Excel</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('CBV Register','tbl-cbv')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-cbv" style="width:100%"> <thead><tr> <th>Full Name</th><th>Zone</th><th>NRC</th><th>Phone</th><th>Training</th><th>Status</th><th>Actions</th> </tr></thead> <tbody id="tb-cbv"></tbody> </table></div></div>
 </div>
 <div id="page-under5" class="page"> <div style="background:linear-gradient(135deg,#9333ea,#7c3aed);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">👶 Under Five Coverage</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Under-five child health coverage and immunization tracking</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-under5')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button> </div> </div> <div id="u5-stats"></div> <div class="toolbar"> <input type="text" id="u5-search" placeholder="🔍 Search by month, village..." oninput="filterU5ByText(this.value)" style="flex:1;max-width:220px"> <input type="month" id="u5-filter-month" placeholder="YYYY-MM" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px" onchange="filterU5ByMonth(this.value)" oninput="filterU5ByMonth(this.value)"> <button class="btn primary" onclick="openModal('m-under5')">+ New Monthly Under Five Report</button> <button class="btn sm" onclick="u5PDF()">📄 PDF</button> <button class="btn sm" onclick="exportToExcel('under5','Under5_Coverage')">📊 Excel</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printSection('Under Five Monthly Reports', document.getElementById('u5-cards-container')?.innerHTML||'')">🖨 Print</button> </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchTab(this,'t-u5-list')">📋 Reports List</div> <div class="tab" onclick="switchTab(this,'t-u5-growth')">📈 Growth Monitoring</div> <div class="tab" onclick="switchTab(this,'t-u5-milestones')">🧠 Developmental Milestones</div> </div> <div id="t-u5-list" class="tab-pane active"> <div id="u5-cards-container"></div> </div> <div id="t-u5-growth" class="tab-pane"> <div id="u5-growth-content"> <div style="text-align:center;padding:32px;color:var(--txt2)">No monthly reports yet. Add an Under Five report to see growth monitoring data.</div> </div> </div> <div id="t-u5-milestones" class="tab-pane"> <div id="u5-milestone-stats"></div> <div class="card" style="margin-bottom:14px"> <div class="card-title" style="display:flex;justify-content:space-between;align-items:center"> <span>🧠 Developmental Milestones — Assessment Summary</span> <div style="display:flex;align-items:center;gap:8px"> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printDMSummary()">🖨 Print</button> <input type="month" id="dm-filter-month" placeholder="YYYY-MM" style="font-size:12px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="renderDMSummary()" title="Filter by month (leave blank for all-time totals)"> <span style="font-size:11px;color:var(--txt2)">Filter by month (blank = all time)</span> </div> </div> <div class="tbl-wrap"> <table id="tbl-dm-summary" class="dt" style=";width:100%"> <thead> <tr style="background:var(--bg2)"> <th style="text-align:left">Age Group</th> <th style="text-align:center;color:var(--green)">✅ Attained</th> <th style="text-align:center;color:var(--amber)">⚠️ Delayed</th> <th style="text-align:center;color:var(--red)">🔴 Referred</th> <th style="text-align:center;color:var(--blue)">Total Assessed</th> <th style="text-align:center">Attainment Rate</th> </tr> </thead> <tbody id="tb-dm-summary"></tbody> </table> </div> </div> <div class="card-title" style="margin-bottom:8px">📋 Individual Records — Delayed &amp; Referred Children</div> <div class="toolbar"> <button class="btn primary" onclick="openModal('m-u5-milestone')">+ Record Delayed / Referred Child</button> <button class="btn sm" onclick="modulePDF('Developmental Milestones','u5_milestones',[{label:'Name'},{label:'Age group'},{label:'Status'},{label:'Village'},{label:'Milestone concern'},{label:'Referred to'},{label:'Date'}],r=>[r.name,r.ageGroup,r.status,r.village,r.concern,r.referredTo,fmtDate(r.date)])">📄 PDF</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printIndividualMilestones()">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-u5-milestones" style=";width:100%"> <thead><tr><th>Child name</th><th>Village</th><th>Age group</th><th>Status</th><th>Milestone concern</th><th>Referred to</th><th>Date recorded</th><th>Actions</th></tr></thead> <tbody id="tb-u5-milestones"></tbody> </table></div></div> </div>
-</div> </div> </div> </div> </div> </div> </div> </div> </div> </div> </div> <div id="toast"></div> <div id="m-inspection" class="modal-overlay"><div class="modal wide"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--amber-l)">✅</div><h3 id="t-inspection">New Inspection Report</h3><button class="btn icon" onclick="closeModal('m-inspection')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-insp-id"><input type="hidden" id="f-insp-checklist"> <div class="form-row"><div class="form-group"><label class="required">Inspection type</label><select id="f-insp-type" onchange="toggleOtherField('f-insp-type')"> <optgroup label="Food Premises"> <option>Restaurant / Eating House</option> <option>Grocery / Retail Shop</option> <option>Market Stall / Food Vendor</option> <option>Bakery / Confectionery</option> <option>Butchery / Meat Shop</option> <option>Bar / Tavern</option> </optgroup> <optgroup label="Institutions"> <option>School</option> <option>Church / Worship Place</option> <option>Government Office</option> <option>Health Facility</option> </optgroup> <optgroup label="Other Premises"> <option>Household</option> <option>Barbershop / Salon</option> <option>Lodging / Guest House</option> <option>Filling Station</option> <option>Construction Site</option> <option>Water Point / Borehole</option> <option>Sanitation Facility</option> <option>Waste Disposal Site</option> </optgroup> <option value="Other">Other (specify below)</option>
+</div> </div> </div> </div> </div> </div> </div> </div> </div> </div> </div> <div id="status-bar" class="status-bar">
+  <div class="status-bar-item"><span class="sb-icon">🏥</span><span class="sb-val" id="sb-facility">Mbabala RHC</span></div>
+  <div class="status-bar-item"><span class="sb-icon">📅</span><span class="sb-val" id="sb-date"></span></div>
+  <div class="status-bar-item"><span class="sb-icon">🕐</span><span class="sb-val" id="sb-time"></span></div>
+  <div class="status-bar-item"><span class="sb-icon">📊</span><span id="sb-records">0 records</span></div>
+  <div class="status-bar-tip" id="sb-tip">💡 Loading tip...</div>
+  <div class="status-bar-item"><span class="sb-icon" id="sb-sync-icon">●</span><span id="sb-sync">Online</span></div>
+</div>
+<div id="toast"></div> <div id="m-inspection" class="modal-overlay"><div class="modal wide"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--amber-l)">✅</div><h3 id="t-inspection">New Inspection Report</h3><button class="btn icon" onclick="closeModal('m-inspection')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-insp-id"><input type="hidden" id="f-insp-checklist"> <div class="form-row"><div class="form-group"><label class="required">Inspection type</label><select id="f-insp-type" onchange="toggleOtherField('f-insp-type')"> <optgroup label="Food Premises"> <option>Restaurant / Eating House</option> <option>Grocery / Retail Shop</option> <option>Market Stall / Food Vendor</option> <option>Bakery / Confectionery</option> <option>Butchery / Meat Shop</option> <option>Bar / Tavern</option> </optgroup> <optgroup label="Institutions"> <option>School</option> <option>Church / Worship Place</option> <option>Government Office</option> <option>Health Facility</option> </optgroup> <optgroup label="Other Premises"> <option>Household</option> <option>Barbershop / Salon</option> <option>Lodging / Guest House</option> <option>Filling Station</option> <option>Construction Site</option> <option>Water Point / Borehole</option> <option>Sanitation Facility</option> <option>Waste Disposal Site</option> </optgroup> <option value="Other">Other (specify below)</option>
 </select></div>
 <div class="form-group" id="other-f-insp-type-wrap" style="display:none"> <label>Specify other inspection type</label> <input type="text" id="other-f-insp-type" placeholder="Please specify...">
 </div><div class="form-group"><label class="required">Date</label><input type="date" placeholder="dd/mm/yyyy" id="f-insp-date"></div></div> <div class="form-row"><div class="form-group"><label class="required">Inspector name</label><input type="text" id="f-insp-inspector" placeholder="Full name"></div><div class="form-group"><label class="required">Area/Location</label><input type="text" id="f-insp-area" placeholder="e.g. Ward 2 kitchen"></div></div> <div class="form-row"><div class="form-group"><label>Premises name</label><input type="text" id="f-insp-premises" placeholder="e.g. Kapili Grocery Store"></div><div class="form-group"><label>Owner / Contact person</label><input type="text" id="f-insp-owner" placeholder="e.g. John Banda"></div></div> <div class="form-section">General Inspection Checklist</div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;font-size:12px"> <div style="font-weight:700;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bd);grid-column:1/-1">Sanitation & Hygiene</div> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-latrine" style="width:14px;height:14px"> Adequate latrine/toilet facilities</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-handwash"> Handwashing facility with soap/water</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-clean-env"> Clean and tidy environment</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-no-stagnant"> No stagnant water</label> <div style="font-weight:700;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bd);margin-top:6px;grid-column:1/-1">Waste Management</div> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-waste-bin"> Adequate waste bins available</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-waste-disposal"> Proper waste disposal method</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-no-litter"> No open littering/dumping</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-waste-covered"> Waste containers covered</label> <div style="font-weight:700;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bd);margin-top:6px;grid-column:1/-1">Water & Food Safety</div> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-safe-water"> Safe water supply available</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-water-stored"> Water properly stored/covered</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-food-covered"> Food properly covered/stored</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-no-pests"> No evidence of pests/rodents</label> <div style="font-weight:700;color:var(--txt2);padding:4px 0;border-bottom:1px solid var(--bd);margin-top:6px;grid-column:1/-1">Structural & Ventilation</div> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-ventilation"> Adequate ventilation/windows</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-structure"> Good structural condition</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-lighting"> Adequate lighting</label> <label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="chk-drainage"> Proper drainage system</label> </div> <div class="form-group full" style="margin-bottom:12px"><label>Additional Findings / Observations</label><textarea id="f-insp-findings" placeholder="Describe any additional findings..."></textarea></div> <div class="form-row"><div class="form-group"><label>Score (%)</label><input type="number" id="f-insp-score" min="0" max="100" oninput="autoInspStatus(this.value)"></div><div class="form-group"><label>Follow-up date</label><input type="date" placeholder="dd/mm/yyyy" id="f-insp-followup"></div></div> <div class="form-group"><label>Corrective actions required</label><textarea id="f-insp-actions" placeholder="Actions to be taken..."></textarea></div> <div id="attach-m-inspection" style="margin:12px 8px"></div> </div> <div class="modal-footer"><button class="btn" onclick="closeModal('m-inspection')">Cancel</button><button class="btn primary" onclick="saveInspectionWithChecklist()">💾 Save</button></div>
@@ -12154,6 +12162,90 @@ function viewECDMonthly(id){
   showViewModal('ECD Monthly Report', period, html, [
     {label:'🖨 Print', cls:'primary', fn:"printSection('ECD Monthly Report',document.getElementById('view-body').innerHTML)"}
   ]);
+}
+
+// ── STATUS BAR ─────────────────────────────────────────────────────────────
+var _sbTips = [
+  'Tip: Export your data weekly using the ↓ Export button to keep a backup.',
+  'Tip: Use the Search bar to quickly find records in large tables.',
+  'Tip: Records saved offline will auto-sync when you reconnect.',
+  'Tip: Click 👁 View on any record to generate a print-ready PDF report.',
+  'Tip: The + New button in the top bar opens a new record for the current module.',
+  'Tip: Dark mode is available — click the 🌙 button in the top bar.',
+  'Tip: Duplicate warnings help prevent double entry — check existing records first.',
+  'Tip: All modules have a Search bar — type to filter records instantly.',
+  'Reminder: Submit weekly MRR and disease surveillance reports every Monday.',
+  'Reminder: ECD Monthly Report is due at the end of each month for DHO submission.',
+  'Reminder: Monthly EPI report must be submitted by the 5th of each month.',
+  'Reminder: Export a full data backup at the end of each month.',
+  'Fact: Mbabala RHC serves multiple villages in Chifunabuli District.',
+  'EH Tip: Follow-up inspections should be done within 30 days of a failed inspection.',
+  'EH Tip: Boreholes should be tested for water quality at least once every quarter.',
+];
+var _sbTipIdx = Math.floor(Math.random() * _sbTips.length);
+
+function updateStatusBar(){
+  var now = new Date();
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var dateStr = days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  var h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  var timeStr = (h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  var sbDate = document.getElementById('sb-date');
+  var sbTime = document.getElementById('sb-time');
+  if(sbDate) sbDate.textContent = dateStr;
+  if(sbTime) sbTime.textContent = timeStr;
+
+  // Record count
+  var sbRec = document.getElementById('sb-records');
+  if(sbRec && typeof _store !== 'undefined'){
+    var total = 0;
+    var storeKeys = ['inspections','incidents','water','immunization','hia1','hia2','ebs','ipc','ecd','ecd_monthly','nutrition','waste','vector','sanitation','malaria_mrr','surveillance','health_promo','hp_monthly','legal_notices','prohibition_orders','closure_orders','court_cases','meetings','attendance','cbv','chw','chw_activities','villages','households','stock','stock_movements','premises','food_handlers','schools','water_points','facilities'];
+    storeKeys.forEach(function(k){ if(_store[k]) total += _store[k].length; });
+    sbRec.textContent = total.toLocaleString() + ' records';
+  }
+
+  // Facility name
+  var sbFac = document.getElementById('sb-facility');
+  if(sbFac){
+    var s = (typeof DB !== 'undefined' && DB.getObj) ? (DB.getObj('settings')||{}) : {};
+    sbFac.textContent = s.name ? s.name.replace('Rural Health Centre','RHC').replace('Health Centre','HC') : 'Mbabala RHC';
+  }
+
+  // Sync status
+  var sbSync = document.getElementById('sb-sync');
+  var sbSyncIcon = document.getElementById('sb-sync-icon');
+  if(sbSync){
+    var online = navigator.onLine;
+    sbSync.textContent = online ? 'Online' : 'Offline';
+    if(sbSyncIcon){ sbSyncIcon.textContent = '●'; sbSyncIcon.style.color = online ? '#4ade80' : '#f87171'; }
+  }
+}
+
+function rotateTip(){
+  var sbTip = document.getElementById('sb-tip');
+  if(sbTip){
+    sbTip.style.opacity = '0';
+    setTimeout(function(){
+      _sbTipIdx = (_sbTipIdx + 1) % _sbTips.length;
+      sbTip.textContent = _sbTips[_sbTipIdx];
+      sbTip.style.transition = 'opacity 0.8s';
+      sbTip.style.opacity = '1';
+    }, 400);
+  }
+}
+
+// Start clock and tip rotation
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', function(){
+    updateStatusBar();
+    setInterval(updateStatusBar, 1000);
+    setInterval(rotateTip, 8000);
+  });
+} else {
+  updateStatusBar();
+  setInterval(updateStatusBar, 1000);
+  setInterval(rotateTip, 8000);
 }
 </script>
 
