@@ -2312,7 +2312,7 @@ function viewRecord(store, id, fields){
   if(!rec){ toast('Record not found','error'); return; }
   const atts = Array.isArray(DB.get('att_'+store+'_'+id))?DB.get('att_'+store+'_'+id):[];
   window._viewAttsGlobal = atts;
-  const visFields = (fields||STORE_FIELDS_MAP[store]&&STORE_FIELDS_MAP[store]()||[]).filter(f=>!f.hidden&&rec[f.key]!==undefined&&rec[f.key]!==null&&rec[f.key]!=='');
+  const visFields=(fields||STORE_FIELDS_MAP[store]&&STORE_FIELDS_MAP[store]()||[]).filter(f=>!f.hidden&&(rec[f.key]!==undefined&&rec[f.key]!==null&&rec[f.key]!==''||f.showIf));
   let html='<div class="view-grid">';
   visFields.forEach(f=>{
     if(f.showIf && !f.showIf(rec)) return;
@@ -7528,6 +7528,7 @@ const meetingFields=[
   {id:'f-mt-actions',key:'actions',label:'Action points'},
   {id:'f-mt-aob',key:'aob',label:'Any Other Business',showIf:(r)=>r.type==='Meeting'},
   {id:'f-mt-next',key:'nextMeeting',label:'Next Meeting Date',showIf:(r)=>r.type==='Meeting'},
+  {id:'f-mt-next-venue',key:'nextVenue',label:'Next Meeting Venue',showIf:(r)=>r.type==='Meeting'},
 ];
 
 const attendanceFields=[
