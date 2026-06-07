@@ -4893,6 +4893,7 @@ const DEFAULT_SETTINGS={name:'Mbabala Rural Health Centre',hmis:'ZM-LUA-MBB-001'
 function loadSettings(){
   const s=DB.getObj('settings')||DEFAULT_SETTINGS;
   sv('s-name',s.name);sv('s-hmis',s.hmis);sv('s-district',s.district);sv('s-province',s.province);sv('s-officer',s.officer);sv('s-pop',s.pop);sv('s-phone',s.phone||'');sv('s-email',s.email||'');
+  var tipbarCb=document.getElementById('s-tipbar');if(tipbarCb)tipbarCb.checked=s.tipBarEnabled!==false;
 
   // Update sidebar
   const fn=document.getElementById('sb-facility-name'), fs=document.getElementById('sb-facility-sub');
