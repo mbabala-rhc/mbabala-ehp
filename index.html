@@ -8484,13 +8484,15 @@ function renderTargets(){var _tySel=document.getElementById('targets-year');if(_
 function renderMonthlyReport(){
   var msel=document.getElementById('mr-month');
   var ysel=document.getElementById('mr-year');
+  var curMonth=String(new Date().getMonth()+1).padStart(2,'0');
+  var curYear=String(new Date().getFullYear());
   // Auto-populate year select on first load
   if(ysel&&!ysel.options.length){var cy=new Date().getFullYear();for(var y=cy-2;y<=cy+2;y++)ysel.add(new Option(y,y,y===cy,y===cy));}
-  // Auto-select current month on first load
-  if(msel&&!msel.value){msel.value=String(new Date().getMonth()+1).padStart(2,'0');}
-  if(ysel&&!ysel.value){ysel.value=String(new Date().getFullYear());}
-  var month=(msel||{value:String(new Date().getMonth()+1).padStart(2,'0')}).value;
-  var year=(ysel||{value:String(new Date().getFullYear())}).value;
+  // Force set current month and year if not manually changed
+  if(msel&&(msel.value===''||msel.value==='01'&&!msel.dataset.userSet)){msel.value=curMonth;msel.onchange=function(){this.dataset.userSet='1';renderMonthlyReport();};}
+  if(ysel&&!ysel.value){ysel.value=curYear;}
+  var month=(msel&&msel.value)?msel.value:curMonth;
+  var year=(ysel&&ysel.value)?ysel.value:curYear;
   var ym=year+'-'+month;
   var mn=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var label=mn[parseInt(month)-1]+' '+year;
