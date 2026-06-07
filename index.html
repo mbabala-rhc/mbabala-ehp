@@ -258,15 +258,15 @@ body{font-family:var(--font);background:var(--bg2);color:var(--txt);font-size:14
 .sidebar-bottom{padding:10px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.3)}
 
 
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;width:100%}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;width:100%;position:relative}
 .save-banner{display:none !important}
 .offline-banner{background:var(--amber);color:#fff;padding:7px 16px;font-size:12px;text-align:center;display:none;font-weight:500;flex-shrink:0}
-.content{flex:1;overflow-y:auto;overflow-x:auto;padding:20px;background:var(--bg2);-webkit-overflow-scrolling:touch}
+.content{flex:1;overflow-y:auto;overflow-x:auto;padding:20px 20px 32px;background:var(--bg2);-webkit-overflow-scrolling:touch}
 @media(max-width:1024px){.content{padding:12px 10px}}
 @media(max-width:900px){.content{padding:10px 8px}}
 .page{display:none}.page.active{display:block}
-.tip-ribbon{height:26px;background:linear-gradient(90deg,#1a5c4f,#0a5448,#1a5c4f);display:flex;align-items:center;justify-content:center;padding:0;position:sticky;bottom:0;z-index:10;width:100%}
-.tip-ribbon span{font-size:11px;color:rgba(255,255,255,.92);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity 0.8s;opacity:1}
+.tip-ribbon{height:26px;background:linear-gradient(90deg,#1a5c4f,#0a5448,#1a5c4f);display:flex;align-items:center;justify-content:center;padding:0 20px;position:absolute;bottom:0;left:0;right:0;z-index:50}
+.tip-ribbon span{font-size:11px;color:rgba(255,255,255,.9);font-style:italic;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:opacity 0.8s}
 
 
 .card{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rl);padding:20px;box-shadow:var(--shadow)}
@@ -1153,8 +1153,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 <div id="page-cbv" class="page"> <div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">🤲 CBV Register</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Community Based Volunteer registration and activities</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-cbv')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ Add CBV</button> </div> </div> <div class="alert info"><span class="alert-icon">🤝</span>Register all Community Based Volunteers (CBVs) in your catchment area including their NHC position and training details.</div> <div id="cbv-stats"></div> <div class="toolbar"> <input type="text" placeholder="🔍 Search CBVs..." oninput="filterTbl(this,'tbl-cbv')"> <select onchange="filterCol(this,'tbl-cbv',5)"><option value="">All status</option><option>Active</option><option>Inactive</option></select> <select id="cbv-zone-filter" onchange="filterCBVByZone(this.value)" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"><option value="">All zones</option><option>Kapili</option><option>Kauni</option><option>Kasenga</option><option>Central</option><option>Isenga</option></select> <button class="btn primary" onclick="openModal('m-cbv')">+ Register CBV</button> <button class="btn sm" onclick="cbvPDF()">📄 PDF</button> <button class="btn sm" onclick="exportToExcel('cbv','CBV_Register')">📊 Excel</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('CBV Register','tbl-cbv')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-cbv" style="width:100%"> <thead><tr> <th>Full Name</th><th>Zone</th><th>NRC</th><th>Phone</th><th>Training</th><th>Status</th><th>Actions</th> </tr></thead> <tbody id="tb-cbv"></tbody> </table></div></div>
 </div>
 <div id="page-under5" class="page"> <div style="background:linear-gradient(135deg,#9333ea,#7c3aed);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">👶 Under Five Coverage</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Under-five child health coverage and immunization tracking</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-under5')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button> </div> </div> <div id="u5-stats"></div> <div class="toolbar"> <input type="text" id="u5-search" placeholder="🔍 Search by month, village..." oninput="filterU5ByText(this.value)" style="flex:1;max-width:220px"> <input type="month" id="u5-filter-month" placeholder="YYYY-MM" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px" onchange="filterU5ByMonth(this.value)" oninput="filterU5ByMonth(this.value)"> <button class="btn primary" onclick="openModal('m-under5')">+ New Monthly Under Five Report</button> <button class="btn sm" onclick="u5PDF()">📄 PDF</button> <button class="btn sm" onclick="exportToExcel('under5','Under5_Coverage')">📊 Excel</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printSection('Under Five Monthly Reports', document.getElementById('u5-cards-container')?.innerHTML||'')">🖨 Print</button> </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchTab(this,'t-u5-list')">📋 Reports List</div> <div class="tab" onclick="switchTab(this,'t-u5-growth')">📈 Growth Monitoring</div> <div class="tab" onclick="switchTab(this,'t-u5-milestones')">🧠 Developmental Milestones</div> </div> <div id="t-u5-list" class="tab-pane active"> <div id="u5-cards-container"></div> </div> <div id="t-u5-growth" class="tab-pane"> <div id="u5-growth-content"> <div style="text-align:center;padding:32px;color:var(--txt2)">No monthly reports yet. Add an Under Five report to see growth monitoring data.</div> </div> </div> <div id="t-u5-milestones" class="tab-pane"> <div id="u5-milestone-stats"></div> <div class="card" style="margin-bottom:14px"> <div class="card-title" style="display:flex;justify-content:space-between;align-items:center"> <span>🧠 Developmental Milestones — Assessment Summary</span> <div style="display:flex;align-items:center;gap:8px"> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printDMSummary()">🖨 Print</button> <input type="month" id="dm-filter-month" placeholder="YYYY-MM" style="font-size:12px;padding:4px 8px;border:1px solid var(--bd);border-radius:6px" onchange="renderDMSummary()" title="Filter by month (leave blank for all-time totals)"> <span style="font-size:11px;color:var(--txt2)">Filter by month (blank = all time)</span> </div> </div> <div class="tbl-wrap"> <table id="tbl-dm-summary" class="dt" style=";width:100%"> <thead> <tr style="background:var(--bg2)"> <th style="text-align:left">Age Group</th> <th style="text-align:center;color:var(--green)">✅ Attained</th> <th style="text-align:center;color:var(--amber)">⚠️ Delayed</th> <th style="text-align:center;color:var(--red)">🔴 Referred</th> <th style="text-align:center;color:var(--blue)">Total Assessed</th> <th style="text-align:center">Attainment Rate</th> </tr> </thead> <tbody id="tb-dm-summary"></tbody> </table> </div> </div> <div class="card-title" style="margin-bottom:8px">📋 Individual Records — Delayed &amp; Referred Children</div> <div class="toolbar"> <button class="btn primary" onclick="openModal('m-u5-milestone')">+ Record Delayed / Referred Child</button> <button class="btn sm" onclick="modulePDF('Developmental Milestones','u5_milestones',[{label:'Name'},{label:'Age group'},{label:'Status'},{label:'Village'},{label:'Milestone concern'},{label:'Referred to'},{label:'Date'}],r=>[r.name,r.ageGroup,r.status,r.village,r.concern,r.referredTo,fmtDate(r.date)])">📄 PDF</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printIndividualMilestones()">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-u5-milestones" style=";width:100%"> <thead><tr><th>Child name</th><th>Village</th><th>Age group</th><th>Status</th><th>Milestone concern</th><th>Referred to</th><th>Date recorded</th><th>Actions</th></tr></thead> <tbody id="tb-u5-milestones"></tbody> </table></div></div> </div>
-</div> </div> </div> </div><div class="tip-ribbon"><span class="tip-text">💡 Loading tip...</span></div>
- </div> </div> </div> </div> </div> </div> </div> <div class="tip-ribbon"><span class="tip-text">💡 Loading tip...</span></div>
+</div> </div> </div> </div> </div> </div> </div> </div> </div> </div> </div> <div class="tip-ribbon"><span id="tip-text">💡 Loading tip...</span></div>
 <div id="toast"></div> <div id="m-inspection" class="modal-overlay"><div class="modal wide"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--amber-l)">✅</div><h3 id="t-inspection">New Inspection Report</h3><button class="btn icon" onclick="closeModal('m-inspection')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-insp-id"><input type="hidden" id="f-insp-checklist"> <div class="form-row"><div class="form-group"><label class="required">Inspection type</label><select id="f-insp-type" onchange="toggleOtherField('f-insp-type')"> <optgroup label="Food Premises"> <option>Restaurant / Eating House</option> <option>Grocery / Retail Shop</option> <option>Market Stall / Food Vendor</option> <option>Bakery / Confectionery</option> <option>Butchery / Meat Shop</option> <option>Bar / Tavern</option> </optgroup> <optgroup label="Institutions"> <option>School</option> <option>Church / Worship Place</option> <option>Government Office</option> <option>Health Facility</option> </optgroup> <optgroup label="Other Premises"> <option>Household</option> <option>Barbershop / Salon</option> <option>Lodging / Guest House</option> <option>Filling Station</option> <option>Construction Site</option> <option>Water Point / Borehole</option> <option>Sanitation Facility</option> <option>Waste Disposal Site</option> </optgroup> <option value="Other">Other (specify below)</option>
 </select></div>
 <div class="form-group" id="other-f-insp-type-wrap" style="display:none"> <label>Specify other inspection type</label> <input type="text" id="other-f-insp-type" placeholder="Please specify...">
@@ -12160,31 +12159,17 @@ function viewECDMonthly(id){
   ]);
 }
 
-var _tips=['💡 Tip: Export your data weekly using the ↓ Export button to keep a safe backup.',
-'💡 Tip: Click 👁 View on any record to open a print-ready PDF report.',
-'💡 Tip: Records saved offline will auto-sync when you reconnect to the internet.',
-'💡 Tip: Use the Search bar to quickly find records in large tables.',
-'🔔 Reminder: Submit weekly MRR and disease surveillance reports every Monday.',
-'🔔 Reminder: ECD Monthly Report is due at the end of each month.',
-'🔔 Reminder: Monthly EPI report must be submitted by the 5th of each month.',
-'🔔 Reminder: Follow-up inspections should be done within 30 days of a failed inspection.',
-'🔔 Reminder: Export a full data backup at the end of each month.',
-'🔔 Reminder: Boreholes should be tested for water quality at least once a quarter.',
-'💡 Tip: The + New button in the top bar opens a new record form.',
-'💡 Tip: Dark mode is available — click the 🌙 button in the top bar.',
-'🔔 Reminder: Log all community complaints in the Complaint Register.',
-'🔔 Reminder: Record all ECD group sessions in the platform after each activity.',
-];
+var _tips=['💡 Tip: Export your data weekly using the ↓ Export button.','💡 Tip: Click 👁 View on any record to open a print-ready PDF.','💡 Tip: Records saved offline will sync when you reconnect.','💡 Tip: Use the Search bar to filter records instantly.','🔔 Reminder: Submit weekly MRR every Monday.','🔔 Reminder: ECD Monthly Report due at end of each month.','🔔 Reminder: EPI report due by 5th of each month.','🔔 Reminder: Do follow-up inspections within 30 days.','🔔 Reminder: Export a data backup at end of each month.','💡 Tip: Dark mode available — click 🌙 in the top bar.'];
 var _ti=Math.floor(Math.random()*_tips.length);
-function rotateTips(){
-  document.querySelectorAll('.tip-text').forEach(function(el){
+setTimeout(function(){
+  var el=document.getElementById('tip-text');
+  if(el) el.textContent=_tips[_ti];
+  setInterval(function(){
+    var el=document.getElementById('tip-text');
+    if(!el) return;
     el.style.opacity='0';
     setTimeout(function(){_ti=(_ti+1)%_tips.length;el.textContent=_tips[_ti];el.style.opacity='1';},600);
-  });
-}
-setTimeout(function(){
-  document.querySelectorAll('.tip-text').forEach(function(el){el.textContent=_tips[_ti];});
-  setInterval(rotateTips,8000);
+  },8000);
 },1500);
 </script>
 
