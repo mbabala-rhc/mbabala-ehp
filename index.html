@@ -8921,7 +8921,8 @@ function renderVillageVisits(){
   var sel=document.getElementById('vv-year');
   if(sel&&!sel.options.length){var cy=new Date().getFullYear();for(var y=cy-2;y<=cy+3;y++)sel.add(new Option(y,y,y===cy,y===cy));}
   var msel=document.getElementById('vv-month');
-  if(msel&&!msel.value){msel.value=String(new Date().getMonth()+1).padStart(2,'0');}
+  var curMon=String(new Date().getMonth()+1).padStart(2,'0');
+  if(msel&&(msel.value===''||msel.value==='01')){msel.value=curMon;}
   var month=(document.getElementById('vv-month')||{value:String(new Date().getMonth()+1).padStart(2,'0')}).value;
   var year=(document.getElementById('vv-year')||{value:'2026'}).value;
   var ym=year+'-'+month;
