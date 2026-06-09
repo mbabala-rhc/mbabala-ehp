@@ -2176,6 +2176,7 @@ function saveUser(){
   const idx = users.findIndex(u=>u.id===rec.id);
   if(idx>=0) users[idx]={...users[idx],...rec}; else users.push(rec);
   DB.set('users',users);
+  sbSet('users',users);
   closeModal('m-user');
   renderAdmin();
   toast('✅ User saved','success');
