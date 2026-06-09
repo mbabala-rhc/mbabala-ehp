@@ -9086,18 +9086,20 @@ function renderDiseaseRegister(){
   var data=DB.get('disease_register').filter(function(r){if(filterDisease&&r.disease!==filterDisease)return false;if(filterYear&&r.week&&!r.week.startsWith(filterYear))return false;if(filterZoneDR&&!(parseInt(r[filterZoneDR])||0))return false;return true;});
   var totalCases=data.reduce(function(a,r){return a+r.total;},0);
   var diseases=new Set(data.map(function(r){return r.disease;})).size;
-  var zoneMap={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0};
+  var zoneMap={Kapili:0,Kauni:0,Kasenga:0,Central:0,Isenga:0,'Outside Catchment':0};
   data.forEach(function(r){zoneMap.Kapili+=r.kapili||0;zoneMap.Kauni+=r.kauni||0;zoneMap.Kasenga+=r.kasenga||0;zoneMap.Central+=r.central||0;zoneMap.Isenga+=r.isenga||0;zoneMap['Outside Catchment']+=(r.outside_catchment||0);});
   var topZone='—';var maxZone=0;Object.keys(zoneMap).forEach(function(z){if(zoneMap[z]>maxZone){maxZone=zoneMap[z];topZone=z;}});
   var st=document.getElementById('dr-stats');
   if(st)st.innerHTML='<div class="g4">'+[['Total Cases',totalCases,'var(--red)',''],['Diseases',diseases,'var(--teal-d)',''],['Highest Zone',topZone,'var(--amber)',maxZone+' cases'],['Records',data.length,'var(--blue)','']].map(function(x){return '<div class="card-sm"><div class="stat-label">'+x[0]+'</div><div class="stat-val" style="color:'+x[2]+'">'+x[1]+'</div><div style="font-size:10px;color:var(--txt2);margin-top:2px">'+x[3]+'</div></div>';}).join('')+'</div>';
   var tb=document.getElementById('dr-tbody');if(!tb)return;
-  if(!data.length){tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--txt2)">No disease records yet. Click Record Cases to add weekly figures.</td></tr>';return;}
+  if(!data.length){tb.innerHTML='<tr><td colspan="10" style="text-align:center;padding:32px;color:var(--txt2)">No disease records yet. Click Record Cases to add weekly figures.</td></tr>';return;}
   data.sort(function(a,b){return(b.week||'').localeCompare(a.week||'');});
   tb.innerHTML=data.map(function(r){
-    var mx=Math.max(r.kapili,r.kauni,r.kasenga,r.central,r.isenga);
+    var oc=r.outside_catchment||0;
+    var mx=Math.max(r.kapili||0,r.kauni||0,r.kasenga||0,r.central||0,r.isenga||0,oc);
+    var rowTotal=(r.kapili||0)+(r.kauni||0)+(r.kasenga||0)+(r.central||0)+(r.isenga||0)+oc;
     function cell(v){return '<td style="text-align:center;'+(v===mx&&v>0?'font-weight:800;color:#dc2626;background:rgba(220,38,38,0.06)':'')+'">'+v+'</td>';}
-    return '<tr><td style="font-weight:600">'+r.week+'</td><td><b>'+r.disease+'</b></td>'+cell(r.kapili)+cell(r.kauni)+cell(r.kasenga)+cell(r.central)+cell(r.isenga)+'<td style="text-align:center;font-weight:800;color:var(--teal-d)">'+r.total+'</td><td>'+rowBtns('disease_register',r.id,"viewDiseaseEntry('"+r.id+"')","editDiseaseEntry('"+r.id+"')","deleteRecord('disease_register','"+r.id+"',renderDiseaseRegister)")+'</td></tr>';
+    return '<tr><td style="font-weight:600">'+r.week+'</td><td><b>'+r.disease+'</b></td>'+cell(r.kapili||0)+cell(r.kauni||0)+cell(r.kasenga||0)+cell(r.central||0)+cell(r.isenga||0)+cell(oc)+'<td style="text-align:center;font-weight:800;color:var(--teal-d)">'+rowTotal+'</td><td>'+rowBtns('disease_register',r.id,"viewDiseaseEntry('"+r.id+"')","editDiseaseEntry('"+r.id+"')","deleteRecord('disease_register','"+r.id+"',renderDiseaseRegister)")+'</td></tr>';
   }).join('');
 }
 function generateDiseaseReport(){
