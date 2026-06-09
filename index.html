@@ -9658,7 +9658,6 @@ function updateTrendCharts(){
   var data = DB.get('disease_register').filter(function(r){
     if(year && r.week && !r.week.startsWith(year)) return false;
     if(month && r.week){
-      // Convert epi week (2026-W21) to approximate month
       var parts = r.week.split('-W');
       if(parts.length===2){
         var d = new Date(parseInt(parts[0]),0,1+(parseInt(parts[1])-1)*7);
@@ -9669,12 +9668,6 @@ function updateTrendCharts(){
     if(disease !== 'all' && r.disease !== disease) return false;
     return true;
   });
-  if(month && !data.length){
-    var el=document.getElementById('chart-trend');
-    var el2=document.getElementById('chart-zone');
-    if(el) el.parentElement.innerHTML='<div style="text-align:center;padding:32px;color:var(--txt2)">No records found for the selected month.</div>';
-    return;
-  }
 
   var zones = ['Kapili','Kauni','Kasenga','Central','Isenga'];
   var zoneColors = ['#0ea5e9','#10b981','#f59e0b','#ef4444','#8b5cf6'];
