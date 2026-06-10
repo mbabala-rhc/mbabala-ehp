@@ -9642,6 +9642,9 @@ function updateTrendCharts(){
   }
   var disease = (document.getElementById('trend-disease')||{value:'all'}).value;
   var year = (document.getElementById('trend-year')||{value:String(new Date().getFullYear())}).value;
+  var monthVal = (document.getElementById('trend-month')||{value:''}).value;
+  var monthNames = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
+  var monthLabel = monthVal ? monthNames[parseInt(monthVal)] : '';
   var month = (document.getElementById('trend-month')||{value:''}).value;
   var data = DB.get('disease_register').filter(function(r){
     if(year && r.week && !r.week.startsWith(year)) return false;
@@ -9831,6 +9834,7 @@ function printDRTrends(){
       +'<div style="font-size:12px;color:#6b7280;margin-top:4px">'
         +'Disease: <b>'+(disease==='all'?'All Diseases':disease)+'</b>'
         +' &nbsp;·&nbsp; Year: <b>'+year+'</b>'
+        +(monthLabel?' &nbsp;·&nbsp; Month: <b>'+monthLabel+'</b>':'')
         +' &nbsp;·&nbsp; Generated: <b>'+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'</b>'
       +'</div>'
     +'</div>'
