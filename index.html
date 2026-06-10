@@ -3190,8 +3190,17 @@ function openDocument(i){
   }
 }
 function deleteDoc(i){
-  if(!confirm('Remove this document?')) return;
-  const data=DB.get('documents'); data.splice(i,1); DB.set('documents',data); renderDocuments();
+  const msg = document.getElementById('confirm-delete-msg');
+  const btn = document.getElementById('confirm-delete-btn');
+  if(msg) msg.textContent = 'Remove this document?';
+  if(btn) btn.onclick = function(){
+    closeModal('m-confirm-delete');
+    const data=DB.get('documents'); data.splice(i,1); DB.set('documents',data);
+    sbSet('documents',data);
+    renderDocuments();
+    toast('Document removed','info');
+  };
+  openModal('m-confirm-delete');
 }
 function uploadDocuments(input){
   const docs=DB.get('documents');
