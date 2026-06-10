@@ -3738,6 +3738,24 @@ function clearAuditLog(){
 function renderAuditLog(){
   const el = document.getElementById('tb-audit-log');
   if(!el) return;
+  // Pull latest from Supabase to get all users' logs
+  sbGet('audit_log').then(function(remLogs){
+    if(remLogs && remLogs.length){
+      // Merge remote logs with local, deduplicate by id, sort by ts desc
+      var localLogs = DB.get('audit_log') || [];
+      var merged = [...remLogs, ...localLogs];
+      var seen = {}; merged = merged.filter(function(l){ if(seen[l.id]) return false; seen[l.id]=1; return true; });
+      merged.sort(function(a,b){ return (b.ts||'').localeCompare(a.ts||''); });
+      if(merged.length > 500) merged.splice(500);
+      DB.set('audit_log', merged);
+      _store['audit_log'] = merged;
+    }
+    _doRenderAuditLog();
+  }).catch(function(){ _doRenderAuditLog(); });
+}
+function _doRenderAuditLog(){
+  const el = document.getElementById('tb-audit-log');
+  if(!el) return;
   const logs = DB.get('audit_log') || [];
   const filter = document.getElementById('audit-filter')?.value?.toLowerCase() || '';
   const filtered = filter ? logs.filter(l =>
