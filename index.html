@@ -9812,6 +9812,9 @@ function updateTrendCharts(){
 function printDRTrends(){
   var disease = (document.getElementById('trend-disease')||{value:'all'}).value;
   var year = (document.getElementById('trend-year')||{value:String(new Date().getFullYear())}).value;
+  var monthVal=(document.getElementById('trend-month')||{value:''}).value;
+  var _mn=['','January','February','March','April','May','June','July','August','September','October','November','December'];
+  var monthLabel=monthVal?_mn[parseInt(monthVal)]:'';
 
   var zoneCanvas = document.getElementById('chart-zone');
   var trendCanvas = document.getElementById('chart-trend');
