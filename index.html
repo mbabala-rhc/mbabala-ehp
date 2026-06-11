@@ -12474,6 +12474,30 @@ function viewScorecard(id){
     {label:'🖨 Print', cls:'primary', fn:"printSection('Community Scorecard - '+document.querySelector('#view-title').textContent, document.getElementById('view-body').innerHTML)"}
   ]);
 }
+
+const scorecardFields=[
+  {id:'f-sc-id',key:'id',hidden:true},
+  {id:'f-sc-quarter',key:'quarter',label:'Quarter'},
+  {id:'f-sc-year',key:'year',label:'Year'},
+  {id:'f-sc-facility',key:'facility',label:'Facility'},
+  {id:'f-sc-district',key:'district',label:'District'},
+  {id:'f-sc-recorder',key:'recorder',label:'Recorded By'},
+  {id:'f-sc-date',key:'date',label:'Date'},
+  {id:'f-sc-s1',key:'s1',label:'Score 1 - Behavior & Attitude'},
+  {id:'f-sc-r1',key:'r1',label:'Reasons 1'},
+  {id:'f-sc-s2',key:'s2',label:'Score 2 - Waiting Time'},
+  {id:'f-sc-r2',key:'r2',label:'Reasons 2'},
+  {id:'f-sc-s3',key:'s3',label:'Score 3 - Drugs & Supplies'},
+  {id:'f-sc-r3',key:'r3',label:'Reasons 3'},
+  {id:'f-sc-s4',key:'s4',label:'Score 4 - WASH'},
+  {id:'f-sc-r4',key:'r4',label:'Reasons 4'},
+  {id:'f-sc-s5',key:'s5',label:'Score 5 - Transport/Referral'},
+  {id:'f-sc-r5',key:'r5',label:'Reasons 5'},
+  {id:'f-sc-s6',key:'s6',label:'Score 6 - Infrastructure'},
+  {id:'f-sc-r6',key:'r6',label:'Reasons 6'},
+  {id:'f-sc-comments',key:'comments',label:'General Comments'},
+];
+
 </script>
 
 <div id="m-ecd-monthly" class="modal-overlay"><div class="modal wide"><div class="modal-header"><div class="modal-header-icon" style="background:#f3e8ff">&#128118;</div><h3 id="hdr-m-ecd-monthly">ECD Monthly Aggregation Report</h3><button class="btn icon" onclick="closeModal('m-ecd-monthly')">&#10005;</button></div><div class="modal-body">
@@ -12506,26 +12530,4 @@ function viewScorecard(id){
 </div>
 </div><div class="modal-footer"><button class="btn" onclick="closeModal('m-ecd-monthly')">Cancel</button><button class="btn primary" onclick="saveRecord('ecd_monthly','m-ecd-monthly',ecdMonthlyFields,renderECDMonthly)">&#128190; Save</button></div></div></div>
 </body>
-</html>const scorecardFields=[
-  {id:'f-sc-id',key:'id',hidden:true},
-  {id:'f-sc-quarter',key:'quarter',label:'Quarter'},
-  {id:'f-sc-year',key:'year',label:'Year'},
-  {id:'f-sc-facility',key:'facility',label:'Facility'},
-  {id:'f-sc-district',key:'district',label:'District'},
-  {id:'f-sc-recorder',key:'recorder',label:'Recorded By'},
-  {id:'f-sc-date',key:'date',label:'Date'},
-  {id:'f-sc-s1',key:'s1',label:'Score 1 - Behavior & Attitude'},
-  {id:'f-sc-r1',key:'r1',label:'Reasons 1'},
-  {id:'f-sc-s2',key:'s2',label:'Score 2 - Waiting Time'},
-  {id:'f-sc-r2',key:'r2',label:'Reasons 2'},
-  {id:'f-sc-s3',key:'s3',label:'Score 3 - Drugs & Supplies'},
-  {id:'f-sc-r3',key:'r3',label:'Reasons 3'},
-  {id:'f-sc-s4',key:'s4',label:'Score 4 - WASH'},
-  {id:'f-sc-r4',key:'r4',label:'Reasons 4'},
-  {id:'f-sc-s5',key:'s5',label:'Score 5 - Transport/Referral'},
-  {id:'f-sc-r5',key:'r5',label:'Reasons 5'},
-  {id:'f-sc-s6',key:'s6',label:'Score 6 - Infrastructure'},
-  {id:'f-sc-r6',key:'r6',label:'Reasons 6'},
-  {id:'f-sc-comments',key:'comments',label:'General Comments'},
-];
-
+</html>
