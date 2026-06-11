@@ -972,7 +972,8 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <select id="sc-filter-year" onchange="renderScorecard()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
   <button class="btn" onclick="printSection('Community Scorecard Report',document.getElementById('tbl-scorecard-wrap').innerHTML)">🖨 Print</button>
 </div>
-<div id="tbl-scorecard-wrap" style="overflow-x:auto">
+<div class="card" style="padding:0;overflow:hidden">
+<div style="overflow-x:auto">
 <table class="data-table" id="tbl-scorecard">
   <thead><tr>
     <th>Quarter</th><th>Year</th><th>Facility</th><th>District</th>
@@ -980,6 +981,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   </tr></thead>
   <tbody id="tb-scorecard"></tbody>
 </table>
+</div>
 </div>
 <div class="tip-ribbon"><span class="tip-text">💡 Loading tip...</span></div>
 </div>
