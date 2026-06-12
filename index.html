@@ -12540,32 +12540,34 @@ const scorecardFields=[
 </div><div class="modal-footer"><button class="btn" onclick="closeModal('m-ecd-monthly')">Cancel</button><button class="btn primary" onclick="saveRecord('ecd_monthly','m-ecd-monthly',ecdMonthlyFields,renderECDMonthly)">&#128190; Save</button></div></div></div>
 </body>
 </html><div id="m-scorecard" class="modal-overlay">
-<div class="modal wide" style="max-width:700px">
+<div class="modal wide" style="max-width:720px">
   <div class="modal-header">
     <div class="modal-header-icon" style="background:var(--teal-l)">📋</div>
-    <h3>Community Scorecard — Form A</h3>
-    <button class="modal-close" onclick="closeModal('m-scorecard')">✕</button>
+    <h3 id="t-scorecard">New Community Scorecard</h3>
+    <button class="btn icon" onclick="closeModal('m-scorecard')">✕</button>
   </div>
   <div class="modal-body">
     <input type="hidden" id="f-sc-id">
+
+    <div class="form-section">📍 Basic Information</div>
     <div class="form-row">
       <div class="form-group">
         <label class="required">Quarter</label>
         <select id="f-sc-quarter">
-          <option value="Q1">Q1 (January – March)</option>
-          <option value="Q2">Q2 (April – June)</option>
-          <option value="Q3">Q3 (July – September)</option>
-          <option value="Q4">Q4 (October – December)</option>
+          <option value="Q1">Q1 — January to March</option>
+          <option value="Q2">Q2 — April to June</option>
+          <option value="Q3">Q3 — July to September</option>
+          <option value="Q4">Q4 — October to December</option>
         </select>
       </div>
       <div class="form-group">
         <label class="required">Year</label>
-        <input type="number" id="f-sc-year" min="2020" max="2035" placeholder="2026">
+        <input type="number" id="f-sc-year" min="2020" max="2035" placeholder="e.g. 2026">
       </div>
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Facility</label>
+        <label>Health Facility</label>
         <input type="text" id="f-sc-facility" placeholder="Mbabala Rural Health Centre">
       </div>
       <div class="form-group">
@@ -12579,66 +12581,115 @@ const scorecardFields=[
         <input type="text" id="f-sc-recorder" placeholder="Name of recorder">
       </div>
       <div class="form-group">
-        <label>Date</label>
+        <label>Date Conducted</label>
         <input type="date" id="f-sc-date">
       </div>
     </div>
-    <div style="background:var(--teal-l);border-radius:8px;padding:8px 12px;margin:10px 0 8px;font-size:12px;color:var(--teal-d);font-weight:600">
-      Scoring guide: &nbsp; 1 = Poor &nbsp;·&nbsp; 2 = Fair &nbsp;·&nbsp; 3 = Good
+
+    <div class="form-section" style="margin-top:14px">⭐ Scorecard Indicators</div>
+    <div style="background:var(--teal-l);border-left:4px solid var(--teal-d);border-radius:0 6px 6px 0;padding:8px 12px;margin-bottom:12px;font-size:12px;color:var(--teal-d)">
+      <b>Scoring Guide:</b> &nbsp; 1 = Poor &nbsp;·&nbsp; 2 = Fair &nbsp;·&nbsp; 3 = Good
     </div>
-    <div style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:12px">
-      <thead>
-        <tr style="background:var(--teal-d);color:#fff">
-          <th style="padding:8px 10px;text-align:left;width:50%">Indicator</th>
-          <th style="padding:8px 10px;text-align:center;width:12%">Score (1–3)</th>
-          <th style="padding:8px 10px;text-align:left">Reasons / Comments</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--bd)">
-          <td style="padding:8px 10px">1. Behavior and attitude of health service provider at facility and community levels</td>
-          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s1" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
-          <td style="padding:6px"><textarea id="f-sc-r1" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--bd);background:var(--bg2)">
-          <td style="padding:8px 10px">2. Waiting time for provision of health care services at facility and community levels</td>
-          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s2" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
-          <td style="padding:6px"><textarea id="f-sc-r2" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--bd)">
-          <td style="padding:8px 10px">3. Availability of essential drugs, supplies and services according to the level of facility</td>
-          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s3" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
-          <td style="padding:6px"><textarea id="f-sc-r3" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--bd);background:var(--bg2)">
-          <td style="padding:8px 10px">4. Water, Sanitation and Hygiene</td>
-          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s4" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
-          <td style="padding:6px"><textarea id="f-sc-r4" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--bd)">
-          <td style="padding:8px 10px">5. Availability of transport services for referral</td>
-          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s5" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
-          <td style="padding:6px"><textarea id="f-sc-r5" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
-        </tr>
-        <tr style="border-bottom:1px solid var(--bd);background:var(--bg2)">
-          <td style="padding:8px 10px">6. Infrastructure</td>
-          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s6" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
-          <td style="padding:6px"><textarea id="f-sc-r6" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <div style="border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+        <div style="background:var(--teal-d);color:#fff;padding:8px 12px;font-size:12px;font-weight:700">1. Behavior and attitude of health service provider at facility and community levels</div>
+        <div class="form-row" style="padding:10px 12px;margin:0;gap:10px">
+          <div style="min-width:100px">
+            <label style="font-size:11px;color:var(--txt2)">Score (1–3)</label>
+            <input type="number" id="f-sc-s1" min="1" max="3" placeholder="1–3" style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:15px;font-weight:700;text-align:center;background:var(--bg);color:var(--txt)">
+          </div>
+          <div style="flex:1">
+            <label style="font-size:11px;color:var(--txt2)">Reasons / Comments</label>
+            <textarea id="f-sc-r1" rows="2" placeholder="Reasons for this score..." style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:12px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+        <div style="background:var(--teal-d);color:#fff;padding:8px 12px;font-size:12px;font-weight:700">2. Waiting time for provision of health care services at facility and community levels</div>
+        <div class="form-row" style="padding:10px 12px;margin:0;gap:10px">
+          <div style="min-width:100px">
+            <label style="font-size:11px;color:var(--txt2)">Score (1–3)</label>
+            <input type="number" id="f-sc-s2" min="1" max="3" placeholder="1–3" style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:15px;font-weight:700;text-align:center;background:var(--bg);color:var(--txt)">
+          </div>
+          <div style="flex:1">
+            <label style="font-size:11px;color:var(--txt2)">Reasons / Comments</label>
+            <textarea id="f-sc-r2" rows="2" placeholder="Reasons for this score..." style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:12px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+        <div style="background:var(--teal-d);color:#fff;padding:8px 12px;font-size:12px;font-weight:700">3. Availability of essential drugs, supplies and services according to the level of facility</div>
+        <div class="form-row" style="padding:10px 12px;margin:0;gap:10px">
+          <div style="min-width:100px">
+            <label style="font-size:11px;color:var(--txt2)">Score (1–3)</label>
+            <input type="number" id="f-sc-s3" min="1" max="3" placeholder="1–3" style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:15px;font-weight:700;text-align:center;background:var(--bg);color:var(--txt)">
+          </div>
+          <div style="flex:1">
+            <label style="font-size:11px;color:var(--txt2)">Reasons / Comments</label>
+            <textarea id="f-sc-r3" rows="2" placeholder="Reasons for this score..." style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:12px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+        <div style="background:var(--teal-d);color:#fff;padding:8px 12px;font-size:12px;font-weight:700">4. Water, Sanitation and Hygiene</div>
+        <div class="form-row" style="padding:10px 12px;margin:0;gap:10px">
+          <div style="min-width:100px">
+            <label style="font-size:11px;color:var(--txt2)">Score (1–3)</label>
+            <input type="number" id="f-sc-s4" min="1" max="3" placeholder="1–3" style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:15px;font-weight:700;text-align:center;background:var(--bg);color:var(--txt)">
+          </div>
+          <div style="flex:1">
+            <label style="font-size:11px;color:var(--txt2)">Reasons / Comments</label>
+            <textarea id="f-sc-r4" rows="2" placeholder="Reasons for this score..." style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:12px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+        <div style="background:var(--teal-d);color:#fff;padding:8px 12px;font-size:12px;font-weight:700">5. Availability of transport services for referral</div>
+        <div class="form-row" style="padding:10px 12px;margin:0;gap:10px">
+          <div style="min-width:100px">
+            <label style="font-size:11px;color:var(--txt2)">Score (1–3)</label>
+            <input type="number" id="f-sc-s5" min="1" max="3" placeholder="1–3" style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:15px;font-weight:700;text-align:center;background:var(--bg);color:var(--txt)">
+          </div>
+          <div style="flex:1">
+            <label style="font-size:11px;color:var(--txt2)">Reasons / Comments</label>
+            <textarea id="f-sc-r5" rows="2" placeholder="Reasons for this score..." style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:12px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+        <div style="background:var(--teal-d);color:#fff;padding:8px 12px;font-size:12px;font-weight:700">6. Infrastructure</div>
+        <div class="form-row" style="padding:10px 12px;margin:0;gap:10px">
+          <div style="min-width:100px">
+            <label style="font-size:11px;color:var(--txt2)">Score (1–3)</label>
+            <input type="number" id="f-sc-s6" min="1" max="3" placeholder="1–3" style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:15px;font-weight:700;text-align:center;background:var(--bg);color:var(--txt)">
+          </div>
+          <div style="flex:1">
+            <label style="font-size:11px;color:var(--txt2)">Reasons / Comments</label>
+            <textarea id="f-sc-r6" rows="2" placeholder="Reasons for this score..." style="width:100%;padding:8px;border:1px solid var(--bd);border-radius:8px;font-size:12px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea>
+          </div>
+        </div>
+      </div>
+
     </div>
-    <div class="form-row" style="margin-top:12px">
+
+    <div class="form-section" style="margin-top:14px">💬 General Comments</div>
+    <div class="form-row">
       <div class="form-group" style="flex:1">
-        <label>General Comments / Recommendations</label>
         <textarea id="f-sc-comments" rows="3" placeholder="Overall comments or recommendations from the community..."></textarea>
       </div>
     </div>
+
   </div>
   <div class="modal-footer">
     <button class="btn" onclick="closeModal('m-scorecard')">Cancel</button>
-    <button class="btn primary" onclick="saveScorecard()">💾 Save</button>
+    <button class="btn primary" onclick="saveScorecard()">💾 Save Scorecard</button>
   </div>
 </div>
 </div>
