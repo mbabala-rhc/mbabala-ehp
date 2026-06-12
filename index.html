@@ -961,29 +961,36 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 <div id="page-mrr" class="page"><div style="background:linear-gradient(135deg,#dc2626,#b91c1c);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div style="color:rgba(255,255,255,.7);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px">EH Reports</div><div style="color:#fff;font-size:20px;font-weight:800">🦟 Malaria Weekly MRR Report</div><div style="color:rgba(255,255,255,.75);font-size:12px;margin-top:3px">Weekly malaria data — cases, RDT/microscopy results, and ACT stock levels</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" onclick="openModal('m-mrr')" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.4)">+ New Weekly Report</button><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Malaria Weekly MRR','tbl-mrr')">🖨 Print</button></div></div><div class="card"><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center"><select id="mrr-year-filter" onchange="renderMRR()" style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);font-size:12px;background:var(--bg2)"></select><input type="text" id="mrr-search" oninput="renderMRR()" placeholder="Search week period..." style="padding:6px 10px;border-radius:6px;border:1px solid var(--bd);font-size:12px;background:var(--bg2);flex:1;min-width:140px;max-width:240px"></div><div class="tbl-wrap"><table class="dt" id="tbl-mrr"><thead><tr><th>Week Period</th><th>Wk#</th><th>OPD</th><th>Clinical</th><th>RDT Tested</th><th>RDT Pos</th><th>Micro+</th><th>&lt;5yrs</th><th>&#8805;5yrs</th><th>Travelled</th><th>Actions</th></tr></thead><tbody id="tb-mrr"></tbody></table></div></div></div>
 
 <div id="page-scorecard" class="page">
-<div class="page-header" style="background:linear-gradient(135deg,#0a5448,#1a5c4f)">
-  <div class="page-header-icon">📋</div>
-  <div><div class="page-header-title">Community Scorecard</div>
-  <div class="page-header-sub">Quarterly community health service rating — Form A</div></div>
-  <button class="btn primary" onclick="openScorecardModal()" style="margin-left:auto">+ New Scorecard</button>
-</div>
-<div class="toolbar">
-  <input type="text" placeholder="🔍 Search scorecards..." oninput="filterTbl(this,'tbl-scorecard')" style="flex:1;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
-  <select id="sc-filter-year" onchange="renderScorecard()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
-  <button class="btn" onclick="printSection('Community Scorecard Report',document.getElementById('tbl-scorecard-wrap').innerHTML)">🖨 Print</button>
-</div>
-<div class="card" style="padding:0;overflow:hidden">
-<div style="overflow-x:auto">
-<table class="data-table" id="tbl-scorecard">
-  <thead><tr>
-    <th>Quarter</th><th>Year</th><th>Facility</th><th>District</th>
-    <th>Avg Score</th><th>Recorded By</th><th>Actions</th>
-  </tr></thead>
-  <tbody id="tb-scorecard"></tbody>
-</table>
-</div>
-</div>
-<div class="tip-ribbon"><span class="tip-text">💡 Loading tip...</span></div>
+  <div class="module-header" style="background:linear-gradient(135deg,#0a5448,#1a7a6b);padding:18px 20px;border-radius:12px;margin-bottom:16px;display:flex;align-items:center;gap:14px">
+    <div style="font-size:28px">📋</div>
+    <div style="flex:1">
+      <div style="font-size:18px;font-weight:800;color:#fff">Community Scorecard</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.75);margin-top:2px">Quarterly community health service rating — Form A</div>
+    </div>
+    <button onclick="openScorecardModal()" class="btn primary" style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;font-weight:700">+ New Scorecard</button>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+    <input type="text" placeholder="🔍 Search scorecards..." oninput="filterTbl(this,'tbl-scorecard')" style="flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+    <select id="sc-filter-year" onchange="renderScorecard()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
+    <button class="btn" onclick="printSection('Community Scorecard',document.getElementById('sc-table-wrap').innerHTML)" style="white-space:nowrap">🖨 Print</button>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden" id="sc-table-wrap">
+    <table class="data-table" id="tbl-scorecard">
+      <thead>
+        <tr>
+          <th>Quarter</th>
+          <th>Year</th>
+          <th>Facility</th>
+          <th>District</th>
+          <th style="text-align:center">Avg Score</th>
+          <th>Recorded By</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tb-scorecard"></tbody>
+    </table>
+  </div>
+  <div class="tip-ribbon"><span class="tip-text">💡 Loading tip...</span></div>
 </div>
 
 <div id="page-committees" class="page">
@@ -12532,4 +12539,108 @@ const scorecardFields=[
 </div>
 </div><div class="modal-footer"><button class="btn" onclick="closeModal('m-ecd-monthly')">Cancel</button><button class="btn primary" onclick="saveRecord('ecd_monthly','m-ecd-monthly',ecdMonthlyFields,renderECDMonthly)">&#128190; Save</button></div></div></div>
 </body>
-</html>
+</html><div id="m-scorecard" class="modal-overlay">
+<div class="modal wide" style="max-width:700px">
+  <div class="modal-header">
+    <div class="modal-header-icon" style="background:var(--teal-l)">📋</div>
+    <h3>Community Scorecard — Form A</h3>
+    <button class="modal-close" onclick="closeModal('m-scorecard')">✕</button>
+  </div>
+  <div class="modal-body">
+    <input type="hidden" id="f-sc-id">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="required">Quarter</label>
+        <select id="f-sc-quarter">
+          <option value="Q1">Q1 (January – March)</option>
+          <option value="Q2">Q2 (April – June)</option>
+          <option value="Q3">Q3 (July – September)</option>
+          <option value="Q4">Q4 (October – December)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="required">Year</label>
+        <input type="number" id="f-sc-year" min="2020" max="2035" placeholder="2026">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Facility</label>
+        <input type="text" id="f-sc-facility" placeholder="Mbabala Rural Health Centre">
+      </div>
+      <div class="form-group">
+        <label>District</label>
+        <input type="text" id="f-sc-district" placeholder="Chifunabuli">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Recorded By</label>
+        <input type="text" id="f-sc-recorder" placeholder="Name of recorder">
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="f-sc-date">
+      </div>
+    </div>
+    <div style="background:var(--teal-l);border-radius:8px;padding:8px 12px;margin:10px 0 8px;font-size:12px;color:var(--teal-d);font-weight:600">
+      Scoring guide: &nbsp; 1 = Poor &nbsp;·&nbsp; 2 = Fair &nbsp;·&nbsp; 3 = Good
+    </div>
+    <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead>
+        <tr style="background:var(--teal-d);color:#fff">
+          <th style="padding:8px 10px;text-align:left;width:50%">Indicator</th>
+          <th style="padding:8px 10px;text-align:center;width:12%">Score (1–3)</th>
+          <th style="padding:8px 10px;text-align:left">Reasons / Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--bd)">
+          <td style="padding:8px 10px">1. Behavior and attitude of health service provider at facility and community levels</td>
+          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s1" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
+          <td style="padding:6px"><textarea id="f-sc-r1" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--bd);background:var(--bg2)">
+          <td style="padding:8px 10px">2. Waiting time for provision of health care services at facility and community levels</td>
+          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s2" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
+          <td style="padding:6px"><textarea id="f-sc-r2" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--bd)">
+          <td style="padding:8px 10px">3. Availability of essential drugs, supplies and services according to the level of facility</td>
+          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s3" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
+          <td style="padding:6px"><textarea id="f-sc-r3" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--bd);background:var(--bg2)">
+          <td style="padding:8px 10px">4. Water, Sanitation and Hygiene</td>
+          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s4" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
+          <td style="padding:6px"><textarea id="f-sc-r4" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--bd)">
+          <td style="padding:8px 10px">5. Availability of transport services for referral</td>
+          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s5" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
+          <td style="padding:6px"><textarea id="f-sc-r5" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--bd);background:var(--bg2)">
+          <td style="padding:8px 10px">6. Infrastructure</td>
+          <td style="padding:6px;text-align:center"><input type="number" id="f-sc-s6" min="1" max="3" placeholder="1-3" style="width:55px;text-align:center;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:13px;background:var(--bg);color:var(--txt)"></td>
+          <td style="padding:6px"><textarea id="f-sc-r6" rows="2" placeholder="Reasons..." style="width:100%;padding:4px;border:1px solid var(--bd);border-radius:6px;font-size:11px;resize:vertical;background:var(--bg);color:var(--txt)"></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="form-row" style="margin-top:12px">
+      <div class="form-group" style="flex:1">
+        <label>General Comments / Recommendations</label>
+        <textarea id="f-sc-comments" rows="3" placeholder="Overall comments or recommendations from the community..."></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" onclick="closeModal('m-scorecard')">Cancel</button>
+    <button class="btn primary" onclick="saveScorecard()">💾 Save</button>
+  </div>
+</div>
+</div>
+
+
