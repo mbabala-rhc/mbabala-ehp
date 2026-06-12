@@ -972,7 +972,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
     <input type="text" placeholder="🔍 Search scorecards..." oninput="filterTbl(this,'tbl-scorecard')" style="flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
     <select id="sc-filter-year" onchange="renderScorecard()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"></select>
-    <button class="btn" onclick="printSection('Community Scorecard',document.getElementById('sc-table-wrap').innerHTML)" style="white-space:nowrap">🖨 Print</button>
+    <button class="btn" onclick="printScorecardTable()" style="white-space:nowrap">🖨 Print</button>
   </div>
   <div class="card" style="padding:0;overflow:hidden" id="sc-table-wrap">
     <table class="dt" id="tbl-scorecard">
@@ -12506,6 +12506,18 @@ const scorecardFields=[
   {id:'f-sc-comments',key:'comments',label:'General Comments'},
 ];
 
+
+function printScorecardTable(){
+  var tbl = document.getElementById('tbl-scorecard');
+  if(!tbl) return;
+  var clone = tbl.cloneNode(true);
+  // Remove last column (Actions) from header and all rows
+  clone.querySelectorAll('tr').forEach(function(row){
+    var cells = row.querySelectorAll('th,td');
+    if(cells.length) cells[cells.length-1].remove();
+  });
+  printSection('Community Scorecard', clone.outerHTML);
+}
 </script>
 
 <div id="m-ecd-monthly" class="modal-overlay"><div class="modal wide"><div class="modal-header"><div class="modal-header-icon" style="background:#f3e8ff">&#128118;</div><h3 id="hdr-m-ecd-monthly">ECD Monthly Aggregation Report</h3><button class="btn icon" onclick="closeModal('m-ecd-monthly')">&#10005;</button></div><div class="modal-body">
