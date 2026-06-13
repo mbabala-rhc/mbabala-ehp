@@ -881,6 +881,12 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
    <button class="btn" onclick="openModal('m-ecd-monthly')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Monthly Report</button>
   </div>
  </div>
+ <div class="g4" style="margin-bottom:16px" id="ecm-stats">
+  <div class="card-sm"><div class="stat-label">Total Reports</div><div class="stat-val" id="ecm-total">0</div></div>
+  <div class="card-sm"><div class="stat-label">This Year</div><div class="stat-val" id="ecm-year">0</div></div>
+  <div class="card-sm"><div class="stat-label">Total CBVs Reported</div><div class="stat-val" id="ecm-cbvs">0</div></div>
+  <div class="card-sm"><div class="stat-label">Children Enrolled</div><div class="stat-val" id="ecm-children">0</div></div>
+ </div>
  <div class="toolbar">
   <input type="text" placeholder="🔍 Search reports..." oninput="filterTbl(this,'tbl-ecd-monthly')">
   <button class="btn primary" onclick="openModal('m-ecd-monthly')">+ New Monthly Report</button>
@@ -12160,6 +12166,16 @@ function fmtMonthYear(s){
 }
 
 function renderECDMonthly(){
+  // Populate stat cards
+  var _ecmAll = (_store['ecd_monthly']&&_store['ecd_monthly'].length)?_store['ecd_monthly']:DB.get('ecd_monthly');
+  var cy = new Date().getFullYear().toString();
+  var _ecmYear = _ecmAll.filter(function(r){return r.period&&r.period.startsWith(cy);});
+  var _totalCBVs = _ecmAll.reduce(function(a,r){return a+(r.cbvRepM||0)+(r.cbvRepF||0);},0);
+  var _totalChildren = _ecmAll.reduce(function(a,r){return a+(r.childTotalM||0)+(r.childTotalF||0);},0);
+  var elT=document.getElementById('ecm-total'); if(elT) elT.textContent=_ecmAll.length;
+  var elY=document.getElementById('ecm-year'); if(elY) elY.textContent=_ecmYear.length;
+  var elC=document.getElementById('ecm-cbvs'); if(elC) elC.textContent=_totalCBVs;
+  var elCh=document.getElementById('ecm-children'); if(elCh) elCh.textContent=_totalChildren;
   var data=(_store['ecd_monthly']&&_store['ecd_monthly'].length)?_store['ecd_monthly']:DB.get('ecd_monthly');
   var tb=document.getElementById('tb-ecd-monthly');
   if(!tb)return;
