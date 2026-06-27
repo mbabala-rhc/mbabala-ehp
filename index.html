@@ -3756,7 +3756,6 @@ function fmtTimestamp(rec){
 // AUDIT LOG
 // ══════════════════════════════════════════════
 function auditLog(action, store, recordId, details){
-  const log = DB.get('audit_log') || [];
   const entry = {
     id: genId('AUD'),
     ts: new Date().toISOString(),
@@ -3767,12 +3766,31 @@ function auditLog(action, store, recordId, details){
     recordId: recordId || '',
     details: details || '',
   };
+  // Add to local log immediately so the UI feels instant
+  const log = DB.get('audit_log') || [];
   log.unshift(entry);
-  // Keep only last 500 entries
   if(log.length > 500) log.splice(500);
   _store['audit_log'] = log;
   idbPut('audit_log', log);
-  setTimeout(function(){ sbSet('audit_log', log); }, 1000);
+
+  // Merge with the latest remote log before pushing, so other users'/devices'
+  // entries are never overwritten by this device's local-only view.
+  setTimeout(function(){
+    if(typeof sbGet !== 'function' || typeof sbSet !== 'function') return;
+    sbGet('audit_log').then(function(remoteLog){
+      var merged = [entry].concat(Array.isArray(remoteLog) ? remoteLog : [], DB.get('audit_log') || []);
+      var seen = {};
+      merged = merged.filter(function(l){ if(!l || seen[l.id]) return false; seen[l.id]=1; return true; });
+      merged.sort(function(a,b){ return (b.ts||'').localeCompare(a.ts||''); });
+      if(merged.length > 500) merged.splice(500);
+      DB.set('audit_log', merged);
+      _store['audit_log'] = merged;
+      sbSet('audit_log', merged);
+    }).catch(function(){
+      // Offline or fetch failed — fall back to pushing local log only (queued by sbSet if offline)
+      sbSet('audit_log', DB.get('audit_log') || [entry]);
+    });
+  }, 800);
 }
 
 function clearAuditLog(){
