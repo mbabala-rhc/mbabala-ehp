@@ -3450,104 +3450,65 @@ function renderAnalytics(){
 }
 
 function analyticsExportPDF(){
-  if(!window.jspdf){ toast('PDF library not loaded','warning'); return; }
-  const {jsPDF}=window.jspdf;
-  const doc=new jsPDF();
   const s=DB.getObj('settings')||DEFAULT_SETTINGS;
-  const pageW=210, pageH=297, marginX=10, colW=190;
-  let y=30;
 
-  function ensureSpace(need){
-    if(y+need>pageH-16){ addFooter(); doc.addPage(); drawHeaderBand(); y=30; }
+  function pctColor(p){ return p>=90?'#16a34a':p>=70?'#d97706':'#dc2626'; }
+  function bar(label,pct,rightText){
+    const p=Math.max(0,Math.min(100,pct||0));
+    return `<div style="margin-bottom:9px">
+      <div style="display:flex;justify-content:space-between;font-size:10.5px;margin-bottom:3px">
+        <span style="color:#4b5563">${label}</span>
+        <b style="color:${pctColor(p)}">${rightText!==undefined?rightText:p+'%'}</b>
+      </div>
+      <div style="background:#e5e7eb;border-radius:4px;height:6px;overflow:hidden">
+        <div style="width:${p}%;background:${pctColor(p)};height:100%"></div>
+      </div>
+    </div>`;
   }
-  function drawHeaderBand(){
-    doc.setFillColor(13,111,91); doc.rect(0,0,pageW,22,'F');
-    doc.setTextColor(255,255,255); doc.setFontSize(13); doc.setFont('helvetica','bold');
-    doc.text(s.name+' — Analytics & Performance Report',10,13);
-    doc.setFontSize(8); doc.setFont('helvetica','normal');
-    doc.text('Generated: '+new Date().toLocaleString(),10,20);
-    doc.setTextColor(30);
+  function statBox(label,val,color){
+    return `<div class="stat-box" style="border-color:${color||'#e5e7eb'}"><div class="stat-label">${label}</div><div class="stat-val" style="color:${color||'#1a5c4f'}">${val}</div></div>`;
   }
-  function addFooter(){
-    doc.setTextColor(130); doc.setFontSize(7);
-    doc.text('EH Platform · '+s.name+' · Analytics Report · Page '+doc.internal.getNumberOfPages(),10,290);
-  }
-  function sectionTitle(t){
-    ensureSpace(14);
-    doc.setFillColor(232,245,240); doc.rect(marginX,y-5,colW,9,'F');
-    doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(10,84,72);
-    doc.text(t,marginX+2,y+1); y+=11; doc.setTextColor(30);
-  }
-  function kvRow(label,value,i){
-    ensureSpace(10);
-    if(i%2===0){doc.setFillColor(245,244,240);doc.rect(marginX,y-4,colW,9,'F');}
-    doc.setFont('helvetica','normal'); doc.setFontSize(9);
-    doc.text(String(label)+':',marginX+2,y);
-    doc.setFont('helvetica','bold'); doc.text(String(value),120,y);
-    doc.setFont('helvetica','normal'); y+=9.2;
-  }
-  function barRow(label,pct,i,rightLabel){
-    ensureSpace(11);
-    if(i%2===0){doc.setFillColor(245,244,240);doc.rect(marginX,y-5,colW,11,'F');}
-    doc.setFontSize(8.5); doc.setTextColor(60);
-    doc.text(String(label),marginX+2,y);
-    doc.setTextColor(30); doc.setFont('helvetica','bold');
-    doc.text(rightLabel||(pct+'%'),marginX+colW-2,y,{align:'right'});
-    doc.setFont('helvetica','normal');
-    const barX=marginX+2, barY=y+1.5, barW=colW-4, barH=2.6;
-    doc.setFillColor(230,230,230); doc.rect(barX,barY,barW,barH,'F');
-    const fillW=Math.max(0,Math.min(100,pct))/100*barW;
-    const col = pct>=90?[22,163,74]:pct>=70?[217,119,6]:[220,38,38];
-    doc.setFillColor(col[0],col[1],col[2]); doc.rect(barX,barY,fillW,barH,'F');
-    y+=10;
-  }
-  function noDataLine(msg){ ensureSpace(9); doc.setFont('helvetica','italic'); doc.setFontSize(9); doc.setTextColor(120); doc.text(msg,marginX+2,y); doc.setTextColor(30); doc.setFont('helvetica','normal'); y+=9; }
+  function noData(msg){ return `<div style="text-align:center;padding:16px;color:#9ca3af;font-size:11px;font-style:italic">${msg}</div>`; }
 
-  drawHeaderBand();
-
-  // ── Key Performance Indicators ──
+  // ── gather data ──
   const ipcD=DB.get('ipc');
-  const ipcAvg=ipcD.length?Math.round(ipcD.reduce((s,r)=>s+(r.overall||0),0)/ipcD.length):0;
+  const ipcAvg=ipcD.length?Math.round(ipcD.reduce((a,r)=>a+(r.overall||0),0)/ipcD.length):0;
   const epiD=[...DB.get('epi')].sort((a,b)=>(a.period||'').localeCompare(b.period||''));
   const latEpi=epiD[epiD.length-1]||{}; const tg=latEpi.target||0;
   const hh=DB.get('households');
   const san=DB.get('sanitation');
   const inc=DB.get('incidents');
   const water=DB.get('water');
-  const kpis=[
-    ['IPC avg compliance',ipcAvg+'%'],
-    ['MR 1 EPI coverage',tg?Math.round((latEpi.m1||0)/tg*100)+'%':'—'],
-    ['Open incidents',inc.filter(r=>r.status!=='Resolved').length],
-    ['ODF villages',san.filter(r=>r.clts==='ODF verified').length+'/'+san.length],
-    ['HH latrine coverage',hh.length?Math.round(hh.filter(r=>r.latrine==='Yes').length/hh.length*100)+'%':'—'],
-    ['Water pass rate',water.length?Math.round(water.filter(r=>r.result==='Pass').length/water.length*100)+'%':'—'],
-    ['MYCIN sessions',DB.get('mycin_sess').length],
-    ['Caregivers registered',DB.get('mycin_reg').length],
-  ];
-  sectionTitle('Key Performance Indicators');
-  kpis.forEach(([l,v],i)=>kvRow(l,v,i));
-  y+=3;
+  const mycinS=DB.get('mycin_sess');
+  const mycinReg=DB.get('mycin_reg');
 
-  // ── Records by Module ──
-  sectionTitle('Records by Module');
+  // ── KPI cards ──
+  const kpiHtml='<div class="stat-row">'+[
+    statBox('IPC Compliance',ipcAvg+'%',pctColor(ipcAvg)),
+    statBox('MR 1 Coverage',tg?Math.round((latEpi.m1||0)/tg*100)+'%':'—','#0a5448'),
+    statBox('Open Incidents',inc.filter(r=>r.status!=='Resolved').length,'#dc2626'),
+    statBox('ODF Villages',san.filter(r=>r.clts==='ODF verified').length+'/'+san.length,'#16a34a'),
+  ].join('')+'</div>'
+  +'<div class="stat-row">'+[
+    statBox('HH Latrine Coverage',hh.length?Math.round(hh.filter(r=>r.latrine==='Yes').length/hh.length*100)+'%':'—','#0a5448'),
+    statBox('Water Pass Rate',water.length?Math.round(water.filter(r=>r.result==='Pass').length/water.length*100)+'%':'—','#1d4ed8'),
+    statBox('MYCIN Sessions',mycinS.length,'#7c3aed'),
+    statBox('Caregivers Registered',mycinReg.length,'#7c3aed'),
+  ].join('')+'</div>';
+
+  // ── Records by module ──
   const modStores=['inspections','incidents','water','ipc','ecd','ecd_monthly','nutrition','sanitation','ebs','surveillance','legal','mycin_sess'];
   const modLabels={inspections:'Inspections',incidents:'Incidents',water:'Water tests',ipc:'IPC audits',ecd:'ECD activities',nutrition:'Nutrition',sanitation:'Sanitation',ebs:'EBS signals',surveillance:'Surveillance',legal:'Legal reports',mycin_sess:'MYCIN sessions'};
-  modStores.forEach((k,i)=>kvRow(modLabels[k],DB.get(k).length,i));
-  y+=3;
+  const modRows=modStores.map(k=>`<tr><td>${modLabels[k]}</td><td style="text-align:right;font-weight:700;color:#1a5c4f">${DB.get(k).length}</td></tr>`).join('');
+  const modHtml=`<table><thead><tr><th>Module</th><th style="text-align:right">Records</th></tr></thead><tbody>${modRows}</tbody></table>`;
 
-  // ── EPI Coverage — latest period ──
-  sectionTitle('EPI Coverage — Latest Period ('+(latEpi.period||'—')+')');
+  // ── EPI coverage ──
   const vaxKeys=[['BCG','bcg'],['Penta 3','p3'],['PCV 3','pcv3'],['Rota 1','rota1'],['MR 1','m1'],['HPV 1','hpv1']];
-  if(epiD.length){
-    vaxKeys.forEach(([name,key],i)=>{
-      const p=tg?Math.round((latEpi[key]||0)/tg*100):0;
-      barRow(name,p,i);
-    });
-  } else { noDataLine('No EPI data yet'); }
-  y+=3;
+  const epiHtml = epiD.length
+    ? vaxKeys.map(([name,key])=>bar(name, tg?Math.round((latEpi[key]||0)/tg*100):0)).join('')
+    : noData('No EPI data yet');
 
-  // ── EPI Next-Dose Forecast ──
-  sectionTitle('EPI — Next-Dose Forecast for Next Month');
+  // ── EPI forecast ──
   const doseSeq=[
     {keys:['opv0','opv1','opv2','opv3'],labels:['OPV 0','OPV 1','OPV 2','OPV 3']},
     {keys:['p1','p2','p3'],labels:['Penta 1','Penta 2','Penta 3']},
@@ -3564,64 +3525,79 @@ function analyticsExportPDF(){
       if(given>0) fcRows.push({given:group.labels[i], next:group.labels[i+1], count:given});
     }
   });
-  if(fcRows.length){
-    fcRows.forEach((r,i)=>kvRow(r.given+' → '+r.next,'~'+r.count+' children due',i));
-  } else { noDataLine('No dose data for the latest month yet'); }
-  y+=3;
+  const fcHtml = fcRows.length
+    ? `<table><thead><tr><th>Dose given this month</th><th style="text-align:center">Children vaccinated</th><th>Expected next month</th><th style="text-align:center">Estimated due</th></tr></thead><tbody>${
+        fcRows.map(r=>`<tr><td>${r.given}</td><td style="text-align:center;font-weight:700">${r.count}</td><td>${r.next}</td><td style="text-align:center;font-weight:700;color:#0a5448">~${r.count}</td></tr>`).join('')
+      }</tbody></table><div style="font-size:9px;color:#9ca3af;margin-top:6px">Based on latest reporting month: ${latEpi.period||'—'}. Estimate assumes children who received a dose this month will be due for the next dose next month.</div>`
+    : noData('No dose data for the latest month yet');
 
-  // ── Water Quality ──
-  sectionTitle('Water Quality — Pass/Fail Summary');
-  if(water.length){
-    const pass=water.filter(r=>r.result==='Pass').length;
-    const fail=water.filter(r=>r.result==='Fail').length;
-    kvRow('Tests passed',pass,0);
-    kvRow('Tests failed',fail,1);
-    kvRow('Pass rate',Math.round(pass/water.length*100)+'%',2);
-  } else { noDataLine('No water quality data yet'); }
-  y+=3;
+  // ── Water quality ──
+  const waterHtml = water.length
+    ? (()=>{ const pass=water.filter(r=>r.result==='Pass').length, fail=water.filter(r=>r.result==='Fail').length, total=water.length;
+        return `<div class="stat-row">
+          <div class="stat-box" style="border-color:#16a34a"><div class="stat-label">Passed</div><div class="stat-val" style="color:#16a34a">${pass}</div></div>
+          <div class="stat-box" style="border-color:#dc2626"><div class="stat-label">Failed</div><div class="stat-val" style="color:#dc2626">${fail}</div></div>
+          <div class="stat-box"><div class="stat-label">Pass Rate</div><div class="stat-val">${Math.round(pass/total*100)}%</div></div>
+        </div>`; })()
+    : noData('No water quality data yet');
 
-  // ── IPC Compliance by Area ──
-  sectionTitle('IPC Compliance by Area');
-  if(ipcD.length){
-    ipcD.slice(0,10).forEach((r,i)=>barRow((r.area||'—')+' ('+(r.date||'')+')',r.overall||0,i));
-  } else { noDataLine('No IPC audit data yet'); }
-  y+=3;
+  // ── IPC by area ──
+  const ipcHtml = ipcD.length
+    ? ipcD.slice(0,10).map(r=>bar((r.area||'—')+' ('+(r.date||'')+')', r.overall||0)).join('')
+    : noData('No IPC audit data yet');
 
-  // ── Incidents by Priority & Status ──
-  sectionTitle('Incidents by Priority & Status');
-  if(inc.length){
-    const high=inc.filter(r=>r.priority==='High').length;
-    const med=inc.filter(r=>r.priority==='Medium').length;
-    const low=inc.filter(r=>r.priority==='Low').length;
-    const resolved=inc.filter(r=>r.status==='Resolved').length;
-    const open=inc.filter(r=>r.status==='Open').length;
-    const inprog=inc.filter(r=>r.status==='In progress').length;
-    kvRow('High priority',high,0); kvRow('Medium priority',med,1); kvRow('Low priority',low,2);
-    kvRow('Open',open,3); kvRow('In progress',inprog,4); kvRow('Resolved',resolved,5);
-  } else { noDataLine('No incidents recorded yet'); }
-  y+=3;
+  // ── Incidents ──
+  const incHtml = inc.length
+    ? (()=>{ const high=inc.filter(r=>r.priority==='High').length, med=inc.filter(r=>r.priority==='Medium').length, low=inc.filter(r=>r.priority==='Low').length;
+        const resolved=inc.filter(r=>r.status==='Resolved').length, open=inc.filter(r=>r.status==='Open').length, inprog=inc.filter(r=>r.status==='In progress').length;
+        return `<div class="stat-row">
+          <div class="stat-box" style="border-color:#dc2626"><div class="stat-label">High Priority</div><div class="stat-val" style="color:#dc2626">${high}</div></div>
+          <div class="stat-box" style="border-color:#d97706"><div class="stat-label">Medium Priority</div><div class="stat-val" style="color:#d97706">${med}</div></div>
+          <div class="stat-box"><div class="stat-label">Low Priority</div><div class="stat-val">${low}</div></div>
+        </div><div class="stat-row">
+          <div class="stat-box" style="border-color:#dc2626"><div class="stat-label">Open</div><div class="stat-val" style="color:#dc2626">${open}</div></div>
+          <div class="stat-box" style="border-color:#d97706"><div class="stat-label">In Progress</div><div class="stat-val" style="color:#d97706">${inprog}</div></div>
+          <div class="stat-box" style="border-color:#16a34a"><div class="stat-label">Resolved</div><div class="stat-val" style="color:#16a34a">${resolved}</div></div>
+        </div>`; })()
+    : noData('No incidents recorded yet');
 
-  // ── Sanitation / ODF Progress ──
-  sectionTitle('Sanitation / ODF Progress');
-  if(san.length){
-    san.forEach((r,i)=>barRow((r.village||'—')+(r.clts==='ODF verified'?' (ODF)':''),Math.min(r.coverage||0,100),i));
-  } else { noDataLine('No sanitation data yet'); }
-  y+=3;
+  // ── Sanitation ──
+  const sanHtml = san.length
+    ? san.map(r=>bar((r.village||'—')+(r.clts==='ODF verified'?' <span style="color:#16a34a;font-weight:700">(ODF)</span>':''), Math.min(r.coverage||0,100))).join('')
+    : noData('No sanitation data yet');
 
-  // ── MYCIN Counselling Topics ──
-  sectionTitle('MYCIN — Counselling Topics');
-  const mycinS=DB.get('mycin_sess');
+  // ── MYCIN topics ──
+  let mycinHtml = noData('No MYCIN counselling sessions yet');
   if(mycinS.length && typeof MYCIN_TOPICS!=='undefined'){
     const topicCounts={};
     MYCIN_TOPICS.forEach(t=>topicCounts[t.label]=0);
     mycinS.forEach(sess=>(sess.topics||[]).forEach(t=>{ if(topicCounts[t]!==undefined) topicCounts[t]++; }));
     const maxT=Math.max(...Object.values(topicCounts),1);
-    Object.entries(topicCounts).forEach(([label,cnt],i)=>barRow(label,Math.round(cnt/maxT*100),i,String(cnt)));
-  } else { noDataLine('No MYCIN counselling sessions yet'); }
+    mycinHtml=Object.entries(topicCounts).map(([label,cnt])=>bar(label, Math.round(cnt/maxT*100), String(cnt))).join('');
+  }
 
-  addFooter();
-  doc.save('Analytics_Full_Report_'+today()+'.pdf');
-  toast('📄 Full analytics report downloaded','success');
+  const contentHtml = `
+    <div class="section-header">📊 Key Performance Indicators</div>
+    ${kpiHtml}
+    <div class="section-header" style="margin-top:16px">🗂️ Records by Module</div>
+    ${modHtml}
+    <div class="section-header" style="margin-top:16px">💉 EPI Coverage — Latest Period (${latEpi.period||'—'})</div>
+    ${epiHtml}
+    <div class="section-header" style="margin-top:16px">📅 EPI — Next-Dose Forecast for Next Month</div>
+    ${fcHtml}
+    <div class="section-header" style="margin-top:16px">💧 Water Quality — Pass/Fail Summary</div>
+    ${waterHtml}
+    <div class="section-header" style="margin-top:16px">🛡️ IPC Compliance by Area</div>
+    ${ipcHtml}
+    <div class="section-header" style="margin-top:16px">⚠️ Incidents by Priority &amp; Status</div>
+    ${incHtml}
+    <div class="section-header" style="margin-top:16px">🚽 Sanitation / ODF Progress</div>
+    ${sanHtml}
+    <div class="section-header" style="margin-top:16px">🤱 MYCIN — Counselling Topics</div>
+    ${mycinHtml}
+  `;
+
+  printSection('Analytics & Performance Report', contentHtml);
 }
 
 function renderAdmin(){
