@@ -2897,6 +2897,55 @@ function buildEPIForecastRows(latestEpiRecord, opts){
   });
   return rows;
 }
+// ── LOOK-BACK FORECAST for long-gap doses (MaV3->MaV4, MR1->MR2) ──
+// Unlike buildEPIForecastRows (which only looks at the latest month), this scans the
+// FULL EPI history and finds, for each long-gap rule, the month that occurred exactly
+// N months before the CURRENT calendar month (not the latest report) — so it correctly
+// crosses year boundaries (e.g. MR1 given in January 2026 -> MR2 flagged as due in
+// September 2026, even though September's report may not exist yet).
+const EPI_LOOKBACK_RULES = [
+  {fromKey:'mav3', fromLabel:'MaV 3', toLabel:'MaV 4', monthsGap:6},
+  {fromKey:'m1',   fromLabel:'MR 1',  toLabel:'MR 2',  monthsGap:9},
+];
+
+function _epiPeriodMinusMonths(periodStr, monthsBack){
+  // periodStr is 'YYYY-MM'; returns 'YYYY-MM' for (periodStr - monthsBack)
+  var parts = (periodStr||'').split('-');
+  if(parts.length !== 2) return null;
+  var y = parseInt(parts[0]), m = parseInt(parts[1]);
+  if(!y || !m) return null;
+  var total = (y*12 + (m-1)) - monthsBack;
+  var ny = Math.floor(total/12), nm = (total%12)+1;
+  return ny + '-' + String(nm).padStart(2,'0');
+}
+
+// Returns rows for doses due THIS calendar month, based on historical records.
+function buildEPILookbackForecastRows(allEpiRecords){
+  var records = Array.isArray(allEpiRecords) ? allEpiRecords : [];
+  var byPeriod = {};
+  records.forEach(function(r){ if(r.period) byPeriod[r.period] = r; });
+
+  var now = new Date();
+  var currentPeriod = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+
+  var rows = [];
+  EPI_LOOKBACK_RULES.forEach(function(rule){
+    var sourcePeriod = _epiPeriodMinusMonths(currentPeriod, rule.monthsGap);
+    var sourceRec = sourcePeriod ? byPeriod[sourcePeriod] : null;
+    var given = sourceRec ? (parseInt(sourceRec[rule.fromKey]) || 0) : 0;
+    if(given > 0){
+      rows.push({
+        given: rule.fromLabel,
+        givenPeriod: sourcePeriod,
+        next: rule.toLabel,
+        count: given,
+        dueText: 'Due this month',
+      });
+    }
+  });
+  return rows;
+}
+
 
 function renderEPIAnalytics(){
   const data = DB.get('epi');
@@ -2990,9 +3039,16 @@ function renderEPIAnalytics(){
     ? _fcRows.map((r,i)=>`<tr style="background:${i%2?'var(--bg2)':'transparent'}"><td style="padding:6px 12px">${r.given}</td><td style="padding:6px 12px;text-align:center;font-weight:700">${r.count}</td><td style="padding:6px 12px">${r.next}</td><td style="padding:6px 12px;text-align:center;font-weight:700;color:${r.monthsUntilDue===1?'var(--teal-d,#0d6f5b)':'var(--txt2,#6b7280)'}">~${r.count} <span style="font-weight:400;font-size:10px;display:block;color:var(--txt3,#9ca3af)">${r.dueText}</span></td></tr>`).join('')
     : `<tr><td colspan="4" style="text-align:center;padding:16px;color:var(--txt2)">No dose data for the latest month yet — forecast will appear once a report is submitted.</td></tr>`;
 
+  const _lbRows = buildEPILookbackForecastRows(sorted);
+  const _lbBody = _lbRows.length
+    ? _lbRows.map((r,i)=>`<tr style="background:${i%2?'var(--bg2)':'transparent'}"><td style="padding:6px 12px">${r.given} <span style="font-size:10px;color:var(--txt3,#9ca3af)">(${r.givenPeriod})</span></td><td style="padding:6px 12px;text-align:center;font-weight:700">${r.count}</td><td style="padding:6px 12px">${r.next}</td><td style="padding:6px 12px;text-align:center;font-weight:700;color:var(--red,#dc2626)">Due this month</td></tr>`).join('')
+    : '';
+
   el.innerHTML = `
     <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start"> <div class="card"> <div class="card-title">📊 Total Doses by Vaccine (All Months)</div> <div class="tbl-wrap"> <table class="dt" style=";width:100%"> <thead><tr> <th>Vaccine</th> <th style="text-align:center">Total doses</th> <th style="text-align:center">Monthly avg</th> <th style="text-align:center">Best month</th> </tr></thead> <tbody>${summaryRows || '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--txt2)">No dose data recorded yet</td></tr>'}</tbody> </table> </div> </div> <div class="card"> <div class="card-title">📈 Coverage Summary</div> <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px"> <div style="background:var(--teal-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase">Months reported</div> <div style="font-size:28px;font-weight:700;color:var(--teal)">${data.length}</div> </div> <div style="background:var(--green-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase">Avg target</div> <div style="font-size:28px;font-weight:700;color:var(--green)">${data.length?Math.round(data.reduce((s,r)=>s+(parseInt(r.target)||0),0)/data.length):0}</div> </div> <div style="background:var(--blue-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase">Total BCG</div> <div style="font-size:28px;font-weight:700;color:var(--blue)">${data.reduce((s,r)=>s+(parseInt(r.bcg)||0),0)}</div> </div> <div style="background:var(--red-l);border-radius:8px;padding:14px;text-align:center"> <div style="font-size:11px;font-weight:600;color:var(--red);text-transform:uppercase">Total MR 1</div> <div style="font-size:28px;font-weight:700;color:var(--red)">${data.reduce((s,r)=>s+(parseInt(r.m1)||0),0)}</div> </div> </div> </div> </div> <div class="card" style="margin-top:24px"> <div class="card-title" style="display:flex;align-items:center;justify-content:space-between"> <span>📅 Monthly Trend — All Vaccines</span> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printEPITrend()">🖨 Print</button> </div> <div class="tbl-wrap"> <table class="dt" id="tbl-epi-trend" style="min-width:${Math.max(500, sorted.length*90+150)}px;width:100%"> <thead><tr><th>Vaccine</th>${trendHeaders}</tr></thead> <tbody>${trendRows || '<tr><td colspan="20" style="text-align:center;padding:20px;color:var(--txt2)">No data yet</td></tr>'}</tbody> </table> </div> </div>
-    <div class="card" style="margin-top:16px"> <div class="card-title" style="display:flex;align-items:center;justify-content:space-between"><span>📅 Next-Dose Forecast for Next Month</span><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printEPIForecast()">🖨 Print</button></div> <div style="font-size:11.5px;color:var(--txt2);margin-bottom:8px">Estimated children due for their next scheduled dose next month, based on the most recent monthly report (${_latestEpi.period||'—'}).</div> <div class="tbl-wrap"> <table class="dt" style="width:100%"> <thead><tr><th>Dose given</th><th style="text-align:center">Children vaccinated</th><th>Next dose</th><th style="text-align:center">Due</th></tr></thead> <tbody>${_fcBody}</tbody> </table> </div> </div>`;
+    <div class="card" style="margin-top:16px"> <div class="card-title" style="display:flex;align-items:center;justify-content:space-between"><span>📅 Next-Dose Forecast for Next Month</span><button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printEPIForecast()">🖨 Print</button></div> <div style="font-size:11.5px;color:var(--txt2);margin-bottom:8px">Estimated children due for their next scheduled dose next month, based on the most recent monthly report (${_latestEpi.period||'—'}).</div> <div class="tbl-wrap"> <table class="dt" style="width:100%"> <thead><tr><th>Dose given</th><th style="text-align:center">Children vaccinated</th><th>Next dose</th><th style="text-align:center">Due</th></tr></thead> <tbody>${_fcBody}</tbody> </table> </div>
+      ${_lbRows.length ? `<div style="margin-top:14px"><div style="font-weight:700;font-size:12px;color:var(--red,#dc2626);margin-bottom:6px">🔴 Due THIS month (from earlier reports)</div><div class="tbl-wrap"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:var(--red,#dc2626);color:#fff"><th style="padding:7px 10px;text-align:left">Given (month)</th><th style="padding:7px 10px;text-align:center">Children</th><th style="padding:7px 10px;text-align:left">Now due</th><th style="padding:7px 10px;text-align:center">Status</th></tr></thead><tbody>${_lbBody}</tbody></table></div></div>` : ''}
+    </div> </div>`;
 }
 
 function renderEPI(){
@@ -3407,16 +3463,26 @@ function renderAnalytics(){
       epiFcEl.innerHTML='<div style="color:var(--txt2);font-size:12px;text-align:center;padding:16px">No EPI data yet — forecast will appear once a monthly report is submitted.</div>';
     } else {
       const rows=buildEPIForecastRows(latest, {onlyNextMonth:false});
+      const lbRows=buildEPILookbackForecastRows(epiD);
+      let fcHtmlOut='';
       if(!rows.length){
-        epiFcEl.innerHTML='<div style="color:var(--txt2);font-size:12px;text-align:center;padding:16px">Not enough dose data yet to forecast upcoming EPI needs.</div>';
+        fcHtmlOut='<div style="color:var(--txt2);font-size:12px;text-align:center;padding:16px">Not enough dose data yet to forecast upcoming EPI needs.</div>';
       } else {
-        epiFcEl.innerHTML='<div class="tbl-wrap"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:var(--teal-d,#0d6f5b);color:#fff"><th style="padding:7px 10px;text-align:left">Dose given</th><th style="padding:7px 10px;text-align:center">Children vaccinated</th><th style="padding:7px 10px;text-align:left">Next dose</th><th style="padding:7px 10px;text-align:center">Due</th></tr></thead><tbody>'
+        fcHtmlOut='<div class="tbl-wrap"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:var(--teal-d,#0d6f5b);color:#fff"><th style="padding:7px 10px;text-align:left">Dose given</th><th style="padding:7px 10px;text-align:center">Children vaccinated</th><th style="padding:7px 10px;text-align:left">Next dose</th><th style="padding:7px 10px;text-align:center">Due</th></tr></thead><tbody>'
           +rows.map(function(r,i){
             const dueColor = r.monthsUntilDue===1 ? 'var(--teal-d,#0d6f5b)' : 'var(--txt2,#6b7280)';
             return '<tr style="background:'+(i%2?'var(--bg2)':'transparent')+'"><td style="padding:6px 10px">'+r.given+'</td><td style="padding:6px 10px;text-align:center;font-weight:700">'+r.count+'</td><td style="padding:6px 10px">'+r.next+'</td><td style="padding:6px 10px;text-align:center;font-weight:700;color:'+dueColor+'">~'+r.count+' <span style="font-weight:400;font-size:10px;display:block;color:var(--txt3,#9ca3af)">'+r.dueText+'</span></td></tr>';
           }).join('')
           +'</tbody></table></div><div style="font-size:10.5px;color:var(--txt3);margin-top:8px">Estimate is based on the actual EPI schedule intervals (e.g. MR1→MR2 and MaV3→MaV4 are due months later, not next month). Actual numbers may vary with defaulters, new arrivals, or migration.</div>';
       }
+      if(lbRows.length){
+        fcHtmlOut+='<div style="margin-top:14px"><div style="font-weight:700;font-size:12px;color:var(--red,#dc2626);margin-bottom:6px">🔴 Due THIS month (from earlier reports)</div><div class="tbl-wrap"><table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:var(--red,#dc2626);color:#fff"><th style="padding:7px 10px;text-align:left">Given (month)</th><th style="padding:7px 10px;text-align:center">Children</th><th style="padding:7px 10px;text-align:left">Now due</th><th style="padding:7px 10px;text-align:center">Status</th></tr></thead><tbody>'
+          +lbRows.map(function(r,i){
+            return '<tr style="background:'+(i%2?'var(--bg2)':'transparent')+'"><td style="padding:6px 10px">'+r.given+' <span style="font-size:10px;color:var(--txt3,#9ca3af)">('+r.givenPeriod+')</span></td><td style="padding:6px 10px;text-align:center;font-weight:700">'+r.count+'</td><td style="padding:6px 10px">'+r.next+'</td><td style="padding:6px 10px;text-align:center;font-weight:700;color:var(--red,#dc2626)">Due this month</td></tr>';
+          }).join('')
+          +'</tbody></table></div></div>';
+      }
+      epiFcEl.innerHTML=fcHtmlOut;
     }
   }
 
@@ -3539,11 +3605,14 @@ function analyticsExportPDF(){
 
   // ── EPI forecast (age/interval-correct — see EPI_DOSE_SCHEDULE) ──
   const fcRows = buildEPIForecastRows(latEpi, {onlyNextMonth:false});
-  const fcHtml = fcRows.length
-    ? `<table><thead><tr><th>Dose given</th><th style="text-align:center">Children vaccinated</th><th>Next dose</th><th style="text-align:center">Due</th></tr></thead><tbody>${
+  const lbFcRows = buildEPILookbackForecastRows(epiD);
+  const fcHtml = (fcRows.length ? `<table><thead><tr><th>Dose given</th><th style="text-align:center">Children vaccinated</th><th>Next dose</th><th style="text-align:center">Due</th></tr></thead><tbody>${
         fcRows.map(r=>`<tr><td>${r.given}</td><td style="text-align:center;font-weight:700">${r.count}</td><td>${r.next}</td><td style="text-align:center;font-weight:700;color:${r.monthsUntilDue===1?'#0a5448':'#6b7280'}">~${r.count} <span style="font-weight:400;font-size:9px;display:block;color:#9ca3af">${r.dueText}</span></td></tr>`).join('')
       }</tbody></table><div style="font-size:9px;color:#9ca3af;margin-top:6px">Based on latest reporting month: ${latEpi.period||'—'}. Timing follows the actual EPI schedule (e.g. MR1→MR2 and MaV3→MaV4 are due months later, not next month).</div>`
-    : noData('No dose data for the latest month yet');
+    : noData('No dose data for the latest month yet'))
+    + (lbFcRows.length ? `<div style="margin-top:10px"><div style="font-weight:700;font-size:10.5px;color:#dc2626;margin-bottom:5px">Due THIS month (from earlier reports)</div><table><thead><tr style="background:#dc2626"><th>Given (month)</th><th style="text-align:center">Children</th><th>Now due</th><th style="text-align:center">Status</th></tr></thead><tbody>${
+        lbFcRows.map(r=>`<tr><td>${r.given} (${r.givenPeriod})</td><td style="text-align:center;font-weight:700">${r.count}</td><td>${r.next}</td><td style="text-align:center;font-weight:700;color:#dc2626">Due this month</td></tr>`).join('')
+      }</tbody></table></div>` : '');
 
   // ── Water quality ──
   const waterHtml = water.length
@@ -10761,10 +10830,18 @@ function printEPIForecast(){
   var s = DB.getObj('settings')||{};
 
   var rows = buildEPIForecastRows(latest, {onlyNextMonth:false});
+  var lbRows = buildEPILookbackForecastRows(sorted);
 
   var bodyRows = rows.length
     ? rows.map(function(r){ return '<tr><td style="padding:6px 10px">'+r.given+'</td><td style="padding:6px 10px;text-align:center;font-weight:700">'+r.count+'</td><td style="padding:6px 10px">'+r.next+'</td><td style="padding:6px 10px;text-align:center;font-weight:700;color:'+(r.monthsUntilDue===1?'#0a5448':'#6b7280')+'">~'+r.count+' <span style="font-weight:400;font-size:9px;display:block;color:#9ca3af">'+r.dueText+'</span></td></tr>'; }).join('')
     : '<tr><td colspan="4" style="text-align:center;padding:16px;color:#6b7280">No dose data for the latest reporting month.</td></tr>';
+
+  var lbSection = '';
+  if(lbRows.length){
+    var lbBodyRows = lbRows.map(function(r){ return '<tr><td style="padding:6px 10px">'+r.given+' ('+r.givenPeriod+')</td><td style="padding:6px 10px;text-align:center;font-weight:700">'+r.count+'</td><td style="padding:6px 10px">'+r.next+'</td><td style="padding:6px 10px;text-align:center;font-weight:700;color:#dc2626">Due this month</td></tr>'; }).join('');
+    lbSection = '<div style="font-weight:800;font-size:12px;color:#dc2626;margin:16px 0 6px">Due THIS month (from earlier reports)</div>'
+      +'<table><thead><tr style="background:#dc2626"><th>Given (month)</th><th style="text-align:center">Children</th><th>Now due</th><th style="text-align:center">Status</th></tr></thead><tbody>'+lbBodyRows+'</tbody></table>';
+  }
 
   var html = '<!DOCTYPE html><html><head><title>EPI Next-Dose Forecast</title>'
     +'<style>body{font-family:Arial,sans-serif;padding:16px;font-size:11px}'
@@ -10777,6 +10854,7 @@ function printEPIForecast(){
     +'<div style="font-size:11px;color:#6b7280">Based on latest reporting month: '+(latest.period||'—')+' &nbsp;·&nbsp; Printed: '+new Date().toLocaleDateString()+'</div>'
     +'</div>'
     +'<table><thead><tr><th>Dose given</th><th style="text-align:center">Children vaccinated</th><th>Next dose</th><th style="text-align:center">Due</th></tr></thead><tbody>'+bodyRows+'</tbody></table>'
+    +lbSection
     +'<div style="font-size:9.5px;color:#6b7280;margin-top:10px">Timing follows the actual EPI schedule intervals (e.g. MR1→MR2 and MaV3→MaV4 are due months later, not next month). Actual numbers may vary with defaulters, new arrivals, or migration.</div>'
     +'<div style="text-align:center;margin-top:12px"><button onclick="window.print()" style="padding:8px 20px;background:#0a5448;color:#fff;border:none;border-radius:6px;cursor:pointer">Print / Save PDF</button></div>'
     +'</body></html>';
