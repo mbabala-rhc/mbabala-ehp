@@ -2846,9 +2846,9 @@ const EPI_DOSE_SCHEDULE = [
   // MaV chain
   {fromKeys:['mav1'], fromLabel:'MaV 1', toLabel:'MaV 2', monthsUntilDue:1},
   {fromKeys:['mav2'], fromLabel:'MaV 2', toLabel:'MaV 3', monthsUntilDue:1},
-  {fromKeys:['mav3'], fromLabel:'MaV 3', toLabel:'MaV 4', monthsUntilDue:6},
+  {fromKeys:['mav3'], fromLabel:'MaV 3', toLabel:'MaV 4', monthsUntilDue:7},
   // MR chain
-  {fromKeys:['m1'],   fromLabel:'MR 1', toLabel:'MR 2', monthsUntilDue:9},
+  {fromKeys:['m1'],   fromLabel:'MR 1', toLabel:'MR 2', monthsUntilDue:10},
   // HPV (unchanged assumption — 6 months apart)
   {fromKeys:['hpv1'], fromLabel:'HPV 1', toLabel:'HPV 2', monthsUntilDue:6},
   // Age-triggered milestones — informational only, not forecastable from monthly totals
@@ -2904,8 +2904,8 @@ function buildEPIForecastRows(latestEpiRecord, opts){
 // crosses year boundaries (e.g. MR1 given in January 2026 -> MR2 flagged as due in
 // September 2026, even though September's report may not exist yet).
 const EPI_LOOKBACK_RULES = [
-  {fromKey:'mav3', fromLabel:'MaV 3', toLabel:'MaV 4', monthsGap:6},
-  {fromKey:'m1',   fromLabel:'MR 1',  toLabel:'MR 2',  monthsGap:9},
+  {fromKey:'mav3', fromLabel:'MaV 3', toLabel:'MaV 4', monthsGap:7},
+  {fromKey:'m1',   fromLabel:'MR 1',  toLabel:'MR 2',  monthsGap:10},
 ];
 
 function _epiPeriodMinusMonths(periodStr, monthsBack){
