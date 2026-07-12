@@ -2830,38 +2830,59 @@ function renderIncidents(){
   const _el_tb_inc=document.getElementById('tb-inc'); if(_el_tb_inc) _el_tb_inc.innerHTML=data.map(r=>`<tr> <td>${r.id}</td><td>${(r.desc||'').substring(0,45)}${r.desc&&r.desc.length>45?'...':''}</td> <td>${r.location||'—'}</td><td>${fmtDate(r.date)||'—'}</td> <td>${stTag(r.priority||'Medium')}</td><td>${stTag(r.status||'Open')}</td> <td>${rowBtns('incidents',r.id,`viewRecord('incidents','${r.id}',incFields)`,`editRecord('incidents','${r.id}',incFields,'m-incident','t-incident','Edit Incident')`,`deleteRecord('incidents','${r.id}',renderIncidents)`)}</td> </tr>`).join('')||emptyRow(7);
 }
 
-// ── EPI DOSE SCHEDULE (age/interval-correct, per Zambia EPI schedule) ──
-// Each entry: previous dose key -> next dose key, label, and months until the
-// next dose is actually due (NOT always "next month" — e.g. MR1->MR2 is 9 months apart).
+// ── EPI DOSE SCHEDULE (per Erick's confirmed EH sequence) ──
+// "keys" = doses given THIS month that together predict "toLabel" doses due next month
+// (or in N months, for the longer-gap MaV3->MaV4 and MR1->MR2 steps).
+// Doses marked isMilestone:true are age-triggered starting points (a fresh cohort
+// reaching 6 or 9 months) and CANNOT be forecast from this month's given-doses data —
+// they are listed for awareness only, with no predicted count.
 const EPI_DOSE_SCHEDULE = [
-  {fromKey:'opv1', fromLabel:'OPV 1', toKey:'opv2', toLabel:'OPV 2', monthsUntilDue:1},
-  {fromKey:'opv2', fromLabel:'OPV 2', toKey:'opv3', toLabel:'OPV 3', monthsUntilDue:1},
-  {fromKey:'p1',   fromLabel:'Penta 1', toKey:'p2', toLabel:'Penta 2', monthsUntilDue:1},
-  {fromKey:'p2',   fromLabel:'Penta 2', toKey:'p3', toLabel:'Penta 3', monthsUntilDue:1},
-  {fromKey:'pcv1', fromLabel:'PCV 1', toKey:'pcv2', toLabel:'PCV 2', monthsUntilDue:1},
-  {fromKey:'pcv2', fromLabel:'PCV 2', toKey:'pcv3', toLabel:'PCV 3', monthsUntilDue:1},
-  {fromKey:'rota1',fromLabel:'Rota 1', toKey:'rota2', toLabel:'Rota 2', monthsUntilDue:1},
-  {fromKey:'rota2',fromLabel:'Rota 2', toKey:'rota3', toLabel:'Rota 3', monthsUntilDue:1},
-  // IPV is a single dose given alongside OPV3/Penta3 at 14 weeks — not part of a 2-dose sequence here.
-  // MR1 and MaV1 are given together at 9 months (not "next month" after any earlier dose).
-  {fromKey:'p3',   fromLabel:'Penta 3 (proxy for reaching 9 months)', toKey:'m1', toLabel:'MR 1', monthsUntilDue:5},
-  {fromKey:'p3',   fromLabel:'Penta 3 (proxy for reaching 9 months)', toKey:'mav1', toLabel:'MaV 1', monthsUntilDue:5},
-  // MR2 and MaV4 are given together at 18 months — 9 months after MR1/MaV1 (which is itself ~6 months after MaV3).
-  {fromKey:'m1',   fromLabel:'MR 1', toKey:'m2', toLabel:'MR 2', monthsUntilDue:9},
-  {fromKey:'mav3', fromLabel:'MaV 3', toKey:'mav4', toLabel:'MaV 4', monthsUntilDue:6},
-  {fromKey:'hpv1', fromLabel:'HPV 1', toKey:'hpv2', toLabel:'HPV 2', monthsUntilDue:6},
+  // Birth doses -> due next month together
+  {fromKeys:['bcg','opv0'], fromLabel:'BCG / OPV 0', toLabel:'OPV 1, Penta 1, PCV 1, Rota 1', monthsUntilDue:1},
+  // 1st doses -> 2nd doses due next month together
+  {fromKeys:['opv1','p1','pcv1','rota1'], fromLabel:'OPV 1 / Penta 1 / PCV 1 / Rota 1', toLabel:'OPV 2, Penta 2, PCV 2, Rota 2', monthsUntilDue:1},
+  // 2nd doses -> 3rd doses + IPV1 due next month together
+  {fromKeys:['opv2','p2','pcv2','rota2'], fromLabel:'OPV 2 / Penta 2 / PCV 2 / Rota 2', toLabel:'OPV 3, Penta 3, PCV 3, Rota 3 + IPV 1', monthsUntilDue:1},
+  // MaV chain
+  {fromKeys:['mav1'], fromLabel:'MaV 1', toLabel:'MaV 2', monthsUntilDue:1},
+  {fromKeys:['mav2'], fromLabel:'MaV 2', toLabel:'MaV 3', monthsUntilDue:1},
+  {fromKeys:['mav3'], fromLabel:'MaV 3', toLabel:'MaV 4', monthsUntilDue:6},
+  // MR chain
+  {fromKeys:['m1'],   fromLabel:'MR 1', toLabel:'MR 2', monthsUntilDue:9},
+  // HPV (unchanged assumption — 6 months apart)
+  {fromKeys:['hpv1'], fromLabel:'HPV 1', toLabel:'HPV 2', monthsUntilDue:6},
+  // Age-triggered milestones — informational only, not forecastable from monthly totals
+  {fromKeys:[], fromLabel:'New cohort reaching 6 months', toLabel:'MaV 1', monthsUntilDue:0, isMilestone:true},
+  {fromKeys:[], fromLabel:'New cohort reaching 9 months', toLabel:'MR 1 + IPV 2', monthsUntilDue:0, isMilestone:true},
 ];
 
 // Builds forecast rows from a single EPI record (the latest monthly report).
-// Only includes doses whose next dose is due NEXT MONTH (monthsUntilDue===1) by default,
-// but also returns the full list (with due-in-N-months) for reports that want everything.
+// For a fromKeys group, uses the LOWEST count among the given keys (the true bottleneck —
+// e.g. if OPV1=23 but Rota1=20, only 20 children actually got the full set and are due together).
+// Only includes rows whose next dose is due NEXT MONTH (monthsUntilDue===1) by default,
+// but also returns the full list (with due-in-N-months and milestone rows) when asked.
 function buildEPIForecastRows(latestEpiRecord, opts){
   opts = opts || {};
   var onlyNextMonth = opts.onlyNextMonth !== false; // default true
+  var includeMilestones = !!opts.includeMilestones;
   var rec = latestEpiRecord || {};
   var rows = [];
   EPI_DOSE_SCHEDULE.forEach(function(rule){
-    var given = parseInt(rec[rule.fromKey]) || 0;
+    if(rule.isMilestone){
+      if(includeMilestones){
+        rows.push({
+          given: rule.fromLabel,
+          next: rule.toLabel,
+          count: null,
+          monthsUntilDue: rule.monthsUntilDue,
+          dueText: 'Age-based — not forecastable from monthly totals',
+          isMilestone: true,
+        });
+      }
+      return;
+    }
+    var counts = rule.fromKeys.map(function(k){ return parseInt(rec[k]) || 0; });
+    var given = counts.length ? Math.min.apply(null, counts) : 0;
     if(given > 0){
       if(!onlyNextMonth || rule.monthsUntilDue === 1){
         rows.push({
