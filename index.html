@@ -824,7 +824,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <!-- v2.1.0 --><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
-<body> <div id="backup-reminder" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9998;background:var(--amber);color:#fff;border-radius:12px;padding:14px 20px;box-shadow:0 4px 20px rgba(0,0,0,.25);align-items:center;gap:14px;max-width:500px;width:90%"> <span style="font-size:24px">💾</span> <div style="flex:1"> <div style="font-weight:700;font-size:14px">Time for a data backup!</div> <div style="font-size:12px;opacity:.9;margin-top:2px">It has been 7+ days since your last backup. Export your data now to prevent loss.</div> </div> <div style="display:flex;gap:8px;flex-shrink:0"> <button onclick="dismissBackupReminder(true)" style="background:#fff;color:var(--amber);border:none;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-size:12px">💾 Backup Now</button> <button onclick="dismissBackupReminder(false)" style="background:rgba(255,255,255,.25);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:12px">Later</button> </div>
+<body> <div id="backup-reminder" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9998;background:var(--amber);color:#fff;border-radius:12px;padding:14px 20px;box-shadow:0 4px 20px rgba(0,0,0,.25);align-items:center;gap:14px;max-width:500px;width:90%"> <span style="font-size:24px">💾</span> <div style="flex:1"> <div style="font-weight:700;font-size:14px">Time for a data backup!</div> <div style="font-size:12px;opacity:.9;margin-top:2px">It has been 30+ days since your last backup. Export your data now to prevent loss.</div> </div> <div style="display:flex;gap:8px;flex-shrink:0"> <button onclick="dismissBackupReminder(true)" style="background:#fff;color:var(--amber);border:none;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-size:12px">💾 Backup Now</button> <button onclick="dismissBackupReminder(false)" style="background:rgba(255,255,255,.25);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:12px">Later</button> </div>
 </div> <div id="loading-screen" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:99998;flex-direction:column;align-items:center;justify-content:center;background:#0a5448"> <div style="position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.04)"></div> <div style="position:absolute;bottom:-80px;left:-40px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.03)"></div> <div style="position:absolute;top:30%;left:-80px;width:200px;height:200px;border-radius:50%;background:rgba(13,148,136,0.15)"></div> <div style="text-align:center;position:relative;z-index:1;padding:20px"> <div style="width:72px;height:72px;border-radius:18px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 32px rgba(0,0,0,0.2)"> <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px">EH</span> </div> <div style="color:#fff;font-size:22px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Mbabala Rural Health Centre</div> <div style="color:rgba(255,255,255,.55);font-size:12px;margin-bottom:6px;letter-spacing:.04em">CHIFUNABULI DISTRICT &nbsp;·&nbsp; LUAPULA PROVINCE</div> <div style="width:40px;height:2px;background:rgba(255,255,255,0.25);border-radius:2px;margin:14px auto 18px"></div> <div id="loading-welcome" style="color:rgba(255,255,255,.9);font-size:16px;font-weight:600;margin-bottom:28px">Welcome back!</div> <div style="width:200px;height:3px;background:rgba(255,255,255,0.15);border-radius:3px;margin:0 auto 16px;overflow:hidden"> <div id="loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,rgba(255,255,255,0.6),#fff);border-radius:3px;transition:width .5s ease"></div> </div> <div id="loading-text" style="color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.06em;text-transform:uppercase">Initialising...</div> <div style="margin-top:40px;color:rgba(255,255,255,.2);font-size:10px;letter-spacing:.08em;text-transform:uppercase">Ministry of Health · Zambia</div> </div>
 </div> <div id="login-screen"> <div class="login-card"> <div class="login-logo">EH</div> <div class="login-title" id="login-title">EH Management Platform</div> <div class="login-sub" id="login-sub">Mbabala Rural Health Centre · Chifunabuli District, Luapula Province</div> <div class="login-err" id="login-err">⚠ Incorrect username or password</div> <form id="login-form" onsubmit="event.preventDefault();doLogin();" style="margin:0"> <div class="login-group"> <label>Username</label> <input type="text" id="li-user" placeholder="Enter your username" autocomplete="username" name="username"> </div> <div class="login-group"> <label>Password</label> <div class="pw-wrap"><input type="password" id="li-pass" placeholder="Enter your password" autocomplete="current-password" name="password"><button type="button" class="pw-toggle" onclick="togglePw('li-pass',this)" title="Show password">👁</button></div> </div> <button type="button" class="login-btn" onclick="doLogin()">Sign In →</button> </form> <div style="text-align:center;margin-top:14px"> <button onclick="showForgotPassword()" style="background:none;border:none;color:var(--teal);font-size:13px;cursor:pointer;text-decoration:underline">Forgot Password?</button> </div> <div class="login-footer">🔒 Mbabala RHC · Environmental Health Dept. v3.0</div> </div>
 </div> <div id="forgot-pw-screen" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center"> <div style="background:var(--bg);border-radius:16px;width:90%;max-width:420px;padding:32px;box-shadow:0 8px 40px rgba(0,0,0,.3)"> <div style="text-align:center;margin-bottom:20px"> <div style="width:56px;height:56px;border-radius:50%;background:var(--amber-l);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 12px">🔑</div> <h3 style="font-size:18px;font-weight:700;color:var(--txt);margin-bottom:4px">Reset Password</h3> <p style="font-size:13px;color:var(--txt2)">Enter your username to get started</p> </div> <div id="fp-step1"> <div style="margin-bottom:16px"> <label style="font-size:12px;font-weight:600;color:var(--txt2);display:block;margin-bottom:6px;text-transform:uppercase">Username</label> <input type="text" id="fp-username" placeholder="Enter your username"
@@ -4938,7 +4938,7 @@ function dismissBackupReminder(doBackup){
   if(el) el.classList.remove('visible');
   if(doBackup){
     localStorage.setItem('ehp_last_backup', Date.now().toString());
-    exportData();
+    exportAllData();
   }
 }
 
@@ -6927,71 +6927,10 @@ function updateOfflineBadge(){
   }
 }
 
-// ══════════════════════════════════════════════════════════
-// AUTOMATIC WEEKLY BACKUP
-// ══════════════════════════════════════════════════════════
-
-function checkAutoBackup(){
-  const lastBackup = localStorage.getItem('_lastBackup');
-  const now = Date.now();
-  const sevenDays = 7 * 24 * 60 * 60 * 1000;
-
-  if(!lastBackup || (now - parseInt(lastBackup)) > sevenDays){
-    // Show backup reminder after 3 seconds
-    setTimeout(() => {
-      showBackupReminder();
-    }, 3000);
-  }
-
-  // Update last backup display in admin
-  const lastBackupEl = document.getElementById('last-backup-date');
-  if(lastBackupEl){
-    if(lastBackup){
-      const d = new Date(parseInt(lastBackup));
-      lastBackupEl.textContent = d.toLocaleDateString('en-GB') + ' at ' + d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-    } else {
-      lastBackupEl.textContent = 'Never — please backup now!';
-      lastBackupEl.style.color = 'var(--red)';
-    }
-  }
-}
-
-function showBackupReminder(){
-  // Don't show if user is in the middle of filling a form
-  if(document.querySelector('.modal-overlay.open')) return;
-
-  const existing = document.getElementById('backup-reminder');
-  if(existing) return;
-
-  const div = document.createElement('div');
-  div.id = 'backup-reminder';
-  div.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;border-radius:12px;padding:16px 20px;max-width:320px;z-index:5000;box-shadow:0 4px 20px rgba(0,0,0,.3)';
-  div.innerHTML = `
-    <div style="font-size:14px;font-weight:600;margin-bottom:6px">💾 Weekly backup due</div> <div style="font-size:12px;opacity:.8;margin-bottom:12px">It has been 7+ days since your last backup. Download a copy of your data to keep it safe.</div> <div style="display:flex;gap:8px"> <button onclick="doAutoBackup()" style="background:var(--teal);border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;flex:1">💾 Backup now</button> <button onclick="dismissBackupReminder()" style="background:rgba(255,255,255,.15);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:12px">Later</button> </div>`;
-  document.body.appendChild(div);
-}
-
-function doAutoBackup(){
-  const d = DB.all();
-  const blob = new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'EHP_backup_' + today() + '.json';
-  a.click();
-  localStorage.setItem('_lastBackup', Date.now().toString());
-  dismissBackupReminder();
-  toast('✅ Backup downloaded — keep this file safe!','success');
-  checkAutoBackup();
-}
-
-function dismissBackupReminder(){
-  const el = document.getElementById('backup-reminder');
-  if(el) el.remove();
-}
 
 // Run backup check after login
 function afterLoginTasks(){
-  setTimeout(checkAutoBackup, 5000); // check 5 seconds after login
+  setTimeout(checkBackupReminder, 5000); // check 5 seconds after login
 }
 
 // ══════════════════════════════════════════════════════════
