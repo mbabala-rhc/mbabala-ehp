@@ -4015,31 +4015,54 @@ function auditLog(action, store, recordId, details){
     recordId: recordId || '',
     details: details || '',
   };
-  // Add to local log immediately so the UI feels instant
+
+  // Add to local log immediately so the UI feels instant and works offline
   const log = DB.get('audit_log') || [];
   log.unshift(entry);
   if(log.length > 500) log.splice(500);
   _store['audit_log'] = log;
   idbPut('audit_log', log);
 
-  // Merge with the latest remote log before pushing, so other users'/devices'
-  // entries are never overwritten by this device's local-only view.
-  setTimeout(function(){
-    if(typeof sbGet !== 'function' || typeof sbSet !== 'function') return;
-    sbGet('audit_log').then(function(remoteLog){
-      var merged = [entry].concat(Array.isArray(remoteLog) ? remoteLog : [], DB.get('audit_log') || []);
-      var seen = {};
-      merged = merged.filter(function(l){ if(!l || seen[l.id]) return false; seen[l.id]=1; return true; });
-      merged.sort(function(a,b){ return (b.ts||'').localeCompare(a.ts||''); });
-      if(merged.length > 500) merged.splice(500);
-      DB.set('audit_log', merged);
-      _store['audit_log'] = merged;
-      sbSet('audit_log', merged);
+  // Write a single row to the dedicated audit_log_entries table (fast, no
+  // read-modify-write, and safe for multiple users acting at the same time —
+  // each insert is independent so nobody's entry can overwrite anyone else's).
+  if(navigator.onLine){
+    _supabase.from('audit_log_entries').insert({
+      id: entry.id,
+      ts: entry.ts,
+      user_name: entry.user,
+      user_id: entry.userId,
+      action: entry.action,
+      store: entry.store,
+      record_id: entry.recordId,
+      details: entry.details,
+    }).then(function(res){
+      if(res.error){
+        console.warn('audit_log_entries insert failed, falling back to legacy blob sync:', res.error.message);
+        _auditLogLegacyMergeAndPush(entry);
+      }
     }).catch(function(){
-      // Offline or fetch failed — fall back to pushing local log only (queued by sbSet if offline)
-      sbSet('audit_log', DB.get('audit_log') || [entry]);
+      _auditLogLegacyMergeAndPush(entry);
     });
-  }, 800);
+  }
+}
+
+// Fallback path only used if the audit_log_entries table doesn't exist yet
+// (e.g. before the one-time SQL migration has been run in Supabase).
+function _auditLogLegacyMergeAndPush(entry){
+  if(typeof sbGet !== 'function' || typeof sbSet !== 'function') return;
+  sbGet('audit_log').then(function(remoteLog){
+    var merged = [entry].concat(Array.isArray(remoteLog) ? remoteLog : [], DB.get('audit_log') || []);
+    var seen = {};
+    merged = merged.filter(function(l){ if(!l || seen[l.id]) return false; seen[l.id]=1; return true; });
+    merged.sort(function(a,b){ return (b.ts||'').localeCompare(a.ts||''); });
+    if(merged.length > 500) merged.splice(500);
+    DB.set('audit_log', merged);
+    _store['audit_log'] = merged;
+    sbSet('audit_log', merged);
+  }).catch(function(){
+    sbSet('audit_log', DB.get('audit_log') || [entry]);
+  });
 }
 
 function clearAuditLog(){
@@ -4062,10 +4085,36 @@ function clearAuditLog(){
 function renderAuditLog(){
   const el = document.getElementById('tb-audit-log');
   if(!el) return;
-  // Pull latest from Supabase to get all users' logs
+
+  // Preferred path: read directly from the dedicated audit_log_entries table —
+  // one fast query, always up to date with every user's actions, no merging needed.
+  _supabase.from('audit_log_entries')
+    .select('*')
+    .order('ts', {ascending:false})
+    .limit(500)
+    .then(function(res){
+      if(res.error || !res.data){
+        // Table doesn't exist yet (migration not run) or query failed — fall back
+        _renderAuditLogLegacy();
+        return;
+      }
+      var rows = res.data.map(function(r){
+        return {
+          id: r.id, ts: r.ts, user: r.user_name, userId: r.user_id,
+          action: r.action, store: r.store, recordId: r.record_id, details: r.details,
+        };
+      });
+      DB.set('audit_log', rows);
+      _store['audit_log'] = rows;
+      _doRenderAuditLog();
+    }).catch(function(){ _renderAuditLogLegacy(); });
+}
+
+// Fallback path only used if the audit_log_entries table doesn't exist yet
+// (e.g. before the one-time SQL migration has been run in Supabase).
+function _renderAuditLogLegacy(){
   sbGet('audit_log').then(function(remLogs){
     if(remLogs && remLogs.length){
-      // Merge remote logs with local, deduplicate by id, sort by ts desc
       var localLogs = DB.get('audit_log') || [];
       var merged = [...remLogs, ...localLogs];
       var seen = {}; merged = merged.filter(function(l){ if(seen[l.id]) return false; seen[l.id]=1; return true; });
