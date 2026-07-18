@@ -825,6 +825,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <!-- v2.1.0 --><script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body> <div id="backup-reminder" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9998;background:var(--amber);color:#fff;border-radius:12px;padding:14px 20px;box-shadow:0 4px 20px rgba(0,0,0,.25);align-items:center;gap:14px;max-width:500px;width:90%"> <span style="font-size:24px">💾</span> <div style="flex:1"> <div style="font-weight:700;font-size:14px">Time for a data backup!</div> <div style="font-size:12px;opacity:.9;margin-top:2px">It has been 30+ days since your last backup. Export your data now to prevent loss.</div> </div> <div style="display:flex;gap:8px;flex-shrink:0"> <button onclick="dismissBackupReminder(true)" style="background:#fff;color:var(--amber);border:none;border-radius:8px;padding:7px 14px;font-weight:700;cursor:pointer;font-size:12px">💾 Backup Now</button> <button onclick="dismissBackupReminder(false)" style="background:rgba(255,255,255,.25);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:8px;padding:7px 10px;cursor:pointer;font-size:12px">Later</button> </div>
 </div> <div id="loading-screen" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:99998;flex-direction:column;align-items:center;justify-content:center;background:#0a5448"> <div style="position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.04)"></div> <div style="position:absolute;bottom:-80px;left:-40px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.03)"></div> <div style="position:absolute;top:30%;left:-80px;width:200px;height:200px;border-radius:50%;background:rgba(13,148,136,0.15)"></div> <div style="text-align:center;position:relative;z-index:1;padding:20px"> <div style="width:72px;height:72px;border-radius:18px;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 32px rgba(0,0,0,0.2)"> <span style="font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px">EH</span> </div> <div style="color:#fff;font-size:22px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px">Mbabala Rural Health Centre</div> <div style="color:rgba(255,255,255,.55);font-size:12px;margin-bottom:6px;letter-spacing:.04em">CHIFUNABULI DISTRICT &nbsp;·&nbsp; LUAPULA PROVINCE</div> <div style="width:40px;height:2px;background:rgba(255,255,255,0.25);border-radius:2px;margin:14px auto 18px"></div> <div id="loading-welcome" style="color:rgba(255,255,255,.9);font-size:16px;font-weight:600;margin-bottom:28px">Welcome back!</div> <div style="width:200px;height:3px;background:rgba(255,255,255,0.15);border-radius:3px;margin:0 auto 16px;overflow:hidden"> <div id="loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,rgba(255,255,255,0.6),#fff);border-radius:3px;transition:width .5s ease"></div> </div> <div id="loading-text" style="color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.06em;text-transform:uppercase">Initialising...</div> <div style="margin-top:40px;color:rgba(255,255,255,.2);font-size:10px;letter-spacing:.08em;text-transform:uppercase">Ministry of Health · Zambia</div> </div>
@@ -1417,7 +1418,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div></div> <div id="m-outcome" class="modal-overlay" style="z-index:2000"><div class="modal wide"> <div class="modal-header"><div class="modal-header-icon" style="background:var(--amber-l)">📊</div><h3 id="t-outcome">Record Malnutrition Outcome</h3><button class="btn icon" onclick="closeModal('m-outcome')">✕</button></div> <div class="modal-body"> <input type="hidden" id="f-out-id"> <input type="hidden" id="f-out-type"> <div class="form-row"><div class="form-group"><label>Category</label><input type="text" id="f-out-cat-display" readonly style="font-weight:700;font-size:16px;background:var(--bg2)"></div><div class="form-group"><label class="required">Outcome</label><select id="f-out-outcome"><option>Admitted</option><option>Cured</option><option>Defaulted</option><option>Non-Responder</option><option>Died</option><option>In treatment</option></select></div></div> <div class="form-section">Child Details</div> <div class="form-row"><div class="form-group"><label class="required">Child name</label><input type="text" id="f-out-name" placeholder="Full name of child"></div><div class="form-group"><label>Age (months)</label><input type="number" id="f-out-age" placeholder="0–59" min="0" max="59"></div></div> <div class="form-row"><div class="form-group"><label>Under Five Card Number</label><input type="text" id="f-out-u5card" placeholder="e.g. U5/2024/001"></div></div> <div class="form-row"><div class="form-group"><label>Village</label><input type="text" id="f-out-village"></div><div class="form-group"><label>Caregiver name</label><input type="text" id="f-out-caregiver"></div></div> <div class="form-section">Admission Details</div> <div class="form-row"><div class="form-group"><label>MUAC at admission (cm)</label><input type="number" step="0.1" id="f-out-muac-adm" placeholder="e.g. 11.0" oninput="autoDetectOutcomeCategory(this.value)"></div><div class="form-group"><label>Weight at admission (kg)</label><input type="number" step="0.1" id="f-out-weight-adm" placeholder="e.g. 6.5"></div></div> <div class="form-row"><div class="form-group"><label>Date admitted</label><input type="date" placeholder="dd/mm/yyyy" id="f-out-date-adm" onchange="calcWeeksInTreatment()"></div><div class="form-group"><label>Admitted to</label><select id="f-out-admitted-to"><option>OTP (Outpatient)</option><option>SC (Stabilisation Centre)</option><option>SFP (Supplementary Feeding)</option><option>Referred to hospital</option></select></div></div> <div class="form-section">Outcome Details</div> <div class="form-row"><div class="form-group"><label>MUAC at discharge (cm)</label><input type="number" step="0.1" id="f-out-muac-dis" placeholder="e.g. 12.6"></div><div class="form-group"><label>Weight at discharge (kg)</label><input type="number" step="0.1" id="f-out-weight-dis" placeholder="e.g. 8.0"></div></div> <div class="form-row"><div class="form-group"><label>Date of outcome</label><input type="date" placeholder="dd/mm/yyyy" id="f-out-date-out" onchange="calcWeeksInTreatment()"></div><div class="form-group"><label>Weeks in treatment (auto)</label><input type="text" id="f-out-weeks" readonly style="font-weight:700;font-size:15px;color:var(--teal)"></div></div> <div class="form-group"><label>Reason for defaulting / non-response (if applicable)</label><textarea id="f-out-reason" placeholder="e.g. Caregiver stopped coming, no improvement after 8 weeks..."></textarea></div> <div class="form-row"><div class="form-group"><label>Recorded by</label><input type="text" id="f-out-recorder"></div></div> </div>  <div class="modal-footer"><button class="btn" onclick="closeModal('m-outcome')">Cancel</button><button class="btn primary" onclick="saveOutcomeRecord()">💾 Save</button></div>
 </div></div> <div id="m-view" class="modal-overlay"><div class="modal xl"> <div class="modal-header"><div class="modal-header-icon" id="view-icon" style="background:var(--teal-l)">📄</div><h3 id="view-title">View Record</h3><button class="btn icon" onclick="closeModal('m-view')">✕</button></div> <div class="modal-body" id="view-body"></div> <div class="modal-footer" id="view-footer"></div>
 </div></div>
-<div id="m-doc-preview" class="modal-overlay"><div class="modal xl doc-preview-modal"><div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">📄</div><h3 id="doc-preview-title">Document Preview</h3><div style="display:flex;gap:8px;margin-left:auto"><button class="btn icon" id="doc-preview-maximize-btn" onclick="toggleDocPreviewMaximize()" title="Maximize">⛶</button><button class="btn sm" id="doc-preview-download-btn" onclick="downloadCurrentPreviewDoc()">⬇ Download</button><button class="btn icon" onclick="closeDocPreview()">✕</button></div></div><div class="modal-body" style="padding:0;flex:1;min-height:0"><iframe id="doc-preview-frame" style="width:100%;height:100%;border:none;background:#525659;display:block"></iframe></div></div></div> <div id="m-confirm-delete" class="modal-overlay" style="background:rgba(0,0,0,.6)"> <div style="background:var(--bg);border-radius:16px;width:90%;max-width:320px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.3)"> <div style="background:var(--red);padding:16px;display:flex;align-items:center;gap:10px"> <span style="font-size:20px">🗑</span> <span style="color:#fff;font-weight:700;font-size:15px">Delete Record</span> </div> <div style="padding:20px"> <div id="confirm-delete-msg" style="font-size:14px;font-weight:600;color:var(--txt);margin-bottom:6px">Delete this record?</div> <div style="font-size:12px;color:var(--txt2)">This cannot be undone. Attachments will also be removed.</div> </div> <div style="padding:0 16px 16px;display:flex;gap:10px;justify-content:flex-end"> <button onclick="closeModal('m-confirm-delete')" style="padding:8px 18px;background:var(--bg2);border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;font-size:13px;color:var(--txt);font-weight:600">Cancel</button> <button id="confirm-delete-btn" style="padding:8px 18px;background:var(--red);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700">Delete</button> </div> </div>
+<div id="m-doc-preview" class="modal-overlay"><div class="modal xl doc-preview-modal"><div class="modal-header"><div class="modal-header-icon" style="background:var(--teal-l)">📄</div><h3 id="doc-preview-title">Document Preview</h3><div style="display:flex;gap:8px;margin-left:auto"><button class="btn icon" id="doc-preview-maximize-btn" onclick="toggleDocPreviewMaximize()" title="Maximize">⛶</button><button class="btn sm" id="doc-preview-download-btn" onclick="downloadCurrentPreviewDoc()">⬇ Download</button><button class="btn icon" onclick="closeDocPreview()">✕</button></div></div><div class="modal-body" style="padding:0;flex:1;min-height:0;overflow-y:auto;background:#525659;text-align:center" id="doc-preview-frame"><div style="padding:40px;color:#fff;font-size:13px">Loading preview…</div></div></div></div> <div id="m-confirm-delete" class="modal-overlay" style="background:rgba(0,0,0,.6)"> <div style="background:var(--bg);border-radius:16px;width:90%;max-width:320px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.3)"> <div style="background:var(--red);padding:16px;display:flex;align-items:center;gap:10px"> <span style="font-size:20px">🗑</span> <span style="color:#fff;font-weight:700;font-size:15px">Delete Record</span> </div> <div style="padding:20px"> <div id="confirm-delete-msg" style="font-size:14px;font-weight:600;color:var(--txt);margin-bottom:6px">Delete this record?</div> <div style="font-size:12px;color:var(--txt2)">This cannot be undone. Attachments will also be removed.</div> </div> <div style="padding:0 16px 16px;display:flex;gap:10px;justify-content:flex-end"> <button onclick="closeModal('m-confirm-delete')" style="padding:8px 18px;background:var(--bg2);border:1.5px solid var(--bd);border-radius:8px;cursor:pointer;font-size:13px;color:var(--txt);font-weight:600">Cancel</button> <button id="confirm-delete-btn" style="padding:8px 18px;background:var(--red);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700">Delete</button> </div> </div>
 </div> <div id="m-disease-trend" class="modal-overlay"><div class="modal xl" style="max-width:860px"> <div class="modal-header"> <div class="modal-header-icon" style="background:var(--red-l)">📈</div> <h3>Disease Trend — HIA 1 Top Diagnoses</h3> <button class="btn icon" onclick="closeModal('m-disease-trend')">✕</button> </div> <div class="modal-body"> <div class="toolbar" style="margin-bottom:14px"> <label style="font-size:13px;color:var(--txt2)">Filter months:</label> <select id="disease-trend-months" onchange="renderDiseaseTrend()" style="padding:6px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px"> <option value="6">Last 6 months</option> <option value="12">Last 12 months</option> <option value="all">All time</option> </select> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printDiseaseTrend()">🖨 Print</button> </div> <div id="disease-trend-content"></div> </div> <div class="modal-footer"> <button class="btn" onclick="closeModal('m-disease-trend')">Close</button> </div>
 </div></div>
 <div id="m-mrr" class="modal-overlay"><div class="modal wide">
@@ -3357,16 +3358,24 @@ function openDocument(i){
     const blob=new Blob([u8],{type:mime});
     const url=URL.createObjectURL(blob);
     const ext=(doc.name.split('.').pop()||'').toLowerCase();
-    if(['pdf','jpg','jpeg','png','gif'].includes(ext)){
-      // Open INSIDE the platform in a preview modal, instead of a new browser tab
+    if(ext==='pdf'){
+      // Render with PDF.js onto canvases — works reliably on every device/browser,
+      // including Android Chrome, which does NOT reliably show PDFs inside an <iframe>.
       _currentPreviewDoc = doc;
       const titleEl=document.getElementById('doc-preview-title');
       const frameEl=document.getElementById('doc-preview-frame');
       if(titleEl) titleEl.textContent = doc.name;
-      if(frameEl) frameEl.src = url;
+      if(frameEl) frameEl.innerHTML = '<div style="padding:40px;color:#fff;font-size:13px">Loading preview…</div>';
       openModal('m-doc-preview');
-      // Revoke the blob URL once the modal is closed (see closeDocPreview) rather than on a timer,
-      // so the preview keeps working for as long as the user has it open.
+      renderPdfPreview(url, frameEl);
+    } else if(['jpg','jpeg','png','gif'].includes(ext)){
+      // Images render fine with a plain <img> tag on every device
+      _currentPreviewDoc = doc;
+      const titleEl=document.getElementById('doc-preview-title');
+      const frameEl=document.getElementById('doc-preview-frame');
+      if(titleEl) titleEl.textContent = doc.name;
+      if(frameEl) frameEl.innerHTML = '<img src="'+url+'" style="max-width:100%;height:auto;display:block;margin:0 auto">';
+      openModal('m-doc-preview');
     } else {
       // For Word/Excel/other — these can't be viewed inline in a browser, so keep the download behaviour
       const a=document.createElement('a'); a.href=url; a.download=doc.name;
@@ -3381,6 +3390,39 @@ function openDocument(i){
   }
 }
 
+function renderPdfPreview(blobUrl, container){
+  if(typeof pdfjsLib === 'undefined'){
+    container.innerHTML = '<div style="padding:40px;color:#fff;font-size:13px">Preview engine not loaded — please use Download instead.</div>';
+    return;
+  }
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  pdfjsLib.getDocument(blobUrl).promise.then(function(pdf){
+    container.innerHTML = '';
+    const containerWidth = container.clientWidth || 800;
+    const renderPage = function(pageNum){
+      pdf.getPage(pageNum).then(function(page){
+        const unscaled = page.getViewport({scale:1});
+        const scale = Math.min(2, (containerWidth - 24) / unscaled.width);
+        const viewport = page.getViewport({scale: scale});
+        const canvas = document.createElement('canvas');
+        canvas.style.display = 'block';
+        canvas.style.margin = '12px auto';
+        canvas.style.boxShadow = '0 2px 10px rgba(0,0,0,.4)';
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        container.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        page.render({canvasContext: ctx, viewport: viewport});
+        if(pageNum < pdf.numPages) renderPage(pageNum + 1);
+      });
+    };
+    renderPage(1);
+  }).catch(function(err){
+    console.warn('PDF preview failed:', err);
+    container.innerHTML = '<div style="padding:40px;color:#fff;font-size:13px">Could not preview this PDF — please use Download instead.</div>';
+  });
+}
+
 function toggleDocPreviewMaximize(){
   const modalEl = document.querySelector('#m-doc-preview .doc-preview-modal');
   const btn = document.getElementById('doc-preview-maximize-btn');
@@ -3392,8 +3434,10 @@ function toggleDocPreviewMaximize(){
 function closeDocPreview(){
   const frameEl=document.getElementById('doc-preview-frame');
   if(frameEl){
-    if(frameEl.src) URL.revokeObjectURL(frameEl.src);
-    frameEl.src='about:blank';
+    // Revoke any blob URL used by an <img> preview (canvas-rendered PDFs don't hold one directly)
+    const imgEl = frameEl.querySelector('img');
+    if(imgEl && imgEl.src) URL.revokeObjectURL(imgEl.src);
+    frameEl.innerHTML = '<div style="padding:40px;color:#fff;font-size:13px">Loading preview…</div>';
   }
   const modalEl = document.querySelector('#m-doc-preview .doc-preview-modal');
   if(modalEl) modalEl.classList.remove('maximized');
