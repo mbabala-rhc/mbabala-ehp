@@ -3359,15 +3359,24 @@ function openDocument(i){
     const url=URL.createObjectURL(blob);
     const ext=(doc.name.split('.').pop()||'').toLowerCase();
     if(ext==='pdf'){
-      // Render with PDF.js onto canvases — works reliably on every device/browser,
-      // including Android Chrome, which does NOT reliably show PDFs inside an <iframe>.
       _currentPreviewDoc = doc;
       const titleEl=document.getElementById('doc-preview-title');
       const frameEl=document.getElementById('doc-preview-frame');
       if(titleEl) titleEl.textContent = doc.name;
-      if(frameEl) frameEl.innerHTML = '<div style="padding:40px;color:#fff;font-size:13px">Loading preview…</div>';
-      openModal('m-doc-preview');
-      renderPdfPreview(url, frameEl);
+      if(!isMobile()){
+        // Desktop/laptop: use the browser's own built-in PDF viewer via an iframe —
+        // gives the full native experience (page thumbnails, zoom, two-page view,
+        // search, etc.) that Chrome/Edge already provide well on desktop.
+        if(frameEl) frameEl.innerHTML = '<iframe src="'+url+'" style="width:100%;height:100%;border:none;display:block"></iframe>';
+        openModal('m-doc-preview');
+      } else {
+        // Mobile: Android Chrome does not reliably render PDFs inside an <iframe>
+        // (it shows a blank page with only a native 'Open' button instead), so use
+        // PDF.js to render pages onto canvases directly — works reliably everywhere.
+        if(frameEl) frameEl.innerHTML = '<div style="padding:40px;color:#fff;font-size:13px">Loading preview…</div>';
+        openModal('m-doc-preview');
+        renderPdfPreview(url, frameEl);
+      }
     } else if(['jpg','jpeg','png','gif'].includes(ext)){
       // Images render fine with a plain <img> tag on every device
       _currentPreviewDoc = doc;
@@ -3442,9 +3451,12 @@ function toggleDocPreviewMaximize(){
 function closeDocPreview(){
   const frameEl=document.getElementById('doc-preview-frame');
   if(frameEl){
-    // Revoke any blob URL used by an <img> preview (canvas-rendered PDFs don't hold one directly)
+    // Revoke any blob URL held by an <img> preview or a desktop <iframe> preview
+    // (canvas-rendered PDF.js pages on mobile don't hold a blob URL directly)
     const imgEl = frameEl.querySelector('img');
     if(imgEl && imgEl.src) URL.revokeObjectURL(imgEl.src);
+    const iframeEl = frameEl.querySelector('iframe');
+    if(iframeEl && iframeEl.src) URL.revokeObjectURL(iframeEl.src);
     frameEl.innerHTML = '<div style="padding:40px;color:#fff;font-size:13px">Loading preview…</div>';
   }
   const modalEl = document.querySelector('#m-doc-preview .doc-preview-modal');
