@@ -8137,8 +8137,15 @@ function renderCBV_page(){
       zones.map(z => `<option ${z===cur?'selected':''}>${z}</option>`).join('');
   }
 
-  // Table
-  const _el_tb_cbv=document.getElementById('tb-cbv'); if(_el_tb_cbv) _el_tb_cbv.innerHTML=data.map(r => {
+  // Table — sorted by zone first (alphabetically), then by name within each zone,
+  // so CBVs always group together by zone automatically regardless of the order
+  // they were added in.
+  const sortedData = [...data].sort((a, b) => {
+    const zoneCompare = (a.zone||'').localeCompare(b.zone||'');
+    if(zoneCompare !== 0) return zoneCompare;
+    return (a.name||'').localeCompare(b.name||'');
+  });
+  const _el_tb_cbv=document.getElementById('tb-cbv'); if(_el_tb_cbv) _el_tb_cbv.innerHTML=sortedData.map(r => {
     const trainingBadges = (r.trainings||[]).slice(0,2).map(t =>
       `<span style="background:var(--teal-l);color:var(--teal);padding:2px 6px;border-radius:4px;font-size:10px;margin-right:3px">${t}</span>`
     ).join('') + (r.trainings&&r.trainings.length>2 ? `<span style="font-size:10px;color:var(--txt2)">+${r.trainings.length-2} more</span>` : '');
