@@ -13110,14 +13110,75 @@ function ipcaRatingFor(pct){
   return IPCA_RATING_BANDS[IPCA_RATING_BANDS.length-1];
 }
 
-function ipcaSeedDefaults(){
-  // Department-specific IPC audit structure: Department -> Sections -> Items.
-  // Seeded ONLY if departments don't exist yet, so this never overwrites anything
-  // you've customised. Each department owns its own sections (even same-named
-  // sections like "Hand Hygiene" are separate, independently-editable rows per
-  // department) so audits can be tailored to each department's actual IPC risks.
-  if(!DB.get('ipc_departments').length){
-    const spec = {
+async function ipcaSeedDefaults(){
+  // Authoritative check against Supabase directly (not just the local cache) to
+  // prevent a race condition where a device with a temporarily-empty local store
+  // (e.g. before its first sync completes) would wrongly re-seed and overwrite
+  // existing departments/checklist data with a fresh, differently-ID'd copy.
+  let remoteDepts = [];
+  try { remoteDepts = await sbGet('ipc_departments'); } catch(e) { remoteDepts = DB.get('ipc_departments'); }
+  if(!Array.isArray(remoteDepts)) remoteDepts = [];
+
+  // One-time cleanup: if duplicates already exist from the earlier race condition,
+  // deduplicate by name (keep the first occurrence of each) rather than blindly
+  // re-seeding on top of them.
+  if(remoteDepts.length){
+    const seenNames = {};
+    const cleanDepts = [];
+    const droppedDeptIds = [];
+    remoteDepts.forEach(d => {
+      if(seenNames[d.name]){ droppedDeptIds.push(d.id); return; }
+      seenNames[d.name] = d.id;
+      cleanDepts.push(d);
+    });
+
+    if(droppedDeptIds.length){
+      // Duplicates found — clean departments, then re-point/clean categories and items
+      DB.set('ipc_departments', cleanDepts);
+      sbSet('ipc_departments', cleanDepts);
+
+      let remoteCats = [];
+      try { remoteCats = await sbGet('ipc_checklist_categories'); } catch(e) { remoteCats = DB.get('ipc_checklist_categories'); }
+      if(!Array.isArray(remoteCats)) remoteCats = [];
+      // Keep only categories belonging to a surviving department, deduplicated by (departmentId + name)
+      const seenCatKeys = {};
+      const cleanCats = [];
+      const droppedCatIds = [];
+      remoteCats.forEach(c => {
+        if(droppedDeptIds.includes(c.departmentId)) { droppedCatIds.push(c.id); return; }
+        const key = c.departmentId + '::' + c.name;
+        if(seenCatKeys[key]){ droppedCatIds.push(c.id); return; }
+        seenCatKeys[key] = c.id;
+        cleanCats.push(c);
+      });
+      DB.set('ipc_checklist_categories', cleanCats);
+      sbSet('ipc_checklist_categories', cleanCats);
+
+      let remoteItems = [];
+      try { remoteItems = await sbGet('ipc_checklist_items'); } catch(e) { remoteItems = DB.get('ipc_checklist_items'); }
+      if(!Array.isArray(remoteItems)) remoteItems = [];
+      const seenItemKeys = {};
+      const cleanItems = [];
+      remoteItems.forEach(it => {
+        if(droppedCatIds.includes(it.categoryId)) return;
+        const key = it.categoryId + '::' + it.text;
+        if(seenItemKeys[key]) return;
+        seenItemKeys[key] = it.id;
+        cleanItems.push(it);
+      });
+      DB.set('ipc_checklist_items', cleanItems);
+      sbSet('ipc_checklist_items', cleanItems);
+
+      toast('🧹 Cleaned up duplicate IPC departments/sections that had been created by a sync timing issue','info');
+    } else {
+      // No duplicates — just make sure local cache matches what's authoritative in Supabase
+      DB.set('ipc_departments', remoteDepts);
+    }
+    return; // departments already exist (clean or cleaned) — never re-seed on top of real data
+  }
+
+  // Nothing exists anywhere (confirmed via Supabase, not just local cache) — safe to seed fresh.
+  const spec = {
   "OPD": {
     "Hand Hygiene": ["Hand hygiene performed before and after patient contact."],
     "PPE Compliance": ["Appropriate PPE used during patient care."],
@@ -13194,39 +13255,54 @@ function ipcaSeedDefaults(){
     "PPE During Waste Handling": ["PPE worn during waste handling."]
   }
 };
-    const deptNames = Object.keys(spec);
-    const deptData = deptNames.map(name => ({id: genId('IPD'), name, status:'Active'}));
-    DB.set('ipc_departments', deptData);
-    sbSet('ipc_departments', deptData);
+  const deptNames = Object.keys(spec);
+  const deptData = deptNames.map(name => ({id: genId('IPD'), name, status:'Active'}));
+  DB.set('ipc_departments', deptData);
+  sbSet('ipc_departments', deptData);
 
-    const catData = [];
-    const itemData = [];
-    deptData.forEach(dept => {
-      const sections = spec[dept.name] || {};
-      Object.keys(sections).forEach((secName, secOrder) => {
-        const cat = {id: genId('IPCAT'), departmentId: dept.id, name: secName, order: secOrder};
-        catData.push(cat);
-        (sections[secName]||[]).forEach((text, itemOrder) => {
-          itemData.push({id: genId('IPCI'), categoryId: cat.id, text, order: itemOrder});
-        });
+  const catData = [];
+  const itemData = [];
+  deptData.forEach(dept => {
+    const sections = spec[dept.name] || {};
+    Object.keys(sections).forEach((secName, secOrder) => {
+      const cat = {id: genId('IPCAT'), departmentId: dept.id, name: secName, order: secOrder};
+      catData.push(cat);
+      (sections[secName]||[]).forEach((text, itemOrder) => {
+        itemData.push({id: genId('IPCI'), categoryId: cat.id, text, order: itemOrder});
       });
     });
-    DB.set('ipc_checklist_categories', catData);
-    sbSet('ipc_checklist_categories', catData);
-    DB.set('ipc_checklist_items', itemData);
-    sbSet('ipc_checklist_items', itemData);
-  }
+  });
+  DB.set('ipc_checklist_categories', catData);
+  sbSet('ipc_checklist_categories', catData);
+  DB.set('ipc_checklist_items', itemData);
+  sbSet('ipc_checklist_items', itemData);
 }
-
 function renderIPCAudit(){
-  ipcaSeedDefaults();
+  // Show the page immediately with whatever's in local cache, then re-render
+  // once the authoritative Supabase-backed seed/cleanup check completes.
   populateIPCDeptSelects();
   renderIPCAuditList();
   updateIPCAStats();
+  ipcaSeedDefaults().then(function(){
+    populateIPCDeptSelects();
+    renderIPCAuditList();
+    updateIPCAStats();
+    // If the Setup tab happens to be open already, refresh it too
+    if(document.getElementById('t-ipca-setup') && document.getElementById('t-ipca-setup').classList.contains('active')){
+      renderIPCSetup();
+    }
+  });
 }
 
 function populateIPCDeptSelects(){
-  const depts = DB.get('ipc_departments').filter(d => d.status !== 'Inactive');
+  const rawDepts = DB.get('ipc_departments').filter(d => d.status !== 'Inactive');
+  // Defensive dedup by name (see renderIPCChecklistSetup for the same safeguard)
+  const seenNames = {};
+  const depts = rawDepts.filter(d => {
+    if(seenNames[d.name]) return false;
+    seenNames[d.name] = true;
+    return true;
+  });
   const opts = depts.map(d => `<option value="${d.name}" data-dept-id="${d.id}">${d.name}</option>`).join('');
   const filterSel = document.getElementById('ipca-filter-dept');
   if(filterSel){ const cur = filterSel.value; filterSel.innerHTML = '<option value="">All Departments</option>' + opts; filterSel.value = cur; }
@@ -13906,7 +13982,17 @@ function renderIPCChecklistSetup(){
   const selectEl = document.getElementById('ipca-setup-dept-select');
   if(selectEl && selectEl.value) _ipcaSetupSelectedDeptId = selectEl.value;
 
-  const depts = DB.get('ipc_departments');
+  // Defensive dedup by name — even if a sync timing edge case ever produced
+  // duplicate department rows again, the dropdown should never show two
+  // identically-named options; only the first (canonical) row per name is shown.
+  const rawDepts = DB.get('ipc_departments');
+  const seenDeptNames = {};
+  const depts = rawDepts.filter(d => {
+    if(seenDeptNames[d.name]) return false;
+    seenDeptNames[d.name] = true;
+    return true;
+  });
+
   const selectedId = _ipcaSetupSelectedDeptId && depts.some(d => d.id === _ipcaSetupSelectedDeptId)
     ? _ipcaSetupSelectedDeptId
     : (depts[0]||{}).id;
