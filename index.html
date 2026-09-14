@@ -13277,21 +13277,29 @@ async function ipcaSeedDefaults(){
   DB.set('ipc_checklist_items', itemData);
   sbSet('ipc_checklist_items', itemData);
 }
+let _ipcaSeedCheckDone = false; // only run the seed/cleanup check ONCE per page session,
+                                 // never on every re-render (the background sync poller can
+                                 // re-render this page every ~30s, and re-running the async
+                                 // Supabase-backed check on every one of those was silently
+                                 // rebuilding the Setup tab mid-interaction, making department
+                                 // selection appear "stuck").
+
 function renderIPCAudit(){
-  // Show the page immediately with whatever's in local cache, then re-render
-  // once the authoritative Supabase-backed seed/cleanup check completes.
   populateIPCDeptSelects();
   renderIPCAuditList();
   updateIPCAStats();
-  ipcaSeedDefaults().then(function(){
-    populateIPCDeptSelects();
-    renderIPCAuditList();
-    updateIPCAStats();
-    // If the Setup tab happens to be open already, refresh it too
-    if(document.getElementById('t-ipca-setup') && document.getElementById('t-ipca-setup').classList.contains('active')){
-      renderIPCSetup();
-    }
-  });
+  if(!_ipcaSeedCheckDone){
+    _ipcaSeedCheckDone = true;
+    ipcaSeedDefaults().then(function(){
+      populateIPCDeptSelects();
+      renderIPCAuditList();
+      updateIPCAStats();
+      // If the Setup tab happens to be open already (first load), refresh it too
+      if(document.getElementById('t-ipca-setup') && document.getElementById('t-ipca-setup').classList.contains('active')){
+        renderIPCSetup();
+      }
+    });
+  }
 }
 
 function populateIPCDeptSelects(){
