@@ -14338,10 +14338,68 @@ function saveEC4HDTargets(){
 }
 
 function printEC4HDGrid(){
-  const tbl = document.getElementById('tbl-ec4hd');
-  if(!tbl) return;
-  const year = (document.getElementById('ec4hd-year')||{value:''}).value;
-  printSection('EC4HD Indicators — '+year, tbl.outerHTML);
+  const yrSel = document.getElementById('ec4hd-year');
+  const year = String((yrSel||{value:new Date().getFullYear()}).value);
+  const s = DB.getObj('settings')||{};
+
+  // Build a dedicated, print-optimised table (not a clone of the on-screen one,
+  // which is intentionally wider than a page for horizontal scrolling on screen).
+  const rows = EC4HD_INDICATORS.map((ind,i) => {
+    const target = ec4hdGetTarget(ind.key, year);
+    let ytd = 0;
+    const monthCells = EC4HD_MONTHS.map(m => {
+      const val = ec4hdGetValue(ind.key, year, m);
+      if(val !== null) ytd += val;
+      return '<td style="text-align:center">'+(val===null?'—':val)+'</td>';
+    }).join('');
+    const pct = target ? Math.round((ytd/target)*100) : null;
+    const pctText = pct===null ? '—' : pct+'%';
+    return '<tr><td style="text-align:left;font-size:8.5px;max-width:150px">'+ind.label+'</td>'
+      + '<td style="text-align:center;font-weight:700">'+(target||'—')+'</td>'
+      + monthCells
+      + '<td style="text-align:center;font-weight:700">'+ytd+'</td>'
+      + '<td style="text-align:center;font-weight:700">'+pctText+'</td></tr>';
+  }).join('');
+
+  const tableHtml = '<table style="width:100%;table-layout:fixed;border-collapse:collapse;font-size:9px">'
+    + '<thead><tr>'
+    + '<th style="text-align:left;width:16%">Indicator</th><th style="width:6%">Target</th>'
+    + EC4HD_MONTH_LABELS.map(m=>'<th style="width:5.3%;text-align:center">'+m+'</th>').join('')
+    + '<th style="width:6%">YTD</th><th style="width:7%">% of Target</th>'
+    + '</tr></thead><tbody>'+rows+'</tbody></table>';
+
+  const win = window.open('', '_blank', 'width=1100,height=700');
+  win.document.write(`<!DOCTYPE html><html lang="en-GB"><head><meta charset="UTF-8"><title>EC4HD Indicators - ${year}</title>
+    <style>
+      * { box-sizing:border-box; margin:0; padding:0; font-family:Arial,sans-serif; }
+      body { padding:16px; font-size:10px; color:#000; }
+      .header { border-bottom:2px solid #7c3aed; padding-bottom:10px; margin-bottom:14px; }
+      .facility { font-size:13px; font-weight:700; }
+      .subtitle { font-size:10px; color:#666; margin-top:2px; }
+      h1 { font-size:16px; color:#7c3aed; margin-top:6px; }
+      h2 { font-size:10px; color:#666; font-weight:normal; margin-top:2px; }
+      table { border-collapse:collapse; }
+      th { background:#7c3aed; color:#fff; padding:4px 3px; font-size:8.5px; }
+      td { padding:4px 3px; border-bottom:1px solid #e5e7eb; }
+      tr:nth-child(even) td { background:#f9fafb; }
+      .footer { margin-top:14px; padding-top:8px; border-top:1px solid #e5e7eb; font-size:8.5px; color:#666; display:flex; justify-content:space-between; }
+      @page { size: A4 landscape; margin: 10mm; }
+      @media print { body { padding:0; } }
+    </style></head><body>
+    <div class="header">
+      <div class="facility">${s.name||'Mbabala Rural Health Centre'}</div>
+      <div class="subtitle">${s.district||'Chifunabuli District'} · ${s.province||'Luapula Province'}</div>
+      <h1>🌈 EC4HD Indicators — ${year}</h1>
+      <h2>Printed: ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})}</h2>
+    </div>
+    ${tableHtml}
+    <div class="footer">
+      <span>${s.name||'Mbabala RHC'} · EH Management Platform</span>
+      <span>Printed by: ${currentUser?.name||'Unknown'}</span>
+    </div>
+    </body></html>`);
+  win.document.close();
+  win.onload = () => { win.print(); };
 }
 
 </script>
