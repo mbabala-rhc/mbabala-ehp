@@ -939,7 +939,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <button class="btn" onclick="printIPCCapaList()">🖨 Print</button>
   </div>
   <div class="tbl-wrap responsive-desktop-view"><table class="dt" id="tbl-ipca-capa">
-    <thead><tr><th>Finding</th><th>Department</th><th>Assigned To</th><th>Due Date</th><th style="text-align:center">Status</th><th>Actions</th></tr></thead>
+    <thead><tr><th>Finding</th><th>Assigned To</th><th>Due Date</th><th style="text-align:center">Status</th><th>Actions</th></tr></thead>
     <tbody id="tb-ipca-capa"></tbody>
   </table></div>
   <div class="responsive-mobile-view" id="ipca-capa-cards"></div>
@@ -14051,49 +14051,78 @@ function renderIPCCapaList(){
   });
 
   if(statusFilter) data = data.filter(c => c._displayStatus === statusFilter);
-  data = [...data].sort((a,b)=>(a.dueDate||'').localeCompare(b.dueDate||''));
 
   const statusColor = {Open:'#dc2626','In Progress':'#d97706',Completed:'#16a34a',Overdue:'#991b1b'};
 
   if(!data.length){
     const emptyMsg = 'No corrective actions logged yet.';
-    if(tb) tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</td></tr>';
+    if(tb) tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</td></tr>';
     if(mobileEl) mobileEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</div>';
     return;
   }
 
-  if(tb) tb.innerHTML = data.map(c => `<tr>
-    <td>${c.finding}</td>
-    <td>${c.department||''}</td>
-    <td>${c.assignedTo||''}</td>
-    <td>${c.dueDate||''}</td>
-    <td style="text-align:center"><span style="background:${statusColor[c._displayStatus]}22;color:${statusColor[c._displayStatus]};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">${c._displayStatus}</span></td>
-    <td>${rowBtns('ipc_capa',c.id,"viewIPCCapa('"+c.id+"')","editIPCCapa('"+c.id+"')","deleteRecord('ipc_capa','"+c.id+"',renderIPCCapaList)")}</td>
-  </tr>`).join('');
+  // Group by department, each group's entries sorted by due date. Departments
+  // are ordered by how urgent they are: most open/overdue items first, then
+  // alphabetically for departments with equal counts.
+  const byDept = {};
+  data.forEach(c => {
+    const dept = c.department || 'Unassigned';
+    if(!byDept[dept]) byDept[dept] = [];
+    byDept[dept].push(c);
+  });
+  Object.keys(byDept).forEach(dept => {
+    byDept[dept].sort((a,b)=>(a.dueDate||'').localeCompare(b.dueDate||''));
+  });
+  const deptNames = Object.keys(byDept).sort((a,b) => {
+    const openCountA = byDept[a].filter(c=>c._displayStatus!=='Completed').length;
+    const openCountB = byDept[b].filter(c=>c._displayStatus!=='Completed').length;
+    return openCountB - openCountA || a.localeCompare(b);
+  });
 
-  if(mobileEl) mobileEl.innerHTML = data.map(c => {
-    const color = statusColor[c._displayStatus];
-    return `<div class="card" style="border-left:4px solid ${color};margin-bottom:10px;padding:12px">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
-        <div style="font-size:13px;font-weight:600;line-height:1.4;flex:1">${c.finding}</div>
-        <span style="background:${color}22;color:${color};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;white-space:nowrap">${c._displayStatus}</span>
-      </div>
-      <div style="display:flex;gap:10px;margin-bottom:10px">
-        <div style="flex:1;background:var(--bg2);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:10px;color:var(--txt2)">Department</div>
-          <div style="font-size:12.5px;font-weight:700;margin-top:2px">${c.department||'—'}</div>
-        </div>
-        <div style="flex:1;background:var(--bg2);border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:10px;color:var(--txt2)">Assigned To</div>
-          <div style="font-size:12.5px;font-weight:700;margin-top:2px">${c.assignedTo||'—'}</div>
-        </div>
-        <div style="flex:1;background:${color}15;border-radius:8px;padding:8px;text-align:center">
-          <div style="font-size:10px;color:var(--txt2)">Due</div>
-          <div style="font-size:12.5px;font-weight:700;margin-top:2px;color:${color}">${c.dueDate||'—'}</div>
-        </div>
-      </div>
-      ${rowBtns('ipc_capa',c.id,"viewIPCCapa('"+c.id+"')","editIPCCapa('"+c.id+"')","deleteRecord('ipc_capa','"+c.id+"',renderIPCCapaList)")}
+  if(tb) tb.innerHTML = deptNames.map(dept => {
+    const items = byDept[dept];
+    const openCount = items.filter(c=>c._displayStatus!=='Completed').length;
+    const groupHeader = '<tr><td colspan="5" style="background:var(--teal-d);color:#fff;font-weight:700;font-size:12.5px;padding:8px 12px">'
+      + dept + (openCount ? ' <span style="background:rgba(255,255,255,.25);padding:2px 8px;border-radius:10px;font-size:10.5px;margin-left:8px">'+openCount+' open</span>' : ' <span style="background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px;font-size:10.5px;margin-left:8px">all resolved</span>')
+      + '</td></tr>';
+    const rows = items.map(c => `<tr>
+      <td>${c.finding}</td>
+      <td>${c.assignedTo||''}</td>
+      <td>${c.dueDate||''}</td>
+      <td style="text-align:center"><span style="background:${statusColor[c._displayStatus]}22;color:${statusColor[c._displayStatus]};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">${c._displayStatus}</span></td>
+      <td>${rowBtns('ipc_capa',c.id,"viewIPCCapa('"+c.id+"')","editIPCCapa('"+c.id+"')","deleteRecord('ipc_capa','"+c.id+"',renderIPCCapaList)")}</td>
+    </tr>`).join('');
+    return groupHeader + rows;
+  }).join('');
+
+  if(mobileEl) mobileEl.innerHTML = deptNames.map(dept => {
+    const items = byDept[dept];
+    const openCount = items.filter(c=>c._displayStatus!=='Completed').length;
+    const groupHeader = `<div style="background:var(--teal-d);color:#fff;font-weight:700;font-size:13px;padding:8px 12px;border-radius:8px;margin:14px 0 8px;display:flex;justify-content:space-between;align-items:center">
+      <span>${dept}</span>
+      <span style="background:rgba(255,255,255,.25);padding:2px 9px;border-radius:10px;font-size:11px">${openCount ? openCount+' open' : 'all resolved'}</span>
     </div>`;
+    const cards = items.map(c => {
+      const color = statusColor[c._displayStatus];
+      return `<div class="card" style="border-left:4px solid ${color};margin-bottom:10px;padding:12px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
+          <div style="font-size:13px;font-weight:600;line-height:1.4;flex:1">${c.finding}</div>
+          <span style="background:${color}22;color:${color};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;white-space:nowrap">${c._displayStatus}</span>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:10px">
+          <div style="flex:1;background:var(--bg2);border-radius:8px;padding:8px;text-align:center">
+            <div style="font-size:10px;color:var(--txt2)">Assigned To</div>
+            <div style="font-size:12.5px;font-weight:700;margin-top:2px">${c.assignedTo||'—'}</div>
+          </div>
+          <div style="flex:1;background:${color}15;border-radius:8px;padding:8px;text-align:center">
+            <div style="font-size:10px;color:var(--txt2)">Due</div>
+            <div style="font-size:12.5px;font-weight:700;margin-top:2px;color:${color}">${c.dueDate||'—'}</div>
+          </div>
+        </div>
+        ${rowBtns('ipc_capa',c.id,"viewIPCCapa('"+c.id+"')","editIPCCapa('"+c.id+"')","deleteRecord('ipc_capa','"+c.id+"',renderIPCCapaList)")}
+      </div>`;
+    }).join('');
+    return groupHeader + cards;
   }).join('');
 }
 
@@ -14117,7 +14146,9 @@ function printIPCCapaList(){
   const tbl = document.getElementById('tbl-ipca-capa');
   if(!tbl) return;
   const clone = tbl.cloneNode(true);
-  clone.querySelectorAll('tr').forEach(row => { const cells = row.querySelectorAll('th,td'); if(cells.length) cells[cells.length-1].remove(); });
+  // Strip the Actions column from real data/header rows, but leave single-cell
+  // department group header rows (colspan'd across the whole table) untouched.
+  clone.querySelectorAll('tr').forEach(row => { const cells = row.querySelectorAll('th,td'); if(cells.length > 1) cells[cells.length-1].remove(); });
   printSection('IPC Corrective Action Plan', clone.outerHTML);
 }
 
