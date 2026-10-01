@@ -231,10 +231,10 @@ body{font-family:var(--font);background:var(--bg2);color:var(--txt);font-size:14
   }
 }
 .sidebar
-.ec4hd-mobile-view{display:none}
+.responsive-mobile-view{display:none}
 @media(max-width:1024px){
-  .ec4hd-desktop-view{display:none !important}
-  .ec4hd-mobile-view{display:block !important}
+  .responsive-desktop-view{display:none !important}
+  .responsive-mobile-view{display:block !important}
 }
 @media(max-width:1024px){
   .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:499;pointer-events:auto}
@@ -909,10 +909,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <input type="text" id="ipca-filter-auditor" placeholder="Auditor" oninput="renderIPCAuditList()" style="width:120px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
     <button class="btn" onclick="printIPCAuditList()">🖨 Print</button>
   </div>
-  <div class="tbl-wrap"><table class="dt" id="tbl-ipca-audits">
+  <div class="tbl-wrap responsive-desktop-view"><table class="dt" id="tbl-ipca-audits">
     <thead><tr><th>Date</th><th>Department</th><th>Frequency</th><th>Auditor</th><th style="text-align:center">Score</th><th style="text-align:center">Rating</th><th>Actions</th></tr></thead>
     <tbody id="tb-ipca-audits"></tbody>
   </table></div>
+  <div class="responsive-mobile-view" id="ipca-audits-cards"></div>
 </div>
 
 <div id="t-ipca-leaderboard" class="tab-pane" style="padding-top:14px">
@@ -937,10 +938,11 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     <select id="ipca-capa-filter-status" onchange="renderIPCCapaList()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"><option value="">All Status</option><option>Open</option><option>In Progress</option><option>Completed</option><option>Overdue</option></select>
     <button class="btn" onclick="printIPCCapaList()">🖨 Print</button>
   </div>
-  <div class="tbl-wrap"><table class="dt" id="tbl-ipca-capa">
+  <div class="tbl-wrap responsive-desktop-view"><table class="dt" id="tbl-ipca-capa">
     <thead><tr><th>Finding</th><th>Department</th><th>Assigned To</th><th>Due Date</th><th style="text-align:center">Status</th><th>Actions</th></tr></thead>
     <tbody id="tb-ipca-capa"></tbody>
   </table></div>
+  <div class="responsive-mobile-view" id="ipca-capa-cards"></div>
 </div>
 
 <div id="t-ipca-setup" class="tab-pane" style="padding-top:14px">
@@ -978,7 +980,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="card-sm" style="border-color:#f59e0b"><div class="stat-label">Below Target</div><div class="stat-val" id="ec4hd-below" style="color:#f59e0b">0</div></div>
 </div>
 
-<div class="card ec4hd-desktop-view" style="padding:0;overflow:hidden">
+<div class="card responsive-desktop-view" style="padding:0;overflow:hidden">
   <div class="tbl-wrap">
     <table class="dt" id="tbl-ec4hd" style="min-width:1400px">
       <thead><tr>
@@ -995,7 +997,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </table>
   </div>
 </div>
-<div class="ec4hd-mobile-view" id="ec4hd-mobile-cards" style="display:none"></div>
+<div class="responsive-mobile-view" id="ec4hd-mobile-cards" style="display:none"></div>
 </div>
 
 <div id="page-hia" class="page"> <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📋 HIA Reports</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Health Information Aggregation reports (HIA 1 & 2)</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-hia1')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New HIA Report</button> </div> </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchHIATab(this,'t-hia1','hia1')" style="white-space:nowrap;flex-shrink:0">HIA 1 Monthly</div> <div class="tab" onclick="switchHIATab(this,'t-hia2','hia2')" style="white-space:nowrap;flex-shrink:0">HIA 2 Monthly</div> </div> <div class="toolbar" style="margin-top:16px"> <input type="text" id="hia-search" placeholder="🔍 Search HIA reports..." oninput="filterHIA(this.value)" style="flex:1;max-width:260px"> <button class="btn primary" id="hia-new-btn" onclick="openModal('m-hia1')">+ New HIA 1</button> <button class="btn sm" style="background:var(--teal);color:#fff;border:none" onclick="openDiseaseTrend()">📈 Disease Trend</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" id="hia-print-btn" onclick="printCurrentPage('HIA 1 Reports','tbl-hia1')">🖨 Print</button> </div> <div id="t-hia1" class="tab-pane active"> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-hia1"><thead><tr><th>Period</th><th>OPD</th><th>Admissions</th><th>Deaths</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-hia1"></tbody></table></div></div> </div> <div id="t-hia2" class="tab-pane"> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-hia2"><thead><tr><th>Reporting Month</th><th>Prepared By</th><th>Attachments</th><th>Actions</th></tr></thead><tbody id="tb-hia2"></tbody></table></div></div> </div>
@@ -13415,7 +13417,8 @@ function updateIPCAStats(){
 // ── AUDIT LIST ────────────────────────────────────────────────────────────
 function renderIPCAuditList(){
   const tb = document.getElementById('tb-ipca-audits');
-  if(!tb) return;
+  const mobileEl = document.getElementById('ipca-audits-cards');
+  if(!tb && !mobileEl) return;
   const search = (document.getElementById('ipca-search')||{value:''}).value.toLowerCase();
   const deptFilter = (document.getElementById('ipca-filter-dept')||{value:''}).value;
   const freqFilter = (document.getElementById('ipca-filter-freq')||{value:''}).value;
@@ -13430,10 +13433,13 @@ function renderIPCAuditList(){
   data = [...data].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
 
   if(!data.length){
-    tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--txt2)">No IPC audits yet. Click + New Audit to conduct your first departmental audit.</td></tr>';
+    const emptyMsg = 'No IPC audits yet. Click + New Audit to conduct your first departmental audit.';
+    if(tb) tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</td></tr>';
+    if(mobileEl) mobileEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</div>';
     return;
   }
-  tb.innerHTML = data.map(a => {
+
+  if(tb) tb.innerHTML = data.map(a => {
     const rating = ipcaRatingFor(a.percentage||0);
     return `<tr>
       <td>${fmtDate ? fmtDate(a.date) : (a.date||'')}</td>
@@ -13444,6 +13450,30 @@ function renderIPCAuditList(){
       <td style="text-align:center"><span style="background:${rating.color}22;color:${rating.color};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">${rating.label}</span></td>
       <td>${rowBtns('ipc_audits',a.id,"viewIPCAudit('"+a.id+"')","editIPCAudit('"+a.id+"')","deleteRecord('ipc_audits','"+a.id+"',renderIPCAuditList)")}</td>
     </tr>`;
+  }).join('');
+
+  if(mobileEl) mobileEl.innerHTML = data.map(a => {
+    const rating = ipcaRatingFor(a.percentage||0);
+    return `<div class="card" style="border-left:4px solid ${rating.color};margin-bottom:10px;padding:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
+        <div>
+          <div style="font-size:14px;font-weight:700">${a.department}</div>
+          <div style="font-size:11px;color:var(--txt2);margin-top:2px">${fmtDate ? fmtDate(a.date) : (a.date||'')} · ${a.frequency||''}</div>
+        </div>
+        <span style="background:${rating.color}22;color:${rating.color};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;white-space:nowrap">${rating.label}</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:10px">
+        <div style="flex:1;background:${rating.color}15;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:10px;color:var(--txt2)">Score</div>
+          <div style="font-size:15px;font-weight:800;color:${rating.color}">${a.totalScore||0}/${a.maxPossible||0} (${Math.round(a.percentage||0)}%)</div>
+        </div>
+        <div style="flex:1;background:var(--bg2);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:10px;color:var(--txt2)">Auditor</div>
+          <div style="font-size:13px;font-weight:700;margin-top:2px">${a.auditor||'—'}</div>
+        </div>
+      </div>
+      ${rowBtns('ipc_audits',a.id,"viewIPCAudit('"+a.id+"')","editIPCAudit('"+a.id+"')","deleteRecord('ipc_audits','"+a.id+"',renderIPCAuditList)")}
+    </div>`;
   }).join('');
 }
 
@@ -14008,7 +14038,8 @@ function editIPCCapa(id){
 
 function renderIPCCapaList(){
   const tb = document.getElementById('tb-ipca-capa');
-  if(!tb) return;
+  const mobileEl = document.getElementById('ipca-capa-cards');
+  if(!tb && !mobileEl) return;
   const statusFilter = (document.getElementById('ipca-capa-filter-status')||{value:''}).value;
   let data = DB.get('ipc_capa');
   const today_ = new Date().toISOString().slice(0,10);
@@ -14022,12 +14053,16 @@ function renderIPCCapaList(){
   if(statusFilter) data = data.filter(c => c._displayStatus === statusFilter);
   data = [...data].sort((a,b)=>(a.dueDate||'').localeCompare(b.dueDate||''));
 
+  const statusColor = {Open:'#dc2626','In Progress':'#d97706',Completed:'#16a34a',Overdue:'#991b1b'};
+
   if(!data.length){
-    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--txt2)">No corrective actions logged yet.</td></tr>';
+    const emptyMsg = 'No corrective actions logged yet.';
+    if(tb) tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</td></tr>';
+    if(mobileEl) mobileEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</div>';
     return;
   }
-  const statusColor = {Open:'#dc2626','In Progress':'#d97706',Completed:'#16a34a',Overdue:'#991b1b'};
-  tb.innerHTML = data.map(c => `<tr>
+
+  if(tb) tb.innerHTML = data.map(c => `<tr>
     <td>${c.finding}</td>
     <td>${c.department||''}</td>
     <td>${c.assignedTo||''}</td>
@@ -14035,6 +14070,31 @@ function renderIPCCapaList(){
     <td style="text-align:center"><span style="background:${statusColor[c._displayStatus]}22;color:${statusColor[c._displayStatus]};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">${c._displayStatus}</span></td>
     <td>${rowBtns('ipc_capa',c.id,"viewIPCCapa('"+c.id+"')","editIPCCapa('"+c.id+"')","deleteRecord('ipc_capa','"+c.id+"',renderIPCCapaList)")}</td>
   </tr>`).join('');
+
+  if(mobileEl) mobileEl.innerHTML = data.map(c => {
+    const color = statusColor[c._displayStatus];
+    return `<div class="card" style="border-left:4px solid ${color};margin-bottom:10px;padding:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:600;line-height:1.4;flex:1">${c.finding}</div>
+        <span style="background:${color}22;color:${color};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;white-space:nowrap">${c._displayStatus}</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:10px">
+        <div style="flex:1;background:var(--bg2);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:10px;color:var(--txt2)">Department</div>
+          <div style="font-size:12.5px;font-weight:700;margin-top:2px">${c.department||'—'}</div>
+        </div>
+        <div style="flex:1;background:var(--bg2);border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:10px;color:var(--txt2)">Assigned To</div>
+          <div style="font-size:12.5px;font-weight:700;margin-top:2px">${c.assignedTo||'—'}</div>
+        </div>
+        <div style="flex:1;background:${color}15;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:10px;color:var(--txt2)">Due</div>
+          <div style="font-size:12.5px;font-weight:700;margin-top:2px;color:${color}">${c.dueDate||'—'}</div>
+        </div>
+      </div>
+      ${rowBtns('ipc_capa',c.id,"viewIPCCapa('"+c.id+"')","editIPCCapa('"+c.id+"')","deleteRecord('ipc_capa','"+c.id+"',renderIPCCapaList)")}
+    </div>`;
+  }).join('');
 }
 
 function viewIPCCapa(id){
