@@ -231,6 +231,11 @@ body{font-family:var(--font);background:var(--bg2);color:var(--txt);font-size:14
   }
 }
 .sidebar
+.ec4hd-mobile-view{display:none}
+@media(max-width:1024px){
+  .ec4hd-desktop-view{display:none !important}
+  .ec4hd-mobile-view{display:block !important}
+}
 @media(max-width:1024px){
   .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:499;pointer-events:auto}
   .sidebar-overlay.active{display:block !important}
@@ -973,7 +978,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
   <div class="card-sm" style="border-color:#f59e0b"><div class="stat-label">Below Target</div><div class="stat-val" id="ec4hd-below" style="color:#f59e0b">0</div></div>
 </div>
 
-<div class="card" style="padding:0;overflow:hidden">
+<div class="card ec4hd-desktop-view" style="padding:0;overflow:hidden">
   <div class="tbl-wrap">
     <table class="dt" id="tbl-ec4hd" style="min-width:1400px">
       <thead><tr>
@@ -990,6 +995,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
     </table>
   </div>
 </div>
+<div class="ec4hd-mobile-view" id="ec4hd-mobile-cards" style="display:none"></div>
 </div>
 
 <div id="page-hia" class="page"> <div style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📋 HIA Reports</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">Health Information Aggregation reports (HIA 1 & 2)</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-hia1')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New HIA Report</button> </div> </div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchHIATab(this,'t-hia1','hia1')" style="white-space:nowrap;flex-shrink:0">HIA 1 Monthly</div> <div class="tab" onclick="switchHIATab(this,'t-hia2','hia2')" style="white-space:nowrap;flex-shrink:0">HIA 2 Monthly</div> </div> <div class="toolbar" style="margin-top:16px"> <input type="text" id="hia-search" placeholder="🔍 Search HIA reports..." oninput="filterHIA(this.value)" style="flex:1;max-width:260px"> <button class="btn primary" id="hia-new-btn" onclick="openModal('m-hia1')">+ New HIA 1</button> <button class="btn sm" style="background:var(--teal);color:#fff;border:none" onclick="openDiseaseTrend()">📈 Disease Trend</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" id="hia-print-btn" onclick="printCurrentPage('HIA 1 Reports','tbl-hia1')">🖨 Print</button> </div> <div id="t-hia1" class="tab-pane active"> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-hia1"><thead><tr><th>Period</th><th>OPD</th><th>Admissions</th><th>Deaths</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead><tbody id="tb-hia1"></tbody></table></div></div> </div> <div id="t-hia2" class="tab-pane"> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-hia2"><thead><tr><th>Reporting Month</th><th>Prepared By</th><th>Attachments</th><th>Actions</th></tr></thead><tbody id="tb-hia2"></tbody></table></div></div> </div>
@@ -14325,11 +14331,14 @@ function renderEC4HD(){
   const curYear = String(new Date().getFullYear());
 
   const tb = document.getElementById('tb-ec4hd');
-  if(!tb) return;
+  const mobileEl = document.getElementById('ec4hd-mobile-cards');
+  if(!tb && !mobileEl) return;
 
   let onTrackCount = 0, belowCount = 0, ytdTotal = 0, monthEntryCount = 0;
+  let tableRowsHtml = '';
+  let mobileCardsHtml = '';
 
-  tb.innerHTML = EC4HD_INDICATORS.map((ind, i) => {
+  EC4HD_INDICATORS.forEach((ind, i) => {
     const color = EC4HD_COLORS[i % EC4HD_COLORS.length];
     const target = ec4hdGetTarget(ind.key, year);
     let ytd = 0;
@@ -14351,14 +14360,42 @@ function renderEC4HD(){
       else if(pct >= 60){ pctColor = '#d97706'; }
       else { pctColor = '#dc2626'; belowCount++; }
     }
-    return '<tr>'
+
+    // ── Desktop/tablet-landscape table row ──
+    tableRowsHtml += '<tr>'
       + '<td style="position:sticky;left:0;background:var(--bg);border-right:2px solid '+color+';font-size:12px;font-weight:600;padding:8px 10px">'+ind.label+'</td>'
       + '<td style="text-align:center;font-weight:700;color:'+color+'">'+(target||'—')+'</td>'
       + monthCells
       + '<td style="text-align:center;font-weight:800;background:'+color+'15">'+ytd+'</td>'
       + '<td style="text-align:center;font-weight:800;color:'+pctColor+'">'+pctText+'</td>'
       + '</tr>';
-  }).join('');
+
+    // ── Mobile/tablet-portrait stacked card: indicator name once up top (full
+    // width, as much room as it needs), then a compact grid of month values
+    // below it, so the indicator text never squeezes the month columns. ──
+    const monthCardCells = EC4HD_MONTHS.map((m,mi) => {
+      const val = ec4hdGetValue(ind.key, year, m);
+      const bg = val === null ? 'var(--bg2)' : color+'22';
+      const txt = val === null ? '—' : val;
+      return '<div class="ec4hd-cell" data-indicator="'+ind.key+'" data-year="'+year+'" data-month="'+m+'" style="background:'+bg+';border-radius:6px;padding:6px 2px;text-align:center;cursor:pointer">'
+        + '<div style="font-size:9px;color:var(--txt2);margin-bottom:2px">'+EC4HD_MONTH_LABELS[mi]+'</div>'
+        + '<div style="font-size:12px;font-weight:700;color:'+(val===null?'var(--txt3)':color)+'">'+txt+'</div>'
+        + '</div>';
+    }).join('');
+
+    mobileCardsHtml += '<div class="card" style="border-left:4px solid '+color+';margin-bottom:10px;padding:12px">'
+      + '<div style="font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.4">'+ind.label+'</div>'
+      + '<div style="display:flex;gap:10px;margin-bottom:10px">'
+      +   '<div style="flex:1;background:var(--bg2);border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--txt2)">Target</div><div style="font-size:16px;font-weight:800;color:'+color+'">'+(target||'—')+'</div></div>'
+      +   '<div style="flex:1;background:'+color+'15;border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--txt2)">YTD</div><div style="font-size:16px;font-weight:800;color:'+color+'">'+ytd+'</div></div>'
+      +   '<div style="flex:1;background:'+pctColor+'15;border-radius:8px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--txt2)">% Target</div><div style="font-size:16px;font-weight:800;color:'+pctColor+'">'+pctText+'</div></div>'
+      + '</div>'
+      + '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px">'+monthCardCells+'</div>'
+      + '</div>';
+  });
+
+  if(tb) tb.innerHTML = tableRowsHtml;
+  if(mobileEl) mobileEl.innerHTML = mobileCardsHtml;
 
   const elOn = document.getElementById('ec4hd-ontrack'); if(elOn) elOn.textContent = onTrackCount+'/12';
   const elYtd = document.getElementById('ec4hd-ytd'); if(elYtd) elYtd.textContent = ytdTotal;
