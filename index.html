@@ -14081,7 +14081,7 @@ function renderIPCCapaList(){
   if(tb) tb.innerHTML = deptNames.map(dept => {
     const items = byDept[dept];
     const openCount = items.filter(c=>c._displayStatus!=='Completed').length;
-    const groupHeader = '<tr><td colspan="5" style="background:var(--teal-d);color:#fff;font-weight:700;font-size:12.5px;padding:8px 12px">'
+    const groupHeader = '<tr class="ipca-dept-group-row"><td colspan="5">'
       + dept + (openCount ? ' <span style="background:rgba(255,255,255,.25);padding:2px 8px;border-radius:10px;font-size:10.5px;margin-left:8px">'+openCount+' open</span>' : ' <span style="background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px;font-size:10.5px;margin-left:8px">all resolved</span>')
       + '</td></tr>';
     const rows = items.map(c => `<tr>
@@ -14687,7 +14687,10 @@ function printEC4HDGrid(){
       .footer { margin-top:14px; padding-top:8px; border-top:1px solid #e5e7eb; font-size:8.5px; color:#666; display:flex; justify-content:space-between; }
       @page { size: A4 landscape; margin: 10mm; }
       @media print { body { padding:0; } }
-    </style></head><body>
+    
+.dt tr.ipca-dept-group-row td{background:var(--teal-d)!important;color:#fff!important;font-weight:700;font-size:12.5px;padding:8px 12px!important}
+.dt tr.ipca-dept-group-row:hover td{background:var(--teal-d)!important;color:#fff!important}
+</style></head><body>
     <div class="header">
       <div class="facility">${s.name||'Mbabala Rural Health Centre'}</div>
       <div class="subtitle">${s.district||'Chifunabuli District'} · ${s.province||'Luapula Province'}</div>
