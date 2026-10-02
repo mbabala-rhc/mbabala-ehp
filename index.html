@@ -230,7 +230,6 @@ body{font-family:var(--font);background:var(--bg2);color:var(--txt);font-size:14
     flex-shrink:0;
   }
 }
-.sidebar
 .responsive-mobile-view{display:none}
 @media(max-width:1024px){
   .responsive-desktop-view{display:none !important}
@@ -14143,13 +14142,85 @@ function viewIPCCapa(id){
 }
 
 function printIPCCapaList(){
-  const tbl = document.getElementById('tbl-ipca-capa');
-  if(!tbl) return;
-  const clone = tbl.cloneNode(true);
-  // Strip the Actions column from real data/header rows, but leave single-cell
-  // department group header rows (colspan'd across the whole table) untouched.
-  clone.querySelectorAll('tr').forEach(row => { const cells = row.querySelectorAll('th,td'); if(cells.length > 1) cells[cells.length-1].remove(); });
-  printSection('IPC Corrective Action Plan', clone.outerHTML);
+  const statusFilter = (document.getElementById('ipca-capa-filter-status')||{value:''}).value;
+  let data = DB.get('ipc_capa');
+  const today_ = new Date().toISOString().slice(0,10);
+  data = data.map(c => {
+    const isOverdue = c.status !== 'Completed' && c.dueDate && c.dueDate < today_;
+    return {...c, _displayStatus: isOverdue ? 'Overdue' : c.status};
+  });
+  if(statusFilter) data = data.filter(c => c._displayStatus === statusFilter);
+  if(!data.length){ toast('No corrective actions to print','info'); return; }
+
+  const statusColor = {Open:'#dc2626','In Progress':'#d97706',Completed:'#16a34a',Overdue:'#991b1b'};
+  const s = DB.getObj('settings')||{};
+
+  const byDept = {};
+  data.forEach(c => { const dept = c.department || 'Unassigned'; if(!byDept[dept]) byDept[dept] = []; byDept[dept].push(c); });
+  Object.keys(byDept).forEach(dept => byDept[dept].sort((a,b)=>(a.dueDate||'').localeCompare(b.dueDate||'')));
+  const deptNames = Object.keys(byDept).sort((a,b) => {
+    const openA = byDept[a].filter(c=>c._displayStatus!=='Completed').length;
+    const openB = byDept[b].filter(c=>c._displayStatus!=='Completed').length;
+    return openB - openA || a.localeCompare(b);
+  });
+
+  // Each department gets its own clearly separated, individually-grouped section —
+  // with a page break before each one (except the first) so departments don't
+  // visually run together across a printed page.
+  const sectionsHtml = deptNames.map((dept, i) => {
+    const items = byDept[dept];
+    const openCount = items.filter(c=>c._displayStatus!=='Completed').length;
+    const rows = items.map(c => `<tr>
+      <td style="padding:6px 8px;border:1px solid #d1d5db">${c.finding}</td>
+      <td style="padding:6px 8px;border:1px solid #d1d5db">${c.assignedTo||'—'}</td>
+      <td style="padding:6px 8px;border:1px solid #d1d5db;text-align:center">${c.dueDate||'—'}</td>
+      <td style="padding:6px 8px;border:1px solid #d1d5db;text-align:center"><span style="color:${statusColor[c._displayStatus]};font-weight:700">${c._displayStatus}</span></td>
+    </tr>`).join('');
+    return `<div style="${i>0?'page-break-before:always;':''}margin-bottom:18px">
+      <div style="background:#0d6f5b;color:#fff;padding:8px 14px;border-radius:6px 6px 0 0;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:13px;font-weight:700">${dept}</span>
+        <span style="font-size:11px;background:rgba(255,255,255,.25);padding:2px 10px;border-radius:10px">${openCount ? openCount+' open' : 'all resolved'} · ${items.length} total</span>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px">
+        <thead><tr style="background:#e8f5f0">
+          <th style="padding:6px 8px;border:1px solid #d1d5db;text-align:left">Finding</th>
+          <th style="padding:6px 8px;border:1px solid #d1d5db;text-align:left">Assigned To</th>
+          <th style="padding:6px 8px;border:1px solid #d1d5db">Due Date</th>
+          <th style="padding:6px 8px;border:1px solid #d1d5db">Status</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join('');
+
+  const win = window.open('', '_blank', 'width=1000,height=700');
+  win.document.write(`<!DOCTYPE html><html lang="en-GB"><head><meta charset="UTF-8"><title>IPC Corrective Action Plan</title>
+    <style>
+      * { box-sizing:border-box; margin:0; padding:0; font-family:Arial,sans-serif; }
+      body { padding:18px; color:#000; }
+      .header { border-bottom:2px solid #0d6f5b; padding-bottom:10px; margin-bottom:16px; }
+      .facility { font-size:14px; font-weight:700; }
+      .subtitle { font-size:10.5px; color:#666; margin-top:2px; }
+      h1 { font-size:17px; color:#0d6f5b; margin-top:6px; }
+      h2 { font-size:10.5px; color:#666; font-weight:normal; margin-top:2px; }
+      .footer { margin-top:16px; padding-top:8px; border-top:1px solid #e5e7eb; font-size:9px; color:#666; display:flex; justify-content:space-between; }
+      @page { size: A4; margin: 12mm; }
+      @media print { body { padding:0; } }
+    </style></head><body>
+    <div class="header">
+      <div class="facility">${s.name||'Mbabala Rural Health Centre'}</div>
+      <div class="subtitle">${s.district||'Chifunabuli District'} · ${s.province||'Luapula Province'}</div>
+      <h1>📋 IPC Corrective Action Plan</h1>
+      <h2>Grouped by department · Printed: ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'})}${statusFilter?' · Filtered: '+statusFilter:''}</h2>
+    </div>
+    ${sectionsHtml}
+    <div class="footer">
+      <span>${s.name||'Mbabala RHC'} · EH Management Platform</span>
+      <span>Printed by: ${currentUser?.name||'Unknown'}</span>
+    </div>
+    </body></html>`);
+  win.document.close();
+  win.onload = () => { win.print(); };
 }
 
 // ── OVERDUE NOTIFICATIONS ─────────────────────────────────────────────────
