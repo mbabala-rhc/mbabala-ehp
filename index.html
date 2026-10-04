@@ -517,10 +517,6 @@ table.dt tbody tr{transition:background .1s}
 }
 
 
-#page-defaulters
-#page-defaulters
-
-
 #m-under5 .modal-body {
   flex:1;
   overflow-y:auto;
@@ -7901,6 +7897,8 @@ function globalSearch(query){
     {store:'villages',label:'Village',fields:['name','zone','chw'],page:'villages'},
     {store:'legal',label:'Legal report',fields:['premises','ref','officer'],page:'legal'},
     {store:'outbreak',label:'Outbreak',fields:['disease','area'],page:'outbreak'},
+    {store:'ipc_audits',label:'IPC Audit',fields:['department','auditor'],page:'ipc-audit'},
+    {store:'ipc_capa',label:'Corrective Action',fields:['finding','department','assignedTo'],page:'ipc-audit'},
   ];
   searchStores.forEach(({store,label,fields,page})=>{
     DB.get(store).forEach(r=>{
@@ -7908,6 +7906,16 @@ function globalSearch(query){
       if(match) results.push({label,page,id:r.id,title:r[fields[0]]||r.name||r.id,sub:r[fields[1]]||''});
     });
   });
+
+  // EC4HD indicators aren't stored as individual DB records (they're a fixed list
+  // tracked monthly), so search their names directly rather than via searchStores.
+  if(typeof EC4HD_INDICATORS !== 'undefined'){
+    EC4HD_INDICATORS.forEach(ind => {
+      if(ind.label.toLowerCase().includes(q)){
+        results.push({label:'EC4HD Indicator',page:'ec4hd',id:ind.key,title:ind.label,sub:''});
+      }
+    });
+  }
 
   const resultsEl=document.getElementById('global-search-results');
   if(!resultsEl) return;
@@ -14568,7 +14576,9 @@ function renderEC4HD(){
 // One delegated click handler for all grid cells (attached once, works across every re-render)
 document.addEventListener('click', function(e){
   const cell = e.target.closest ? e.target.closest('.ec4hd-cell') : null;
-  if(cell) openEC4HDCellModal(cell.dataset.indicator, cell.dataset.year, cell.dataset.month);
+  if(!cell) return;
+  if(typeof isViewer === 'function' && isViewer()){ toast('View only — editing is disabled for your role','info'); return; }
+  openEC4HDCellModal(cell.dataset.indicator, cell.dataset.year, cell.dataset.month);
 });
 
 function openEC4HDCellModal(indicator, year, month){
