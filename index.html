@@ -889,7 +889,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div>
 
 <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:wrap !important">
-  <div class="tab active" onclick="switchTab(this,'t-ipca-audits');renderIPCAuditList()">📝 Audits</div>
+  <div class="tab active" onclick="switchTab(this,'t-ipca-audits');setIPCAuditsView(localStorage.getItem('ipca_audits_view')||'folders')">📝 Audits</div>
   <div class="tab" onclick="switchTab(this,'t-ipca-leaderboard');renderIPCLeaderboard()">🏆 Leaderboard</div>
   <div class="tab" onclick="switchTab(this,'t-ipca-trends');renderIPCTrends()">📈 Trends</div>
   <div class="tab" onclick="switchTab(this,'t-ipca-capa');renderIPCCapaList()">✅ CAPA Tracker</div>
@@ -897,18 +897,42 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
 </div>
 
 <div id="t-ipca-audits" class="tab-pane active" style="padding-top:14px">
-  <div class="toolbar" style="margin-bottom:10px">
-    <input type="text" id="ipca-search" placeholder="🔍 Search audits..." oninput="renderIPCAuditList()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
-    <select id="ipca-filter-dept" onchange="renderIPCAuditList()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"><option value="">All Departments</option></select>
-    <select id="ipca-filter-freq" onchange="renderIPCAuditList()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"><option value="">All Frequencies</option><option>Weekly</option><option>Monthly</option></select>
-    <input type="text" id="ipca-filter-auditor" placeholder="Auditor" oninput="renderIPCAuditList()" style="width:120px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
-    <button class="btn" onclick="printIPCAuditList()">🖨 Print</button>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+    <div style="display:flex;border:1px solid var(--bd);border-radius:8px;overflow:hidden">
+      <button class="btn sm" id="ipca-view-toggle-folders" onclick="setIPCAuditsView('folders')" style="border-radius:0;border:none">📁 Folders</button>
+      <button class="btn sm" id="ipca-view-toggle-list" onclick="setIPCAuditsView('list')" style="border-radius:0;border:none;border-left:1px solid var(--bd)">📋 List</button>
+    </div>
   </div>
-  <div class="tbl-wrap responsive-desktop-view"><table class="dt" id="tbl-ipca-audits">
-    <thead><tr><th>Date</th><th>Department</th><th>Frequency</th><th>Auditor</th><th style="text-align:center">Score</th><th style="text-align:center">Rating</th><th>Actions</th></tr></thead>
-    <tbody id="tb-ipca-audits"></tbody>
-  </table></div>
-  <div class="responsive-mobile-view" id="ipca-audits-cards"></div>
+
+  <div id="ipca-folders-view">
+    <div id="ipca-month-folders" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:16px"></div>
+    <div id="ipca-folder-open-month" style="display:none">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <button class="btn sm" onclick="closeIPCAuditFolder()">← Back to folders</button>
+        <div id="ipca-folder-open-title" style="font-weight:700;font-size:14px"></div>
+      </div>
+      <div class="tbl-wrap responsive-desktop-view"><table class="dt" id="tbl-ipca-audits-folder">
+        <thead><tr><th>Date</th><th>Department</th><th>Frequency</th><th>Auditor</th><th style="text-align:center">Score</th><th style="text-align:center">Rating</th><th>Actions</th></tr></thead>
+        <tbody id="tb-ipca-audits-folder"></tbody>
+      </table></div>
+      <div class="responsive-mobile-view" id="ipca-audits-folder-cards"></div>
+    </div>
+  </div>
+
+  <div id="ipca-list-view" style="display:none">
+    <div class="toolbar" style="margin-bottom:10px">
+      <input type="text" id="ipca-search" placeholder="🔍 Search audits..." oninput="renderIPCAuditList()" style="flex:1;min-width:160px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <select id="ipca-filter-dept" onchange="renderIPCAuditList()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"><option value="">All Departments</option></select>
+      <select id="ipca-filter-freq" onchange="renderIPCAuditList()" style="padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)"><option value="">All Frequencies</option><option>Weekly</option><option>Monthly</option></select>
+      <input type="text" id="ipca-filter-auditor" placeholder="Auditor" oninput="renderIPCAuditList()" style="width:120px;padding:8px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;background:var(--bg);color:var(--txt)">
+      <button class="btn" onclick="printIPCAuditList()">🖨 Print</button>
+    </div>
+    <div class="tbl-wrap responsive-desktop-view"><table class="dt" id="tbl-ipca-audits">
+      <thead><tr><th>Date</th><th>Department</th><th>Frequency</th><th>Auditor</th><th style="text-align:center">Score</th><th style="text-align:center">Rating</th><th>Actions</th></tr></thead>
+      <tbody id="tb-ipca-audits"></tbody>
+    </table></div>
+    <div class="responsive-mobile-view" id="ipca-audits-cards"></div>
+  </div>
 </div>
 
 <div id="t-ipca-leaderboard" class="tab-pane" style="padding-top:14px">
@@ -13345,6 +13369,15 @@ function renderIPCAudit(){
   populateIPCDeptSelects();
   renderIPCAuditList();
   updateIPCAStats();
+  // Apply the saved folders/list view preference on first load of this page
+  const savedView = localStorage.getItem('ipca_audits_view') || 'folders';
+  const foldersEl = document.getElementById('ipca-folders-view');
+  const listEl = document.getElementById('ipca-list-view');
+  if(foldersEl && listEl && foldersEl.style.display === '' && listEl.style.display === 'none'){
+    // Only apply on true first render (elements still at their HTML defaults);
+    // avoids fighting the user's in-session toggle clicks on later re-renders.
+    if(savedView === 'list') setIPCAuditsView('list');
+  }
   if(!_ipcaSeedCheckDone){
     _ipcaSeedCheckDone = true;
     ipcaSeedDefaults().then(function(){
@@ -13422,25 +13455,13 @@ function updateIPCAStats(){
 }
 
 // ── AUDIT LIST ────────────────────────────────────────────────────────────
-function renderIPCAuditList(){
-  const tb = document.getElementById('tb-ipca-audits');
-  const mobileEl = document.getElementById('ipca-audits-cards');
+// Builds the audit table rows + mobile cards for a given dataset into the given
+// elements. Shared by the main (filterable) list and the month-folder drill-in
+// view, so both always render identically and only need to be maintained once.
+function ipcaRenderAuditRowsInto(data, tb, mobileEl, refreshFn){
   if(!tb && !mobileEl) return;
-  const search = (document.getElementById('ipca-search')||{value:''}).value.toLowerCase();
-  const deptFilter = (document.getElementById('ipca-filter-dept')||{value:''}).value;
-  const freqFilter = (document.getElementById('ipca-filter-freq')||{value:''}).value;
-  const auditorFilter = (document.getElementById('ipca-filter-auditor')||{value:''}).value.toLowerCase();
-
-  let data = DB.get('ipc_audits');
-  if(deptFilter) data = data.filter(a => a.department === deptFilter);
-  if(freqFilter) data = data.filter(a => a.frequency === freqFilter);
-  if(auditorFilter) data = data.filter(a => (a.auditor||'').toLowerCase().includes(auditorFilter));
-  if(search) data = data.filter(a => JSON.stringify(a).toLowerCase().includes(search));
-
-  data = [...data].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-
   if(!data.length){
-    const emptyMsg = 'No IPC audits yet. Click + New Audit to conduct your first departmental audit.';
+    const emptyMsg = 'No IPC audits found.';
     if(tb) tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</td></tr>';
     if(mobileEl) mobileEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--txt2)">'+emptyMsg+'</div>';
     return;
@@ -13455,7 +13476,7 @@ function renderIPCAuditList(){
       <td>${a.auditor||''}</td>
       <td style="text-align:center;font-weight:700">${a.totalScore||0}/${a.maxPossible||0} (${Math.round(a.percentage||0)}%)</td>
       <td style="text-align:center"><span style="background:${rating.color}22;color:${rating.color};padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700">${rating.label}</span></td>
-      <td>${rowBtns('ipc_audits',a.id,"viewIPCAudit('"+a.id+"')","editIPCAudit('"+a.id+"')","deleteRecord('ipc_audits','"+a.id+"',renderIPCAuditList)")}</td>
+      <td>${rowBtns('ipc_audits',a.id,"viewIPCAudit('"+a.id+"')","editIPCAudit('"+a.id+"')","deleteRecord('ipc_audits','"+a.id+"',"+refreshFn+")")}</td>
     </tr>`;
   }).join('');
 
@@ -13479,9 +13500,119 @@ function renderIPCAuditList(){
           <div style="font-size:13px;font-weight:700;margin-top:2px">${a.auditor||'—'}</div>
         </div>
       </div>
-      ${rowBtns('ipc_audits',a.id,"viewIPCAudit('"+a.id+"')","editIPCAudit('"+a.id+"')","deleteRecord('ipc_audits','"+a.id+"',renderIPCAuditList)")}
+      ${rowBtns('ipc_audits',a.id,"viewIPCAudit('"+a.id+"')","editIPCAudit('"+a.id+"')","deleteRecord('ipc_audits','"+a.id+"',"+refreshFn+")")}
     </div>`;
   }).join('');
+}
+
+function renderIPCAuditList(){
+  const tb = document.getElementById('tb-ipca-audits');
+  const mobileEl = document.getElementById('ipca-audits-cards');
+  if(!tb && !mobileEl) return;
+  const search = (document.getElementById('ipca-search')||{value:''}).value.toLowerCase();
+  const deptFilter = (document.getElementById('ipca-filter-dept')||{value:''}).value;
+  const freqFilter = (document.getElementById('ipca-filter-freq')||{value:''}).value;
+  const auditorFilter = (document.getElementById('ipca-filter-auditor')||{value:''}).value.toLowerCase();
+
+  let data = DB.get('ipc_audits');
+  if(deptFilter) data = data.filter(a => a.department === deptFilter);
+  if(freqFilter) data = data.filter(a => a.frequency === freqFilter);
+  if(auditorFilter) data = data.filter(a => (a.auditor||'').toLowerCase().includes(auditorFilter));
+  if(search) data = data.filter(a => JSON.stringify(a).toLowerCase().includes(search));
+
+  data = [...data].sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  ipcaRenderAuditRowsInto(data, tb, mobileEl, 'renderIPCAuditList');
+
+  // Keep the folder grid's audit counts in sync whenever the underlying data changes
+  renderIPCAuditFolders();
+}
+
+// ── MONTH FOLDERS VIEW ──────────────────────────────────────────────────
+let _ipcaOpenFolderMonth = null; // 'YYYY-MM' of the currently-open folder, or null
+
+function setIPCAuditsView(mode){
+  const foldersEl = document.getElementById('ipca-folders-view');
+  const listEl = document.getElementById('ipca-list-view');
+  const btnFolders = document.getElementById('ipca-view-toggle-folders');
+  const btnList = document.getElementById('ipca-view-toggle-list');
+  if(!foldersEl || !listEl) return;
+  localStorage.setItem('ipca_audits_view', mode);
+  if(mode === 'list'){
+    foldersEl.style.display = 'none';
+    listEl.style.display = 'block';
+    if(btnFolders) btnFolders.classList.remove('primary');
+    if(btnList) btnList.classList.add('primary');
+    renderIPCAuditList();
+  } else {
+    foldersEl.style.display = 'block';
+    listEl.style.display = 'none';
+    if(btnFolders) btnFolders.classList.add('primary');
+    if(btnList) btnList.classList.remove('primary');
+    renderIPCAuditFolders();
+  }
+}
+
+function renderIPCAuditFolders(){
+  const el = document.getElementById('ipca-month-folders');
+  if(!el) return;
+  const data = DB.get('ipc_audits');
+
+  // Group audit counts and average score by 'YYYY-MM'
+  const byMonth = {};
+  data.forEach(a => {
+    const ym = (a.date||'').slice(0,7); // 'YYYY-MM'
+    if(!ym) return;
+    if(!byMonth[ym]) byMonth[ym] = [];
+    byMonth[ym].push(a);
+  });
+
+  const months = Object.keys(byMonth).sort((a,b) => b.localeCompare(a)); // newest first
+
+  if(!months.length){
+    el.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--txt2)">No IPC audits yet. Click + New Audit to conduct your first departmental audit.</div>';
+    return;
+  }
+
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  el.innerHTML = months.map(ym => {
+    const [y, m] = ym.split('-');
+    const label = monthNames[parseInt(m,10)-1] + ' ' + y;
+    const items = byMonth[ym];
+    const avgPct = Math.round(items.reduce((s,a)=>s+(a.percentage||0),0) / items.length);
+    const rating = ipcaRatingFor(avgPct);
+    return `<div class="card" onclick="openIPCAuditFolder('${ym}','${label}')" style="cursor:pointer;text-align:center;padding:16px 10px;border-top:4px solid ${rating.color};transition:transform .1s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+      <div style="font-size:28px;margin-bottom:4px">📁</div>
+      <div style="font-weight:700;font-size:13px">${label}</div>
+      <div style="font-size:11px;color:var(--txt2);margin-top:4px">${items.length} audit${items.length===1?'':'s'}</div>
+      <div style="font-size:11px;font-weight:700;color:${rating.color};margin-top:2px">Avg ${avgPct}%</div>
+    </div>`;
+  }).join('');
+}
+
+function openIPCAuditFolder(ym, label){
+  _ipcaOpenFolderMonth = ym;
+  const gridEl = document.getElementById('ipca-month-folders');
+  const openEl = document.getElementById('ipca-folder-open-month');
+  const titleEl = document.getElementById('ipca-folder-open-title');
+  if(gridEl) gridEl.style.display = 'none';
+  if(openEl) openEl.style.display = 'block';
+  if(titleEl) titleEl.textContent = '📁 ' + label;
+
+  const data = DB.get('ipc_audits').filter(a => (a.date||'').slice(0,7) === ym)
+    .sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const tb = document.getElementById('tb-ipca-audits-folder');
+  const mobileEl = document.getElementById('ipca-audits-folder-cards');
+  ipcaRenderAuditRowsInto(data, tb, mobileEl, "openIPCAuditFolder('"+ym+"','"+label+"')");
+}
+
+function closeIPCAuditFolder(){
+  _ipcaOpenFolderMonth = null;
+  const gridEl = document.getElementById('ipca-month-folders');
+  const openEl = document.getElementById('ipca-folder-open-month');
+  if(gridEl) gridEl.style.display = 'grid';
+  if(openEl) openEl.style.display = 'none';
+  renderIPCAuditFolders();
 }
 
 // ── AUDIT MODAL: open / build checklist / save ───────────────────────────
