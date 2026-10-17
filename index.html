@@ -4281,25 +4281,32 @@ function auditLog(action, store, recordId, details){
   // Write a single row to the dedicated audit_log_entries table (fast, no
   // read-modify-write, and safe for multiple users acting at the same time —
   // each insert is independent so nobody's entry can overwrite anyone else's).
-  if(navigator.onLine){
-    _supabase.from('audit_log_entries').insert({
-      id: entry.id,
-      ts: entry.ts,
-      user_name: entry.user,
-      user_id: entry.userId,
-      action: entry.action,
-      store: entry.store,
-      record_id: entry.recordId,
-      details: entry.details,
-    }).then(function(res){
-      if(res.error){
-        console.warn('audit_log_entries insert failed, falling back to legacy blob sync:', res.error.message);
-        _auditLogLegacyMergeAndPush(entry);
-      }
-    }).catch(function(){
+  // NOTE: always attempt this — navigator.onLine is unreliable (it can report
+  // true/false without accurately reflecting real internet connectivity), so
+  // gating the write on it could silently skip logging an action to the cloud
+  // entirely, with the entry then only ever visible on that one device. A
+  // failed request here fails gracefully into the legacy fallback below.
+  _supabase.from('audit_log_entries').insert({
+    id: entry.id,
+    ts: entry.ts,
+    user_name: entry.user,
+    user_id: entry.userId,
+    action: entry.action,
+    store: entry.store,
+    record_id: entry.recordId,
+    details: entry.details,
+  }).then(function(res){
+    if(res.error){
+      console.warn('audit_log_entries insert failed, falling back to legacy blob sync:', res.error.message);
       _auditLogLegacyMergeAndPush(entry);
-    });
-  }
+      // Also fall back silently without bothering the user mid-task — this is a
+      // background logging concern, not something that should interrupt their
+      // work. The console warning is enough for troubleshooting later.
+    }
+  }).catch(function(err){
+    console.warn('audit_log_entries insert threw an error, falling back to legacy blob sync:', err);
+    _auditLogLegacyMergeAndPush(entry);
+  });
 }
 
 // Fallback path only used if the audit_log_entries table doesn't exist yet
