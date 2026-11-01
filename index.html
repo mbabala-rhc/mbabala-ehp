@@ -1119,7 +1119,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
         Set a 4–8 digit PIN and share it only with trusted persons.
       </p> <div class="form-row"> <div class="form-group"> <label>Current PIN <span style="font-size:11px;color:var(--txt2)">(leave blank if not set)</span></label> <div class="pw-wrap"><input type="password" id="s-current-pin" placeholder="Enter current PIN to verify"><button type="button" class="pw-toggle" onclick="togglePw('s-current-pin',this)" title="Show password">👁</button></div> </div> <div class="form-group"> <label>New Security PIN <span style="font-size:11px;color:var(--txt2)">(4–8 digits)</span></label> <div class="pw-wrap"><input type="password" id="s-new-pin" placeholder="e.g. 4521" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')"><button type="button" class="pw-toggle" onclick="togglePw('s-new-pin',this)" title="Show password">👁</button></div> </div> <div class="form-group"> <label>Confirm New PIN</label> <div class="pw-wrap"><input type="password" id="s-confirm-pin" placeholder="Repeat new PIN" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')"><button type="button" class="pw-toggle" onclick="togglePw('s-confirm-pin',this)" title="Show password">👁</button></div> </div> </div> <div id="pin-msg" style="display:none;font-size:13px;padding:8px 12px;border-radius:8px;margin-bottom:10px"></div> <button class="btn primary" style="background:var(--amber)" onclick="saveResetPIN()">🔐 Save Security PIN</button> <p style="font-size:11px;color:var(--txt2);margin-top:10px">
         ⚠️ If the PIN is lost, an Admin can clear it by entering anything in "Current PIN" and setting a new one — only if logged in as Admin.
-      </p> </div> </div> <div id="t-admin-data" class="tab-pane"> <div class="card"> <div class="card-title">Data Management</div> <div class="alert success"><span class="alert-icon">✅</span><b>Shared database active:</b> All data is stored in Supabase and shared across all users in real time. Any device that opens the platform link sees the same data automatically.</div> <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"> <button class="btn primary" onclick="exportAllData()">⬇ Export all data (JSON)</button> <button class="btn" onclick="document.getElementById('import-input').click()">⬆ Import data (JSON)</button> <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(this)"> <button class="btn danger" onclick="safeClearAllData()">🗑 Clear all data</button> </div> <div id="storage-info" style="font-size:12px;color:var(--txt2);margin-top:12px;padding:10px;background:var(--bg2);border-radius:var(--r)"></div> </div> </div> <div id="t-admin-audit" class="tab-pane"> <div class="toolbar"> <input type="text" id="audit-filter" placeholder="🔍 Filter by user, action, module..." oninput="renderAuditLog()" style="flex:1;max-width:320px"> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Audit Log','tbl-audit-log',true)">🖨 Print</button> <button class="btn sm danger" onclick="clearAuditLog()">🗑 Clear Log</button> </div> <div class="card"><div class="tbl-wrap"> <table class="dt" id="tbl-audit-log" style=";width:100%"> <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Module</th><th>Record ID</th><th>Details</th></tr></thead> <tbody id="tb-audit-log"></tbody> </table> </div></div> </div>
+      </p> </div> </div> <div id="t-admin-data" class="tab-pane"> <div class="card"> <div class="card-title">Data Management</div> <div class="alert success"><span class="alert-icon">✅</span><b>Shared database active:</b> All data is stored in Supabase and shared across all users in real time. Any device that opens the platform link sees the same data automatically.</div> <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"> <button class="btn primary" onclick="exportAllData()">⬇ Export all data (JSON)</button> <button class="btn" onclick="document.getElementById('import-input').click()">⬆ Import data (JSON)</button> <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(this)"> <button class="btn" onclick="confirmUploadAllToCloud()">☁️ Upload everything to cloud</button> <button class="btn danger" onclick="safeClearAllData()">🗑 Clear all data</button> </div> <div id="storage-info" style="font-size:12px;color:var(--txt2);margin-top:12px;padding:10px;background:var(--bg2);border-radius:var(--r)"></div> </div> </div> <div id="t-admin-audit" class="tab-pane"> <div class="toolbar"> <input type="text" id="audit-filter" placeholder="🔍 Filter by user, action, module..." oninput="renderAuditLog()" style="flex:1;max-width:320px"> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Audit Log','tbl-audit-log',true)">🖨 Print</button> <button class="btn sm danger" onclick="clearAuditLog()">🗑 Clear Log</button> </div> <div class="card"><div class="tbl-wrap"> <table class="dt" id="tbl-audit-log" style=";width:100%"> <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Module</th><th>Record ID</th><th>Details</th></tr></thead> <tbody id="tb-audit-log"></tbody> </table> </div></div> </div>
 </div> <div id="page-mycin" class="page"> <div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📝 MYCIN Nutrition</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">MYCIN nutrition counselling and session records</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-mycin-reg')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button> </div> </div> <div id="mycin-stats"></div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchTab(this,'t-mycin-dash');updateMycinBannerBtn('dash')">📊 Dashboard</div> <div class="tab" onclick="switchTab(this,'t-mycin-register');updateMycinBannerBtn('register')">👩 Caregiver Register</div> <div class="tab" onclick="switchTab(this,'t-mycin-sessions');updateMycinBannerBtn('sessions')">📋 Counselling Sessions</div> <div class="tab" onclick="switchTab(this,'t-mycin-reports');updateMycinBannerBtn('reports')">📄 Reports</div> </div> <div id="t-mycin-dash" class="tab-pane active"> <div class="g2" style="margin-bottom:14px"> <div class="card"> <div class="card-title">Counselling Topics Coverage</div> <div id="mycin-topics-chart"></div> </div> <div class="card"> <div class="card-title">Monthly Trend</div> <div id="mycin-trend-chart"></div> </div> </div> <div class="card"> <div class="card-title">Recent Sessions</div> <div class="tbl-wrap"><table class="dt" id="tbl-mycin-recent"><thead><tr><th>Date</th><th>Caregiver</th><th>Child</th><th>Village</th><th>Topic</th><th>Health Worker</th></tr></thead><tbody id="tb-mycin-recent"></tbody></table></div> </div> </div> <div id="t-mycin-register" class="tab-pane"> <div class="toolbar"> <input type="text" placeholder="🔍 Search caregivers..." oninput="filterTbl(this,'tbl-mycin-reg')"> <select id="mycin-filter-village" onchange="filterCol(this,'tbl-mycin-reg',2)" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px;background:var(--bg)"><option value="">All villages</option></select> <button class="btn primary" onclick="openModal('m-mycin-reg')">+ Register Caregiver</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('MYCIN Caregiver Register','tbl-mycin-reg')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-mycin-reg"><thead><tr><th>ID</th><th>Caregiver name</th><th>Village</th><th>Age</th><th>Child name</th><th>Child age(m)</th><th>Registered</th><th>Sessions</th><th>Actions</th></tr></thead><tbody id="tb-mycin-reg"></tbody></table></div></div> </div> <div id="t-mycin-sessions" class="tab-pane"> <div class="toolbar"> <input type="text" placeholder="🔍 Search sessions..." oninput="filterTbl(this,'tbl-mycin-sess')"> <select id="mycin-sess-filter" onchange="renderMycin()" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px;min-width:180px"> <option value="">All caregivers</option> </select> <input type="date" placeholder="dd/mm/yyyy" id="mycin-date-from" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px" onchange="filterMycinSessions()"> <input type="date" placeholder="dd/mm/yyyy" id="mycin-date-to" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px" onchange="filterMycinSessions()"> <button class="btn sm" onclick="document.getElementById('mycin-sess-filter').value='';renderMycin()" title="Clear filter" style="display:none" id="mycin-clear-filter">✕ Clear filter</button> <button class="btn primary" onclick="openModal('m-mycin-sess')">+ Record Session</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('MYCIN Counselling Sessions','tbl-mycin-sess')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-mycin-sess" style=";width:100%"><thead><tr><th>Date</th><th>Caregiver</th><th>Child</th><th>Village</th><th>Child age(m)</th><th>Topics covered</th><th>Health worker</th><th>Follow-up</th><th>Actions</th></tr></thead><tbody id="tb-mycin-sess"></tbody></table></div></div> </div> <div id="t-mycin-reports" class="tab-pane"> <div class="card" style="margin-bottom:14px"> <div class="card-title">Generate MYCIN Report</div> <div class="form-row"> <div class="form-group"><label>From date</label><input type="date" placeholder="dd/mm/yyyy" id="mycin-rpt-from"></div> <div class="form-group"><label>To date</label><input type="date" placeholder="dd/mm/yyyy" id="mycin-rpt-to"></div> </div> <div class="form-row"> <div class="form-group"><label>Village (optional)</label><input type="text" id="mycin-rpt-village" placeholder="Leave blank for all"></div> <div class="form-group"><label>Health worker (optional)</label><input type="text" id="mycin-rpt-worker" placeholder="Leave blank for all"></div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="generateMycinPDF()">📄 Generate PDF Report</button> <button class="btn" onclick="exportMycinData()">⬇ Export data (JSON)</button> </div> </div> <div class="card" id="mycin-report-preview" style="display:none"> <div class="card-title">Report Preview</div> <div id="mycin-report-content"></div> </div> </div>
 </div> <div id="page-monthly-report" class="page"> <div style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">Monthly Report Card</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">One-page summary of all key EH indicators</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <select id="mr-month" onchange="renderMonthlyReport()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;font-weight:600;background:var(--bg);color:var(--txt);cursor:pointer"><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select> <select id="mr-year" onchange="renderMonthlyReport()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;font-weight:600;background:var(--bg);color:var(--txt);cursor:pointer"> <option>2024</option><option>2025</option><option selected>2026</option><option>2027</option><option>2028</option> </select> <button class="btn" onclick="printMonthlyReport()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">Print</button> <button class="btn" onclick="copyWhatsApp()" style="background:#25D366;color:#fff;border:none;font-weight:600">WhatsApp</button> </div> </div> <div id="monthly-report-content"></div>
 </div> 
@@ -5811,13 +5811,10 @@ function importData(input){
         var merged=existing.concat(toAdd);
         _store[k]=merged;idbPut(k,merged);added+=toAdd.length;
       });
-      toast('Merging data...','info');
-      var pushed=0;
-      for(var i=0;i<keys.length;i++){
-        try{await sbSet(keys[i],_store[keys[i]]);pushed++;}catch(e2){}
-      }
-      toast('Merged — '+added+' new records added, '+pushed+' collections synced','success');
+      toast('Merged — '+added+' new records added on this device. Uploading to the cloud…','info');
       renderPage(currentPage); updateBadges(); loadSettings();
+      var cloudReport = await uploadAllToCloud({keys:keys});
+      showCloudUploadReport(cloudReport,{imported:true,added:added});
     } catch(err){ toast('Import failed: '+err.message,'error'); }
   };
   reader.readAsText(file);
@@ -14902,6 +14899,234 @@ function printEC4HDGrid(){
     </body></html>`);
   win.document.close();
   win.onload = () => { win.print(); };
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════
+// RELIABLE CLOUD UPLOAD
+// Sends this device's data to the online storage (Supabase) module by module,
+// checks that each one REALLY arrived, merges with what is already online so
+// nothing there is lost, retries failures, and reports honestly. Used by the
+// backup Import and by the Administration "Upload everything to cloud" button.
+// (The normal save path, sbSet, swallows errors and queues them silently, which
+// is why an import could say "synced" while nothing reached the other devices.)
+// ══════════════════════════════════════════════════════════════════════════
+
+function cloudValueIsEmpty(v){
+  if(v === null || v === undefined || v === '') return true;
+  if(Array.isArray(v)) return v.length === 0;
+  if(typeof v === 'object') return Object.keys(v).length === 0;
+  return false;
+}
+
+function cloudRecordKey(r){
+  return (r && r.id) ? 'id:' + r.id : 'json:' + JSON.stringify(r);
+}
+
+// Union of this device's records and the online records. On a record present in
+// both, this device's version is kept. Records that exist only online are added,
+// so uploading can never delete anything that is online.
+function cloudMergeValues(local, cloud){
+  if(cloud === null || cloud === undefined) return local;
+  if(Array.isArray(local) && Array.isArray(cloud)){
+    const have = new Set(local.map(function(r){ return cloudRecordKey(r); }));
+    const extra = cloud.filter(function(r){ return !have.has(cloudRecordKey(r)); });
+    return extra.length ? local.concat(extra) : local;
+  }
+  return local; // settings-style objects: this device's copy wins
+}
+
+async function cloudReadStore(store){
+  let lastErr = 'unknown error';
+  for(let attempt = 1; attempt <= 2; attempt++){
+    try{
+      const res = await _supabase.from('eh_data').select('value').eq('store_key', store);
+      if(res.error){ lastErr = res.error.message || String(res.error); }
+      else if(!res.data || !res.data.length){ return null; } // nothing online yet
+      else{
+        try{ return JSON.parse(res.data[0].value); }
+        catch(parseErr){ throw new Error('the online copy is unreadable'); }
+      }
+    }catch(e){ lastErr = (e && e.message) ? e.message : String(e); if(lastErr === 'the online copy is unreadable') throw e; }
+    if(attempt < 2) await new Promise(function(r){ setTimeout(r, 1500); });
+  }
+  throw new Error(lastErr);
+}
+
+async function cloudUploadOne(store, value){
+  const serialized = JSON.stringify(value);
+  const kb = Math.round(serialized.length / 1024);
+  let lastErr = 'unknown error';
+  for(let attempt = 1; attempt <= 3; attempt++){
+    try{
+      const res = await _supabase.from('eh_data').upsert(
+        { store_key: store, value: serialized, updated_at: new Date().toISOString() },
+        { onConflict: 'store_key' }
+      );
+      if(!res.error) return { ok:true, kb:kb };
+      lastErr = res.error.message || String(res.error);
+    }catch(e){ lastErr = (e && e.message) ? e.message : String(e); }
+    if(attempt < 3) await new Promise(function(r){ setTimeout(r, attempt * 1500); });
+  }
+  return { ok:false, error:lastErr, kb:kb };
+}
+
+function cloudQueueForRetry(store, value){
+  try{
+    _offlineQueue = _offlineQueue.filter(function(q){ return q.store !== store; });
+    _offlineQueue.push({ store:store, value:value, ts:Date.now() });
+    localStorage.setItem('_offlineQueue', JSON.stringify(_offlineQueue));
+  }catch(e){ console.warn('Could not save ' + store + ' for later retry (browser storage full?)', e); }
+}
+
+// An older queued copy must never overwrite what we just uploaded
+function cloudClearQueued(store){
+  try{
+    const before = _offlineQueue.length;
+    _offlineQueue = _offlineQueue.filter(function(q){ return q.store !== store; });
+    if(_offlineQueue.length !== before) localStorage.setItem('_offlineQueue', JSON.stringify(_offlineQueue));
+  }catch(e){}
+}
+
+async function uploadAllToCloud(opts){
+  opts = opts || {};
+  const onProgress = opts.onProgress || function(){};
+  const neverUpload = ['_last_update', 'audit_log']; // audit log lives in its own table
+  let keys = (opts.keys || Object.keys(_store)).filter(function(k){
+    return k && !String(k).startsWith('nav_lock_') && neverUpload.indexOf(k) === -1;
+  });
+  keys = keys.filter(function(k, i){ return keys.indexOf(k) === i; });
+  // smallest first, so one huge module can never hold up all the others
+  const sized = keys.map(function(k){
+    let n = 0; try{ n = JSON.stringify(_store[k] || '').length; }catch(e){}
+    return { k:k, n:n };
+  }).sort(function(a, b){ return a.n - b.n; });
+  keys = sized.map(function(s){ return s.k; });
+
+  const startedAt = Date.now();
+  const results = [];
+
+  for(let i = 0; i < keys.length; i++){
+    const store = keys[i];
+    onProgress(i, keys.length, store);
+    const local = _store[store];
+    if(cloudValueIsEmpty(local)){ results.push({ store:store, status:'skipped' }); continue; }
+
+    let cloud;
+    try{ cloud = await cloudReadStore(store); }
+    catch(e){
+      // Without the online copy we cannot merge safely, so do not upload this one.
+      results.push({ store:store, status:'failed', kb:0, error:'could not check the online copy first (' + e.message + ')' });
+      continue;
+    }
+    const merged = cloudMergeValues(local, cloud);
+    const up = await cloudUploadOne(store, merged);
+    if(up.ok){
+      if(merged !== local){ _store[store] = merged; idbPut(store, merged); }
+      cloudClearQueued(store);
+      const added = (Array.isArray(merged) && Array.isArray(local)) ? merged.length - local.length : 0;
+      results.push({ store:store, status:'ok', kb:up.kb, added:added });
+    }else{
+      cloudQueueForRetry(store, merged);
+      results.push({ store:store, status:'failed', kb:up.kb, error:up.error });
+    }
+  }
+  onProgress(keys.length, keys.length, '');
+
+  // Double-check: read back which modules the online storage now shows as freshly updated
+  let verified = true;
+  const okStores = results.filter(function(r){ return r.status === 'ok'; }).map(function(r){ return r.store; });
+  if(okStores.length){
+    try{
+      const res = await _supabase.from('eh_data').select('store_key, updated_at').in('store_key', okStores);
+      if(res.error || !res.data){ verified = false; }
+      else{
+        const seen = {};
+        res.data.forEach(function(row){ seen[row.store_key] = new Date(row.updated_at).getTime(); });
+        const slack = 5 * 60 * 1000; // tolerate clock differences between this device and the server
+        results.forEach(function(r){
+          if(r.status !== 'ok') return;
+          const t = seen[r.store];
+          if(!t || t < startedAt - slack){
+            r.status = 'failed';
+            r.error = 'the upload was accepted but the online storage does not show it';
+            cloudQueueForRetry(r.store, _store[r.store]);
+          }
+        });
+      }
+    }catch(e){ verified = false; }
+  }
+
+  // Tell the other devices to refresh now
+  if(results.some(function(r){ return r.status === 'ok'; })){
+    try{ await broadcastUpdate(); }catch(e){}
+  }
+  return { results:results, startedAt:startedAt, verified:verified };
+}
+
+function cloudEsc(s){
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function showCloudUploadReport(report, extra){
+  extra = extra || {};
+  const ok = report.results.filter(function(r){ return r.status === 'ok'; });
+  const failed = report.results.filter(function(r){ return r.status === 'failed'; });
+  const skipped = report.results.filter(function(r){ return r.status === 'skipped'; });
+  const nice = function(s){ return cloudEsc(String(s).replace(/_/g, ' ')); };
+
+  let html = '<div style="font-size:13px;line-height:1.6">';
+  if(extra.imported){
+    html += '<p style="margin-bottom:8px">📥 Backup merged on this device: <b>' + (extra.added || 0) + '</b> new record(s) added.</p>';
+  }
+  if(!failed.length){
+    html += '<div style="background:#dcfce7;border:1px solid #16a34a;border-radius:8px;padding:10px 12px;margin-bottom:10px"><b>✅ Everything is now in the online storage.</b><br>' + ok.length + ' module(s) uploaded' + (skipped.length ? ', ' + skipped.length + ' empty one(s) skipped' : '') + '. Your other devices will show the data when they refresh — usually within a minute if the platform is open on them, otherwise the next time they open it.</div>';
+  }else{
+    html += '<div style="background:#fef3c7;border:1px solid #d97706;border-radius:8px;padding:10px 12px;margin-bottom:10px"><b>⚠️ ' + failed.length + ' module(s) did not upload.</b><br>' + ok.length + ' uploaded fine. The data that failed is still safe on this device and will keep retrying automatically — <b>keep the platform open and do not clear this browser\'s data.</b> You can also tap Try again.</div>';
+    html += '<div style="margin-bottom:8px;font-weight:700">Did not upload:</div><ul style="margin:0 0 8px 18px">';
+    failed.forEach(function(r){
+      html += '<li><b>' + nice(r.store) + '</b>' + (r.kb ? ' <span style="color:var(--txt2)">(' + r.kb + ' KB)</span>' : '') + '<br><span style="font-size:11.5px;color:var(--txt2)">' + cloudEsc(r.error) + '</span></li>';
+    });
+    html += '</ul>';
+  }
+  if(!report.verified){
+    html += '<p style="font-size:11.5px;color:var(--txt2)">Note: the final double-check could not be completed, but the uploads reported no errors.</p>';
+  }
+  html += '</div>';
+
+  const btns = failed.length ? [{ label:'🔁 Try again', cls:'primary', fn:'runUploadAllToCloud()' }] : [];
+  showViewModal('Upload to cloud', '', html, btns);
+}
+
+async function runUploadAllToCloud(){
+  const body = document.getElementById('view-body');
+  const footer = document.getElementById('view-footer');
+  if(footer) footer.innerHTML = '<button class="btn" onclick="closeModal(\'m-view\')">Close</button>';
+  if(body) body.innerHTML = '<div style="padding:24px;text-align:center"><div style="font-size:30px;margin-bottom:8px">☁️</div><div style="font-weight:700;margin-bottom:6px">Uploading…</div><div id="cloud-upload-progress" style="font-size:12.5px;color:var(--txt2)">Starting…</div><div style="font-size:11.5px;color:var(--txt2);margin-top:10px">Please keep this page open until it finishes.</div></div>';
+  const report = await uploadAllToCloud({
+    onProgress: function(i, n, store){
+      const el = document.getElementById('cloud-upload-progress');
+      if(el) el.textContent = n ? ('Checking and uploading ' + Math.min(i + 1, n) + ' of ' + n + (store ? ' — ' + String(store).replace(/_/g, ' ') : '')) : '';
+    }
+  });
+  if(report.results.some(function(r){ return r.added > 0; })){
+    try{ renderPage(currentPage); updateBadges(); }catch(e){}
+  }
+  showCloudUploadReport(report);
+}
+
+function confirmUploadAllToCloud(){
+  if(typeof isViewer === 'function' && isViewer()){ toast('View only — this action is disabled for your role', 'info'); return; }
+  const html = '<div style="font-size:13px;line-height:1.6">'
+    + '<p>This sends everything saved on <b>this device</b> to the online storage, so your other devices can see it.</p>'
+    + '<ul style="margin:8px 0 8px 18px">'
+    + '<li>Nothing online is deleted — records that exist only online are kept and added to this device.</li>'
+    + '<li>Modules that are empty on this device are skipped, so they can never wipe the online copy.</li>'
+    + '<li>Every module is checked afterwards, and you are told plainly if any failed.</li>'
+    + '</ul>'
+    + '<p style="color:var(--txt2)">If your phone or tablet has entries that were never uploaded, tap Export on that device first.</p>'
+    + '</div>';
+  showViewModal('Upload everything to cloud', '', html, [{ label:'☁️ Upload now', cls:'primary', fn:'runUploadAllToCloud()' }]);
 }
 
 </script>
