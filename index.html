@@ -1119,7 +1119,7 @@ body.dark-mode .dt td span[style*="color:var(--txt2)"] { color: #9ca3af !importa
         Set a 4–8 digit PIN and share it only with trusted persons.
       </p> <div class="form-row"> <div class="form-group"> <label>Current PIN <span style="font-size:11px;color:var(--txt2)">(leave blank if not set)</span></label> <div class="pw-wrap"><input type="password" id="s-current-pin" placeholder="Enter current PIN to verify"><button type="button" class="pw-toggle" onclick="togglePw('s-current-pin',this)" title="Show password">👁</button></div> </div> <div class="form-group"> <label>New Security PIN <span style="font-size:11px;color:var(--txt2)">(4–8 digits)</span></label> <div class="pw-wrap"><input type="password" id="s-new-pin" placeholder="e.g. 4521" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')"><button type="button" class="pw-toggle" onclick="togglePw('s-new-pin',this)" title="Show password">👁</button></div> </div> <div class="form-group"> <label>Confirm New PIN</label> <div class="pw-wrap"><input type="password" id="s-confirm-pin" placeholder="Repeat new PIN" maxlength="8" oninput="this.value=this.value.replace(/[^0-9]/g,'')"><button type="button" class="pw-toggle" onclick="togglePw('s-confirm-pin',this)" title="Show password">👁</button></div> </div> </div> <div id="pin-msg" style="display:none;font-size:13px;padding:8px 12px;border-radius:8px;margin-bottom:10px"></div> <button class="btn primary" style="background:var(--amber)" onclick="saveResetPIN()">🔐 Save Security PIN</button> <p style="font-size:11px;color:var(--txt2);margin-top:10px">
         ⚠️ If the PIN is lost, an Admin can clear it by entering anything in "Current PIN" and setting a new one — only if logged in as Admin.
-      </p> </div> </div> <div id="t-admin-data" class="tab-pane"> <div class="card"> <div class="card-title">Data Management</div> <div class="alert success"><span class="alert-icon">✅</span><b>Shared database active:</b> All data is stored in Supabase and shared across all users in real time. Any device that opens the platform link sees the same data automatically.</div> <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"> <button class="btn primary" onclick="exportAllData()">⬇ Export all data (JSON)</button> <button class="btn" onclick="document.getElementById('import-input').click()">⬆ Import data (JSON)</button> <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(this)"> <button class="btn" onclick="confirmUploadAllToCloud()">☁️ Upload everything to cloud</button> <button class="btn danger" onclick="safeClearAllData()">🗑 Clear all data</button> </div> <div id="storage-info" style="font-size:12px;color:var(--txt2);margin-top:12px;padding:10px;background:var(--bg2);border-radius:var(--r)"></div> </div> </div> <div id="t-admin-audit" class="tab-pane"> <div class="toolbar"> <input type="text" id="audit-filter" placeholder="🔍 Filter by user, action, module..." oninput="renderAuditLog()" style="flex:1;max-width:320px"> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Audit Log','tbl-audit-log',true)">🖨 Print</button> <button class="btn sm danger" onclick="clearAuditLog()">🗑 Clear Log</button> </div> <div class="card"><div class="tbl-wrap"> <table class="dt" id="tbl-audit-log" style=";width:100%"> <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Module</th><th>Record ID</th><th>Details</th></tr></thead> <tbody id="tb-audit-log"></tbody> </table> </div></div> </div>
+      </p> </div> </div> <div id="t-admin-data" class="tab-pane"> <div class="card"> <div class="card-title">Data Management</div> <div class="alert success"><span class="alert-icon">✅</span><b>Shared database active:</b> All data is stored in Supabase and shared across all users in real time. Any device that opens the platform link sees the same data automatically.</div> <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"> <button class="btn primary" onclick="exportAllData()">⬇ Export all data (JSON)</button> <button class="btn" onclick="document.getElementById('import-input').click()">⬆ Import data (JSON)</button> <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(this)"> <button class="btn" onclick="confirmUploadAllToCloud()">☁️ Upload everything to cloud</button> <button class="btn" onclick="confirmDownloadAllFromCloud()">⬇ Download everything from cloud</button> <button class="btn danger" onclick="safeClearAllData()">🗑 Clear all data</button> </div> <div id="storage-info" style="font-size:12px;color:var(--txt2);margin-top:12px;padding:10px;background:var(--bg2);border-radius:var(--r)"></div> </div> </div> <div id="t-admin-audit" class="tab-pane"> <div class="toolbar"> <input type="text" id="audit-filter" placeholder="🔍 Filter by user, action, module..." oninput="renderAuditLog()" style="flex:1;max-width:320px"> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('Audit Log','tbl-audit-log',true)">🖨 Print</button> <button class="btn sm danger" onclick="clearAuditLog()">🗑 Clear Log</button> </div> <div class="card"><div class="tbl-wrap"> <table class="dt" id="tbl-audit-log" style=";width:100%"> <thead><tr><th>Timestamp</th><th>User</th><th>Action</th><th>Module</th><th>Record ID</th><th>Details</th></tr></thead> <tbody id="tb-audit-log"></tbody> </table> </div></div> </div>
 </div> <div id="page-mycin" class="page"> <div style="background:linear-gradient(135deg,#16a34a,#15803d);border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">📝 MYCIN Nutrition</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">MYCIN nutrition counselling and session records</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn" onclick="openModal('m-mycin-reg')" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">+ New Record</button> </div> </div> <div id="mycin-stats"></div> <div class="tabs" style="display:flex !important;flex-direction:row !important;flex-wrap:nowrap !important"> <div class="tab active" onclick="switchTab(this,'t-mycin-dash');updateMycinBannerBtn('dash')">📊 Dashboard</div> <div class="tab" onclick="switchTab(this,'t-mycin-register');updateMycinBannerBtn('register')">👩 Caregiver Register</div> <div class="tab" onclick="switchTab(this,'t-mycin-sessions');updateMycinBannerBtn('sessions')">📋 Counselling Sessions</div> <div class="tab" onclick="switchTab(this,'t-mycin-reports');updateMycinBannerBtn('reports')">📄 Reports</div> </div> <div id="t-mycin-dash" class="tab-pane active"> <div class="g2" style="margin-bottom:14px"> <div class="card"> <div class="card-title">Counselling Topics Coverage</div> <div id="mycin-topics-chart"></div> </div> <div class="card"> <div class="card-title">Monthly Trend</div> <div id="mycin-trend-chart"></div> </div> </div> <div class="card"> <div class="card-title">Recent Sessions</div> <div class="tbl-wrap"><table class="dt" id="tbl-mycin-recent"><thead><tr><th>Date</th><th>Caregiver</th><th>Child</th><th>Village</th><th>Topic</th><th>Health Worker</th></tr></thead><tbody id="tb-mycin-recent"></tbody></table></div> </div> </div> <div id="t-mycin-register" class="tab-pane"> <div class="toolbar"> <input type="text" placeholder="🔍 Search caregivers..." oninput="filterTbl(this,'tbl-mycin-reg')"> <select id="mycin-filter-village" onchange="filterCol(this,'tbl-mycin-reg',2)" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px;background:var(--bg)"><option value="">All villages</option></select> <button class="btn primary" onclick="openModal('m-mycin-reg')">+ Register Caregiver</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('MYCIN Caregiver Register','tbl-mycin-reg')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-mycin-reg"><thead><tr><th>ID</th><th>Caregiver name</th><th>Village</th><th>Age</th><th>Child name</th><th>Child age(m)</th><th>Registered</th><th>Sessions</th><th>Actions</th></tr></thead><tbody id="tb-mycin-reg"></tbody></table></div></div> </div> <div id="t-mycin-sessions" class="tab-pane"> <div class="toolbar"> <input type="text" placeholder="🔍 Search sessions..." oninput="filterTbl(this,'tbl-mycin-sess')"> <select id="mycin-sess-filter" onchange="renderMycin()" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px;min-width:180px"> <option value="">All caregivers</option> </select> <input type="date" placeholder="dd/mm/yyyy" id="mycin-date-from" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px" onchange="filterMycinSessions()"> <input type="date" placeholder="dd/mm/yyyy" id="mycin-date-to" style="padding:8px 10px;border:1.5px solid var(--bd);border-radius:var(--r);font-size:13px" onchange="filterMycinSessions()"> <button class="btn sm" onclick="document.getElementById('mycin-sess-filter').value='';renderMycin()" title="Clear filter" style="display:none" id="mycin-clear-filter">✕ Clear filter</button> <button class="btn primary" onclick="openModal('m-mycin-sess')">+ Record Session</button> <button class="btn sm" style="background:var(--gray,#374151);color:#fff;border:none" onclick="printCurrentPage('MYCIN Counselling Sessions','tbl-mycin-sess')">🖨 Print</button> </div> <div class="card"><div class="tbl-wrap"><table class="dt" id="tbl-mycin-sess" style=";width:100%"><thead><tr><th>Date</th><th>Caregiver</th><th>Child</th><th>Village</th><th>Child age(m)</th><th>Topics covered</th><th>Health worker</th><th>Follow-up</th><th>Actions</th></tr></thead><tbody id="tb-mycin-sess"></tbody></table></div></div> </div> <div id="t-mycin-reports" class="tab-pane"> <div class="card" style="margin-bottom:14px"> <div class="card-title">Generate MYCIN Report</div> <div class="form-row"> <div class="form-group"><label>From date</label><input type="date" placeholder="dd/mm/yyyy" id="mycin-rpt-from"></div> <div class="form-group"><label>To date</label><input type="date" placeholder="dd/mm/yyyy" id="mycin-rpt-to"></div> </div> <div class="form-row"> <div class="form-group"><label>Village (optional)</label><input type="text" id="mycin-rpt-village" placeholder="Leave blank for all"></div> <div class="form-group"><label>Health worker (optional)</label><input type="text" id="mycin-rpt-worker" placeholder="Leave blank for all"></div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <button class="btn primary" onclick="generateMycinPDF()">📄 Generate PDF Report</button> <button class="btn" onclick="exportMycinData()">⬇ Export data (JSON)</button> </div> </div> <div class="card" id="mycin-report-preview" style="display:none"> <div class="card-title">Report Preview</div> <div id="mycin-report-content"></div> </div> </div>
 </div> <div id="page-monthly-report" class="page"> <div style="background:linear-gradient(135deg,var(--teal-d),var(--teal));border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"> <div> <div style="color:rgba(255,255,255,.7);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Mbabala Rural Health Centre</div> <div style="color:#fff;font-size:18px;font-weight:700;margin-top:2px">Monthly Report Card</div> <div style="color:rgba(255,255,255,.8);font-size:12px;margin-top:3px">One-page summary of all key EH indicators</div> </div> <div style="display:flex;gap:8px;flex-wrap:wrap"> <select id="mr-month" onchange="renderMonthlyReport()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;font-weight:600;background:var(--bg);color:var(--txt);cursor:pointer"><option value="01">January</option><option value="02">February</option><option value="03">March</option><option value="04">April</option><option value="05">May</option><option value="06">June</option><option value="07">July</option><option value="08">August</option><option value="09">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select> <select id="mr-year" onchange="renderMonthlyReport()" style="padding:7px 12px;border:1px solid var(--bd);border-radius:8px;font-size:13px;font-weight:600;background:var(--bg);color:var(--txt);cursor:pointer"> <option>2024</option><option>2025</option><option selected>2026</option><option>2027</option><option>2028</option> </select> <button class="btn" onclick="printMonthlyReport()" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3);font-weight:600">Print</button> <button class="btn" onclick="copyWhatsApp()" style="background:#25D366;color:#fff;border:none;font-weight:600">WhatsApp</button> </div> </div> <div id="monthly-report-content"></div>
 </div> 
@@ -2006,6 +2006,12 @@ async function loadFromSupabase(){
   // Always hide banner after connection attempt
   if(banner) banner.classList.remove('visible');
   // Never show setup modal - table already exists
+
+  if(result !== 'ok'){
+    // The all-in-one request failed or was too slow (common on phones / mobile data
+    // when the database is large). Load module by module in the background instead.
+    cloudFallbackPull();
+  }
 
   return result; // Return result so callers like manualSync can check it
 }
@@ -15127,6 +15133,183 @@ function confirmUploadAllToCloud(){
     + '<p style="color:var(--txt2)">If your phone or tablet has entries that were never uploaded, tap Export on that device first.</p>'
     + '</div>';
   showViewModal('Upload everything to cloud', '', html, [{ label:'☁️ Upload now', cls:'primary', fn:'runUploadAllToCloud()' }]);
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════
+// RELIABLE CLOUD DOWNLOAD
+// The normal load asks the online storage for EVERYTHING in one big request and
+// gives up silently after 8 seconds. A phone (or any device with an empty local
+// copy) must download every module that way, and a big/slow request can fail,
+// leaving the modules empty with no message. This loads module by module, so one
+// slow module cannot block the rest, retries each one, and says exactly what
+// failed. It runs automatically whenever the all-in-one request fails or times
+// out, and is also available as a button in Administration -> Data Management.
+// ══════════════════════════════════════════════════════════════════════════
+
+async function cloudListRemote(){
+  let lastErr = 'unknown error';
+  for(let attempt = 1; attempt <= 3; attempt++){
+    try{
+      const res = await _supabase.from('eh_data').select('store_key, updated_at');
+      if(!res.error && res.data) return res.data;
+      lastErr = res.error ? (res.error.message || String(res.error)) : 'no data returned';
+    }catch(e){ lastErr = (e && e.message) ? e.message : String(e); }
+    if(attempt < 3) await new Promise(function(r){ setTimeout(r, attempt * 1500); });
+  }
+  throw new Error(lastErr);
+}
+
+async function cloudDownloadOne(store){
+  let lastErr = 'unknown error', kb = 0;
+  for(let attempt = 1; attempt <= 3; attempt++){
+    try{
+      const res = await _supabase.from('eh_data').select('value').eq('store_key', store);
+      if(res.error){ lastErr = res.error.message || String(res.error); }
+      else if(!res.data || !res.data.length){ return { ok:true, missing:true }; }
+      else{
+        const raw = res.data[0].value;
+        kb = Math.round(String(raw).length / 1024);
+        try{ return { ok:true, value:JSON.parse(raw), kb:kb }; }
+        catch(parseErr){ return { ok:false, error:'the online copy is unreadable', kb:kb }; }
+      }
+    }catch(e){ lastErr = (e && e.message) ? e.message : String(e); }
+    if(attempt < 3) await new Promise(function(r){ setTimeout(r, attempt * 1500); });
+  }
+  return { ok:false, error:lastErr, kb:kb };
+}
+
+// Throws if the online storage cannot be reached at all.
+async function downloadAllFromCloud(opts){
+  opts = opts || {};
+  const onProgress = opts.onProgress || function(){};
+  const startedAt = Date.now();
+  const remote = await cloudListRemote();
+  const neverDownload = ['users', '_last_update', 'audit_log']; // users are managed per device; audit log has its own table
+  const stores = remote.map(function(r){ return r.store_key; }).filter(function(k){
+    if(!k || String(k).startsWith('nav_lock_') || neverDownload.indexOf(k) !== -1) return false;
+    if(_recentlySaved[k] && Date.now() < _recentlySaved[k]) return false; // just saved on this device
+    return true;
+  });
+
+  const results = [];
+  for(let i = 0; i < stores.length; i++){
+    const store = stores[i];
+    onProgress(i, stores.length, store);
+    const d = await cloudDownloadOne(store);
+    if(d.ok && d.missing){ results.push({ store:store, status:'skipped' }); continue; }
+    if(!d.ok){ results.push({ store:store, status:'failed', kb:d.kb || 0, error:d.error }); continue; }
+
+    let value = d.value;
+    // Same protection as the normal load: keep records saved offline that are not online yet
+    if(typeof _offlineSaved !== 'undefined' && _offlineSaved[store] && Array.isArray(value) && Array.isArray(_store[store])){
+      const ids = new Set(value.map(function(r){ return r && r.id; }));
+      const offline = _store[store].filter(function(r){ return r && r.id && !ids.has(r.id); });
+      if(offline.length){ value = value.concat(offline); sbSet(store, value); }
+      delete _offlineSaved[store];
+    }
+    _store[store] = value;
+    idbPut(store, value);
+    results.push({ store:store, status:'ok', kb:d.kb, count:Array.isArray(value) ? value.length : null });
+  }
+  onProgress(stores.length, stores.length, '');
+
+  const failedCount = results.filter(function(r){ return r.status === 'failed'; }).length;
+  if(!failedCount && results.some(function(r){ return r.status === 'ok'; })){
+    localStorage.setItem('_lastFullSync', String(startedAt)); // normal quick updates can take over from here
+    _supabaseIsEmpty = false;
+  }
+  return { results:results, startedAt:startedAt, remoteCount:remote.length };
+}
+
+function showCloudDownloadReport(report, errorMessage){
+  let html = '<div style="font-size:13px;line-height:1.6">';
+  let btns = [{ label:'🔁 Try again', cls:'primary', fn:'runDownloadAllFromCloud()' }];
+  if(errorMessage){
+    html += '<div style="background:#fef3c7;border:1px solid #d97706;border-radius:8px;padding:10px 12px"><b>⚠️ Could not reach the online storage.</b><br>Check this device\'s internet connection, then tap Try again.<br><span style="font-size:11.5px;color:var(--txt2)">' + cloudEsc(errorMessage) + '</span></div>';
+  }else{
+    const ok = report.results.filter(function(r){ return r.status === 'ok'; });
+    const failed = report.results.filter(function(r){ return r.status === 'failed'; });
+    const nice = function(s){ return cloudEsc(String(s).replace(/_/g, ' ')); };
+    if(!report.remoteCount){
+      html += '<div style="background:#fef3c7;border:1px solid #d97706;border-radius:8px;padding:10px 12px"><b>The online storage is empty.</b><br>There is nothing to download. Upload from the device that has your data first.</div>';
+      btns = [];
+    }else if(!failed.length){
+      html += '<div style="background:#dcfce7;border:1px solid #16a34a;border-radius:8px;padding:10px 12px"><b>✅ This device now matches the online storage.</b><br>' + ok.length + ' module(s) downloaded.</div>';
+      btns = [];
+    }else{
+      html += '<div style="background:#fef3c7;border:1px solid #d97706;border-radius:8px;padding:10px 12px"><b>⚠️ ' + failed.length + ' module(s) could not be downloaded.</b><br>' + ok.length + ' downloaded fine. Tap Try again, or send the reasons below to Erick.</div>';
+      html += '<div style="margin:10px 0 6px;font-weight:700">Did not download:</div><ul style="margin:0 0 8px 18px">';
+      failed.forEach(function(r){
+        html += '<li><b>' + nice(r.store) + '</b>' + (r.kb ? ' <span style="color:var(--txt2)">(' + r.kb + ' KB)</span>' : '') + '<br><span style="font-size:11.5px;color:var(--txt2)">' + cloudEsc(r.error) + '</span></li>';
+      });
+      html += '</ul>';
+    }
+  }
+  html += '</div>';
+  showViewModal('Download from cloud', '', html, btns);
+}
+
+async function runDownloadAllFromCloud(){
+  const body = document.getElementById('view-body');
+  const footer = document.getElementById('view-footer');
+  if(footer) footer.innerHTML = '<button class="btn" onclick="closeModal(\'m-view\')">Close</button>';
+  if(body) body.innerHTML = '<div style="padding:24px;text-align:center"><div style="font-size:30px;margin-bottom:8px">⬇️</div><div style="font-weight:700;margin-bottom:6px">Downloading…</div><div id="cloud-download-progress" style="font-size:12.5px;color:var(--txt2)">Starting…</div><div style="font-size:11.5px;color:var(--txt2);margin-top:10px">Please keep this page open until it finishes.</div></div>';
+  let report;
+  try{
+    report = await downloadAllFromCloud({
+      onProgress: function(i, n, store){
+        const el = document.getElementById('cloud-download-progress');
+        if(el) el.textContent = n ? ('Downloading ' + Math.min(i + 1, n) + ' of ' + n + (store ? ' — ' + String(store).replace(/_/g, ' ') : '')) : '';
+      }
+    });
+  }catch(e){
+    showCloudDownloadReport(null, (e && e.message) ? e.message : String(e));
+    return;
+  }
+  if(report.results.some(function(r){ return r.status === 'ok'; })){
+    try{ renderPage(currentPage); updateBadges(); loadSettings(); }catch(e){}
+    if(!report.results.some(function(r){ return r.status === 'failed'; })){
+      _syncReady = true;
+      subscribeToChanges(); // live updates from other devices
+    }
+  }
+  showCloudDownloadReport(report);
+}
+
+function confirmDownloadAllFromCloud(){
+  const html = '<div style="font-size:13px;line-height:1.6">'
+    + '<p>This replaces the data on <b>this device</b> with the copy in the online storage. Use it when this device shows empty or old data.</p>'
+    + '<p style="margin-top:8px;color:var(--txt2)">If you entered anything on this device that was never uploaded, tap <b>Upload everything to cloud</b> (or Export) first, or it will be replaced.</p>'
+    + '</div>';
+  showViewModal('Download everything from cloud', '', html, [{ label:'⬇ Download now', cls:'primary', fn:'runDownloadAllFromCloud()' }]);
+}
+
+// Automatic safety net: when the normal all-in-one load fails or is too slow,
+// load module by module in the background and refresh the screen when done.
+var _cloudFallbackBusy = false;
+var _cloudFallbackLast = 0;
+async function cloudFallbackPull(force){
+  if(_cloudFallbackBusy) return;
+  if(!force && Date.now() - _cloudFallbackLast < 120000) return; // at most once every 2 minutes
+  _cloudFallbackBusy = true;
+  _cloudFallbackLast = Date.now();
+  try{
+    const report = await downloadAllFromCloud();
+    const okCount = report.results.filter(function(r){ return r.status === 'ok'; }).length;
+    const failedCount = report.results.filter(function(r){ return r.status === 'failed'; }).length;
+    if(okCount){
+      try{ renderPage(currentPage); updateBadges(); loadSettings(); }catch(e){}
+      if(!failedCount){ _syncReady = true; subscribeToChanges(); }
+    }
+    if(failedCount) toast('⚠️ ' + failedCount + ' module(s) could not be loaded from the cloud. Administration → Data Management → Download everything from cloud shows why.', 'warning');
+    else if(okCount) toast('☁️ Loaded ' + okCount + ' module(s) from the cloud', 'success');
+  }catch(e){
+    // Cannot reach the online storage at all (e.g. no signal). Stay quiet: the platform works offline.
+    console.warn('Background cloud load could not reach the online storage:', e);
+  }finally{
+    _cloudFallbackBusy = false;
+  }
 }
 
 </script>
